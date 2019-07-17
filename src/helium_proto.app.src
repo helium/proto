@@ -1,9 +1,9 @@
 % This file is just here for erl proto gpb
-{application, proto,
+{application, helium_proto,
  [{description, "An OTP application"},
   {vsn, "0.1.0"},
   {registered, []},
-  {mod, { proto_app, []}},
+  {mod, { helium_proto_app, []}},
   {applications,
    [kernel,
     stdlib,
