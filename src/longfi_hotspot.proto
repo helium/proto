@@ -98,30 +98,22 @@ message RxPacket {
 }
 
 message LongFiRxPacket {
-    // Center frequency of the channel this packet was received on.
-    uint32 freq = 1;
-    // Channel this packet packet was received on.
-    uint32 if_chain = 2;
     // Status of CRC check.
-    bool crc_check = 3;
+    bool crc_check = 1;
     // 1uS-resolution timestamp derived from concentrator's internal counter.
-    uint64 timestamp = 4;
-    // RF chain this packet was received on.
-    Radio radio = 5;
-    // Modulation bandwidth.
-    Bandwidth bandwidth = 6;
-    // Spreading factor of this packet.
-    Spreading spreading  = 7;
-    // Error Correcting Code rate of this packet.
-    Coderate coderate = 8;
+    uint64 timestamp = 2;
     // Average packet RSSI in dB.
-    float rssi = 9;
+    float rssi = 3;
     // Average packet SNR, in dB.
-    float snr = 10;
-    uint32 oui = 11;
-    uint32 device_id = 12;
-    uint32 mac = 13;
-    bytes payload = 14;
+    float snr = 4;
+    // OUI for routing
+    uint32 oui = 5;
+    // device ID
+    uint32 device_id = 6;
+    // MAC 
+    uint32 mac = 7;
+    // the fully reassembled payload
+    bytes payload = 8;
 }
 
 message TxResp {
