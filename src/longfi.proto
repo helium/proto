@@ -20,3 +20,11 @@ message LongFiRxPacket {
     // the fully reassembled payload
     bytes payload = 8;
 }
+
+message LongFiTxUplinkPacket {
+    bool disable_encoding = 1;
+    bool disable_fragmentation = 2;
+    uint32 oui = 3;
+    uint32 device_id = 4;
+    bytes payload = 5;
+}
