@@ -2,6 +2,26 @@ syntax = "proto3";
 
 package helium.longfi;
 
+message LongFiReq {
+    uint32 id = 1;
+    oneof kind {
+        LongFiTxUplinkPacket longfi_tx_uplink = 2;
+    }
+}
+
+message LongFiResp {
+    uint32 id = 1;
+    oneof kind {
+        LongFiTxResp tx = 2;
+        LongFiRxPacket longfi_rx = 3;
+        bytes parse_err = 4;
+    }
+}
+
+message LongFiTxResp {
+    bool success = 1;
+}
+
 message LongFiRxPacket {
     // Status of CRC check.
     bool crc_check = 1;
