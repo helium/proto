@@ -8,7 +8,7 @@ enum Radio {
 }
   
 enum Spreading {
-    UNDEFINED = 0;
+    SF_UNDEFINED = 0;
     SF7 = 1;
     SF8 = 2;
     SF9 = 3;
@@ -18,7 +18,7 @@ enum Spreading {
 }
 
 enum Bandwidth {
-    UNDEFINED = 0;
+    BW_UNDEFINED = 0;
     BW7_8kHz = 1;
     BW15_6kHz = 2;
     BW31_2kHz = 3;
@@ -28,30 +28,30 @@ enum Bandwidth {
     BW500kHz = 7;
 }
 enum Coderate {
-    UNDEFINED = 0;
+    CR_UNDEFINED = 0;
     CR4_5 = 1;
     CR4_6 = 2;
     CR4_7 = 3;
     CR4_8 = 4;
 }
 
-message Req {
+message RadioReq {
     uint32 id = 1;
     oneof kind {
-        TxReq tx = 2;
+        RadioTxReq tx = 2;
     }
 }
 
-message Resp {
+message RadioResp {
     uint32 id = 1;
     oneof kind {
-        TxResp tx = 2;
-        RxPacket rx_packet = 3;
+        RadioTxResp tx = 2;
+        RadioRxPacket rx_packet = 3;
         bytes parse_err = 4;
     }
 }
 
-message TxReq {
+message RadioTxReq {
     // Center frequency to transmit on.
     uint32 freq = 1;
     // Which radio to transmit on.
@@ -74,7 +74,7 @@ message TxReq {
     bytes payload = 10;
 }
 
-message RxPacket {
+message RadioRxPacket {
     // Center frequency of the channel this packet was received on.
     uint32 freq = 1;
     // Channel this packet packet was received on.
@@ -99,6 +99,6 @@ message RxPacket {
     bytes payload = 11;
 }
 
-message TxResp {
+message RadioTxResp {
     bool success = 1;
 }
