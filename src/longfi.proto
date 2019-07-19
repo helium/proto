@@ -2,23 +2,31 @@ syntax = "proto3";
 
 package helium.longfi;
 
+enum LongFiSpreading {
+    SF_INVALID = 0;
+    SF7 = 1;
+    SF8 = 2;
+    SF9 = 3;
+    SF10 = 4;
+}
+
 message LongFiReq {
     uint32 id = 1;
     oneof kind {
-        LongFiTxUplinkPacket longfi_tx_uplink = 2;
+        LongFiTxUplinkPacket tx_uplink = 2;
     }
 }
 
 message LongFiResp {
     uint32 id = 1;
     oneof kind {
-        LongFiTxResp tx = 2;
-        LongFiRxPacket longfi_rx = 3;
+        LongFiTxStatus tx_status = 2;
+        LongFiRxPacket rx = 3;
         bytes parse_err = 4;
     }
 }
 
-message LongFiTxResp {
+message LongFiTxStatus {
     bool success = 1;
 }
 
@@ -37,8 +45,9 @@ message LongFiRxPacket {
     uint32 device_id = 6;
     // MAC 
     uint32 mac = 7;
+    LongFiSpreading spreading = 9;
     // the fully reassembled payload
-    bytes payload = 8;
+    bytes payload = 10;
 }
 
 message LongFiTxUplinkPacket {
@@ -46,5 +55,6 @@ message LongFiTxUplinkPacket {
     bool disable_fragmentation = 2;
     uint32 oui = 3;
     uint32 device_id = 4;
-    bytes payload = 5;
+    LongFiSpreading spreading = 5;
+    bytes payload = 6;
 }
