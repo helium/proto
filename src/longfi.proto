@@ -24,6 +24,7 @@ message LongFiResp {
         LongFiRxPacket rx = 3;
         bytes parse_err = 4;
     }
+    bytes name = 5;
 }
 
 message LongFiTxStatus {
