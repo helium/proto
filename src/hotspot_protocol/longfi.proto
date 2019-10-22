@@ -13,7 +13,7 @@ enum LongFiSpreading {
 message LongFiReq {
     uint32 id = 1;
     oneof kind {
-        LongFiTxUplinkPacket tx_uplink = 2;
+        LongFiTxPacket tx = 2;
     }
 }
 
@@ -40,22 +40,38 @@ message LongFiRxPacket {
     float rssi = 3;
     // Average packet SNR, in dB.
     float snr = 4;
-    // OUI for routing
+    // Organization Unique ID
     uint32 oui = 5;
-    // device ID
+    // Device ID
     uint32 device_id = 6;
-    // MAC 
-    uint32 mac = 7;
+    // Fingerprint 
+    uint32 fingerprint = 7;
+    // Spreading to be used
     LongFiSpreading spreading = 9;
     // the fully reassembled payload
     bytes payload = 10;
 }
 
-message LongFiTxUplinkPacket {
-    bool disable_encoding = 1;
-    bool disable_fragmentation = 2;
-    uint32 oui = 3;
-    uint32 device_id = 4;
-    LongFiSpreading spreading = 5;
-    bytes payload = 6;
+message LongFiTxPacket {
+    // is device receiver (downlink) or is router receiver (uplink)
+    // note: when Hotspot is sending Proof of Coverage packet,
+    // it should behave as a device and flag this as "uplink"
+    bool downlink = 1;
+    // should the receiver ACK
+    bool should_ack = 2;
+    // on uplink, this indicates the device is ready to receive downlink
+    bool cts = 3;
+    // is the packet urgent
+    bool priority = 4;
+    // the packet beyond the tag field is encoded with LDPC
+    bool ldpc = 5;
+    // Organization Unique ID
+    uint32 oui = 6;
+    // Device ID
+    uint32 device_id = 7;
+    // Fingerprint 
+    uint32 fingerpint = 8;
+    // Spreading to be used
+    LongFiSpreading spreading = 9;
+    bytes payload = 10;
 }
