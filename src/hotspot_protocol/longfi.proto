@@ -46,10 +46,12 @@ message LongFiRxPacket {
     uint32 device_id = 6;
     // Fingerprint 
     uint32 fingerprint = 7;
+    // Sequence 
+    uint32 sequence = 9;
     // Spreading to be used
-    LongFiSpreading spreading = 9;
+    LongFiSpreading spreading = 10;
     // the fully reassembled payload
-    bytes payload = 10;
+    bytes payload = 11;
 }
 
 message LongFiTxPacket {
@@ -71,7 +73,9 @@ message LongFiTxPacket {
     uint32 device_id = 7;
     // Fingerprint 
     uint32 fingerpint = 8;
+    // Sequence 
+    uint32 sequence = 9;
     // Spreading to be used
-    LongFiSpreading spreading = 9;
-    bytes payload = 10;
+    LongFiSpreading spreading = 10;
+    bytes payload = 11;
 }
