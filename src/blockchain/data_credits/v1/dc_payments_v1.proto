@@ -4,6 +4,7 @@ message dc_payment_req_v1 {
     bytes id = 1;
     bytes payee = 2;
     uint64 amount = 3;
+    bytes fingerprint = 4;
 }
 
 message dc_payment_v1 {
