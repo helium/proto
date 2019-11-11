@@ -1,4 +1,5 @@
 syntax = "proto3";
+package helium.txns;
 
 message txn_token_burn_v1 {
     enum Type {
@@ -11,4 +12,4 @@ message txn_token_burn_v1 {
     uint64 amount = 4;
     uint64 nonce = 5;
     bytes signature = 6;
-}  
+}

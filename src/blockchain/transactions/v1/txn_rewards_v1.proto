@@ -1,4 +1,5 @@
 syntax = "proto3";
+package helium.txns;
 
 message txn_reward_v1 {
     enum Type {
@@ -13,11 +14,11 @@ message txn_reward_v1 {
     bytes gateway = 3;
     uint64 amount = 4;
     Type type = 5;
-    
+
 }
 
 message txn_rewards_v1 {
     uint64 start_epoch = 1;
     uint64 end_epoch = 2;
     repeated txn_reward_v1 rewards = 3;
-}   
+}

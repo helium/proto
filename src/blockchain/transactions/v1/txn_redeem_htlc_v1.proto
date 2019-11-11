@@ -1,4 +1,5 @@
 syntax = "proto3";
+package helium.txns;
 
 message txn_redeem_htlc_v1 {
     bytes payee = 1;

@@ -1,4 +1,5 @@
 syntax = "proto3";
+package helium.txns;
 
 message txn_consensus_group_v1 {
     repeated bytes members = 1;

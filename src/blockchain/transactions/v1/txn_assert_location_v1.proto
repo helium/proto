@@ -1,4 +1,5 @@
 syntax = "proto3";
+package helium.txns;
 
 message txn_assert_location_v1 {
     bytes gateway = 1;
