@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package helium.txns;
+
 message txn_add_gateway_v1 {
     bytes owner = 1;
     bytes gateway = 2;

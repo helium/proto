@@ -19,3 +19,5 @@ rebar3.crashdump
 log/
 data/
 src/pb/
+/target
+**/*.rs.bk
