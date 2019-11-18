@@ -23,3 +23,10 @@ message state_channel_v1 {
     bytes packets = 6;
     bytes signature = 7;
 }
+
+message state_channel_message_v1 {
+    oneof msg {
+        state_channel_v1 state_channel = 1;
+        state_channel_payment_req_v1 payment_req = 2;
+    }
+}
