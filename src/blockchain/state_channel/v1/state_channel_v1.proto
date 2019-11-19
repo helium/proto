@@ -8,12 +8,16 @@ message state_channel_payment_req_v1 {
     bytes signature = 5;
 }
 
-message state_channel_payment_v1 {
+message state_channel_payment_receipt_v1 {
     bytes payer = 1;
     bytes payee = 2;
     uint64 amount = 3;
-    bytes packet = 4;
     bytes req_id = 5;
+}
+
+message state_channel_payment_v1 {
+    state_channel_payment_receipt_v1 receipt = 1;
+    bytes packet = 2;
 }
 
 message state_channel_v1 {
@@ -21,14 +25,19 @@ message state_channel_v1 {
     bytes owner = 2;
     uint64 credits = 3;
     uint64 nonce = 4;
-    repeated state_channel_payment_v1 payments = 5;
+    repeated state_channel_payment_receipt_v1 receipts = 5;
     bytes packets = 6;
     bytes signature = 7;
 }
 
+message state_channel_update_v1 {
+    state_channel_payment_v1 payment = 1;
+    state_channel_v1 state_channel = 2;
+}
+
 message state_channel_message_v1 {
     oneof msg {
-        state_channel_v1 state_channel = 1;
-        state_channel_payment_req_v1 payment_req = 2;
+        state_channel_payment_req_v1 payment_req = 1;
+        state_channel_update_v1 update = 2;
     }
 }
