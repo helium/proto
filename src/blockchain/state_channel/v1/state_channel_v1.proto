@@ -1,18 +1,9 @@
 syntax = "proto3";
 
-message state_channel_payment_req_v1 {
-    string id = 1;
-    bytes payee = 2;
-    uint64 amount = 3;
-    uint32 fingerprint = 4;
-    bytes signature = 5;
-}
-
-message state_channel_payment_v1 {
-    bytes payer = 1;
-    bytes payee = 2;
-    uint64 amount = 3;
-    string req_id = 5;
+message state_channel_request_v1 {
+    bytes payee = 1;
+    uint64 amount = 2;
+    uint32 fingerprint = 3;
 }
 
 message state_channel_v1 {
@@ -20,19 +11,19 @@ message state_channel_v1 {
     bytes owner = 2;
     uint64 credits = 3;
     uint64 nonce = 4;
-    map<string, state_channel_payment_v1> payments = 5;
+    map<string, uint64> balances = 5;
     bytes packets = 6;
     bytes signature = 7;
 }
 
 message state_channel_packet_v1 {
     bytes packet = 1;
-    string req_id = 2;
+    bytes signature = 2;
 }
 
 message state_channel_message_v1 {
     oneof msg {
-        state_channel_payment_req_v1 payment_req = 1;
+        state_channel_request_v1 request = 1;
         state_channel_v1 state_channel = 2;
         state_channel_packet_v1 packet = 3;
     }
