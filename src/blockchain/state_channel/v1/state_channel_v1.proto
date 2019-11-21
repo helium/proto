@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 message state_channel_payment_req_v1 {
-    bytes id = 1;
+    string id = 1;
     bytes payee = 2;
     uint64 amount = 3;
     uint32 fingerprint = 4;
@@ -12,7 +12,7 @@ message state_channel_payment_v1 {
     bytes payer = 1;
     bytes payee = 2;
     uint64 amount = 3;
-    bytes req_id = 5;
+    string req_id = 5;
 }
 
 message state_channel_v1 {
@@ -27,7 +27,7 @@ message state_channel_v1 {
 
 message state_channel_packet_v1 {
     bytes packet = 1;
-    bytes req_id = 2;
+    string req_id = 2;
 }
 
 message state_channel_message_v1 {
