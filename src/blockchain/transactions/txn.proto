@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package helium.txns;
+
 import "v1/txn_coinbase_v1.proto";
 import "v1/txn_security_coinbase_v1.proto";
 import "v1/txn_oui_v1.proto";
