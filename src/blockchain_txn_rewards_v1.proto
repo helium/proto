@@ -14,7 +14,6 @@ message txn_reward_v1 {
     bytes gateway = 3;
     uint64 amount = 4;
     Type type = 5;
-
 }
 
 message txn_rewards_v1 {
