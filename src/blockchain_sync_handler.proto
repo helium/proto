@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message blockchain_sync_hash {
+    bytes hash = 1;
+}
+
+message blockchain_sync_blocks {
+    repeated bytes blocks= 1;
+}
+
+message blockchain_sync_req {
+  oneof msg {
+    blockchain_sync_hash hash = 1;
+    bool response = 2;
+  }
+}
