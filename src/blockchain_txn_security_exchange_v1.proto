@@ -1,7 +1,7 @@
 syntax = "proto3";
 package helium.txns;
 
-message txn_security_exchange_v1 {
+message blockchain_txn_security_exchange_v1 {
     bytes payer = 1;
     bytes payee = 2;
     uint64 amount = 3;

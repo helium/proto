@@ -1,7 +1,7 @@
 syntax = "proto3";
 package helium.txns;
 
-message txn_token_burn_v1 {
+message blockchain_txn_token_burn_v1 {
     enum Type {
         account = 0;
         channel = 1;

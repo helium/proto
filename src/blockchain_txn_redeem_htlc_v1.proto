@@ -1,7 +1,7 @@
 syntax = "proto3";
 package helium.txns;
 
-message txn_redeem_htlc_v1 {
+message blockchain_txn_redeem_htlc_v1 {
     bytes payee = 1;
     bytes address = 2;
     bytes preimage = 3;
