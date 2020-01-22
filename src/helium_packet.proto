@@ -2,4 +2,10 @@ syntax = "proto3";
 
 package helium.packet;
 
-message helium_packet {}
+message helium_packet {
+    bytes payload = 1;
+    uint64 timestamp = 2;
+    float signal_strength = 3;
+    float frequency = 4;
+    float snr = 5;
+    }
