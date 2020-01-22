@@ -1,7 +1,7 @@
 syntax = "proto3";
 package helium.txns;
 
-message txn_oui_v1 {
+message blockchain_txn_oui_v1 {
     bytes owner = 1;
     repeated bytes addresses = 2;
     uint64 oui = 3;

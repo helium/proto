@@ -2,8 +2,8 @@ syntax = "proto3";
 
 import "blockchain_block_v1.proto";
 
-message block {
+message blockchain_block {
     oneof block {
-        block_v1 v1 = 1;
+        blockchain_block_v1 v1 = 1;
     }
 }
