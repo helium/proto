@@ -13,5 +13,6 @@ message helium_packet {
     uint64 timestamp = 4;
     float signal_strength = 5;
     float frequency = 6;
-    float snr = 7;
+    string datarate = 7;
+    float snr = 8;
     }
