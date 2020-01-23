@@ -3,9 +3,15 @@ syntax = "proto3";
 package helium.packet;
 
 message helium_packet {
-    bytes payload = 1;
-    uint64 timestamp = 2;
-    float signal_strength = 3;
-    float frequency = 4;
-    float snr = 5;
+    uint32 oui = 1;
+    enum packet_type {
+        longfi = 0;
+        lorawan = 1;
+    }
+    packet_type type = 2;
+    bytes payload = 3;
+    uint64 timestamp = 4;
+    float signal_strength = 5;
+    float frequency = 6;
+    float snr = 7;
     }
