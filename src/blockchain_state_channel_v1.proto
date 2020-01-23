@@ -30,7 +30,6 @@ message blockchain_state_channel_request_v1 {
     bytes payee = 1;
     uint64 amount = 2;
     uint64 payload_size = 4;
-    uint32 fingerprint = 5;
 }
 
 message blockchain_state_channel_response_v1 {
