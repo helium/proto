@@ -1,5 +1,5 @@
 syntax = "proto3";
-package helium.txns;
+package helium;
 
 message blockchain_var_v1 {
     string name = 1;

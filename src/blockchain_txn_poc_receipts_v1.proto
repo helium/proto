@@ -1,5 +1,5 @@
 syntax = "proto3";
-package helium.txns;
+package helium;
 
 enum origin {
     p2p = 0;

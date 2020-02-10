@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package helium.txns;
+package helium;
 
 message blockchain_txn_state_channel_open_v1 {
     bytes id = 1;

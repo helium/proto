@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package helium.txns;
+package helium;
 
 import "blockchain_state_channel_v1.proto";
 

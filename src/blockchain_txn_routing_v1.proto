@@ -1,5 +1,5 @@
 syntax = "proto3";
-package helium.txns;
+package helium;
 
 message blockchain_txn_routing_v1 {
     uint32 oui = 1;

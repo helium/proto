@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package helium.txns;
+package helium;
 
 message blockchain_txn_add_gateway_v1 {
     bytes owner = 1;

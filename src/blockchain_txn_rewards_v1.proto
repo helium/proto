@@ -1,5 +1,5 @@
 syntax = "proto3";
-package helium.txns;
+package helium;
 
 message blockchain_txn_reward_v1 {
     enum Type {
