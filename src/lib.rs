@@ -1,10 +1,3 @@
-pub mod blockchain {
-    include!(concat!(env!("OUT_DIR"), "/helium.txns.rs"));
-    pub use blockchain_txn::Txn;
-}
-
-pub mod packet {
-    include!(concat!(env!("OUT_DIR"), "/helium.packet.rs"));
-}
-
+include!(concat!(env!("OUT_DIR"), "/helium.rs"));
+pub use blockchain_txn::Txn;
 pub use prost::Message;

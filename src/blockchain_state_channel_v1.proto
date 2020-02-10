@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package helium.txns;
+package helium;
 
-import "helium_packet.proto";
+import "packet.proto";
 
 enum blockchain_state_channel_state_v1 {
     open = 0;
@@ -37,11 +37,11 @@ message blockchain_state_channel_response_v1 {
     bool accepted = 1;
     bytes req_hash = 2;
     blockchain_state_channel_update_v1 state_channel_update = 3;
-    helium.packet.helium_packet downlink = 4;
+    packet downlink = 4;
 }
 
 message blockchain_state_channel_packet_v1 {
-    helium.packet.helium_packet packet = 1;
+    packet packet = 1;
     bytes hotspot = 2;
     bytes signature = 3;
 }

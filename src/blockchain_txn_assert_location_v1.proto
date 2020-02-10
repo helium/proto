@@ -1,5 +1,5 @@
 syntax = "proto3";
-package helium.txns;
+package helium;
 
 message blockchain_txn_assert_location_v1 {
     bytes gateway = 1;

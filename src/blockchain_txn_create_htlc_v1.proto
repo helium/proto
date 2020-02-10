@@ -1,5 +1,5 @@
 syntax = "proto3";
-package helium.txns;
+package helium;
 
 message blockchain_txn_create_htlc_v1 {
     bytes payer = 1;
