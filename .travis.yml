@@ -20,5 +20,5 @@ before_script:
 
 script:
   - cargo build
-  - cargo clippy -- -D clippy::all
+  - cargo clippy -- -A clippy::large_enum_variant -D clippy::all
   - cargo fmt -- --check
