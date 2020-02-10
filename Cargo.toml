@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 bytes = "0.4"
-prost = "0.5"
+prost = "0.6"
 
 [build-dependencies]
-prost-build = {version = "0.5"}
+prost-build = {version = "0.6"}

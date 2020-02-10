@@ -7,12 +7,9 @@ env:
 rust:
   - stable
   - beta
-  - nightly
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - rust: nightly
 
 before_script:
   - rustup component add clippy
@@ -20,5 +17,5 @@ before_script:
 
 script:
   - cargo build
-  - cargo clippy -- -A clippy::large_enum_variant -D clippy::all
+  - cargo clippy -- -A clippy::large_enum_variant
   - cargo fmt -- --check

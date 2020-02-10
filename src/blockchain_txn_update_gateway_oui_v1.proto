@@ -1,4 +1,5 @@
 syntax = "proto3";
+package helium.txns;
 
 message blockchain_txn_update_gateway_oui_v1 {
     bytes gateway = 1;
