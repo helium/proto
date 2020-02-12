@@ -1,0 +1,53 @@
+syntax = "proto3";
+package helium;
+
+enum origin {
+    p2p = 0;
+    radio = 1;
+}
+
+message blockchain_poc_receipt_v2 {
+    bytes gateway = 1;
+    sint32 signal = 2;
+    bytes data = 3;
+    origin origin = 4;
+    uint64 snr = 5;
+    uint64 rx_time = 6;
+    uint64 tx_time = 7;
+    sint64 time_acc = 8;
+    sint64 loc_acc = 9;
+    bytes signature = 10;
+}
+
+message blockchain_poc_witness_v2 {
+    bytes gateway = 1;
+    sint32 signal = 2;
+    bytes packet_hash = 3;
+    uint64 snr = 4;
+    uint64 rx_time = 5;
+    sint64 time_acc = 6;
+    sint64 loc_acc = 7;
+    bytes signature = 8;
+}
+
+message blockchain_poc_response_v2 {
+    oneof payload {
+        blockchain_poc_receipt_v2 receipt = 1;
+        blockchain_poc_witness_v2 witness = 2;
+    }
+}
+
+message blockchain_poc_path_element_v2 {
+    bytes challengee = 1;
+    blockchain_poc_receipt_v2 receipt = 2;
+    repeated blockchain_poc_witness_v2 witnesses = 3;
+}
+
+message blockchain_txn_poc_receipts_v2 {
+    bytes challenger = 1;
+    bytes secret = 2;
+    bytes onion_key_hash = 3;
+    repeated blockchain_poc_path_element_v2 path = 4;
+    uint64 fee = 5;
+    bytes signature = 6;
+}
