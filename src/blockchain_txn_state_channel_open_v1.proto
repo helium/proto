@@ -7,5 +7,6 @@ message blockchain_txn_state_channel_open_v1 {
     bytes owner = 2;
     int64 amount = 3;
     int64 expire_within = 4;
-    bytes signature = 5;
+    uint64 nonce = 5;
+    bytes signature = 6;
 }
