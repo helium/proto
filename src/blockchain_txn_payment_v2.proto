@@ -1,15 +1,15 @@
 syntax = "proto3";
 package helium;
 
-message blockchain_txn_multi_payment_v1 {
+message blockchain_txn_payment_v2 {
     bytes payer = 1;
-    repeated multi_payee_v1 payees = 2;
+    repeated payment payments = 2;
     uint64 fee = 3;
     uint64 nonce = 4;
     bytes signature = 5;
 }
 
-message multi_payee_v1 {
+message payment {
     bytes payee = 1;
     uint64 amount = 2;
 }
