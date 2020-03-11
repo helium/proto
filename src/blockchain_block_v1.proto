@@ -7,11 +7,12 @@ message blockchain_signature_v1 {
     bytes signature = 2;
 }
 
+message blockchain_seen_vote_v1 {
+    uint32 index = 1;
+    bytes vector = 2;
+}
+
 message blockchain_block_v1 {
-    message vote {
-        uint32 index = 1;
-        bytes vector = 2;
-    }
     bytes prev_hash = 1;
     uint64 height = 2;
     uint64 time = 3;
@@ -21,6 +22,6 @@ message blockchain_block_v1 {
     uint64 election_epoch = 7;
     uint64 epoch_start = 8;
     bytes rescue_signature = 9;
-    repeated vote seen_votes = 10;
+    repeated blockchain_seen_vote_v1 seen_votes = 10;
     bytes bba_completion = 11;
 }
