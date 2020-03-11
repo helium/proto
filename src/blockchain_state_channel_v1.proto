@@ -11,7 +11,7 @@ enum blockchain_state_channel_state_v1 {
 
 message blockchain_state_channel_balance_v1 {
     bytes payee = 1;
-    uint64 amount = 2;
+    uint64 balance = 2;
 }
 
 message blockchain_state_channel_v1 {
