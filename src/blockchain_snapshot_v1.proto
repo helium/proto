@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+///import "blockchain_gateway_v1.proto";
+
+message blockchain_snapshot_v1 {
+    uint64 height = 1;
+    bytes previous_snapshot = 2;
+    
+    // repeated blockchain_account_v1 = 3;
+    // repeated blockchain_dc_account_v1 = 4;
+    // repeated blockchain_security_account_v1 = 5;
+    // repeated blockchain_chain_var_v1 = 6; // can we pull the def in from the vars txn?
+    // repeated blockchain_gateway_v1 = 7;
+    // repeated blockchain_poc_v1 = 8;
+    // repeated blockchain_state_channels_v1 = 9;
+}
