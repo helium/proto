@@ -34,7 +34,10 @@ message blockchain_state_channel_update_v1 {
 message blockchain_state_channel_request_v1 {
     bytes payee = 1;
     uint64 amount = 2;
-    uint64 payload_size = 4;
+    uint64 payload_size = 3;
+    bytes devaddr = 4;
+    uint64 seqnum = 5;
+    bytes mic=6;
 }
 
 message blockchain_state_channel_response_v1 {
