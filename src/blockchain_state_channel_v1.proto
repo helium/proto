@@ -38,6 +38,7 @@ message blockchain_state_channel_request_v1 {
     bytes devaddr = 4;
     uint64 seqnum = 5;
     bytes mic=6;
+    bytes signature = 7;
 }
 
 message blockchain_state_channel_response_v1 {
