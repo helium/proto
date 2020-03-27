@@ -12,7 +12,7 @@ enum blockchain_state_channel_state_v1 {
 message blockchain_state_channel_summary_v1 {
     bytes client_pubkeybin = 1;
     uint64 num_packets = 2;
-    uint64 num_bytes = 3;
+    uint64 num_dcs = 3;
 }
 
 message blockchain_state_channel_v1 {
