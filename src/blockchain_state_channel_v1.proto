@@ -27,9 +27,9 @@ message blockchain_state_channel_v1 {
     bytes signature = 9;
 }
 
-message blockchain_state_channel_update_v1 {
-    blockchain_state_channel_v1 state_channel = 1;
-    bytes previous_hash = 2;
+message blockchain_state_channel_response_v1 {
+    bool accepted = 1;
+    packet downlink = 2;
 }
 
 message blockchain_state_channel_packet_v1 {
@@ -40,7 +40,7 @@ message blockchain_state_channel_packet_v1 {
 
 message blockchain_state_channel_message_v1 {
     oneof msg {
-        blockchain_state_channel_update_v1 state_channel_update = 1;
-        blockchain_state_channel_packet_v1 packet = 2;
+        blockchain_state_channel_packet_v1 packet = 1;
+        blockchain_state_channel_response_v1 response = 2;
     }
 }
