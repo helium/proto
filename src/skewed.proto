@@ -22,8 +22,9 @@ message node {
 }
 
 message skewed {
-    oneof msg {
+    oneof root {
         node node = 1;
         empty empty = 2;
-    }
+    };
+    uint32 count = 3;
 }
