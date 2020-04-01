@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package helium;
+
+message leaf {
+    bytes hash = 1;
+    bytes value = 2;
+}
+
+message empty {
+    bytes hash = 1;
+}
+
+message node {
+    bytes hash = 1;
+    uint64 height = 2;
+    leaf right = 3;
+    oneof left {
+        node node = 4;
+        empty empty = 5;
+    }
+}
+
+message skewed {
+    oneof msg {
+        node node = 1;
+        empty empty = 2;
+    }
+}
