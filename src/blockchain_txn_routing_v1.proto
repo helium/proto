@@ -14,7 +14,7 @@ message blockchain_txn_routing_v1 {
     uint32 oui = 1;
     bytes owner = 2;
     oneof update {
-        update_routers routers=3;
+        update_routers update_routers=3;
         bytes new_xor = 4; // 100kb or less
         update_xor update_xor = 5;
         uint32 request_subnet = 6; // number of addresses to request
