@@ -4,10 +4,12 @@ package helium;
 message blockchain_txn_oui_v1 {
     bytes owner = 1;
     repeated bytes addresses = 2;
-    uint64 oui = 3;
-    bytes payer = 4;
-    uint64 staking_fee = 5;
-    uint64 fee = 6;
-    bytes owner_signature = 7;
-    bytes payer_signature = 8;
+    repeated bytes filters = 3;
+    repeated uint32 requested_subnets = 4;
+    uint64 oui = 5;
+    bytes payer = 6;
+    uint64 staking_fee = 7;
+    uint64 fee = 8;
+    bytes owner_signature = 9;
+    bytes payer_signature = 10;
 }
