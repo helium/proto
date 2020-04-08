@@ -3,8 +3,8 @@ syntax = "proto3";
 package helium;
 
 message eui {
-    uint32 deveui = 1;
-    uint32 appeui = 2;
+    uint64 deveui = 1;
+    uint64 appeui = 2;
 }
 
 message routing_information {
