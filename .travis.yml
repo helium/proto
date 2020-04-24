@@ -9,9 +9,6 @@ matrix:
         - stable
         - beta
 
-      matrix:
-        fast_finish: true
-
       before_script:
         - rustup component add clippy
         - rustup component add rustfmt
