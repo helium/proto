@@ -1,21 +1,31 @@
-language: rust
-
-env:
- global:
-   - RUST_BACKTRACE=1
-
-rust:
-  - stable
-  - beta
-
 matrix:
-  fast_finish: true
+  include:
+    - language: rust
+      env:
+      global:
+        - RUST_BACKTRACE=1
 
-before_script:
-  - rustup component add clippy
-  - rustup component add rustfmt
+      rust:
+        - stable
+        - beta
 
-script:
-  - cargo build
-  - cargo clippy -- -A clippy::large_enum_variant
-  - cargo fmt -- --check
+      matrix:
+        fast_finish: true
+
+      before_script:
+        - rustup component add clippy
+        - rustup component add rustfmt
+
+      script:
+        - cargo build
+        - cargo clippy -- -A clippy::large_enum_variant
+        - cargo fmt -- --check
+
+    - language: node_js
+      node_js:
+        - 13
+      before_script:
+        - yarn install
+        - yarn build
+      script:
+        - yarn test

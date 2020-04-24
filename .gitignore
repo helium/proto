@@ -23,3 +23,4 @@ include/
 /target
 **/*.rs.bk
 build
+node_modules
