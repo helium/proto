@@ -2,7 +2,7 @@ matrix:
   include:
     - language: rust
       env:
-      global:
+        global:
         - RUST_BACKTRACE=1
 
       rust:
@@ -29,3 +29,11 @@ matrix:
         - yarn build
       script:
         - yarn test
+
+    - language: erlang
+      otp_release: 22.2
+      before_ script:
+        - kerl list installations
+
+      script:
+        - ./rebar3 compile
