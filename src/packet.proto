@@ -2,6 +2,24 @@ syntax = "proto3";
 
 package helium;
 
+message gps_info {
+    float horizontal_accuracy = 1; // meters this will take into account h3 precision and distance from asserted location
+    float vertical_accuracy = 2; // meters
+    int32 altitude = 3; // meters
+    uint64 time_accuracy = 4; //nanoseconds
+}
+
+// https://www.eecis.udel.edu/~mills/ntp/html/ntpq.html#system
+message ntp_info {
+    bool synced = 1; // https://www.eecis.udel.edu/~mills/ntp/html/decode.html#sys we will set this to true
+                     // if the leap field is not leap_alarm and the source field is sync_ntp
+    uint32 stratum = 2; // values are 1-15, with decreasing quality
+    float sys_jitter = 3; // combined system jitter, in milliseconds
+    float clk_jitter = 4; // clock jitter, in milliseconds
+    float clk_wander = 5; // clock frequency wander, in PPM
+    float frequency = 6; // frequency offset relative to hardware clock, in PPM
+}
+
 message packet {
     uint32 oui = 1;
     enum packet_type {
@@ -10,9 +28,14 @@ message packet {
     }
     packet_type type = 2;
     bytes payload = 3;
-    uint64 timestamp = 4;
+    uint64 internal_conc_timer = 4; // internal timer of concentrator, only useful for reply timing
     float signal_strength = 5;
     float frequency = 6;
     string datarate = 7;
     float snr = 8;
+    uint64 timestamp = 9; // nanoseconds since unix epoch sourced from gps timestamp on packet or system time
+    oneof time_source { // will be undefined if neither gps or ntp is available
+        gps_info gps = 10;
+        ntp_info ntp = 11;
     }
+}
