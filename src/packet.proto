@@ -15,7 +15,7 @@ message routing_information {
 }
 
 message packet {
-    routing_information routing = 1;
+    uint32 oui = 1;
     enum packet_type {
         longfi = 0;
         lorawan = 1;
@@ -27,4 +27,5 @@ message packet {
     float frequency = 6;
     string datarate = 7;
     float snr = 8;
+    routing_information routing = 9;
     }

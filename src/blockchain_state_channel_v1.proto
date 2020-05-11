@@ -31,7 +31,7 @@ message blockchain_state_channel_v1 {
 
 message blockchain_state_channel_response_v1 {
     bool accepted = 1;
-    packet downlink = 2;
+    packet downlink = 4;
 }
 
 message blockchain_state_channel_packet_v1 {
@@ -42,7 +42,7 @@ message blockchain_state_channel_packet_v1 {
 
 message blockchain_state_channel_message_v1 {
     oneof msg {
-        blockchain_state_channel_packet_v1 packet = 1;
         blockchain_state_channel_response_v1 response = 2;
+        blockchain_state_channel_packet_v1 packet = 4;
     }
 }
