@@ -25,6 +25,7 @@ import "blockchain_txn_state_channel_open_v1.proto";
 import "blockchain_txn_update_gateway_oui_v1.proto";
 import "blockchain_txn_state_channel_close_v1.proto";
 import "blockchain_txn_payment_v2.proto";
+import "blockchain_txn_price_oracle_v1.proto";
 
 message blockchain_txn {
     oneof txn {
@@ -52,6 +53,7 @@ message blockchain_txn {
         blockchain_txn_update_gateway_oui_v1 update_gateway_oui = 22;
         blockchain_txn_state_channel_close_v1 state_channel_close = 23;
         blockchain_txn_payment_v2 payment_v2 = 24;
+        blockchain_txn_price_oracle_v1 price_oracle_submission = 25;
     }
 }
 

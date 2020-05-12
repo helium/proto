@@ -1,0 +1,9 @@
+syntax = "proto3";
+package helium;
+
+message blockchain_txn_price_oracle_v1 {
+    bytes public_key = 1;
+    uint64 price = 2;
+    uint64 block_height = 3;
+    bytes signature = 4;
+}
