@@ -11,4 +11,5 @@ message blockchain_txn_oui_v1 {
     uint64 fee = 7;
     bytes owner_signature = 8;
     bytes payer_signature = 9;
+    uint64 oui = 10;
 }
