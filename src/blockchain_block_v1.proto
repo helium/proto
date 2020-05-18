@@ -24,4 +24,5 @@ message blockchain_block_v1 {
     bytes rescue_signature = 9;
     repeated blockchain_seen_vote_v1 seen_votes = 10;
     bytes bba_completion = 11;
+    bytes snapshot_hash = 12;
 }
