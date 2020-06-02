@@ -23,7 +23,8 @@ message blockchain_state_channel_v1 {
     uint64 nonce = 4;
     repeated blockchain_state_channel_summary_v1 summaries = 5;
     bytes root_hash = 6;
-    skewed skewed = 7;
+    // remove skewed
+    // skewed skewed = 7;
     blockchain_state_channel_state_v1 state = 8;
     uint64 expire_at_block = 9;
     bytes signature = 10;
