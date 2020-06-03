@@ -3,7 +3,7 @@ syntax = "proto3";
 package helium;
 
 import "packet.proto";
-import "skewed.proto";
+// import "skewed.proto";
 
 enum blockchain_state_channel_state_v1 {
     open = 0;
