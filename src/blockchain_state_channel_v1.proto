@@ -4,6 +4,18 @@ package helium;
 
 import "packet.proto";
 
+enum Region {
+  US915 = 0;
+  EU868 = 1;
+  EU433 = 2;
+  CN470 = 3;
+  CN779 = 4;
+  AU915 = 5;
+  AS923 = 6;
+  KR920 = 7;
+  IN865 = 8;
+}
+
 enum blockchain_state_channel_state_v1 {
     open = 0;
     closed = 1;
@@ -39,17 +51,6 @@ message blockchain_state_channel_packet_v1 {
     packet packet = 1;
     bytes hotspot = 2;
     bytes signature = 3;
-    enum Region {
-      US915 = 0;
-      EU868 = 1;
-      EU433 = 2;
-      CN470 = 3;
-      CN779 = 4;
-      AU915 = 5;
-      AS923 = 6;
-      KR920 = 7;
-      IN865 = 8;
-    }
     Region region = 4;
 }
 
@@ -57,6 +58,9 @@ message blockchain_state_channel_offer_v1 {
     uint32 devaddr = 1;
     bytes packet_hash = 2;
     uint32 seqnum = 3;
+    bytes hotspot = 4;
+    bytes signature = 5;
+    Region region = 6;
 }
 
 message blockchain_state_channel_purchase_v1 {
