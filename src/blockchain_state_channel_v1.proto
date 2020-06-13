@@ -57,10 +57,11 @@ message blockchain_state_channel_packet_v1 {
 message blockchain_state_channel_offer_v1 {
     uint32 devaddr = 1;
     bytes packet_hash = 2;
-    uint32 seqnum = 3;
-    bytes hotspot = 4;
-    bytes signature = 5;
-    Region region = 6;
+    uint64 payload_size = 3;
+    uint32 seqnum = 4;
+    bytes hotspot = 5;
+    bytes signature = 6;
+    Region region = 7;
 }
 
 message blockchain_state_channel_purchase_v1 {
