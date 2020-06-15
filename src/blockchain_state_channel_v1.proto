@@ -82,5 +82,6 @@ message blockchain_state_channel_message_v1 {
         blockchain_state_channel_packet_v1 packet = 4;
         blockchain_state_channel_offer_v1 offer = 5;
         blockchain_state_channel_purchase_v1 purchase = 6;
+        blockchain_state_channel_banner_v1 banner = 7;
     }
 }
