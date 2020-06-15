@@ -72,6 +72,10 @@ message blockchain_state_channel_purchase_v1 {
     Region region = 5;
 }
 
+message blockchain_state_channel_banner_v1 {
+    blockchain_state_channel_v1 sc = 1;
+}
+
 message blockchain_state_channel_message_v1 {
     oneof msg {
         blockchain_state_channel_response_v1 response = 2;
