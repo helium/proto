@@ -7,4 +7,6 @@ message blockchain_txn_token_burn_v1 {
     uint64 amount = 3;
     uint64 nonce = 4;
     bytes signature = 5;
+    uint64 fee = 6;
+    uint64 memo = 7;
 }
