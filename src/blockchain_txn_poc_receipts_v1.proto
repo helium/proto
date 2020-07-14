@@ -13,6 +13,8 @@ message blockchain_poc_receipt_v1 {
     bytes data = 4;
     origin origin = 5;
     bytes signature = 6;
+    float snr = 7;
+    float frequency = 8;
 }
 
 message blockchain_poc_witness_v1 {
@@ -21,6 +23,8 @@ message blockchain_poc_witness_v1 {
     sint32 signal = 3;
     bytes packet_hash = 4;
     bytes signature = 5;
+    float snr = 6;
+    float frequency = 7;
 }
 
 message blockchain_poc_response_v1 {
