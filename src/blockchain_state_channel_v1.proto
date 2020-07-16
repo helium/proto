@@ -44,7 +44,7 @@ message blockchain_state_channel_v1 {
 message blockchain_state_channel_response_v1 {
     bool accepted = 1;
     packet downlink = 4;
-    bytes active_sc = 5;
+    blockchain_state_channel_v1 active_sc = 5;
 }
 
 message blockchain_state_channel_packet_v1 {
