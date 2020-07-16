@@ -58,7 +58,7 @@ message blockchain_state_channel_offer_v1 {
     routing_information routing = 1;
     bytes packet_hash = 2;
     uint64 payload_size = 3;
-    uint32 seqnum = 4;
+    uint32 fcnt = 4;
     bytes hotspot = 5;
     bytes signature = 6;
     Region region = 7;
