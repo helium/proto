@@ -1,0 +1,6 @@
+syntax = "proto3";
+package helium;
+
+message blockchain_txn_gen_price_oracle_v1 {
+    uint64 price = 1;
+}
