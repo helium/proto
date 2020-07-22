@@ -61,6 +61,7 @@ message blockchain_state_channel_offer_v1 {
     bytes hotspot = 5;
     bytes signature = 6;
     Region region = 7;
+    bytes mic=8;
 }
 
 message blockchain_state_channel_purchase_v1 {
