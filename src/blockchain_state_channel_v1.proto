@@ -19,6 +19,7 @@ enum Region {
 enum blockchain_state_channel_state_v1 {
     open = 0;
     closed = 1;
+    pending_close = 2;
 }
 
 message blockchain_state_channel_summary_v1 {
