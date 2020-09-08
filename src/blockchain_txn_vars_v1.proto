@@ -16,4 +16,7 @@ message blockchain_txn_vars_v1 {
     repeated bytes cancels = 6;
     repeated bytes unsets = 7;
     uint32 nonce = 8;
+    repeated bytes multi_keys = 9;
+    repeated bytes multi_proofs = 10;
+    repeated bytes multi_key_proofs = 11;
 }
