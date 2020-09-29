@@ -28,9 +28,11 @@ message packet {
     }
     packet_type type = 2;
     bytes payload = 3;
-    float signal_strength = 4;
-    float snr = 5;
-    window rx1_window = 6;
-    window rx2_window = 7;
-    routing_information routing = 8;
+    uint64 timestamp = 4;
+    float signal_strength = 5;
+    float frequency = 6;
+    string datarate = 7;
+    float snr = 8;
+    routing_information routing = 9;
+    window rx2_window = 10;
 }
