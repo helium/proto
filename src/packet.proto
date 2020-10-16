@@ -14,6 +14,12 @@ message routing_information {
     }
 }
 
+message window {
+    uint64 timestamp = 1;
+    float frequency = 2;
+    string datarate = 3;
+}
+
 message packet {
     uint32 oui = 1;
     enum packet_type {
@@ -28,4 +34,5 @@ message packet {
     string datarate = 7;
     float snr = 8;
     routing_information routing = 9;
-    }
+    window rx2_window = 10;
+}
