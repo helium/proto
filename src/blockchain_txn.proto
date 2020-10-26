@@ -27,6 +27,7 @@ import "blockchain_txn_state_channel_close_v1.proto";
 import "blockchain_txn_payment_v2.proto";
 import "blockchain_txn_price_oracle_v1.proto";
 import "blockchain_txn_gen_price_oracle_v1.proto";
+import "blockchain_txn_transfer_hotspot_v1.proto";
 
 message blockchain_txn {
     oneof txn {
@@ -56,6 +57,7 @@ message blockchain_txn {
         blockchain_txn_payment_v2 payment_v2 = 24;
         blockchain_txn_price_oracle_v1 price_oracle_submission = 25;
         blockchain_txn_gen_price_oracle_v1 gen_price_oracle = 26;
+        blockchain_txn_transfer_hotspot_v1 transfer_hotspot = 27;
     }
 }
 
