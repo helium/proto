@@ -7,6 +7,7 @@ message blockchain_txn_transfer_hotspot_v1 {
     bytes buyer = 3;
     bytes seller_signature = 4;
     bytes buyer_signature = 5;
-    uint64 hnt_to_seller = 6;
-    uint64 fee = 7;
+    uint64 buyer_nonce = 6; // buyer's next payment nonce, required even if payment is 0
+    uint64 amount_to_seller = 7; // in bones not raw HNT
+    uint64 fee = 8;
 }
