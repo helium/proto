@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package helium;
+
+message routing {
+  uint32 oui = 1;
+  bytes owner = 2;
+  repeated address addresses = 3;
+  repeated bytes filters = 4;
+  repeated bytes subnets = 5;
+}
+
+message address {
+  bytes pub_key = 1;
+  bytes uri = 2;
+}
+
+message routing_response {
+  repeated routing routings = 1;
+  uint64 height = 2;
+  bytes signature = 3;
+}
+
+message routing_request { uint64 height = 1; }
+
+service validator {
+  rpc routing(routing_request) returns (stream routing_response);
+}
