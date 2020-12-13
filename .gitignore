@@ -20,7 +20,7 @@ log/
 data/
 src/pb/
 include/
-/target
+target/
 **/*.rs.bk
 build
 node_modules

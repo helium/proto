@@ -1,0 +1,12 @@
+[package]
+name = "helium-proto"
+version = "0.1.0"
+authors = ["Helium <info@helium.com>"]
+edition = "2018"
+
+[dependencies]
+bytes = "0.4"
+prost = "0.6"
+
+[build-dependencies]
+prost-build = {version = "0.6"}
