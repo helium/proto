@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package helium;
+
+import "blockchain_state_channel_v1.proto";
+import "blockchain_txn_state_channel_close_v1.proto";
+
+enum CloseState {
+    closable = 0;
+    closing = 1;
+    closed = 2;
+    dispute = 3;
+}
+
+message validator_resp_v1 {
+  uint64 height = 1;
+  bytes signature = 2;
+  oneof msg {
+    validator_sc_is_valid_resp_v1 is_valid_resp = 3;
+    validator_sc_close_resp_v1 close_resp = 4;
+    validator_sc_follow_streamed_resp_v1 follow_streamed_resp = 5;
+  }
+}
+
+/* state channels */
+message validator_sc_is_valid_req_v1 {
+  blockchain_state_channel_v1 sc = 1;
+}
+message validator_sc_is_valid_resp_v1 {
+  bytes sc_id = 1;
+  bool valid = 2;
+  bytes reason = 3;
+}
+
+message validator_sc_close_req_v1 {
+    blockchain_txn_state_channel_close_v1 close_txn = 1;
+}
+message validator_sc_close_resp_v1 {
+    bytes sc_id = 1;
+    bytes response = 2;
+}
+
+message validator_sc_follow_req_v1 {
+    bytes sc_id = 1;
+    bytes owner = 2;
+}
+message validator_sc_follow_streamed_resp_v1 {
+    bytes sc_id = 1;
+    CloseState close_state = 2;
+
+}
+
+service validator_state_channels {
+  rpc is_valid(validator_sc_is_valid_req_v1) returns (validator_resp_v1);
+  rpc close(validator_sc_close_req_v1) returns (validator_resp_v1);
+  rpc follow(validator_sc_follow_req_v1) returns (stream validator_resp_v1);
+}

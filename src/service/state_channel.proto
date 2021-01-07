@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package helium;
+
+import "blockchain_state_channel_v1.proto";
+
+service state_channel {
+  rpc msg(stream blockchain_state_channel_message_v1) returns(stream blockchain_state_channel_message_v1);
+}
