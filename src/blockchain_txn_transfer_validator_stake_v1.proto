@@ -1,0 +1,14 @@
+syntax = "proto3";
+package helium;
+
+message blockchain_txn_transfer_validator_stake_v1 {
+    bytes old_addr = 1;
+    bytes new_addr = 2;
+    bytes old_owner = 3;
+    bytes new_owner = 4;
+    bytes new_validator_signature = 5;
+    bytes old_owner_signature = 6;
+    bytes new_owner_signature = 7;
+    uint64 fee = 8;
+    uint64 nonce = 9;
+}
