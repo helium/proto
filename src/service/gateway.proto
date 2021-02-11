@@ -23,6 +23,6 @@ message routing_response {
 
 message routing_request { uint64 height = 1; }
 
-service validator {
+service gateway {
   rpc routing(routing_request) returns (stream routing_response);
 }
