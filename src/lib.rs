@@ -6,8 +6,8 @@ pub mod services {
     pub mod router {
         pub use crate::router_client::RouterClient as Client;
     }
-    pub mod validator {
-        pub use crate::validator_client::ValidatorClient as Client;
+    pub mod gateway {
+        pub use crate::gateway_client::GatewayClient as Client;
     }
 
     pub use tonic::transport::*;

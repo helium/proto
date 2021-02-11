@@ -9,7 +9,7 @@ fn main() -> Result<()> {
             &[
                 "src/blockchain_txn.proto",
                 "src/service/router.proto",
-                "src/service/validator.proto",
+                "src/service/gateway.proto",
             ],
             &["src/"],
         )?;
