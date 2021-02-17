@@ -1,0 +1,9 @@
+syntax = "proto3";
+package helium;
+
+message blockchain_txn_validator_heartbeat_v1 {
+    bytes addr = 1;
+    uint32 height = 2;
+    uint32 version = 3;
+    bytes signature = 4;
+}
