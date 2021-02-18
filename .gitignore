@@ -21,6 +21,7 @@ data/
 src/pb/
 include/
 /target
+Cargo.lock
 **/*.rs.bk
 build
 node_modules
