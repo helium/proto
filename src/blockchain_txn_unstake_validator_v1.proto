@@ -2,9 +2,9 @@ syntax = "proto3";
 package helium;
 
 message blockchain_txn_unstake_validator_v1 {
-    bytes addr = 1;
-    bytes owner = 2;
-    bytes owner_signature = 3;
-    uint64 fee = 4;
-    uint64 nonce = 5;
+  bytes address = 1;
+  bytes owner = 2;
+  bytes owner_signature = 3;
+  uint64 fee = 4;
+  uint64 nonce = 5;
 }
