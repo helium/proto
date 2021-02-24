@@ -5,8 +5,7 @@ message blockchain_txn_stake_validator_v1 {
   bytes address = 1;
   bytes owner = 2;
   uint64 stake = 3;
-  bytes validator_signature = 4;
-  bytes owner_signature = 5;
-  uint64 nonce = 6;
-  uint64 fee = 7;
+  bytes owner_signature = 4;
+  uint64 nonce = 5;
+  uint64 fee = 6;
 }
