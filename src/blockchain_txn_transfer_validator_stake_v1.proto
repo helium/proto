@@ -11,5 +11,4 @@ message blockchain_txn_transfer_validator_stake_v1 {
   uint64 fee = 7;
   // optional amount (in bones) the new owner is transferring to the old owner
   uint64 amount = 8;
-  uint64 nonce = 9;
 }
