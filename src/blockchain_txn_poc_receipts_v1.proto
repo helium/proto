@@ -17,6 +17,7 @@ message blockchain_poc_receipt_v1 {
     float frequency = 8;
     int32 channel = 9;
     string datarate = 10;
+    bytes addr_hash = 11;
 }
 
 message blockchain_poc_witness_v1 {
