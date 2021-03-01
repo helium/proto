@@ -6,5 +6,4 @@ message blockchain_txn_unstake_validator_v1 {
   bytes owner = 2;
   bytes owner_signature = 3;
   uint64 fee = 4;
-  uint64 nonce = 5;
 }
