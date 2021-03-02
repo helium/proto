@@ -77,7 +77,7 @@ message gateway_routing_streamed_resp_v1 {
 service gateway_state_channels {
   rpc is_valid(gateway_sc_is_valid_req_v1) returns (gateway_resp_v1);
   rpc close(gateway_sc_close_req_v1) returns (gateway_resp_v1);
-  rpc follow(gateway_sc_follow_req_v1) returns (stream gateway_resp_v1);
+  rpc follow(stream gateway_sc_follow_req_v1) returns (stream gateway_resp_v1);
 }
 
 /* Routing Service */
