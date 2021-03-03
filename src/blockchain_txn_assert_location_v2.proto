@@ -1,6 +1,8 @@
 syntax = "proto3";
 package helium;
 
+// NOTE: This transaction does not include gateway_signature field
+
 message blockchain_txn_assert_location_v2 {
     bytes gateway = 1;
     bytes owner = 2;
@@ -11,6 +13,9 @@ message blockchain_txn_assert_location_v2 {
     // (and JS doesn't support that)
     string location = 6;
     uint64 nonce = 7;
-    uint64 staking_fee = 8;
-    uint64 fee = 9;
+    int32 tx_gain = 8;
+    int32 rx_gain = 9;
+    int32 elevation = 10;
+    uint64 staking_fee = 11;
+    uint64 fee = 12;
 }
