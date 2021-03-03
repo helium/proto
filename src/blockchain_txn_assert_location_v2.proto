@@ -13,9 +13,9 @@ message blockchain_txn_assert_location_v2 {
     // (and JS doesn't support that)
     string location = 6;
     uint64 nonce = 7;
-    int32 tx_gain = 8;
-    int32 rx_gain = 9;
-    int32 elevation = 10;
-    uint64 staking_fee = 11;
-    uint64 fee = 12;
+    // It is assumed that this gain applies to both rx and tx
+    int32 gain = 8;
+    int32 elevation = 9;
+    uint64 staking_fee = 10;
+    uint64 fee = 11;
 }
