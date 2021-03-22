@@ -17,8 +17,8 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-#[cfg(feature = "deserializers")]
-macro_rules! deserializers {
+#[cfg(feature = "json_serde")]
+macro_rules! json_serde {
     ($base:tt) => {
         $base
             .type_attribute(
@@ -133,8 +133,8 @@ macro_rules! deserializers {
 #[cfg(not(feature = "services"))]
 fn main() -> Result<()> {
     let mut config = prost_build::Config::new();
-    #[cfg(feature = "deserializers")]
-    deserializers!(config);
+    #[cfg(feature = "json_serde")]
+    json_serde!(config);
 
     config.compile_protos(&["src/blockchain_txn.proto"], &["src/"])?;
     Ok(())

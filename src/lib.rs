@@ -1,7 +1,7 @@
-#[cfg(feature = "deserializers")]
-mod deserializers;
-#[cfg(feature = "deserializers")]
-use deserializers::*;
+#[cfg(feature = "json_serde")]
+mod json_serde;
+#[cfg(feature = "json_serde")]
+use json_serde::*;
 
 include!(concat!(env!("OUT_DIR"), "/helium.rs"));
 pub use blockchain_txn::Txn;
