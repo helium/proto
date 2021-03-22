@@ -1,12 +1,11 @@
+#[cfg(feature = "deserializers")]
 mod deserializers;
+#[cfg(feature = "deserializers")]
 use deserializers::*;
 
 include!(concat!(env!("OUT_DIR"), "/helium.rs"));
 pub use blockchain_txn::Txn;
 pub use prost::Message;
-
-
-
 
 #[cfg(feature = "services")]
 pub mod services {

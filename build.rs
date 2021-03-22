@@ -17,9 +17,10 @@ fn main() -> Result<()> {
     Ok(())
 }
 
+#[cfg(feature = "deserializers")]
 macro_rules! deserializers {
     ($base:tt) => {
-            $base
+        $base
             .type_attribute(
                 ".helium",
                 "#[derive(::serde::Serialize, ::serde::Deserialize)]",
@@ -62,8 +63,6 @@ macro_rules! deserializers {
                 "key_proof",
                 "#[serde(default, with = \"crate::base64_url\")]",
             )
-
-
             .field_attribute(
                 "master_key",
                 "#[serde(default, with = \"crate::base64_url\")]",
@@ -72,8 +71,14 @@ macro_rules! deserializers {
                 "request_block_hash",
                 "#[serde(with = \"crate::base64_url\")]",
             )
-            .field_attribute("multi_proofs", "#[serde(with = \"crate::base64_url_list\")]")
-            .field_attribute("multi_key_proofs", "#[serde(with = \"crate::base64_url_list\")]")
+            .field_attribute(
+                "multi_proofs",
+                "#[serde(with = \"crate::base64_url_list\")]",
+            )
+            .field_attribute(
+                "multi_key_proofs",
+                "#[serde(with = \"crate::base64_url_list\")]",
+            )
             .field_attribute("fee", "#[serde(default)]")
             .field_attribute(
                 "signature",
@@ -108,10 +113,7 @@ macro_rules! deserializers {
                 "blockchain_txn_reward_v1.type",
                 "#[serde(with = \"crate::reward_type\")]",
             )
-            .field_attribute(
-                "blockchain_var_v1.type",
-                "#[serde(skip_serializing)]",
-            )
+            .field_attribute("blockchain_var_v1.type", "#[serde(skip_serializing)]")
             // we ignore data for now. i'm unsure how to parse
             .field_attribute("data", "#[serde(skip_deserializing)]")
             // we ignore oui. it is not returned by the API
@@ -125,15 +127,15 @@ macro_rules! deserializers {
             .field_attribute("signature", "#[serde(skip_deserializing)]")
             .field_attribute("staking_fee", "#[serde(skip_deserializing)]")
             .field_attribute("datarate", "#[serde(skip_deserializing)]")
-    }
+    };
 }
 
 #[cfg(not(feature = "services"))]
 fn main() -> Result<()> {
-
     let mut config = prost_build::Config::new();
+    #[cfg(feature = "deserializers")]
+    deserializers!(config);
 
-    deserializers!(config)
-        .compile_protos(&["src/blockchain_txn.proto"], &["src/"])?;
+    config.compile_protos(&["src/blockchain_txn.proto"], &["src/"])?;
     Ok(())
 }

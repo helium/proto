@@ -2,8 +2,8 @@ pub mod origin {
     use serde::{de, ser, Deserialize, Deserializer, Serializer};
 
     fn integer_to_str<S>(input: &i32) -> Result<&str, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         if *input == 0 {
             Ok("p2p")
@@ -17,16 +17,16 @@ pub mod origin {
     }
 
     pub fn serialize<S>(input: &i32, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         let s = integer_to_str::<S>(input)?;
         serializer.serialize_str(s)
     }
 
     pub fn deserialize<'de, D>(deserializer: D) -> Result<i32, D::Error>
-        where
-            D: Deserializer<'de>,
+    where
+        D: Deserializer<'de>,
     {
         let s = <&str>::deserialize(deserializer)?;
         if s == "p2p" {
@@ -45,8 +45,8 @@ pub mod reward_type {
     use serde::{de, ser, Deserialize, Deserializer, Serializer};
 
     fn integer_to_str<S>(input: &i32) -> Result<&str, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         if *input == 0 {
             Ok("securities")
@@ -68,16 +68,16 @@ pub mod reward_type {
     }
 
     pub fn serialize<S>(input: &i32, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         let s = integer_to_str::<S>(input)?;
         serializer.serialize_str(s)
     }
 
     pub fn deserialize<'de, D>(deserializer: D) -> Result<i32, D::Error>
-        where
-            D: Deserializer<'de>,
+    where
+        D: Deserializer<'de>,
     {
         let s = <&str>::deserialize(deserializer)?;
         if s == "securities" {
@@ -105,15 +105,15 @@ pub mod base58 {
     use serde::{de, Deserialize, Deserializer, Serializer};
 
     pub fn serialize<S>(bytes: &[u8], serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         serializer.serialize_str(&bs58::encode(bytes).into_string())
     }
 
     pub fn deserialize<'de, D>(deserializer: D) -> Result<Vec<u8>, D::Error>
-        where
-            D: Deserializer<'de>,
+    where
+        D: Deserializer<'de>,
     {
         let opt: Option<&str> = Option::deserialize(deserializer)?;
         if let Some(s) = opt {
@@ -133,8 +133,8 @@ pub mod multikeys {
     use std::fmt;
 
     pub fn serialize<S>(keys: &[Vec<u8>], serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         let mut s = String::new();
         s.push('[');
@@ -154,8 +154,8 @@ pub mod multikeys {
 
     // warning: this part isn't really tested
     pub fn deserialize<'de, D>(deserializer: D) -> Result<Vec<Vec<u8>>, D::Error>
-        where
-            D: Deserializer<'de>,
+    where
+        D: Deserializer<'de>,
     {
         struct KeyParser;
         impl<'de> Visitor<'de> for KeyParser {
@@ -179,13 +179,11 @@ pub mod multikeys {
 }
 
 pub mod str_list {
-    use serde::{
-        Deserializer, Serializer,
-    };
+    use serde::{Deserializer, Serializer};
 
     pub fn serialize<S>(keys: &[Vec<u8>], serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         let mut s = String::new();
         s.push('[');
@@ -204,8 +202,8 @@ pub mod str_list {
 
     // warning: this part isn't really tested
     pub fn deserialize<'de, D>(_deserializer: D) -> Result<Vec<Vec<u8>>, D::Error>
-        where
-            D: Deserializer<'de>,
+    where
+        D: Deserializer<'de>,
     {
         panic!("var::deserialize untested")
     }
@@ -215,10 +213,9 @@ pub mod base64_url_list {
     extern crate base64;
     use serde::{Deserializer, Serializer};
 
-
     pub fn serialize<S>(keys: &[Vec<u8>], serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         let mut s = String::new();
         s.push('[');
@@ -236,8 +233,8 @@ pub mod base64_url_list {
     }
 
     pub fn deserialize<'de, D>(_deserializer: D) -> Result<Vec<Vec<u8>>, D::Error>
-        where
-            D: Deserializer<'de>,
+    where
+        D: Deserializer<'de>,
     {
         panic!("base64_url_list deserialize unimplemented")
     }
@@ -248,15 +245,15 @@ pub mod base64 {
     use serde::{de, Deserialize, Deserializer, Serializer};
 
     pub fn serialize<S>(bytes: &[u8], serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         serializer.serialize_str(&base64::encode(bytes))
     }
 
     pub fn deserialize<'de, D>(deserializer: D) -> Result<Vec<u8>, D::Error>
-        where
-            D: Deserializer<'de>,
+    where
+        D: Deserializer<'de>,
     {
         let s = <&str>::deserialize(deserializer)?;
         base64::decode(s).map_err(de::Error::custom)
@@ -268,20 +265,19 @@ pub mod base64_url {
     use serde::{de, Deserialize, Deserializer, Serializer};
 
     pub fn serialize<S>(bytes: &[u8], serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         if bytes.is_empty() {
             serializer.serialize_str("null")
         } else {
             serializer.serialize_str(&base64::encode_config(bytes, base64::URL_SAFE))
-
         }
     }
 
     pub fn deserialize<'de, D>(deserializer: D) -> Result<Vec<u8>, D::Error>
-        where
-            D: Deserializer<'de>,
+    where
+        D: Deserializer<'de>,
     {
         let s = <&str>::deserialize(deserializer)?;
         base64::decode_config(s, base64::URL_SAFE).map_err(de::Error::custom)
@@ -290,13 +286,13 @@ pub mod base64_url {
 
 pub mod u64_base64 {
     extern crate base64;
+    use byteorder::WriteBytesExt;
     use byteorder::{BigEndian, ByteOrder};
     use serde::{de, Deserialize, Deserializer, Serializer};
-    use byteorder::WriteBytesExt;
 
     pub fn serialize<S>(word: &u64, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
+    where
+        S: Serializer,
     {
         let mut vec = Vec::new();
         match vec.write_u64::<BigEndian>(*word) {
@@ -307,8 +303,8 @@ pub mod u64_base64 {
     }
 
     pub fn deserialize<'de, D>(deserializer: D) -> Result<u64, D::Error>
-        where
-            D: Deserializer<'de>,
+    where
+        D: Deserializer<'de>,
     {
         let s = <&str>::deserialize(deserializer)?;
         match base64::decode(s) {
