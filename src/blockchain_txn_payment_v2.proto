@@ -12,4 +12,5 @@ message blockchain_txn_payment_v2 {
 message payment {
     bytes payee = 1;
     uint64 amount = 2;
+    uint64 memo = 3;
 }
