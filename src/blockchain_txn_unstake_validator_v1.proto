@@ -7,4 +7,5 @@ message blockchain_txn_unstake_validator_v1 {
   bytes owner_signature = 3;
   uint64 fee = 4;
   uint64 stake_amount = 5;
+  uint64 stake_release_height = 6;
 }
