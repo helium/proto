@@ -67,7 +67,50 @@ message routing_address {
 message gateway_routing_req_v1 { uint64 height = 1; }
 message gateway_routing_streamed_resp_v1 { repeated routing routings = 1; }
 
+/* POCs */
+
+message poc_challenge_notification_resp_v1 {
+  routing_address challenger = 1;         // routing info of the notifying validator
+  bytes block_hash = 2;                   // block hash of the block which contains the POC request
+}
+
+message poc_get_challenge_req_v1 {
+  bytes address = 1;                      // address of the challengee
+  uint64 height = 2;                      // height provided by the notifying validator in the 'poc_challenge_notification_resp_v1' msg
+  bytes block_hash = 3;                   // block hash provided by the notifying validator in the 'poc_challenge_notification_resp_v1' msg
+  routing_address notifier = 4,           // routing info of the notifying validator, derived from the 'poc_challenge_notification_resp_v1' msg
+  bytes notifier_sig = 5;                 // the signature payload derived from the 'gateway_resp_v1' msg containing the 'poc_challenge_notification_resp_v1' msg
+
+}
+
+message poc_challenge_payload_resp_v1 {
+  // NOT REALLY SURE WHAT FIELDS NEED TO BE INCLUDED HERE
+  bytes secret_hash = 1;
+  bytes onion_hash = 2;
+}
+
+message poc_get_witness_req_v1 {
+  bytes address = 1;                      // address of the observing GW
+  bytes packet = 1                        // packet observed
+}
+
+message poc_witness_resp_v1 {
+  routing_address target = 1;             // routing info of the CG member the observing GW is to send the witness report too
+}
+
+message poc_witness_report_req_v1 {
+  blockchain_poc_witness_v1_pb witness    // the signed witness report from the observing GWs
+  bytes notifier_sig = 2;                 // the signature payload derived from the 'gateway_resp_v1' msg containing the 'poc_witness_resp_v1' msg
+}
+
+message poc_receipt_req_v1 {
+  blockchain_poc_receipt_v1_pb receipt    // the signed receipt report from the observing GWs
+  bytes notifier_sig = 2;                 // the signature payload derived from the 'gateway_resp_v1' msg containing the 'poc_challenge_notification_resp_v1' msg
+}
+
+
 /* Gateway Service */
+
 service gateway {
   rpc is_valid(gateway_sc_is_valid_req_v1) returns (gateway_resp_v1);
   rpc close(gateway_sc_close_req_v1) returns (gateway_resp_v1);
