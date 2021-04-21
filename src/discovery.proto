@@ -4,6 +4,6 @@ package helium;
 
 message discovery_start {
     bytes hotspot = 1;
-    bytes transaction_id = 2;
+    bytes packet = 2;
     bytes signature = 3;
 }
