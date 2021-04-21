@@ -5,9 +5,12 @@ package helium;
 import "blockchain_state_channel_v1.proto";
 import "blockchain_txn_state_channel_close_v1.proto";
 import "blockchain_txn_vars_v1.proto";
+import "blockchain_txn_poc_receipts_v1.proto";
+import "blockchain_txn_poc_receipts_v2.proto";
 import "blockchain_region_param_v1.proto";
 import "region.proto";
 
+// defines the various close states of an SC
 enum close_state {
   close_state_closable = 0;
   close_state_closing = 1;
@@ -16,6 +19,18 @@ enum close_state {
 }
 
 /* general */
+
+message empty {}
+
+message gateway_success_resp {
+  bytes resp = 1;
+  bytes details = 2;
+}
+
+message gateway_error_resp {
+  bytes error = 1;
+  bytes details = 2;
+}
 
 message gateway_config_req_v1 { repeated string keys = 1; }
 message gateway_config_resp_v1 { repeated blockchain_var_v1 result = 1; }
@@ -50,6 +65,11 @@ message gateway_resp_v1 {
     gateway_config_update_streamed_resp_v1 config_update_streamed_resp = 9;
     gateway_validators_resp_v1 validators_resp = 12;
     gateway_region_params_streamed_resp_v1 region_params_streamed_resp = 13;
+    gateway_success_resp success_resp = 14;
+    gateway_error_resp error_resp = 15;
+    gateway_poc_challenge_notification_resp_v1 poc_challenge_resp = 16;
+    gateway_poc_check_challenge_target_resp_v1 poc_check_target_resp = 17;
+    gateway_public_routing_data_resp_v1 public_route = 18;
   }
   uint64 block_time = 10;
   uint64 block_age = 11;
@@ -118,18 +138,87 @@ message routing_address {
 message gateway_routing_req_v1 { uint64 height = 1; }
 message gateway_routing_streamed_resp_v1 { repeated routing routings = 1; }
 
+/* POCs */
+
+message gateway_poc_req_v1 {
+  bytes address = 1;
+  bytes signature = 2;
+}
+
+// streaming notification sent by a validator to a light gateway to notify it of
+// a new challenge
+message gateway_poc_challenge_notification_resp_v1 {
+  routing_address challenger = 1;
+  bytes block_hash = 2;
+  bytes onion_key_hash = 3;
+}
+
+// request sent by a light gateway to a challenging validator to check if they
+// are the target
+message gateway_poc_check_challenge_target_req_v1 {
+  bytes address = 1;
+  bytes challenger = 2;
+  bytes block_hash = 3;
+  bytes onion_key_hash = 4;
+  uint64 height = 5;
+  bytes notifier = 6;
+  bytes notifier_sig = 7;
+  bytes challengee_sig = 8;
+}
+
+// response to the requestor's 'gateway_poc_check_challenge_target_req_v1'
+// request if the requestor is the target
+message gateway_poc_check_challenge_target_resp_v1 {
+  bool target = 1;
+  bytes onion = 2;
+}
+
+// request sent by a light gateway to a consensus group member containing the
+// observing gateways receipt or witness report
+message gateway_poc_report_req_v1 {
+  bytes onion_key_hash = 1;
+  oneof msg {
+    blockchain_poc_receipt_v1 receipt = 2;
+    blockchain_poc_witness_v1 witness = 3;
+  }
+}
+
+// request to translate the specified pubkeybin to the assocaited nodes public
+// grpc routing data
+message gateway_address_routing_data_req_v1 { bytes address = 1; }
+
+// request to translate the specified POC onion key the to the associated
+// challengers public grpc routing data
+message gateway_poc_key_routing_data_req_v1 { bytes key = 1; }
+
+message gateway_public_routing_data_resp_v1 {
+  bytes address = 1;
+  routing_address public_uri = 2;
+}
+
 /* Gateway Service */
+
 service gateway {
+  rpc follow_sc(stream gateway_sc_follow_req_v1)
+      returns (stream gateway_resp_v1);
+  rpc routing(gateway_routing_req_v1) returns (stream gateway_resp_v1);
+  rpc stream_poc(stream gateway_poc_req_v1) returns (stream gateway_resp_v1);
+  rpc config_update(gateway_config_update_req_v1)
+      returns (stream gateway_resp_v1);
+
   rpc is_active_sc(gateway_sc_is_active_req_v1) returns (gateway_resp_v1);
   rpc is_overpaid_sc(gateway_sc_is_overpaid_req_v1) returns (gateway_resp_v1);
   rpc close_sc(gateway_sc_close_req_v1) returns (gateway_resp_v1);
-  rpc follow_sc(stream gateway_sc_follow_req_v1)
-      returns (stream gateway_resp_v1);
 
-  rpc routing(gateway_routing_req_v1) returns (stream gateway_resp_v1);
+  rpc check_challenge_target(gateway_poc_check_challenge_target_req_v1)
+      returns (gateway_resp_v1);
+  rpc send_report(gateway_poc_report_req_v1) returns (gateway_resp_v1);
+  rpc address_to_public_uri(gateway_address_routing_data_req_v1)
+      returns (gateway_resp_v1);
+  rpc poc_key_to_public_uri(gateway_poc_key_routing_data_req_v1)
+      returns (gateway_resp_v1);
+
   rpc config(gateway_config_req_v1) returns (gateway_resp_v1);
-  rpc config_update(gateway_config_update_req_v1)
-      returns (stream gateway_resp_v1);
   rpc validators(gateway_validators_req_v1) returns (gateway_resp_v1);
   rpc region_params_update(gateway_region_params_update_req_v1)
       returns (stream gateway_resp_v1);

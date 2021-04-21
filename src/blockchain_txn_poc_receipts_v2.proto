@@ -1,13 +1,14 @@
 syntax = "proto3";
 package helium;
+
 import "blockchain_poc_core_v1.proto";
 
-message blockchain_txn_poc_receipts_v1 {
+message blockchain_txn_poc_receipts_v2 {
   bytes challenger = 1;
   bytes secret = 2;
   bytes onion_key_hash = 3;
   repeated blockchain_poc_path_element_v1 path = 4;
   uint64 fee = 5;
   bytes signature = 6;
-  bytes request_block_hash = 7;
+  bytes block_hash = 7;
 }
