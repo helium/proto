@@ -12,6 +12,34 @@ enum CloseState {
   close_state_dispute = 3;
 }
 
+/* general */
+
+message empty {
+}
+
+message success_resp {
+  bytes resp = 1;
+}
+
+message error_resp {
+  bytes error = 1;
+  bytes reason = 2
+}
+
+message resp {
+  oneof msg {
+    success_resp success_resp = 1;
+    error_resp error_resp = 2;
+  }
+}
+
+message gateway_stream_req_v1 {
+  oneof msg {
+    gateway_sc_follow_req_v1 follow_req = 1;
+    gateway_poc_get_challenge_req_v1 get_challenge_req = 2;
+  }
+}
+
 message gateway_resp_v1 {
   uint64 height = 1;
   bytes signature = 2;
@@ -70,59 +98,65 @@ message gateway_routing_streamed_resp_v1 { repeated routing routings = 1; }
 /* POCs */
 
 // streaming notification sent by a validator to a light gateway to notify it of a new challenge
-message poc_challenge_notification_resp_v1 {
+message gateway_poc_challenge_notification_resp_v1 {
   routing_address challenger = 1;                     // routing info of the challenging validator
   bytes block_hash = 2;                               // block hash of the block which contains the POC request
 }
 
 // request sent by a light gateway to a challenging validator in order to retrieve the challenge payload
-message poc_get_challenge_req_v1 {
+message gateway_poc_get_challenge_req_v1 {
   bytes address = 1;                                  // address of the challengee
-  uint64 challenge_height = 2;                        // height provided by the notifying validator in the 'poc_challenge_notification_resp_v1' msg
-  bytes block_hash = 3;                               // block hash provided by the notifying validator in the 'poc_challenge_notification_resp_v1' msg
-  bytes notifier = 4;                                 // address of the notifying validator, derived from the 'poc_challenge_notification_resp_v1' msg
-  bytes notifier_sig = 5;                             // the signature payload derived from the 'gateway_resp_v1' msg containing the 'poc_challenge_notification_resp_v1' msg
+  uint64 challenge_height = 2;                        // height provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
+  bytes block_hash = 3;                               // block hash provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
+  bytes notifier = 4;                                 // address of the notifying validator, derived from the 'gateway_poc_challenge_notification_resp_v1' msg
+  bytes notifier_sig = 5;                             // the signature payload derived from the 'gateway_resp_v1' msg containing the 'gateway_poc_challenge_notification_resp_v1' msg
 }
 
-// response containing the challenge payload to the clients 'poc_get_challenge_req_v1' request
-message poc_challenge_payload_resp_v1 {
+// response containing the challenge payload to the clients 'gateway_poc_get_challenge_req_v1' request
+message gateway_poc_challenge_payload_resp_v1 {
 // NOT REALLY SURE WHAT FIELDS NEED TO BE INCLUDED HERE
   bytes secret_hash = 1;
   bytes onion_hash = 2;
 }
 
 // request sent by a light gateway to its durable validator in order to retrieve a consensus group member to which it should forward witness reports
-message poc_get_witness_req_v1 {
+message gateway_poc_get_witness_target_req_v1 {
   bytes address = 1;                                // address of the observing GW
   bytes packet = 2;                                 // packet observed
 }
 
-// response containing the consensus group member's routing info to the clients 'poc_get_witness_req_v1' request
-message poc_witness_resp_v1 {
+// response containing the consensus group member's routing info to the clients 'gateway_poc_get_witness_req_v1' request
+message gateway_poc_witness_target_resp_v1 {
   routing_address address = 1;                      // routing info of the CG member the observing GW is to send the witness report too
 }
 
 // request sent by a light gateway to a consensus group member containing the observing gateways witness report
-message poc_witness_report_req_v1 {
+message gateway_poc_witness_report_req_v1 {
   blockchain_poc_witness_v1_pb witness = 1;         // the signed witness report from the observing GWs
-  bytes notifier = 2;                               // address of the notifying validator which provided the 'poc_witness_resp_v1 msg
-  bytes notifier_sig = 3;                           // the signature payload derived from the 'gateway_resp_v1' msg containing the 'poc_witness_resp_v1' msg
+  bytes notifier = 2;                               // address of the notifying validator which provided the 'gateway_poc_witness_resp_v1 msg
+  bytes notifier_sig = 3;                           // the signature payload derived from the 'gateway_resp_v1' msg containing the 'gateway_poc_witness_resp_v1' msg
 }
 
 // request sent by a light gateway to a consensus group member containing the challengee's gateways receipt report
-message poc_receipt_req_v1 {
+message gateway_poc_receipt_req_v1 {
   blockchain_poc_receipt_v1_pb receipt = 1;       // the signed receipt report from the observing GWs
-  bytes notifier = 2;                             // address of the notifying validator derived from the 'gateway_resp_v1' msg containing the 'poc_challenge_notification_resp_v1' msg
-  bytes notifier_sig = 3;                         // the signature payload derived from the 'gateway_resp_v1' msg containing the 'poc_challenge_notification_resp_v1' msg
+  bytes notifier = 2;                             // address of the notifying validator derived from the 'gateway_resp_v1' msg containing the 'gateway_poc_challenge_notification_resp_v1' msg
+  bytes notifier_sig = 3;                         // the signature payload derived from the 'gateway_resp_v1' msg containing the 'gateway_poc_challenge_notification_resp_v1' msg
 }
 
 
 /* Gateway Service */
 
 service gateway {
+  rpc stream(stream gateway_stream_req_v1) returns (stream gateway_resp_v1);
+
   rpc is_valid(gateway_sc_is_valid_req_v1) returns (gateway_resp_v1);
   rpc close(gateway_sc_close_req_v1) returns (gateway_resp_v1);
-  rpc follow(stream gateway_sc_follow_req_v1) returns (stream gateway_resp_v1);
 
   rpc routing(gateway_routing_req_v1) returns (stream gateway_resp_v1);
+
+  rpc get_challenge(gateway_poc_get_challenge_req_v1) returns (gateway_resp_v1);
+  rpc get_witness_target(gateway_poc_get_witness_target_req_v1) returns (gateway_poc_witness_target_resp_v1);
+  rpc send_witness(gateway_poc_witness_report_req_v1) returns (resp);
+  rpc send_receipt(gateway_poc_receipt_req_v1) returns (resp);
 }
