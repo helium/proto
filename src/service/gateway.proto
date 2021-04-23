@@ -36,7 +36,8 @@ message resp {
 message gateway_stream_req_v1 {
   oneof msg {
     gateway_sc_follow_req_v1 follow_req = 1;
-    gateway_poc_get_challenge_req_v1 get_challenge_req = 2;
+    gateway_routing_req_v1 routing_req = 2;
+    gateway_poc_get_challenge_req_v1 get_challenge_req = 3;
   }
 }
 
@@ -44,10 +45,12 @@ message gateway_resp_v1 {
   uint64 height = 1;
   bytes signature = 2;
   oneof msg {
-    gateway_sc_is_valid_resp_v1 is_valid_resp = 3;
-    gateway_sc_close_resp_v1 close_resp = 4;
-    gateway_sc_follow_streamed_resp_v1 follow_streamed_resp = 5;
+    gateway_sc_is_valid_resp_v1 sc_is_valid_resp = 3;
+    gateway_sc_close_resp_v1 sc_close_resp = 4;
+    gateway_sc_follow_streamed_resp_v1 sc_follow_streamed_resp = 5;
     gateway_routing_streamed_resp_v1 routing_streamed_resp = 6;
+    gateway_poc_challenge_payload_resp_v1_pb poc_challenge_resp = 7;
+    gateway_poc_witness_target_resp_v1_pb poc_witness_target_resp = 8;
   }
 }
 
