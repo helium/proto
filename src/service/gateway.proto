@@ -128,7 +128,7 @@ message gateway_poc_challenge_payload_resp_v1 {
 // request sent by a light gateway to its durable validator in order to retrieve a consensus group member to which it should forward witness reports
 message gateway_poc_get_witness_target_req_v1 {
   bytes address = 1;                                // address of the observing GW
-  bytes packet = 2;                                 // packet observed
+  bytes onion_hash = 2;                             // the onion hash derived from the observed packet
 }
 
 // response containing the consensus group member's routing info to the clients 'gateway_poc_get_witness_req_v1' request
