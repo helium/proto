@@ -17,6 +17,7 @@ describe('payment_v2', () => {
     const payments = [Payment.create({
       payee: alice,
       amount: 10,
+      memo: 500,
     })]
 
     const payment = PaymentTxn.create({
@@ -30,6 +31,7 @@ describe('payment_v2', () => {
     expect(payment.payer).toBe(bob)
     expect(payment.payments[0].payee).toBe(alice)
     expect(payment.payments[0].amount).toBe(10)
+    expect(payment.payments[0].memo).toBe(500)
     expect(payment.fee).toBe(1)
     expect(payment.nonce).toBe(2)
     expect(payment.signature).toBe('some signature')
