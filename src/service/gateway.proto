@@ -104,25 +104,27 @@ message gateway_routing_streamed_resp_v1 { repeated routing routings = 1; }
 message gateway_poc_challenge_notification_resp_v1 {
   routing_address challenger = 1;                     // routing info of the challenging validator
   bytes block_hash = 2;                               // block hash of the block which contains the POC request
-  bytes secret_hash = 3                               // hash of the POC's secret
-  bytes onion_hash = 4                               // hash of the POC's onion
+  bytes secret_hash = 3;                              // hash of the POC's secret
+  bytes onion_hash = 4;                               // hash of the POC's onion
 }
 
-// request sent by a light gateway to a challenging validator in order to retrieve the challenge payload
-message gateway_poc_get_challenge_req_v1 {
+// request sent by a light gateway to a challenging validator to check if they are the target
+message gateway_poc_check_challenge_target_req_v1 {
   bytes address = 1;                                  // address of the challengee
   bytes challenger = 2                                // address of the challenger
-  uint64 height = 3;                                  // height provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
-  bytes block_hash = 4;                               // block hash provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
-  bytes secret_hash = 5;                              // secret hash provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
-  bytes onion_hash = 6;                               // onion hash provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
+  bytes block_hash = 3;                               // block hash provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
+  bytes secret_hash = 4;                              // secret hash provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
+  bytes onion_hash = 5;                               // onion hash provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
+  uint64 height = 6;                                  // height provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
   bytes notifier = 7;                                 // address of the notifying validator, derived from the 'gateway_poc_challenge_notification_resp_v1' msg
   bytes notifier_sig = 8;                             // the signature payload derived from the 'gateway_resp_v1' msg containing the 'gateway_poc_challenge_notification_resp_v1' msg
+  bytes challengee_sig = 9;                           // the challengee signed request payload
 }
 
-// response containing the challenge payload to the clients 'gateway_poc_get_challenge_req_v1' request
-message gateway_poc_challenge_payload_resp_v1 {
-  bytes onion = 1
+// response to the requestor's 'gateway_poc_check_challenge_target_req_v1' request if the requestor is the target
+message gateway_poc_check_challenge_target_resp_v1 {
+  bool target = 1;
+  bytes onion = 2;
 }
 
 // request sent by a light gateway to its durable validator in order to retrieve a consensus group member to which it should forward witness reports
@@ -161,8 +163,8 @@ service gateway {
 
   rpc routing(gateway_routing_req_v1) returns (stream gateway_resp_v1);
 
-  rpc get_challenge(gateway_poc_get_challenge_req_v1) returns (gateway_resp_v1);
-  rpc get_witness_target(gateway_poc_get_witness_target_req_v1) returns (gateway_poc_witness_target_resp_v1);
+  rpc check_challenge_target(gateway_poc_check_challenge_target_req_v1) returns (gateway_resp_v1);
+  rpc get_witness_target(gateway_poc_get_witness_target_req_v1) returns (gateway_resp_v1);
   rpc send_witness(gateway_poc_witness_report_req_v1) returns (resp);
   rpc send_receipt(gateway_poc_receipt_req_v1) returns (resp);
 }
