@@ -18,6 +18,10 @@ message blockchain_poc_receipt_v1 {
     int32 channel = 9;
     string datarate = 10;
     bytes addr_hash = 11;
+    // Gain at which this poc receipt was seen at
+    // It is x10, for example: 270 = 27db, 36 = 3.6db etc
+    // We do this to avoid floats
+    int32 gain = 12;
 }
 
 message blockchain_poc_witness_v1 {
