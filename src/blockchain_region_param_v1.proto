@@ -2,6 +2,10 @@ syntax = "proto3";
 
 package helium;
 
+message blockchain_region_params_v1 {
+    repeated blockchain_region_param_v1 region_params = 1;
+}
+
 enum RegionSpreading {
     SF_INVALID = 0;
     SF7 = 1;
