@@ -16,9 +16,13 @@ enum RegionSpreading {
     SF12 = 6;
 }
 
+message blockchain_region_spreading_v1 {
+    repeated RegionSpreading region_spreading = 1;
+}
+
 message blockchain_region_param_v1 {
     uint64 channel_frequency = 1;
     uint32 bandwidth = 2;
     uint32 max_power = 3;
-    RegionSpreading spreading = 4;
+    blockchain_region_spreading_v1 spreading = 4;
 }
