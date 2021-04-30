@@ -51,6 +51,7 @@ message blockchain_state_channel_packet_v1 {
     bytes hotspot = 2;
     bytes signature = 3;
     Region region = 4;
+    uint64 hold_time = 5;
 }
 
 message blockchain_state_channel_offer_v1 {
