@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package helium;
+
+enum RegionSpreading {
+    SF_INVALID = 0;
+    SF7 = 1;
+    SF8 = 2;
+    SF9 = 3;
+    SF10 = 4;
+    SF11 = 5;
+    SF12 = 6;
+}
+
+message blockchain_region_param_v1 {
+    uint64 channel_frequency = 1;
+    uint32 bandwidth = 2;
+    uint32 max_power = 3;
+    RegionSpreading spreading = 4;
+}
