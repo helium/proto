@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package helium;
+
+message discovery_start {
+    bytes hotspot = 1;
+    repeated bytes packets = 2;
+    bytes signature = 3;
+}
