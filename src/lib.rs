@@ -1,6 +1,12 @@
+#[cfg(feature = "json_serde")]
+mod json_serde;
+#[cfg(feature = "json_serde")]
+use json_serde::*;
+
 include!(concat!(env!("OUT_DIR"), "/helium.rs"));
 pub use blockchain_txn::Txn;
 pub use prost::Message;
+
 #[cfg(feature = "services")]
 pub mod services {
     pub mod router {
