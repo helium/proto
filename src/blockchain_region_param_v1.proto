@@ -21,8 +21,12 @@ message blockchain_region_spreading_v1 {
 }
 
 message blockchain_region_param_v1 {
+    // in hertz
     uint64 channel_frequency = 1;
+    // in hertz
     uint32 bandwidth = 2;
+    // in dBi x 10
     uint32 max_power = 3;
+    // list of atoms
     blockchain_region_spreading_v1 spreading = 4;
 }
