@@ -11,9 +11,12 @@ enum Region {
   CN470 = 3;
   CN779 = 4;
   AU915 = 5;
-  AS923 = 6;
+  AS923_1 = 6;
   KR920 = 7;
   IN865 = 8;
+  AS923_2 = 9;
+  AS923_3 = 10;
+  AS923_4 = 11;
 }
 
 enum blockchain_state_channel_state_v1 {
