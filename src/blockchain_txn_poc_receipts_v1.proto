@@ -18,6 +18,9 @@ message blockchain_poc_receipt_v1 {
     int32 channel = 9;
     string datarate = 10;
     bytes addr_hash = 11;
+    // Transmit power at which this packet was transmitted
+    // It is x10, for example: 270 = 27db, 36 = 3.6db etc
+    int32 tx_power = 12;
 }
 
 message blockchain_poc_witness_v1 {
