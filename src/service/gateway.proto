@@ -98,8 +98,8 @@ message gateway_routing_streamed_resp_v1 { repeated routing routings = 1; }
 /* POCs */
 
 message gateway_poc_req_v1 {
-  address = 1;                                              // address of the requesting gateway
-  signature = 2;                                            // signed payload of the request
+  bytes address = 1;                                              // address of the requesting gateway
+  bytes signature = 2;                                            // signed payload of the request
 }
 
 // streaming notification sent by a validator to a light gateway to notify it of a new challenge
