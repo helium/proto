@@ -46,7 +46,7 @@ message gateway_resp_v1 {
     gateway_sc_close_resp_v1 sc_close_resp = 6;
     gateway_sc_follow_streamed_resp_v1 sc_follow_streamed_resp = 7;
     gateway_routing_streamed_resp_v1 routing_streamed_resp = 8;
-    gateway_poc_challenge_payload_resp_v1 poc_challenge_resp = 9;
+    gateway_poc_challenge_notification_resp_v1 poc_challenge_resp = 9;
   }
 }
 
