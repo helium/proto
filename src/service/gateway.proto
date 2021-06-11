@@ -4,7 +4,6 @@ package helium;
 
 import "blockchain_state_channel_v1.proto";
 import "blockchain_txn_state_channel_close_v1.proto";
-import "blockchain_poc_response_v1.proto";
 
 enum CloseState {
   close_state_closable = 0;
