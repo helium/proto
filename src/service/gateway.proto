@@ -4,6 +4,8 @@ package helium;
 
 import "blockchain_state_channel_v1.proto";
 import "blockchain_txn_state_channel_close_v1.proto";
+import "blockchain_poc_receipt_v1.proto";
+import "blockchain_poc_witness_v1.proto";
 
 enum CloseState {
   close_state_closable = 0;
@@ -39,14 +41,13 @@ message gateway_resp_v1 {
   uint64 height = 1;
   bytes signature = 2;
   oneof msg {
-    gateway_success_resp success_resp = 1;
-    gateway_error_resp error_resp = 2;
-    gateway_sc_is_valid_resp_v1 sc_is_valid_resp = 3;
-    gateway_sc_close_resp_v1 sc_close_resp = 4;
-    gateway_sc_follow_streamed_resp_v1 sc_follow_streamed_resp = 5;
-    gateway_routing_streamed_resp_v1 routing_streamed_resp = 6;
-    gateway_poc_challenge_payload_resp_v1b poc_challenge_resp = 7;
-    gateway_poc_witness_target_resp_v1 poc_witness_target_resp = 8;
+    gateway_success_resp success_resp = 3;
+    gateway_error_resp error_resp = 4;
+    gateway_sc_is_valid_resp_v1 sc_is_valid_resp = 5;
+    gateway_sc_close_resp_v1 sc_close_resp = 6;
+    gateway_sc_follow_streamed_resp_v1 sc_follow_streamed_resp = 7;
+    gateway_routing_streamed_resp_v1 routing_streamed_resp = 8;
+    gateway_poc_challenge_payload_resp_v1 poc_challenge_resp = 9;
   }
 }
 
