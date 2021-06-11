@@ -112,9 +112,9 @@ message gateway_poc_challenge_notification_resp_v1 {
 // request sent by a light gateway to a challenging validator to check if they are the target
 message gateway_poc_check_challenge_target_req_v1 {
   bytes address = 1;                                  // address of the challengee
-  bytes challenger = 2                                // address of the challenger
+  bytes challenger = 2;                                // address of the challenger
   bytes block_hash = 3;                               // block hash provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
-  bytes onion_key_hash = 2;                           // Hash of the POC key
+  bytes onion_key_hash = 4;                           // Hash of the POC key
   uint64 height = 5;                                  // height provided by the notifying validator in the 'gateway_poc_challenge_notification_resp_v1' msg
   bytes notifier = 6;                                 // address of the notifying validator, derived from the 'gateway_poc_challenge_notification_resp_v1' msg
   bytes notifier_sig = 7;                             // the signature payload derived from the 'gateway_resp_v1' msg containing the 'gateway_poc_challenge_notification_resp_v1' msg
@@ -129,7 +129,7 @@ message gateway_poc_check_challenge_target_resp_v1 {
 
 // request sent by a light gateway to a consensus group member containing the observing gateways receipt or witness report
 message gateway_poc_report_req_v1 {
-  bytes onion_key_hash = 2;                        // Hash of the POC key derived from the observed packet
+  bytes onion_key_hash = 1;                        // Hash of the POC key derived from the observed packet
   oneof msg {                                      // the signed receipt or witness report from the observing GWs
     blockchain_poc_receipt_v1 receipt = 2;
     blockchain_poc_witness_v1 witness = 3;
