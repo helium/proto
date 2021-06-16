@@ -16,8 +16,13 @@ enum RegionSpreading {
     SF12 = 6;
 }
 
+message tagged_spreading {
+    RegionSpreading region_spreading = 1;
+    uint32 max_packet_size = 2;
+}
+
 message blockchain_region_spreading_v1 {
-    repeated RegionSpreading region_spreading = 1;
+    repeated tagged_spreading tagged_spreading = 1;
 }
 
 message blockchain_region_param_v1 {
