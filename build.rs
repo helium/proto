@@ -14,6 +14,7 @@ fn main() -> Result<()> {
             &["src/"],
         )?;
 
+
     Ok(())
 }
 
@@ -25,10 +26,10 @@ macro_rules! json_serde {
                 ".helium",
                 "#[derive(::serde::Serialize, ::serde::Deserialize)]",
             )
-            .type_attribute(
-                "blockchain_txn",
-                "#[serde(tag = \"type\", rename_all = \"snake_case\")]",
-            )
+            // .type_attribute(
+            //     "blockchain_txn",
+            //     "#[serde(tag = \"type\", rename_all = \"snake_case\")]",
+            // )
             .field_attribute("address", "#[serde(with = \"crate::base58\")]")
             .field_attribute(
                 "client_pubkeybin",
