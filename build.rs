@@ -14,7 +14,6 @@ fn main() -> Result<()> {
             &["src/"],
         )?;
 
-
     Ok(())
 }
 
@@ -47,6 +46,8 @@ macro_rules! json_serde {
             .field_attribute("challenger_owner", "#[serde(with = \"crate::base58\")]")
             .field_attribute("challengee", "#[serde(with = \"crate::base58\")]")
             .field_attribute("challenger", "#[serde(with = \"crate::base58\")]")
+            .field_attribute("buyer", "#[serde(with = \"crate::base58\")]")
+            .field_attribute("seller", "#[serde(with = \"crate::base58\")]")
             .field_attribute("multi_keys", "#[serde(with = \"crate::multikeys\")]")
             .field_attribute("id", "#[serde(with = \"crate::base64_url\")]")
             .field_attribute("block_hash", "#[serde(with = \"crate::base64_url\")]")
@@ -97,6 +98,14 @@ macro_rules! json_serde {
                 "payer_signature",
                 "#[serde(default, with = \"crate::base64_url\")]",
             )
+            .field_attribute(
+                "buyer_signature",
+                "#[serde(default, with = \"crate::base64_url\")]",
+            )
+            .field_attribute(
+                "seller_signature",
+                "#[serde(default, with = \"crate::base64_url\")]",
+            )
             .field_attribute("filter", "#[serde(default, with = \"crate::base64_url\")]")
             .field_attribute(
                 "gateway_owner_signature",
@@ -130,7 +139,6 @@ macro_rules! json_serde {
             .field_attribute("datarate", "#[serde(skip_deserializing)]")
             .field_attribute("addr_hash", "#[serde(skip_deserializing)]")
             .field_attribute("tx_power", "#[serde(skip_deserializing)]")
-
     };
 }
 
