@@ -139,6 +139,9 @@ macro_rules! json_serde {
             .field_attribute("datarate", "#[serde(skip_deserializing)]")
             .field_attribute("addr_hash", "#[serde(skip_deserializing)]")
             .field_attribute("tx_power", "#[serde(skip_deserializing)]")
+            .field_attribute("account", "#[serde(skip_deserializing)]")
+
+
     };
 }
 
