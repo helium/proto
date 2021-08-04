@@ -123,23 +123,38 @@ macro_rules! json_serde {
                 "blockchain_txn_reward_v1.type",
                 "#[serde(with = \"crate::reward_type\")]",
             )
-            .field_attribute("blockchain_var_v1.type", "#[serde(skip_serializing)]")
+            .field_attribute("blockchain_var_v1.type",
+                "#[serde(skip_serializing, skip_deserializing)]")
             // we ignore data for now. i'm unsure how to parse
-            .field_attribute("data", "#[serde(skip_deserializing)]")
+            .field_attribute("data",
+                "#[serde(skip_serializing, skip_deserializing)]")
             // we ignore oui. it is not returned by the API
-            .field_attribute("height", "#[serde(skip_deserializing)]")
-            .field_attribute("proof", "#[serde(skip_deserializing)]")
-            .field_attribute("oui", "#[serde(skip_deserializing)]")
-            .field_attribute("state", "#[serde(skip_deserializing)]")
-            .field_attribute("credits", "#[serde(skip_deserializing)]")
-            .field_attribute("skewed", "#[serde(skip_deserializing)]")
-            .field_attribute("members", "#[serde(skip_deserializing)]")
-            .field_attribute("signature", "#[serde(skip_deserializing)]")
-            .field_attribute("staking_fee", "#[serde(skip_deserializing)]")
-            .field_attribute("datarate", "#[serde(skip_deserializing)]")
-            .field_attribute("addr_hash", "#[serde(skip_deserializing)]")
-            .field_attribute("tx_power", "#[serde(skip_deserializing)]")
-            .field_attribute("account", "#[serde(skip_deserializing)]")
+            .field_attribute("height",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("proof",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("oui",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("state",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("credits",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("skewed",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("members",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("signature",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("staking_fee",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("datarate",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("addr_hash",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("tx_power",
+                "#[serde(skip_serializing, skip_deserializing)]")
+            .field_attribute("account",
+                "#[serde(skip_serializing, skip_deserializing)]")
 
 
     };
