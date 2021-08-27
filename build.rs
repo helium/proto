@@ -9,6 +9,7 @@ fn main() -> Result<()> {
             &[
                 "src/blockchain_txn.proto",
                 "src/service/router.proto",
+                "src/service/state_channel.proto",
                 "src/service/gateway.proto",
             ],
             &["src/"],
