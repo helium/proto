@@ -36,6 +36,8 @@ message gateway_sc_is_active_resp_v1 {
   bytes sc_id = 1;
   bytes sc_owner = 2;
   bool active = 3;
+  uint64 sc_expiry_at_block = 4;
+  uint64 sc_original_dc_amount = 5;
 }
 
 message gateway_sc_is_overpaid_req_v1 {
