@@ -1,0 +1,10 @@
+syntax = "proto3";
+package helium;
+
+message blockchain_txn_transfer_hotspot_v2 {
+    bytes gateway = 1;
+    bytes owner = 2;
+    bytes owner_signature = 3;
+    bytes new_owner = 4;
+    uint64 fee = 5;
+}

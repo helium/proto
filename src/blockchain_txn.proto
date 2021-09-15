@@ -38,6 +38,7 @@ import "blockchain_txn_unstake_validator_v1.proto";
 import "blockchain_txn_validator_heartbeat_v1.proto";
 
 import "blockchain_txn_assert_location_v2.proto";
+import "blockchain_txn_transfer_hotspot_v2.proto";
 
 message blockchain_txn {
     oneof txn {
@@ -76,6 +77,7 @@ message blockchain_txn {
         blockchain_txn_consensus_group_failure_v1 consensus_group_failure = 33;
         blockchain_txn_rewards_v2 rewards_v2 = 34;
         blockchain_txn_assert_location_v2 assert_location_v2 = 35;
+        blockchain_txn_transfer_hotspot_v2 transfer_hotspot_v2 = 36;
     }
 }
 
