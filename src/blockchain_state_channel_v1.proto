@@ -80,6 +80,7 @@ message blockchain_state_channel_banner_v1 {
 
 message blockchain_state_channel_rejection_v1 {
     uint32 reject = 1;
+    bytes packet_hash = 2;
 }
 
 message blockchain_state_channel_message_v1 {
