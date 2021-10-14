@@ -3,4 +3,6 @@ syntax = "proto3";
 message blockchain_gossip_block {
     bytes from = 1;
     bytes block = 2;
+    bytes hash = 3;
+    uint64 height = 4;
 }

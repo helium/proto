@@ -1,6 +1,6 @@
 {
   "name": "@helium/proto",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Helium protobuf definitions compiled to JS with TypeScript types",
   "main": "build/index.js",
   "repository": "git@github.com:helium/proto.git",
