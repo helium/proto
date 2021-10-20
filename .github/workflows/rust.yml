@@ -9,7 +9,7 @@ on: push
 #    branches: [ master ]
 
 jobs:
-  build-linux:
+  build:
     runs-on: ubuntu-latest
 
     steps:
