@@ -29,7 +29,6 @@ jobs:
         run: cargo fmt  -- --check
 
       - name: Clippy
-        uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: -- -Dclippy::all -A clippy::large_enum_variant
