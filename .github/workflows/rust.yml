@@ -1,12 +1,11 @@
 name: Rust CI
 
-on: push
-
-#  push:
-#    branches: [ master ]
-#    tags: ['v*']
-#  pull_request:
-#    branches: [ master ]
+on:
+  push:
+    branches: [ master ]
+    tags: ['v*']
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
