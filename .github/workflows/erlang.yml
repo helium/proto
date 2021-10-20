@@ -22,4 +22,3 @@ jobs:
       - uses: actions/checkout@v2
       - name: Compile with OTP ${{ matrix.node-version }}
         run: rebar3 compile
-
