@@ -1,0 +1,23 @@
+name: Erlang CI
+
+on: push
+#  push:
+#    branches: [ master ]
+#    tags: ['v*']
+#  pull_request:
+#    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: erlang:22.2
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile
+        run: rebar3 compile
+
