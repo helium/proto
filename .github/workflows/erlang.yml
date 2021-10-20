@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [22.2, 23.3, 24.1]
+        node-version: [22.3, 23.3, 24.1]
 
     container:
       image: erlang:${{ matrix.node-version }}
