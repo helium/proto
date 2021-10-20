@@ -11,8 +11,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+
+
     steps:
       - uses: actions/checkout@v2
+
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.5.0
+        with:
+          access_token: ${{ github.token }}
+
       - name: Use Node.js 13
         uses: actions/setup-node@v2
         with:
