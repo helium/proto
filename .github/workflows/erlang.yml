@@ -13,11 +13,15 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [22.2, 23.3, 24.1]
+
     container:
-      image: erlang:22.2
+      image: erlang:${{ matrix.node-version }}
 
     steps:
       - uses: actions/checkout@v2
-      - name: Compile
+      - name: Compile with OTP ${{ matrix.node-version }}
         run: rebar3 compile
 
