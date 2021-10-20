@@ -29,9 +29,7 @@ jobs:
         run: cargo fmt  -- --check
 
       - name: Clippy
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: -- -Dclippy::all -A clippy::large_enum_variant
+        run: cargo clippy -- -Dclippy::all -A clippy::large_enum_variant
 
       - name: Build Library
         run: cargo build --all --release
