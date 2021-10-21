@@ -14,7 +14,6 @@ enum close_state {
 
 /* general */
 
-
 message key_val_v1 {
   bytes key = 1;
   bytes val = 2;
@@ -24,6 +23,13 @@ message gateway_config_req_v1 {
 }
 message gateway_config_resp_v1 {
   repeated key_val_v1 result = 1;
+}
+
+message gateway_config_update_req_v1 {
+}
+
+message gateway_config_update_streamed_resp_v1 {
+  repeated key_val_v1 vars = 1;
 }
 
 message gateway_resp_v1 {
@@ -36,6 +42,7 @@ message gateway_resp_v1 {
     gateway_sc_follow_streamed_resp_v1 follow_streamed_resp = 6;
     gateway_routing_streamed_resp_v1 routing_streamed_resp = 7;
     gateway_config_resp_v1 config_resp = 8;
+    gateway_config_update_streamed_resp_v1 config_update_streamed_resp = 9;
   }
 }
 
