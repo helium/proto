@@ -18,19 +18,12 @@ message key_val_v1 {
   bytes key = 1;
   bytes val = 2;
 }
-message gateway_config_req_v1 {
-  repeated bytes keys = 1;
-}
-message gateway_config_resp_v1 {
-  repeated key_val_v1 result = 1;
-}
+message gateway_config_req_v1 { repeated bytes keys = 1; }
+message gateway_config_resp_v1 { repeated key_val_v1 result = 1; }
 
-message gateway_config_update_req_v1 {
-}
+message gateway_config_update_req_v1 {}
 
-message gateway_config_update_streamed_resp_v1 {
-  repeated key_val_v1 vars = 1;
-}
+message gateway_config_update_streamed_resp_v1 { repeated key_val_v1 vars = 1; }
 
 message gateway_resp_v1 {
   uint64 height = 1;
@@ -45,7 +38,6 @@ message gateway_resp_v1 {
     gateway_config_update_streamed_resp_v1 config_update_streamed_resp = 9;
   }
 }
-
 
 /* state channels */
 
@@ -120,5 +112,6 @@ service gateway {
 
   rpc routing(gateway_routing_req_v1) returns (stream gateway_resp_v1);
   rpc config(gateway_config_req_v1) returns (gateway_resp_v1);
-  rpc config_update(gateway_config_update_req_v1) returns (stream gateway_resp_v1);
+  rpc config_update(gateway_config_update_req_v1)
+      returns (stream gateway_resp_v1);
 }
