@@ -1,11 +1,11 @@
 syntax = "proto3";
 
 message blockchain_snapshot_req {
-    uint64 height = 1;
-    bytes hash = 2;
+  uint64 height = 1;
+  bytes hash = 2;
 }
 
 message blockchain_snapshot_resp {
-    sint64 next_height = 1;
-    bytes snapshot = 2;
+  sint64 next_height = 1;
+  bytes snapshot = 2;
 }

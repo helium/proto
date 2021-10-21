@@ -2,9 +2,9 @@ syntax = "proto3";
 package helium;
 
 message blockchain_txn_consensus_group_failure_v1 {
-    repeated bytes failed_members = 1;
-    uint64 height = 2;
-    uint64 delay = 3;
-    repeated bytes members=4;
-    repeated bytes signatures = 5;
+  repeated bytes failed_members = 1;
+  uint64 height = 2;
+  uint64 delay = 3;
+  repeated bytes members = 4;
+  repeated bytes signatures = 5;
 }

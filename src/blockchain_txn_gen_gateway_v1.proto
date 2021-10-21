@@ -2,8 +2,8 @@ syntax = "proto3";
 package helium;
 
 message blockchain_txn_gen_gateway_v1 {
-    bytes gateway = 1;
-    bytes owner = 2;
-    string location = 3;
-    uint64 nonce = 4;
+  bytes gateway = 1;
+  bytes owner = 2;
+  string location = 3;
+  uint64 nonce = 4;
 }

@@ -3,82 +3,78 @@ syntax = "proto3";
 package helium.longfi;
 
 enum LongFiSpreading {
-    SF_INVALID = 0;
-    SF7 = 1;
-    SF8 = 2;
-    SF9 = 3;
-    SF10 = 4;
+  SF_INVALID = 0;
+  SF7 = 1;
+  SF8 = 2;
+  SF9 = 3;
+  SF10 = 4;
 }
 
 message LongFiReq {
-    uint32 id = 1;
-    oneof kind {
-        LongFiTxPacket tx = 2;
-    }
+  uint32 id = 1;
+  oneof kind { LongFiTxPacket tx = 2; }
 }
 
 message LongFiResp {
-    uint32 id = 1;
-    oneof kind {
-        LongFiTxStatus tx_status = 2;
-        LongFiRxPacket rx = 3;
-        bytes parse_err = 4;
-    }
-    bytes miner_name = 5;
+  uint32 id = 1;
+  oneof kind {
+    LongFiTxStatus tx_status = 2;
+    LongFiRxPacket rx = 3;
+    bytes parse_err = 4;
+  }
+  bytes miner_name = 5;
 }
 
-message LongFiTxStatus {
-    bool success = 1;
-}
+message LongFiTxStatus { bool success = 1; }
 
 message LongFiRxPacket {
-    // Status of CRC check.
-    bool crc_check = 1;
-    // 1uS-resolution timestamp derived from concentrator's internal counter.
-    uint64 timestamp = 2;
-    // Average packet RSSI in dB.
-    float rssi = 3;
-    // Average packet SNR, in dB.
-    float snr = 4;
-    // Organization Unique ID
-    uint32 oui = 5;
-    // Device ID
-    uint32 device_id = 6;
-    // Fingerprint
-    uint32 fingerprint = 7;
-    // Sequence
-    uint32 sequence = 9;
-    // Spreading to be used
-    LongFiSpreading spreading = 10;
-    // the fully reassembled payload
-    bytes payload = 11;
-    // De-golayed datagram id and flag bits.
-    // NOTE: only the lowest 12 bits are valid.
-    uint32 tag_bits = 12;
+  // Status of CRC check.
+  bool crc_check = 1;
+  // 1uS-resolution timestamp derived from concentrator's internal counter.
+  uint64 timestamp = 2;
+  // Average packet RSSI in dB.
+  float rssi = 3;
+  // Average packet SNR, in dB.
+  float snr = 4;
+  // Organization Unique ID
+  uint32 oui = 5;
+  // Device ID
+  uint32 device_id = 6;
+  // Fingerprint
+  uint32 fingerprint = 7;
+  // Sequence
+  uint32 sequence = 9;
+  // Spreading to be used
+  LongFiSpreading spreading = 10;
+  // the fully reassembled payload
+  bytes payload = 11;
+  // De-golayed datagram id and flag bits.
+  // NOTE: only the lowest 12 bits are valid.
+  uint32 tag_bits = 12;
 }
 
 message LongFiTxPacket {
-    // is device receiver (downlink) or is router receiver (uplink)
-    // note: when Hotspot is sending Proof of Coverage packet,
-    // it should behave as a device and flag this as "uplink"
-    bool downlink = 1;
-    // should the receiver ACK
-    bool should_ack = 2;
-    // on uplink, this indicates the device is ready to receive downlink
-    bool cts = 3;
-    // is the packet urgent
-    bool priority = 4;
-    // the packet beyond the tag field is encoded with LDPC
-    bool ldpc = 5;
-    // Organization Unique ID
-    uint32 oui = 6;
-    // Device ID
-    uint32 device_id = 7;
-    // Fingerprint
-    uint32 fingerpint = 8;
-    // Sequence
-    uint32 sequence = 9;
-    // Spreading to be used
-    LongFiSpreading spreading = 10;
-    bytes payload = 11;
+  // is device receiver (downlink) or is router receiver (uplink)
+  // note: when Hotspot is sending Proof of Coverage packet,
+  // it should behave as a device and flag this as "uplink"
+  bool downlink = 1;
+  // should the receiver ACK
+  bool should_ack = 2;
+  // on uplink, this indicates the device is ready to receive downlink
+  bool cts = 3;
+  // is the packet urgent
+  bool priority = 4;
+  // the packet beyond the tag field is encoded with LDPC
+  bool ldpc = 5;
+  // Organization Unique ID
+  uint32 oui = 6;
+  // Device ID
+  uint32 device_id = 7;
+  // Fingerprint
+  uint32 fingerpint = 8;
+  // Sequence
+  uint32 sequence = 9;
+  // Spreading to be used
+  LongFiSpreading spreading = 10;
+  bytes payload = 11;
 }

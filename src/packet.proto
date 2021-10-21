@@ -3,36 +3,36 @@ syntax = "proto3";
 package helium;
 
 message eui {
-    uint64 deveui = 1;
-    uint64 appeui = 2;
+  uint64 deveui = 1;
+  uint64 appeui = 2;
 }
 
 message routing_information {
-    oneof data {
-        uint32 devaddr = 1;
-        eui eui = 2;
-    }
+  oneof data {
+    uint32 devaddr = 1;
+    eui eui = 2;
+  }
 }
 
 message window {
-    uint64 timestamp = 1;
-    float frequency = 2;
-    string datarate = 3;
+  uint64 timestamp = 1;
+  float frequency = 2;
+  string datarate = 3;
 }
 
 message packet {
-    uint32 oui = 1;
-    enum packet_type {
-        longfi = 0;
-        lorawan = 1;
-    }
-    packet_type type = 2;
-    bytes payload = 3;
-    uint64 timestamp = 4;
-    float signal_strength = 5;
-    float frequency = 6;
-    string datarate = 7;
-    float snr = 8;
-    routing_information routing = 9;
-    window rx2_window = 10;
+  uint32 oui = 1;
+  enum packet_type {
+    longfi = 0;
+    lorawan = 1;
+  }
+  packet_type type = 2;
+  bytes payload = 3;
+  uint64 timestamp = 4;
+  float signal_strength = 5;
+  float frequency = 6;
+  string datarate = 7;
+  float snr = 8;
+  routing_information routing = 9;
+  window rx2_window = 10;
 }
