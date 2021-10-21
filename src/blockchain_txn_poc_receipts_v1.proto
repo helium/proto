@@ -2,58 +2,58 @@ syntax = "proto3";
 package helium;
 
 enum origin {
-    p2p = 0;
-    radio = 1;
+  p2p = 0;
+  radio = 1;
 }
 
 message blockchain_poc_receipt_v1 {
-    bytes gateway = 1;
-    uint64 timestamp = 2;
-    sint32 signal = 3;
-    bytes data = 4;
-    origin origin = 5;
-    bytes signature = 6;
-    float snr = 7;
-    float frequency = 8;
-    int32 channel = 9;
-    string datarate = 10;
-    bytes addr_hash = 11;
-    // Transmit power at which this packet was transmitted
-    // It is x10, for example: 270 = 27db, 36 = 3.6db etc
-    int32 tx_power = 12;
+  bytes gateway = 1;
+  uint64 timestamp = 2;
+  sint32 signal = 3;
+  bytes data = 4;
+  origin origin = 5;
+  bytes signature = 6;
+  float snr = 7;
+  float frequency = 8;
+  int32 channel = 9;
+  string datarate = 10;
+  bytes addr_hash = 11;
+  // Transmit power at which this packet was transmitted
+  // It is x10, for example: 270 = 27db, 36 = 3.6db etc
+  int32 tx_power = 12;
 }
 
 message blockchain_poc_witness_v1 {
-    bytes gateway = 1;
-    uint64 timestamp = 2;
-    sint32 signal = 3;
-    bytes packet_hash = 4;
-    bytes signature = 5;
-    float snr = 6;
-    float frequency = 7;
-    int32 channel = 8;
-    string datarate = 9;
+  bytes gateway = 1;
+  uint64 timestamp = 2;
+  sint32 signal = 3;
+  bytes packet_hash = 4;
+  bytes signature = 5;
+  float snr = 6;
+  float frequency = 7;
+  int32 channel = 8;
+  string datarate = 9;
 }
 
 message blockchain_poc_response_v1 {
-    oneof payload {
-        blockchain_poc_receipt_v1 receipt = 1;
-        blockchain_poc_witness_v1 witness = 2;
-    }
+  oneof payload {
+    blockchain_poc_receipt_v1 receipt = 1;
+    blockchain_poc_witness_v1 witness = 2;
+  }
 }
 
 message blockchain_poc_path_element_v1 {
-    bytes challengee = 1;
-    blockchain_poc_receipt_v1 receipt = 2;
-    repeated blockchain_poc_witness_v1 witnesses = 3;
+  bytes challengee = 1;
+  blockchain_poc_receipt_v1 receipt = 2;
+  repeated blockchain_poc_witness_v1 witnesses = 3;
 }
 
 message blockchain_txn_poc_receipts_v1 {
-    bytes challenger = 1;
-    bytes secret = 2;
-    bytes onion_key_hash = 3;
-    repeated blockchain_poc_path_element_v1 path = 4;
-    uint64 fee = 5;
-    bytes signature = 6;
-    bytes request_block_hash = 7;
+  bytes challenger = 1;
+  bytes secret = 2;
+  bytes onion_key_hash = 3;
+  repeated blockchain_poc_path_element_v1 path = 4;
+  uint64 fee = 5;
+  bytes signature = 6;
+  bytes request_block_hash = 7;
 }

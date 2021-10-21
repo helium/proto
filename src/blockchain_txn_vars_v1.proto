@@ -2,21 +2,21 @@ syntax = "proto3";
 package helium;
 
 message blockchain_var_v1 {
-    string name = 1;
-    string type = 2;
-    bytes value = 3;
+  string name = 1;
+  string type = 2;
+  bytes value = 3;
 }
 
 message blockchain_txn_vars_v1 {
-    repeated blockchain_var_v1 vars = 1;
-    uint32 version_predicate = 2;
-    bytes proof = 3;
-    bytes master_key = 4;
-    bytes key_proof = 5;
-    repeated bytes cancels = 6;
-    repeated bytes unsets = 7;
-    uint32 nonce = 8;
-    repeated bytes multi_keys = 9;
-    repeated bytes multi_proofs = 10;
-    repeated bytes multi_key_proofs = 11;
+  repeated blockchain_var_v1 vars = 1;
+  uint32 version_predicate = 2;
+  bytes proof = 3;
+  bytes master_key = 4;
+  bytes key_proof = 5;
+  repeated bytes cancels = 6;
+  repeated bytes unsets = 7;
+  uint32 nonce = 8;
+  repeated bytes multi_keys = 9;
+  repeated bytes multi_proofs = 10;
+  repeated bytes multi_key_proofs = 11;
 }

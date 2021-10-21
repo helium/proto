@@ -6,5 +6,5 @@ import "blockchain_state_channel_v1.proto";
 
 service router {
   rpc route(blockchain_state_channel_message_v1)
-      returns(blockchain_state_channel_message_v1);
+      returns (blockchain_state_channel_message_v1);
 }

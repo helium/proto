@@ -1,0 +1,24 @@
+name: Lint CI
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+    branches: [master]
+
+jobs:
+  formatting-check:
+    name: Formatting Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.5.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Run clang-format for protobuf files
+        uses: madninja/clang-format-action@madninja/protobuf
+        with:
+          clang-format-version: '13'
+          check-path: 'src'

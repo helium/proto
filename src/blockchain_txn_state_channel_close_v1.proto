@@ -5,9 +5,9 @@ package helium;
 import "blockchain_state_channel_v1.proto";
 
 message blockchain_txn_state_channel_close_v1 {
-    blockchain_state_channel_v1 state_channel = 1;
-    bytes closer = 2;
-    bytes signature = 3;
-    uint64 fee = 4;
-    blockchain_state_channel_v1 conflicts_with = 5;
+  blockchain_state_channel_v1 state_channel = 1;
+  bytes closer = 2;
+  bytes signature = 3;
+  uint64 fee = 4;
+  blockchain_state_channel_v1 conflicts_with = 5;
 }

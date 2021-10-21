@@ -2,14 +2,14 @@ syntax = "proto3";
 package helium;
 
 message blockchain_txn_oui_v1 {
-    bytes owner = 1;
-    repeated bytes addresses = 2;
-    bytes filter = 3;
-    uint32 requested_subnet_size = 4;
-    bytes payer = 5;
-    uint64 staking_fee = 6;
-    uint64 fee = 7;
-    bytes owner_signature = 8;
-    bytes payer_signature = 9;
-    uint64 oui = 10;
+  bytes owner = 1;
+  repeated bytes addresses = 2;
+  bytes filter = 3;
+  uint32 requested_subnet_size = 4;
+  bytes payer = 5;
+  uint64 staking_fee = 6;
+  uint64 fee = 7;
+  bytes owner_signature = 8;
+  bytes payer_signature = 9;
+  uint64 oui = 10;
 }

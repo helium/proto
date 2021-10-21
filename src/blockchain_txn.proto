@@ -41,46 +41,44 @@ import "blockchain_txn_assert_location_v2.proto";
 import "blockchain_txn_transfer_hotspot_v2.proto";
 
 message blockchain_txn {
-    oneof txn {
-        blockchain_txn_add_gateway_v1 add_gateway = 1;
-        blockchain_txn_assert_location_v1 assert_location = 2;
-        blockchain_txn_coinbase_v1 coinbase = 3;
-        blockchain_txn_create_htlc_v1 create_htlc = 4;
-        blockchain_txn_gen_gateway_v1 gen_gateway = 5;
-        blockchain_txn_consensus_group_v1 consensus_group = 6;
-        blockchain_txn_oui_v1 oui = 7;
-        blockchain_txn_payment_v1 payment = 8;
-        blockchain_txn_poc_receipts_v1 poc_receipts = 9;
-        blockchain_txn_poc_request_v1 poc_request = 10;
-        blockchain_txn_redeem_htlc_v1 redeem_htlc = 11;
-        blockchain_txn_security_coinbase_v1 security_coinbase = 12;
-        blockchain_txn_routing_v1 routing = 13;
-        blockchain_txn_security_exchange_v1 security_exchange = 14;
-        blockchain_txn_vars_v1 vars = 15;
-        blockchain_txn_rewards_v1 rewards = 16;
-        blockchain_txn_token_burn_v1 token_burn = 17;
-        blockchain_txn_dc_coinbase_v1 dc_coinbase = 18;
-        blockchain_txn_token_burn_exchange_rate_v1 token_burn_exchange_rate = 19;
-        blockchain_txn_bundle_v1 bundle = 20;
-        blockchain_txn_state_channel_open_v1 state_channel_open = 21;
-        blockchain_txn_update_gateway_oui_v1 update_gateway_oui = 22;
-        blockchain_txn_state_channel_close_v1 state_channel_close = 23;
-        blockchain_txn_payment_v2 payment_v2 = 24;
-        blockchain_txn_price_oracle_v1 price_oracle_submission = 25;
-        blockchain_txn_gen_price_oracle_v1 gen_price_oracle = 26;
-        blockchain_txn_transfer_hotspot_v1 transfer_hotspot = 27;
-        blockchain_txn_gen_validator_v1 gen_validator = 28;
-        blockchain_txn_stake_validator_v1 stake_validator = 29;
-        blockchain_txn_transfer_validator_stake_v1 transfer_val_stake = 30;
-        blockchain_txn_unstake_validator_v1 unstake_validator = 31;
-        blockchain_txn_validator_heartbeat_v1 val_heartbeat = 32;
-        blockchain_txn_consensus_group_failure_v1 consensus_group_failure = 33;
-        blockchain_txn_rewards_v2 rewards_v2 = 34;
-        blockchain_txn_assert_location_v2 assert_location_v2 = 35;
-        blockchain_txn_transfer_hotspot_v2 transfer_hotspot_v2 = 36;
-    }
+  oneof txn {
+    blockchain_txn_add_gateway_v1 add_gateway = 1;
+    blockchain_txn_assert_location_v1 assert_location = 2;
+    blockchain_txn_coinbase_v1 coinbase = 3;
+    blockchain_txn_create_htlc_v1 create_htlc = 4;
+    blockchain_txn_gen_gateway_v1 gen_gateway = 5;
+    blockchain_txn_consensus_group_v1 consensus_group = 6;
+    blockchain_txn_oui_v1 oui = 7;
+    blockchain_txn_payment_v1 payment = 8;
+    blockchain_txn_poc_receipts_v1 poc_receipts = 9;
+    blockchain_txn_poc_request_v1 poc_request = 10;
+    blockchain_txn_redeem_htlc_v1 redeem_htlc = 11;
+    blockchain_txn_security_coinbase_v1 security_coinbase = 12;
+    blockchain_txn_routing_v1 routing = 13;
+    blockchain_txn_security_exchange_v1 security_exchange = 14;
+    blockchain_txn_vars_v1 vars = 15;
+    blockchain_txn_rewards_v1 rewards = 16;
+    blockchain_txn_token_burn_v1 token_burn = 17;
+    blockchain_txn_dc_coinbase_v1 dc_coinbase = 18;
+    blockchain_txn_token_burn_exchange_rate_v1 token_burn_exchange_rate = 19;
+    blockchain_txn_bundle_v1 bundle = 20;
+    blockchain_txn_state_channel_open_v1 state_channel_open = 21;
+    blockchain_txn_update_gateway_oui_v1 update_gateway_oui = 22;
+    blockchain_txn_state_channel_close_v1 state_channel_close = 23;
+    blockchain_txn_payment_v2 payment_v2 = 24;
+    blockchain_txn_price_oracle_v1 price_oracle_submission = 25;
+    blockchain_txn_gen_price_oracle_v1 gen_price_oracle = 26;
+    blockchain_txn_transfer_hotspot_v1 transfer_hotspot = 27;
+    blockchain_txn_gen_validator_v1 gen_validator = 28;
+    blockchain_txn_stake_validator_v1 stake_validator = 29;
+    blockchain_txn_transfer_validator_stake_v1 transfer_val_stake = 30;
+    blockchain_txn_unstake_validator_v1 unstake_validator = 31;
+    blockchain_txn_validator_heartbeat_v1 val_heartbeat = 32;
+    blockchain_txn_consensus_group_failure_v1 consensus_group_failure = 33;
+    blockchain_txn_rewards_v2 rewards_v2 = 34;
+    blockchain_txn_assert_location_v2 assert_location_v2 = 35;
+    blockchain_txn_transfer_hotspot_v2 transfer_hotspot_v2 = 36;
+  }
 }
 
-message blockchain_txn_bundle_v1 {
-  repeated blockchain_txn transactions = 1;
-}
+message blockchain_txn_bundle_v1 { repeated blockchain_txn transactions = 1; }

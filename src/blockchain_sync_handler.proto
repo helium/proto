@@ -1,13 +1,11 @@
 syntax = "proto3";
 
 message blockchain_sync_hash {
-    bytes hash = 1;
-    repeated uint64 heights = 2;
+  bytes hash = 1;
+  repeated uint64 heights = 2;
 }
 
-message blockchain_sync_blocks {
-    repeated bytes blocks= 1;
-}
+message blockchain_sync_blocks { repeated bytes blocks = 1; }
 
 message blockchain_sync_req {
   oneof msg {

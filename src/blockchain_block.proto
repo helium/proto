@@ -3,7 +3,5 @@ syntax = "proto3";
 import "blockchain_block_v1.proto";
 
 message blockchain_block {
-    oneof block {
-        blockchain_block_v1 v1 = 1;
-    }
+  oneof block { blockchain_block_v1 v1 = 1; }
 }

@@ -20,76 +20,76 @@ enum Region {
 }
 
 enum blockchain_state_channel_state_v1 {
-    open = 0;
-    closed = 1;
+  open = 0;
+  closed = 1;
 }
 
 message blockchain_state_channel_summary_v1 {
-    bytes client_pubkeybin = 1;
-    uint64 num_packets = 2;
-    uint64 num_dcs = 3;
+  bytes client_pubkeybin = 1;
+  uint64 num_packets = 2;
+  uint64 num_dcs = 3;
 }
 
 message blockchain_state_channel_v1 {
-    bytes id = 1;
-    bytes owner = 2;
-    uint64 credits = 3;
-    uint64 nonce = 4;
-    repeated blockchain_state_channel_summary_v1 summaries = 5;
-    bytes root_hash = 6;
-    // This is unused but we can't remove it yet
-    bytes skewed = 7;
-    blockchain_state_channel_state_v1 state = 8;
-    uint64 expire_at_block = 9;
-    bytes signature = 10;
+  bytes id = 1;
+  bytes owner = 2;
+  uint64 credits = 3;
+  uint64 nonce = 4;
+  repeated blockchain_state_channel_summary_v1 summaries = 5;
+  bytes root_hash = 6;
+  // This is unused but we can't remove it yet
+  bytes skewed = 7;
+  blockchain_state_channel_state_v1 state = 8;
+  uint64 expire_at_block = 9;
+  bytes signature = 10;
 }
 
 message blockchain_state_channel_response_v1 {
-    bool accepted = 1;
-    packet downlink = 4;
+  bool accepted = 1;
+  packet downlink = 4;
 }
 
 message blockchain_state_channel_packet_v1 {
-    packet packet = 1;
-    bytes hotspot = 2;
-    bytes signature = 3;
-    Region region = 4;
-    uint64 hold_time = 5;
+  packet packet = 1;
+  bytes hotspot = 2;
+  bytes signature = 3;
+  Region region = 4;
+  uint64 hold_time = 5;
 }
 
 message blockchain_state_channel_offer_v1 {
-    routing_information routing = 1;
-    bytes packet_hash = 2;
-    uint64 payload_size = 3;
-    uint32 fcnt = 4;
-    bytes hotspot = 5;
-    bytes signature = 6;
-    Region region = 7;
+  routing_information routing = 1;
+  bytes packet_hash = 2;
+  uint64 payload_size = 3;
+  uint32 fcnt = 4;
+  bytes hotspot = 5;
+  bytes signature = 6;
+  Region region = 7;
 }
 
 message blockchain_state_channel_purchase_v1 {
-    blockchain_state_channel_v1 sc = 1;
-    bytes hotspot = 2;
-    bytes packet_hash = 3;
-    Region region = 4;
+  blockchain_state_channel_v1 sc = 1;
+  bytes hotspot = 2;
+  bytes packet_hash = 3;
+  Region region = 4;
 }
 
 message blockchain_state_channel_banner_v1 {
-    blockchain_state_channel_v1 sc = 1;
+  blockchain_state_channel_v1 sc = 1;
 }
 
 message blockchain_state_channel_rejection_v1 {
-    uint32 reject = 1;
-    bytes packet_hash = 2;
+  uint32 reject = 1;
+  bytes packet_hash = 2;
 }
 
 message blockchain_state_channel_message_v1 {
-    oneof msg {
-        blockchain_state_channel_response_v1 response = 2;
-        blockchain_state_channel_packet_v1 packet = 4;
-        blockchain_state_channel_offer_v1 offer = 5;
-        blockchain_state_channel_purchase_v1 purchase = 6;
-        blockchain_state_channel_banner_v1 banner = 7;
-        blockchain_state_channel_rejection_v1 reject = 8;
-    }
+  oneof msg {
+    blockchain_state_channel_response_v1 response = 2;
+    blockchain_state_channel_packet_v1 packet = 4;
+    blockchain_state_channel_offer_v1 offer = 5;
+    blockchain_state_channel_purchase_v1 purchase = 6;
+    blockchain_state_channel_banner_v1 banner = 7;
+    blockchain_state_channel_rejection_v1 reject = 8;
+  }
 }
