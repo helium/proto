@@ -85,8 +85,8 @@ message blockchain_state_channel_diff_v1 {
 
 message blockchain_state_channel_diff_entry_v1 {
   oneof entry {
-    blockchain_state_channel_diff_append_summary_v1 append = 2;
-    blockchain_state_channel_diff_update_summary_v1 add = 3;
+    blockchain_state_channel_diff_append_summary_v1 append = 1;
+    blockchain_state_channel_diff_update_summary_v1 add = 2;
   }
 }
 
