@@ -4,6 +4,7 @@ package helium;
 
 import "blockchain_state_channel_v1.proto";
 import "blockchain_txn_state_channel_close_v1.proto";
+import "blockchain_txn_vars_v1.proto";
 
 enum close_state {
   close_state_closable = 0;
@@ -14,16 +15,11 @@ enum close_state {
 
 /* general */
 
-message key_val_v1 {
-  bytes key = 1;
-  bytes val = 2;
-}
 message gateway_config_req_v1 { repeated bytes keys = 1; }
-message gateway_config_resp_v1 { repeated key_val_v1 result = 1; }
+message gateway_config_resp_v1 { repeated blockchain_var_v1 result = 1; }
 
 message gateway_config_update_req_v1 {}
-
-message gateway_config_update_streamed_resp_v1 { repeated key_val_v1 vars = 1; }
+message gateway_config_update_streamed_resp_v1 { repeated bytes keys = 1; }
 
 message gateway_resp_v1 {
   uint64 height = 1;
