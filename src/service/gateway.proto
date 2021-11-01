@@ -15,11 +15,11 @@ enum close_state {
 
 /* general */
 
-message gateway_config_req_v1 { repeated bytes keys = 1; }
+message gateway_config_req_v1 { repeated string keys = 1; }
 message gateway_config_resp_v1 { repeated blockchain_var_v1 result = 1; }
 
 message gateway_config_update_req_v1 {}
-message gateway_config_update_streamed_resp_v1 { repeated bytes keys = 1; }
+message gateway_config_update_streamed_resp_v1 { repeated string keys = 1; }
 
 message gateway_resp_v1 {
   uint64 height = 1;
