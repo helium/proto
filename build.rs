@@ -5,6 +5,13 @@ fn main() -> Result<()> {
     tonic_build::configure()
         .build_server(false)
         .type_attribute(".", "#[derive(serde_derive::Serialize)]")
+        .format(match std::env::var("PROFILE") {
+            Ok(profile) => match profile.as_str() {
+                "release" => (false),
+                _ => (true),
+            },
+            Err(_) => true,
+        })
         .compile(
             &[
                 "src/blockchain_txn.proto",
