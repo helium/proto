@@ -33,6 +33,8 @@ message gateway_resp_v1 {
     gateway_config_resp_v1 config_resp = 8;
     gateway_config_update_streamed_resp_v1 config_update_streamed_resp = 9;
   }
+  uint64 block_time = 10;
+  uint64 block_age = 11;
 }
 
 /* state channels */
