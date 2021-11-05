@@ -17,6 +17,16 @@ pub mod services {
         include!(concat!(env!("OUT_DIR"), "/helium.local.rs"));
         pub use api_client::ApiClient as Client;
         pub use api_server::{Api, ApiServer as Server};
+
+        impl From<crate::BlockchainVarV1> for ConfigValue {
+            fn from(v: crate::BlockchainVarV1) -> Self {
+                Self {
+                    name: v.name,
+                    r#type: v.r#type,
+                    value: v.value,
+                }
+            }
+        }
     }
 
     pub use tonic::transport::*;
