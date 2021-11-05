@@ -8,7 +8,17 @@ message pubkey_req {}
 message sign_req { bytes data = 1; }
 message sign_res { bytes signature = 1; }
 
+message config_req { repeated string keys = 1; }
+message config_res { repeated config_value values = 1; }
+
+message config_value {
+  string name = 1;
+  string type = 2;
+  bytes value = 3;
+}
+
 service api {
   rpc pubkey(pubkey_req) returns (pubkey_res);
   rpc sign(sign_req) returns (sign_res);
+  rpc config(config_req) returns (config_res);
 }
