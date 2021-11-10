@@ -18,6 +18,7 @@ describe('payment_v2', () => {
       payee: alice,
       amount: 10,
       memo: 500,
+      max: false
     })]
 
     const payment = PaymentTxn.create({
@@ -32,6 +33,7 @@ describe('payment_v2', () => {
     expect(payment.payments[0].payee).toBe(alice)
     expect(payment.payments[0].amount).toBe(10)
     expect(payment.payments[0].memo).toBe(500)
+    expect(payment.payments[0].max).toBe(false)
     expect(payment.fee).toBe(1)
     expect(payment.nonce).toBe(2)
     expect(payment.signature).toBe('some signature')
@@ -46,6 +48,7 @@ describe('payment_v2', () => {
     const payments = [Payment.create({
       payee: alice,
       amount: 10,
+      max: false,
     })]
 
     const paymentV2 = PaymentTxn.create({
@@ -60,7 +63,7 @@ describe('payment_v2', () => {
     const serializedTxn = BlockchainTxn.encode(txn).finish()
 
     expect(serializedTxn.toString('base64')).toBe(
-      'wgF/CjQBMTNNOGRVYnh5bUUzeHRpQVhzelJrR01tZXpNaEJTOExpN3dFc01vakxkYjRTZHhjNHdjEjgKNAExNDhkOEtUUmNLQTVKS1Bla0JjS0ZkNEtmdnBydkZScGpHdGl2aHRtUm1uWjhNRlluUDMQChgBIAIqCbKJnrIoJ2rbqw==',
+      'wgGBAQo0ATEzTThkVWJ4eW1FM3h0aUFYc3pSa0dNbWV6TWhCUzhMaTd3RXNNb2pMZGI0U2R4YzR3YxI6CjQBMTQ4ZDhLVFJjS0E1SktQZWtCY0tGZDRLZnZwcnZGUnBqR3Rpdmh0bVJtblo4TUZZblAzEAogABgBIAIqCbKJnrIoJ2rbqw==',
     )
   })
 })
