@@ -17,8 +17,21 @@ message config_value {
   bytes value = 3;
 }
 
+message keyed_uri {
+  bytes address = 1;
+  string uri = 2;
+}
+
+message height_req {}
+message height_res {
+  uint64 height = 1;
+  uint64 block_age = 2;
+  keyed_uri gateway = 3;
+}
+
 service api {
   rpc pubkey(pubkey_req) returns (pubkey_res);
   rpc sign(sign_req) returns (sign_res);
   rpc config(config_req) returns (config_res);
+  rpc height(height_req) returns (height_res);
 }
