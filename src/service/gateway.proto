@@ -62,13 +62,9 @@ message rejector {
 }
 
 message gateway_submit_txn_req_v1 { blockchain_txn txn = 1; }
-message gateway_submit_txn_resp_v1 { oneof result {
-    gateway_success_resp success_resp = 1;
-    gateway_error_resp error_resp = 2;
-  }
-  bytes key = 3;
-  routing_address validator = 4;
-  received_height = 5;
+message gateway_submit_txn_resp_v1 { bytes key = 1;
+  received_height = 2;
+  routing_address validator = 3;
 }
 
 message gateway_query_txn_req_v1 { bytes key = 1; }
