@@ -8,6 +8,7 @@ import "blockchain_txn_vars_v1.proto";
 import "blockchain_txn_poc_receipts_v1.proto";
 import "blockchain_txn_poc_receipts_v2.proto";
 import "blockchain_region_param_v1.proto";
+import "blockchain_txn.proto";
 
 enum close_state {
   close_state_closable = 0;
@@ -39,6 +40,43 @@ message gateway_config_update_streamed_resp_v1 { repeated string keys = 1; }
 message gateway_validators_req_v1 { uint32 quantity = 1; }
 message gateway_validators_resp_v1 { repeated routing_address result = 1; }
 
+
+/* txn submit and status */
+
+enum txn_status {
+  queued = 1;
+  rejected = 2;
+  confirmed = 3;
+}
+
+message acceptor {
+  uint64 height = 1;
+  uint32 queue_pos = 2;
+  bytes pub_key = 3;
+}
+
+message rejector {
+  uint64 height = 1;
+  bytes reason = 2
+  bytes pub_key = 3;
+}
+
+message gateway_submit_txn_req_v1 { blockchain_txn txn = 1; }
+message gateway_submit_txn_resp_v1 { oneof result {
+    gateway_success_resp success_resp = 1;
+    gateway_error_resp error_resp = 2;
+  }
+  bytes key = 3;
+  routing_address validator = 4;
+}
+
+message gateway_query_txn_req_v1 { bytes key = 1; }
+message gateway_query_txn_resp_v1 {
+  txn_status status = 1;
+  repeated acceptor = 2;
+  repeated rejector = 3;
+}
+
 message gateway_resp_v1 {
   uint64 height = 1;
   bytes signature = 2;
@@ -57,6 +95,10 @@ message gateway_resp_v1 {
     gateway_poc_check_challenge_target_resp_v1 poc_check_target_resp = 16;
     gateway_public_routing_data_resp_v1 public_route = 17;
     gateway_poc_region_params_resp_v1 poc_region_params_resp = 18;
+    gateway_submit_txn_req_v1 submit_txn_resp = 19;
+    gateway_submit_txn_resp_v1 = 20;
+    gateway_query_txn_req_v1 = 21;
+    gateway_query_txn_resp_v1 = 22;
   }
   uint64 block_time = 10;
   uint64 block_age = 11;
