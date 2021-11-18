@@ -272,4 +272,8 @@ service gateway {
 
   rpc config(gateway_config_req_v1) returns (gateway_resp_v1);
   rpc validators(gateway_validators_req_v1) returns (gateway_resp_v1);
+
+  rpc submit_txn(gateway_submit_txn_req_v1) returns (gateway_resp_v1);
+  rpc query_txn(gateway_query_txn_req_v1) returns (gateway_resp_v1);
+
 }
