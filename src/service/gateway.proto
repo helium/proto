@@ -68,13 +68,15 @@ message gateway_submit_txn_resp_v1 { oneof result {
   }
   bytes key = 3;
   routing_address validator = 4;
+  received_height = 5;
 }
 
 message gateway_query_txn_req_v1 { bytes key = 1; }
 message gateway_query_txn_resp_v1 {
   txn_status status = 1;
-  repeated acceptor = 2;
-  repeated rejector = 3;
+  received_height = 2;
+  repeated acceptor = 3;
+  repeated rejector = 4;
 }
 
 message gateway_resp_v1 {
