@@ -44,9 +44,9 @@ message gateway_validators_resp_v1 { repeated routing_address result = 1; }
 /* txn submit and status */
 
 enum txn_status {
-  queued = 1;
-  rejected = 2;
-  confirmed = 3;
+  pending = 1;
+  cleared = 2;
+  failed = 3;
 }
 
 message acceptor {
@@ -73,6 +73,7 @@ message gateway_query_txn_resp_v1 {
   received_height = 2;
   repeated acceptor = 3;
   repeated rejector = 4;
+  bytes details = 5;
 }
 
 message gateway_resp_v1 {
