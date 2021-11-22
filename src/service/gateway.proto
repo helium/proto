@@ -70,9 +70,8 @@ message gateway_submit_txn_resp_v1 { bytes key = 1;
 message gateway_query_txn_req_v1 { bytes key = 1; }
 message gateway_query_txn_resp_v1 {
   txn_status status = 1;
-  received_height = 2;
-  repeated acceptor = 3;
-  repeated rejector = 4;
+  repeated acceptors = 3;
+  repeated rejectors = 4;
   bytes details = 5;
 }
 
@@ -94,10 +93,8 @@ message gateway_resp_v1 {
     gateway_poc_check_challenge_target_resp_v1 poc_check_target_resp = 16;
     gateway_public_routing_data_resp_v1 public_route = 17;
     gateway_poc_region_params_resp_v1 poc_region_params_resp = 18;
-    gateway_submit_txn_req_v1 submit_txn_resp = 19;
-    gateway_submit_txn_resp_v1 = 20;
-    gateway_query_txn_req_v1 = 21;
-    gateway_query_txn_resp_v1 = 22;
+    gateway_submit_txn_resp_v1 submit_txn_resp = 19;
+    gateway_query_txn_resp_v1 query_txn_resp = 20;
   }
   uint64 block_time = 10;
   uint64 block_age = 11;
