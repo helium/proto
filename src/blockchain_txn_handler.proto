@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+message blockchain_txn_submit_result {
+  bytes result = 1;
+  bytes details = 2;
+  uint64 height = 3;
+  uint32 queue_pos = 4;
+}
