@@ -69,8 +69,8 @@ message gateway_submit_txn_resp_v1 { bytes key = 1;
 message gateway_query_txn_req_v1 { bytes key = 1; }
 message gateway_query_txn_resp_v1 {
   txn_status status = 1;
-  repeated acceptor = 2;
-  repeated rejector = 3;
+  repeated acceptor acceptors = 2;
+  repeated rejector rejectors = 3;
   bytes details = 4;
 }
 
