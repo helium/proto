@@ -57,7 +57,7 @@ message acceptor {
 
 message rejector {
   uint64 height = 1;
-  bytes reason = 2
+  bytes reason = 2;
   bytes pub_key = 3;
 }
 
@@ -69,9 +69,9 @@ message gateway_submit_txn_resp_v1 { bytes key = 1;
 message gateway_query_txn_req_v1 { bytes key = 1; }
 message gateway_query_txn_resp_v1 {
   txn_status status = 1;
-  repeated acceptors = 3;
-  repeated rejectors = 4;
-  bytes details = 5;
+  repeated acceptor = 2;
+  repeated rejector = 3;
+  bytes details = 4;
 }
 
 message gateway_resp_v1 {
