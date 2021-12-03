@@ -68,6 +68,21 @@ message blockchain_state_channel_offer_v1 {
   bool req_diff = 8;
 }
 
+message blockchain_state_channel_cbrs_session_usage_v1 {
+  routing_information routing = 1;
+  Region region = 2;
+  bytes hotspot = 3;
+  repeated Usage usage = 4;
+}
+
+message Usage {
+  uint64 bytes_tx = 1;
+  uint64 bytes_rx = 2;
+  uint64 bytes_total = 3;
+  string dcs = 4;
+  uint64 timestamp = 5;
+}
+
 message blockchain_state_channel_purchase_v1 {
   blockchain_state_channel_v1 sc = 1;
   bytes hotspot = 2;
@@ -120,5 +135,7 @@ message blockchain_state_channel_message_v1 {
     blockchain_state_channel_purchase_v1 purchase = 6;
     blockchain_state_channel_banner_v1 banner = 7; // DEPRECATED
     blockchain_state_channel_rejection_v1 reject = 8;
+    blockchain_state_channel_cbrs_session_usage_v1 cbrs_session_usage_commit = 9;
+    blockchain_state_channel_cbrs_session_usage_v1 cbrs_session_usage_commit_purchase = 10;
   }
 }

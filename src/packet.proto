@@ -11,6 +11,7 @@ message routing_information {
   oneof data {
     uint32 devaddr = 1;
     eui eui = 2;
+    string session_id = 3;
   }
 }
 
