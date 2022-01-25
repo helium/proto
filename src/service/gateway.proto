@@ -20,6 +20,21 @@ enum close_state {
   close_state_dispute = 3;
 }
 
+/* general */
+
+message empty {}
+
+message gateway_success_resp {
+  bytes resp = 1;
+  bytes details = 2;
+}
+
+message gateway_error_resp {
+  bytes error = 1;
+  bytes details = 2;
+}
+
+
 /* txn submit and status */
 
 enum txn_status {
