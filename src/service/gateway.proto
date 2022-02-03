@@ -10,6 +10,7 @@ import "blockchain_txn_poc_receipts_v2.proto";
 import "blockchain_region_param_v1.proto";
 import "region.proto";
 
+// defines the various close states of an SC
 enum close_state {
   close_state_closable = 0;
   close_state_closing = 1;
@@ -140,35 +141,29 @@ message gateway_routing_streamed_resp_v1 { repeated routing routings = 1; }
 /* POCs */
 
 message gateway_poc_req_v1 {
-  bytes address = 1;   // address of the requesting gateway
-  bytes signature = 2; // signed payload of the request
+  bytes address = 1;
+  bytes signature = 2;
 }
 
 // streaming notification sent by a validator to a light gateway to notify it of
 // a new challenge
 message gateway_poc_challenge_notification_resp_v1 {
-  routing_address challenger = 1; // routing info of the challenging validator
-  bytes block_hash =
-      2; // block hash of the block which contains the POC request
-  bytes onion_key_hash = 3; // Hash of the POC onion key
+  routing_address challenger = 1;
+  bytes block_hash = 2;
+  bytes onion_key_hash = 3;
 }
 
 // request sent by a light gateway to a challenging validator to check if they
 // are the target
 message gateway_poc_check_challenge_target_req_v1 {
-  bytes address = 1;    // address of the challengee
-  bytes challenger = 2; // address of the challenger
-  bytes block_hash = 3; // block hash provided by the notifying validator in the
-                        // 'gateway_poc_challenge_notification_resp_v1' msg
-  bytes onion_key_hash = 4; // Hash of the POC key
-  uint64 height = 5;        // height provided by the notifying validator in the
-                            // 'gateway_poc_challenge_notification_resp_v1' msg
-  bytes notifier = 6; // address of the notifying validator, derived from the
-                      // 'gateway_poc_challenge_notification_resp_v1' msg
-  bytes notifier_sig =
-      7; // the signature payload derived from the 'gateway_resp_v1' msg
-         // containing the 'gateway_poc_challenge_notification_resp_v1' msg
-  bytes challengee_sig = 8; // the challengee signed request payload
+  bytes address = 1;
+  bytes challenger = 2;
+  bytes block_hash = 3;
+  bytes onion_key_hash = 4;
+  uint64 height = 5;
+  bytes notifier = 6;
+  bytes notifier_sig = 7;
+  bytes challengee_sig = 8;
 }
 
 // response to the requestor's 'gateway_poc_check_challenge_target_req_v1'
@@ -181,9 +176,8 @@ message gateway_poc_check_challenge_target_resp_v1 {
 // request sent by a light gateway to a consensus group member containing the
 // observing gateways receipt or witness report
 message gateway_poc_report_req_v1 {
-  bytes onion_key_hash =
-      1;      // Hash of the POC key derived from the observed packet
-  oneof msg { // the signed receipt or witness report from the observing GWs
+  bytes onion_key_hash = 1;
+  oneof msg {
     blockchain_poc_receipt_v1 receipt = 2;
     blockchain_poc_witness_v1 witness = 3;
   }
@@ -191,20 +185,15 @@ message gateway_poc_report_req_v1 {
 
 // request to translate the specified pubkeybin to the assocaited nodes public
 // grpc routing data
-message gateway_address_routing_data_req_v1 {
-  bytes address = 1; // pubkeybin of the address to return routing data for
-}
+message gateway_address_routing_data_req_v1 { bytes address = 1; }
 
 // request to translate the specified POC onion key the to the associated
 // challengers public grpc routing data
-message gateway_poc_key_routing_data_req_v1 {
-  bytes key = 1; // onion key of the POC to return routing data for
-}
+message gateway_poc_key_routing_data_req_v1 { bytes key = 1; }
 
 message gateway_public_routing_data_resp_v1 {
-  bytes address = 1; // pubkeybin of the requested address
-  routing_address public_uri =
-      2; // public routing info of the challenging validator
+  bytes address = 1;
+  routing_address public_uri = 2;
 }
 
 /* Gateway Service */
