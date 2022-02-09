@@ -5,6 +5,7 @@ package helium;
 import "blockchain_state_channel_v1.proto";
 import "blockchain_txn_state_channel_close_v1.proto";
 import "blockchain_txn_vars_v1.proto";
+import "blockchain_region_param_v1.proto";
 
 enum close_state {
   close_state_closable = 0;
@@ -13,7 +14,21 @@ enum close_state {
   close_state_dispute = 3;
 }
 
+enum error_code {
+  generic = 0;
+  invalid_signature = 1;
+  not_asserted = 2;
+  unknown_region = 3;
+}
+
 /* general */
+
+message gateway_success_resp {}
+
+message gateway_error_resp {
+  error_code error = 1;
+  bytes details = 2;
+}
 
 message gateway_config_req_v1 { repeated string keys = 1; }
 message gateway_config_resp_v1 { repeated blockchain_var_v1 result = 1; }
@@ -23,6 +38,16 @@ message gateway_config_update_streamed_resp_v1 { repeated string keys = 1; }
 
 message gateway_validators_req_v1 { uint32 quantity = 1; }
 message gateway_validators_resp_v1 { repeated routing_address result = 1; }
+
+message gateway_region_params_req_v1 {
+  bytes address = 1;
+  bytes signature = 2;
+}
+message gateway_region_params_resp_v1 {
+  bytes address = 1;
+  bytes region = 2;
+  blockchain_region_params_v1 params = 3;
+}
 
 message gateway_resp_v1 {
   uint64 height = 1;
@@ -36,6 +61,9 @@ message gateway_resp_v1 {
     gateway_config_resp_v1 config_resp = 8;
     gateway_config_update_streamed_resp_v1 config_update_streamed_resp = 9;
     gateway_validators_resp_v1 validators_resp = 12;
+    gateway_success_resp success_resp = 13;
+    gateway_error_resp error_resp = 14;
+    gateway_region_params_resp_v1 region_params_resp = 15;
   }
   uint64 block_time = 10;
   uint64 block_age = 11;
@@ -117,4 +145,5 @@ service gateway {
   rpc config_update(gateway_config_update_req_v1)
       returns (stream gateway_resp_v1);
   rpc validators(gateway_validators_req_v1) returns (gateway_resp_v1);
+  rpc region_params(gateway_region_params_req_v1) returns (gateway_resp_v1);
 }
