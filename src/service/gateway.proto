@@ -49,6 +49,11 @@ message gateway_region_params_resp_v1 {
   blockchain_region_params_v1 params = 3;
 }
 
+message gateway_region_params_update_req_v1 {
+  bytes address = 1;
+  bytes signature = 2;
+}
+
 message gateway_resp_v1 {
   uint64 height = 1;
   bytes signature = 2;
@@ -146,4 +151,6 @@ service gateway {
       returns (stream gateway_resp_v1);
   rpc validators(gateway_validators_req_v1) returns (gateway_resp_v1);
   rpc region_params(gateway_region_params_req_v1) returns (gateway_resp_v1);
+  rpc region_params_update(gateway_region_params_update_req_v1)
+      returns (stream gateway_resp_v1);
 }
