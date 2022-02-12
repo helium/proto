@@ -14,21 +14,7 @@ enum close_state {
   close_state_dispute = 3;
 }
 
-enum error_code {
-  generic = 0;
-  invalid_signature = 1;
-  not_asserted = 2;
-  unknown_region = 3;
-}
-
 /* general */
-
-message gateway_success_resp {}
-
-message gateway_error_resp {
-  error_code error = 1;
-  bytes details = 2;
-}
 
 message gateway_config_req_v1 { repeated string keys = 1; }
 message gateway_config_resp_v1 { repeated blockchain_var_v1 result = 1; }
@@ -62,9 +48,7 @@ message gateway_resp_v1 {
     gateway_config_resp_v1 config_resp = 8;
     gateway_config_update_streamed_resp_v1 config_update_streamed_resp = 9;
     gateway_validators_resp_v1 validators_resp = 12;
-    gateway_success_resp success_resp = 13;
-    gateway_error_resp error_resp = 14;
-    gateway_region_params_streamed_resp_v1 region_params_streamed_resp = 15;
+    gateway_region_params_streamed_resp_v1 region_params_streamed_resp = 13;
   }
   uint64 block_time = 10;
   uint64 block_age = 11;
