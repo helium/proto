@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package helium;
+
 message blockchain_snapshot_req {
   uint64 height = 1;
   bytes hash = 2;

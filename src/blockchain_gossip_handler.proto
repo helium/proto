@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package helium;
+
 message blockchain_gossip_block {
   bytes from = 1;
   bytes block = 2;

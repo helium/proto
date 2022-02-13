@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package helium;
+
 import "blockchain_block_v1.proto";
 
 message blockchain_block {
