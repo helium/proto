@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package helium;
+
+enum region {
+  US915 = 0;
+  EU868 = 1;
+  EU433 = 2;
+  CN470 = 3;
+  CN779 = 4;
+  AU915 = 5;
+  AS923_1 = 6;
+  KR920 = 7;
+  IN865 = 8;
+  AS923_2 = 9;
+  AS923_3 = 10;
+  AS923_4 = 11;
+}
