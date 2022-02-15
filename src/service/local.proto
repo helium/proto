@@ -32,10 +32,14 @@ message height_res {
   keyed_uri gateway = 3;
 }
 
+message region_req {}
+message region_res { int32 region = 1; }
+
 service api {
   rpc pubkey(pubkey_req) returns (pubkey_res);
   rpc sign(sign_req) returns (sign_res);
   rpc ecdh(ecdh_req) returns (ecdh_res);
   rpc config(config_req) returns (config_res);
   rpc height(height_req) returns (height_res);
+  rpc region(region_req) returns (region_res);
 }
