@@ -181,7 +181,6 @@ message gateway_poc_report_req_v1 {
     blockchain_poc_receipt_v1 receipt = 2;
     blockchain_poc_witness_v1 witness = 3;
   }
-  bytes address = 4;
 }
 
 // request to translate the specified pubkeybin to the assocaited nodes public
