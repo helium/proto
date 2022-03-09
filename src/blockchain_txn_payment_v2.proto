@@ -13,4 +13,5 @@ message payment {
   bytes payee = 1;
   uint64 amount = 2;
   uint64 memo = 3;
+  bool max = 4;
 }
