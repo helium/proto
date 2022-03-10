@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package helium;
+
+enum channel_plan_id {
+  EU868 = 1;
+  US915 = 2;
+  CN779 = 3;
+  EU433 = 4;
+  AU915 = 5;
+  CN470 = 6;
+  AS923_1 = 7;
+  AS923_2 = 8;
+  AS923_3 = 9;
+  KR920 = 10;
+  IN865 = 11;
+  RU864 = 12;
+  AS923_4 = 13;
+}
+
+enum Spreading {
+  SF_UNDEFINED = 0;
+  SF7 = 1;
+  SF8 = 2;
+  SF9 = 3;
+  SF10 = 4;
+  SF11 = 5;
+  SF12 = 6;
+  CR13 = 7;
+  CR23 = 8;
+}
+
+enum Bandwidth {
+  BW_UNDEFINED = 0;
+  BW7_8kHz = 1;
+  BW15_6kHz = 2;
+  BW31_2kHz = 3;
+  BW62_5kHz = 4;
+  BW125kHz = 5;
+  BW250kHz = 6;
+  BW500kHz = 7;
+}
+
+message blockchain_channel_plan_v1 {
+
+  message dr_definition {
+    string name = 1;
+    Spreading sf = 2;
+    Bandwidth bandwidth = 3;
+  }
+
+  repeated channel_plan channel_plans = 1;
+  repeated fixed_plan fixed_plans = 2;
+  repeated dr_definition data_rates = 3; 
+}
+
+message fixed_plan {
+  id = 1;
+  repeated float uchannels = 2;
+  repeated float dchannels = 3;
+  repeated uint32 dwell_time  = 4;
+}
+
+message channel_plan {
+
+  message data_rate {
+    uint32 id = 1;
+    string name = 2;
+    uint32 max_size = 3;
+    uint32 no_repeater_size = 4;
+    uint32 bit_rate = 5;
+  }
+
+  message tx_power {
+    uint32 id = 1;
+    uint32 eirp = 2;
+  }
+
+  message dr_range {
+    uint32 min_dr = 1;
+    uint32 max_dr = 2;
+  }
+
+  channel_plan_id id = 1;
+  string name = 2;
+  region region = 3;
+  bool is_dynamic = 4;
+  float min = 5;
+  float max = 6;
+  repeated float channels = 7;
+  uint32 channel_count = 9;
+  uint32 join_count = 10;
+  repeated data_rate data_rates = 11;
+  repeated tx_power tx_powers = 12;
+  dr_range join_dr = 13;
+  dr_range mandatory_dr = 14;
+  dr_range optional_dr = 15;
+  uint32 max_duty_cycle = 16;
+  uint32 dwell_time_limit = 17;
+  bool tx_param_setup_allowed = 18;
+  uint32 max_eirp = 19;
+  uint32 default_rx1_offset = 20;
+  uint32 allowed_rx1_offset = 21;
+  uint32 default_rx2_datarate = 22;
+  float default_rx2_freq = 23;
+  float default_beacon_freq = 24;
+  float default_pingslot_freq = 25;
+}
