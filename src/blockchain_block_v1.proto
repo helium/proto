@@ -13,7 +13,7 @@ message blockchain_seen_vote_v1 {
 }
 
 message blockchain_poc_key {
-  uint32 pos = 1;
+  bytes address = 1;
   bytes key = 2;
 }
 
