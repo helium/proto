@@ -6,8 +6,8 @@ message blockchain_sync_hash {
 }
 
 message blockchain_sync_blocks {
-    repeated bytes blocks = 1;
-    bool final = 2;
+  repeated bytes blocks = 1;
+  bool final = 2;
 }
 
 message blockchain_sync_req {
