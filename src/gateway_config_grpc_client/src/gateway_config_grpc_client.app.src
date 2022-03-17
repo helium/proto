@@ -1,7 +1,7 @@
 %% This file is to allow consuming applications to retrieve the
 %% generated modules as a dependency
 
-{application, miner_grpc_client, [
+{application, gateway_config_grpc_client, [
     {description, "Pre-compiled Erlang module(s) for grpc client communication"},
     {vsn, "0.1.0"},
     {registered, []},
