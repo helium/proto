@@ -1,1 +1,20 @@
-[].
+{"1.1.0",
+[{<<"acceptor_pool">>,{pkg,<<"acceptor_pool">>,<<"1.0.0">>},1},
+ {<<"chatterbox">>,
+  {git,"https://github.com/andymck/chatterbox",
+       {ref,"b56a2a08b8a31b7ab0d536e5e8a55d5abe70390f"}},
+  1},
+ {<<"ctx">>,{pkg,<<"ctx">>,<<"0.6.0">>},1},
+ {<<"gproc">>,{pkg,<<"gproc">>,<<"0.8.0">>},1},
+ {<<"grpcbox">>,
+  {git,"https://github.com/andymck/grpcbox.git",
+       {ref,"fbf689bb9c25fc2943155c891974e1f745ce5ac7"}},
+  0},
+ {<<"hpack">>,{pkg,<<"hpack_erl">>,<<"0.2.3">>},2}]}.
+[
+{pkg_hash,[
+ {<<"acceptor_pool">>, <<"43C20D2ACAE35F0C2BCD64F9D2BDE267E459F0F3FD23DAB26485BF518C281B21">>},
+ {<<"ctx">>, <<"8FF88B70E6400C4DF90142E7F130625B82086077A45364A78D208ED3ED53C7FE">>},
+ {<<"gproc">>, <<"CEA02C578589C61E5341FCE149EA36CCEF236CC2ECAC8691FBA408E7EA77EC2F">>},
+ {<<"hpack">>, <<"17670F83FF984AE6CD74B1C456EDDE906D27FF013740EE4D9EFAA4F1BF999633">>}]}
+].
