@@ -38,8 +38,11 @@ message region_res { int32 region = 1; }
 message add_gateway_req {
   string owner = 1;
   string payer = 2;
-  uint64 amount = 3;
-  uint64 fee = 4;
+  enum staking_mode {
+    dataonly = 0;
+    full = 1;
+    light = 2;
+  }
 }
 
 message add_gateway_res { bytes add_gateway_txn = 1; }
