@@ -36,8 +36,8 @@ message region_req {}
 message region_res { int32 region = 1; }
 
 message add_gateway_req {
-  string owner = 1;
-  string payer = 2;
+  bytes owner = 1;
+  bytes payer = 2;
   enum staking_mode {
     dataonly = 0;
     full = 1;
