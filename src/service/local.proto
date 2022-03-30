@@ -2,7 +2,10 @@ syntax = "proto3";
 
 package helium.local;
 
-message pubkey_res { bytes address = 1; }
+message pubkey_res {
+  bytes address = 1;
+  bytes onboarding_address = 2;
+}
 message pubkey_req {}
 
 message sign_req { bytes data = 1; }
