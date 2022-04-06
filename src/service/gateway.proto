@@ -20,12 +20,7 @@ enum close_state {
 
 /* general */
 
-message empty {}
-
-message gateway_success_resp {
-  bytes resp = 1;
-  bytes details = 2;
-}
+message gateway_success_resp {}
 
 message gateway_error_resp {
   bytes error = 1;

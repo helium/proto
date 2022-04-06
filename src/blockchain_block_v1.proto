@@ -12,11 +12,6 @@ message blockchain_seen_vote_v1 {
   bytes vector = 2;
 }
 
-message blockchain_poc_key {
-  bytes address = 1;
-  bytes key = 2;
-}
-
 message blockchain_block_v1 {
   bytes prev_hash = 1;
   uint64 height = 2;
@@ -31,5 +26,4 @@ message blockchain_block_v1 {
   bytes bba_completion = 11;
   bytes snapshot_hash = 12;
   repeated bytes rescue_signatures = 13;
-  repeated blockchain_poc_key poc_keys = 14;
 }
