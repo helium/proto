@@ -1,0 +1,33 @@
+name: Python CI
+
+on:
+  push:
+    branches: [ master ]
+    tags: ['v*']
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+      - name: Install protoc
+        run: sudo apt install protobuf-compiler
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Build python module
+        run: mkdir generated && protoc -I src --python_betterproto_out=generated/ src/*.proto src/service/*.proto
+      # Appears related to https://github.com/danielgtaylor/python-betterproto/issues/238 but we need the latest beta of
+      # betterproto to build src/service/*.proto
+      - name: Trim python module
+        run: sed -i '/from . import /d' generated/helium/__init__.py
+      - name: Python artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: helium_proto
+          path: generated/helium

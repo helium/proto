@@ -2,8 +2,8 @@ syntax = "proto3";
 package helium;
 
 enum origin {
-  p2p = 0;
-  radio = 1;
+  origin_p2p = 0;
+  origin_radio = 1;
 }
 
 message blockchain_poc_receipt_v1 {
