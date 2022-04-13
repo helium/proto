@@ -17,6 +17,7 @@ import "blockchain_txn_create_htlc_v1.proto";
 import "blockchain_txn_redeem_htlc_v1.proto";
 import "blockchain_txn_poc_request_v1.proto";
 import "blockchain_txn_poc_receipts_v1.proto";
+import "blockchain_txn_poc_receipts_v2.proto";
 import "blockchain_txn_vars_v1.proto";
 import "blockchain_txn_rewards_v1.proto";
 import "blockchain_txn_token_burn_v1.proto";
@@ -78,6 +79,7 @@ message blockchain_txn {
     blockchain_txn_rewards_v2 rewards_v2 = 34;
     blockchain_txn_assert_location_v2 assert_location_v2 = 35;
     blockchain_txn_transfer_hotspot_v2 transfer_hotspot_v2 = 36;
+    blockchain_txn_poc_receipts_v2 poc_receipts_v2 = 37;
   }
 }
 
