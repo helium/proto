@@ -198,7 +198,7 @@ service gateway {
   rpc follow_sc(stream gateway_sc_follow_req_v1)
       returns (stream gateway_resp_v1);
   rpc routing(gateway_routing_req_v1) returns (stream gateway_resp_v1);
-  rpc stream_poc(stream gateway_poc_req_v1) returns (stream gateway_resp_v1);
+  rpc stream_poc(gateway_poc_req_v1) returns (stream gateway_resp_v1);
   rpc config_update(gateway_config_update_req_v1)
       returns (stream gateway_resp_v1);
 
