@@ -73,6 +73,7 @@ message gateway_resp_v1 {
   }
   uint64 block_time = 10;
   uint64 block_age = 11;
+  bytes address = 20;
 }
 
 /* version */
