@@ -41,6 +41,7 @@ message gateway_region_params_streamed_resp_v1 {
   bytes address = 1;
   region region = 2;
   blockchain_region_params_v1 params = 3;
+  uint64 gain = 4;
 }
 
 message gateway_region_params_update_req_v1 {
