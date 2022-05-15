@@ -7,7 +7,7 @@ enum region {
   EU868 = 1;
   EU433 = 2;
   CN470 = 3;
-  // CN779 is deprecated.  Please remove.
+  // CN779 is deprecated.
   CN779 = 4;
   AU915 = 5;
   AS923_1 = 6;
