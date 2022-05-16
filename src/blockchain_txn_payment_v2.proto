@@ -1,12 +1,15 @@
 syntax = "proto3";
 package helium;
 
+import "blockchain_token_type_v1.proto";
+
 message blockchain_txn_payment_v2 {
   bytes payer = 1;
   repeated payment payments = 2;
   uint64 fee = 3;
   uint64 nonce = 4;
   bytes signature = 5;
+  blockchain_token_type_v1 token_type = 6;
 }
 
 message payment {
