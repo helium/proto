@@ -1,7 +1,10 @@
 syntax = "proto3";
 package helium;
 
+import "blockchain_token_type_v1.proto";
+
 message blockchain_txn_coinbase_v1 {
   bytes payee = 1;
   uint64 amount = 2;
+  blockchain_token_type_v1 token_type = 3;
 }
