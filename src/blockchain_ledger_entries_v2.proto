@@ -6,7 +6,7 @@ import "blockchain_token_type_v1.proto";
 message blockchain_ledger_entry_v2 {
   uint64 nonce = 1;
   uint64 balance = 2;
-  token_type token_type = 3;
+  blockchain_token_type_v1 token_type = 3;
 }
 
 message blockchain_ledger_entries_v2 {
