@@ -1,16 +1,15 @@
 syntax = "proto3";
 package helium;
 
-import "blockchain_token_type_v1.proto";
-
 message blockchain_ledger_entry_v2 {
-  uint64 nonce = 1;
-  uint64 balance = 2;
-  blockchain_token_type_v1 token_type = 3;
+  // NOTE: might need to add owner:binary here for portability reasons,
+  // leaving that out for now to revisit later.
+  uint64 hnt_nonce = 1;
+  uint64 hnt_balance = 2;
+  uint64 hst_nonce = 3;
+  uint64 hst_balance = 4;
+  uint64 hgt_nonce = 5;
+  uint64 hgt_balance = 6;
+  uint64 hlt_nonce = 7;
+  uint64 hlt_balance = 8;
 }
-
-message blockchain_ledger_entries_v2 {
-  bytes owner = 1;
-  repeated blockchain_ledger_entry_v2 entries = 2;
-}
-
