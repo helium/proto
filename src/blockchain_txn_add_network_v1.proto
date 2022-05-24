@@ -1,14 +1,17 @@
 syntax = "proto3";
-
 package helium;
 
+import "blockchain_token_type_v1.proto";
+
 message blockchain_txn_add_network_v1 {
-    bytes treasury_key = 1;
-    repeated bytes rollup_keys = 2;
-    uint64 premine = 3;
+    blockchain_token_type_v1 token_type = 1;
+    
+    bytes treasury_key = 2;
+    repeated bytes rollup_keys = 3;
+    uint64 premine = 4;
 
-    bytes network_signature = 4;
-    bytes treasury_signature = 5;
+    bytes network_signature = 5;
+    bytes treasury_signature = 6;
 
-    uint64 fee = 6;
+    uint64 fee = 7;
 }
