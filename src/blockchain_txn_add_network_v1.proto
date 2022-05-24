@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package helium;
+
+message blockchain_txn_add_network_v1 {
+    bytes treasury_key = 1;
+    repeated bytes rollup_keys = 2;
+    uint64 premine = 3;
+
+    bytes network_signature = 4;
+    bytes treasury_signature = 5;
+
+    uint64 fee = 6;
+}
