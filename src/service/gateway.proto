@@ -77,7 +77,7 @@ message gateway_resp_v1 {
 
 message gateway_version_req_v1 {}
 
-message gateway_version_resp_v1 { uint16 version = 1; }
+message gateway_version_resp_v1 { uint64 version = 1; }
 
 /* state channels */
 
