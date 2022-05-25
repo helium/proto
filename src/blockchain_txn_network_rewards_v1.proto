@@ -12,6 +12,6 @@ message blockchain_txn_network_rewards_v1 {
     blockchain_token_type_v1 token_type = 1;
     uint64 start_epoch = 2;
     uint64 end_epoch = 3;
-    bytes treasury_signature = 4;
+    bytes reward_server_signature = 4;
     repeated blockchain_txn_network_reward_v1 rewards = 5;
 }

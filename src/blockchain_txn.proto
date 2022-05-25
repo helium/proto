@@ -45,6 +45,8 @@ import "blockchain_txn_add_network_v1.proto";
 import "blockchain_txn_update_network_v1.proto";
 import "blockchain_txn_network_rewards_v1.proto";
 
+import "blockchain_txn_token_convert_v1.proto";
+
 message blockchain_txn {
   oneof txn {
     blockchain_txn_add_gateway_v1 add_gateway = 1;
@@ -87,6 +89,7 @@ message blockchain_txn {
     blockchain_txn_add_network_v1 add_network = 38;
     blockchain_txn_update_network_v1 update_network = 39;
     blockchain_txn_network_rewards_v1 network_rewards = 40;
+    blockchain_txn_token_convert_v1 token_convert = 41;
   }
 }
 
