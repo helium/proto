@@ -11,6 +11,6 @@ message blockchain_ledger_entry_v2 {
   uint64 nonce = 1;
   uint64 hnt_balance = 2;
   uint64 hst_balance = 3;
-  uint64 hgt_balance = 4;
-  uint64 hlt_balance = 5;
+  uint64 mobile_balance = 4;
+  uint64 iot_balance = 5;
 }
