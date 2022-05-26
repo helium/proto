@@ -12,6 +12,4 @@ message blockchain_txn_add_network_v1 {
 
     bytes network_signature = 5;
     bytes subnetwork_signature = 6;
-
-    uint64 fee = 7;
 }

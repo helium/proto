@@ -9,5 +9,7 @@ message blockchain_txn_token_convert_v1 {
     uint64 amount = 3;
 
     bytes signature = 4;
-    uint64 fee = 5;
+    uint64 nonce = 5;
+
+    uint64 fee = 6;
 }

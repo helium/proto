@@ -9,5 +9,5 @@ message blockchain_txn_update_network_v1 {
     repeated bytes reward_server_keys = 3;
     bytes subnetwork_signature = 4;
 
-    uint64 fee = 5;
+    uint64 nonce = 5;
 }
