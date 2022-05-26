@@ -33,6 +33,7 @@ message height_res {
   uint64 height = 1;
   uint64 block_age = 2;
   keyed_uri gateway = 3;
+  optional uint64 gateway_version = 4;
 }
 
 message region_req {}
