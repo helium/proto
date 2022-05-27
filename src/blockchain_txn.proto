@@ -41,9 +41,9 @@ import "blockchain_txn_validator_heartbeat_v1.proto";
 import "blockchain_txn_assert_location_v2.proto";
 import "blockchain_txn_transfer_hotspot_v2.proto";
 
-import "blockchain_txn_add_network_v1.proto";
-import "blockchain_txn_update_network_v1.proto";
-import "blockchain_txn_network_rewards_v1.proto";
+import "blockchain_txn_add_subnetwork_v1.proto";
+import "blockchain_txn_update_subnetwork_v1.proto";
+import "blockchain_txn_subnetwork_rewards_v1.proto";
 
 import "blockchain_txn_token_convert_v1.proto";
 
@@ -86,9 +86,9 @@ message blockchain_txn {
     blockchain_txn_assert_location_v2 assert_location_v2 = 35;
     blockchain_txn_transfer_hotspot_v2 transfer_hotspot_v2 = 36;
     blockchain_txn_poc_receipts_v2 poc_receipts_v2 = 37;
-    blockchain_txn_add_network_v1 add_network = 38;
-    blockchain_txn_update_network_v1 update_network = 39;
-    blockchain_txn_network_rewards_v1 network_rewards = 40;
+    blockchain_txn_add_subnetwork_v1 add_subnetwork = 38;
+    blockchain_txn_update_subnetwork_v1 update_subnetwork = 39;
+    blockchain_txn_subnetwork_rewards_v1 subnetwork_rewards = 40;
     blockchain_txn_token_convert_v1 token_convert = 41;
   }
 }
