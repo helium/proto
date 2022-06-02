@@ -5,15 +5,15 @@ package helium;
 import "blockchain_txn.proto";
 
 message follower_txn_stream_req_v1 {
-  uint64 height = 1;
-  bytes hash = 2;
+  optional uint64 height = 1;
+  bytes txn_hash = 2;
   repeated string txn_types = 3;
 }
 
 message follower_txn_streamed_resp_v1 {
   uint64 height = 1;
-  bytes hash = 2;
-  uint64 epoch = 3;
+  uint64 epoch = 2;
+  bytes txn_hash = 3;
   blockchain_txn txn = 4;
 }
 
@@ -29,5 +29,5 @@ message follower_resp_v1 {
 
 service follower {
   rpc txn_stream(follower_txn_stream_req_v1)
-      returns (follower_resp_v1);
+      returns (stream follower_resp_v1);
 }
