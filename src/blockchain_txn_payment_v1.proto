@@ -1,6 +1,8 @@
 syntax = "proto3";
 package helium;
 
+import "blockchain_txn_payment_v2.proto";
+
 message blockchain_txn_payment_v1 {
   bytes payer = 1;
   bytes payee = 2;
