@@ -10,24 +10,13 @@ message follower_txn_stream_req_v1 {
   repeated string txn_types = 3;
 }
 
-message follower_txn_streamed_resp_v1 {
+message follower_txn_stream_resp_v1 {
   uint64 height = 1;
-  uint64 epoch = 2;
-  bytes txn_hash = 3;
-  blockchain_txn txn = 4;
-}
-
-message follower_resp_v1 {
-  uint64 height = 1;
-  bytes signature = 2;
-  uint64 block_time = 3;
-  uint64 block_age = 4;
-  oneof event {
-    follower_txn_streamed_resp_v1 txn_event = 5;
-  }
+  bytes txn_hash = 2;
+  blockchain_txn txn = 3;
 }
 
 service follower {
   rpc txn_stream(follower_txn_stream_req_v1)
-      returns (stream follower_resp_v1);
+      returns (stream follower_txn_stream_resp_v1);
 }
