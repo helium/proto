@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message routing_address {
+  bytes pub_key = 1;
+  bytes uri = 2;
+}
