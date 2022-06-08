@@ -1,8 +1,6 @@
 syntax = "proto3";
 package helium;
 
-import "blockchain_token_type_v1.proto";
-
 message blockchain_ledger_entry_v2 {
   // NOTE: might need to add owner:binary here for portability reasons,
   // leaving that out for now to revisit later.
