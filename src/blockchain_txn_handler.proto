@@ -6,7 +6,7 @@ enum request_type {
 }
 
 message blockchain_txn_request {
-  request_type request_type = 1;
+  request_type type = 1;
   bytes key = 2;
   bytes txn = 3;
 }
