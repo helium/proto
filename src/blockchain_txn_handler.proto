@@ -1,6 +1,17 @@
 syntax = "proto3";
 
-message blockchain_txn_submit_result {
+enum request_type {
+  submit = 0;
+  update = 1;
+}
+
+message blockchain_txn_request {
+  request_type request_type = 1;
+  key = 2;
+  txn = 3;
+}
+
+message blockchain_txn_info {
   bytes result = 1;
   bytes details = 2;
   uint64 height = 3;
