@@ -5,14 +5,14 @@ import "blockchain_txn.proto";
 
 enum txn_status {
   pending = 0;
-  cleared = 1;
   failed = 2;
 }
 
 message acceptor {
   uint64 height = 1;
   uint32 queue_pos = 2;
-  bytes pub_key = 3;
+  uint32 queue_len = 3;
+  bytes pub_key = 4;
 }
 
 message rejector {
