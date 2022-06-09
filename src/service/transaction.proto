@@ -5,7 +5,7 @@ import "blockchain_txn.proto";
 
 enum txn_status {
   pending = 0;
-  failed = 2;
+  failed = 1;
 }
 
 message acceptor {
@@ -42,6 +42,6 @@ message txn_query_resp_v1 {
 }
 
 service transaction {
-  rpc submit(txn_submit_req_v1) returns (txn_resp_v1);
-  rpc query(txn_query_req_v1) returns (txn_resp_v1);
+  rpc submit(txn_submit_req_v1) returns (txn_submit_resp_v1);
+  rpc query(txn_query_req_v1) returns (txn_query_resp_v1);
 }
