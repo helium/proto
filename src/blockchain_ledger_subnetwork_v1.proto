@@ -11,4 +11,5 @@ message blockchain_ledger_subnetwork_v1 {
   repeated bytes reward_server_keys = 5;
   // this nonce is updated by the update_subnetwork transaction
   uint64 nonce = 6;
+  uint64 last_rewarded_block = 7;
 }
