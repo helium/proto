@@ -7,8 +7,8 @@ enum request_type {
 
 message blockchain_txn_request {
   request_type request_type = 1;
-  key = 2;
-  txn = 3;
+  bytes key = 2;
+  bytes txn = 3;
 }
 
 message blockchain_txn_info {
