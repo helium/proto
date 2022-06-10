@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package helium;
+
 import "blockchain_routing_address.proto";
 import "blockchain_txn.proto";
 

@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package helium;
+
 enum request_type {
   submit = 0;
   update = 1;
