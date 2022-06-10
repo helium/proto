@@ -5,7 +5,7 @@ import "blockchain_token_type_v1.proto";
 
 message blockchain_ledger_subnetwork_v1 {
   blockchain_token_type_v1 type = 1;
-  uint64 premine = 2;
+  uint64 token_treasury = 2;
   uint64 hnt_treasury = 3;
   bytes subnetwork_key = 4;
   repeated bytes reward_server_keys = 5;
