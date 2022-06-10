@@ -11,6 +11,7 @@ fn main() -> Result<()> {
                 "src/service/router.proto",
                 "src/service/state_channel.proto",
                 "src/service/gateway.proto",
+                "src/service/follower.proto",
             ],
             &["src/"],
         )?;
