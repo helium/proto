@@ -26,7 +26,7 @@ message txn_submit_req_v1 { blockchain_txn txn = 1; }
 message txn_submit_resp_v1 {
   bytes key = 1;
   routing_address validator = 2;
-  uint64 height = 3;
+  optional uint64 height = 3;
   bytes signature = 4;
 }
 
@@ -37,7 +37,7 @@ message txn_query_resp_v1 {
   repeated acceptor acceptors = 2;
   repeated rejector rejectors = 3;
   bytes details = 4;
-  uint64 height = 5;
+  optional uint64 height = 5;
   bytes signature = 6;
 }
 
