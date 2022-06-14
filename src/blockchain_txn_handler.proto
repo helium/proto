@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package helium;
+import "blockchain_txn.proto";
 
 enum request_type {
   submit = 0;
@@ -10,7 +11,7 @@ enum request_type {
 message blockchain_txn_request_v1 {
   request_type type = 1;
   bytes key = 2;
-  bytes txn = 3;
+  blockchain_txn txn = 3;
 }
 
 message blockchain_txn_info_v1 {
