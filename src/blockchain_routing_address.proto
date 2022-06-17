@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package helium;
+
+message routing_address {
+  bytes pub_key = 1;
+  bytes uri = 2;
+}

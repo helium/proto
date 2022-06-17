@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package helium;
 
+import "blockchain_routing_address.proto";
 import "blockchain_state_channel_v1.proto";
 import "blockchain_txn_state_channel_close_v1.proto";
 import "blockchain_txn_vars_v1.proto";
@@ -10,6 +11,7 @@ import "blockchain_txn_poc_receipts_v1.proto";
 import "blockchain_txn_poc_receipts_v2.proto";
 import "blockchain_region_param_v1.proto";
 import "region.proto";
+import "blockchain_txn.proto";
 
 // defines the various close states of an SC
 enum close_state {
@@ -132,11 +134,6 @@ message routing {
   repeated routing_address addresses = 3;
   repeated bytes filters = 4;
   repeated bytes subnets = 5;
-}
-
-message routing_address {
-  bytes pub_key = 1;
-  bytes uri = 2;
 }
 
 message gateway_routing_req_v1 { uint64 height = 1; }

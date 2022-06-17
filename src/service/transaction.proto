@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package helium;
+
+import "blockchain_routing_address.proto";
+import "blockchain_txn.proto";
+
+enum txn_status {
+  pending = 0;
+  not_found = 1;
+}
+
+message acceptor {
+  uint64 height = 1;
+  uint32 queue_pos = 2;
+  uint32 queue_len = 3;
+  bytes pub_key = 4;
+}
+
+message rejector {
+  uint64 height = 1;
+  bytes reason = 2;
+  bytes pub_key = 3;
+}
+
+message txn_submit_req_v1 { blockchain_txn txn = 1; }
+
+message txn_submit_resp_v1 {
+  bytes key = 1;
+  optional uint64 recv_height = 2;
+  routing_address validator = 3;
+  bytes signature = 4;
+}
+
+message txn_query_req_v1 { bytes key = 1; }
+
+message txn_query_resp_v1 {
+  txn_status status = 1;
+  bytes key = 2;
+  repeated acceptor acceptors = 3;
+  repeated rejector rejectors = 4;
+  optional uint64 recv_height = 5;
+  uint64 height = 6;
+  bytes signature = 7;
+}
+
+service transaction {
+  rpc submit(txn_submit_req_v1) returns (txn_submit_resp_v1);
+  rpc query(txn_query_req_v1) returns (txn_query_resp_v1);
+}
