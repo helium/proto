@@ -1,0 +1,15 @@
+syntax = "proto3";
+package helium;
+
+import "blockchain_token_type_v1.proto";
+
+message blockchain_txn_add_subnetwork_v1 {
+  blockchain_token_type_v1 token_type = 1;
+
+  bytes subnetwork_key = 2;
+  repeated bytes reward_server_keys = 3;
+  uint64 premine = 4;
+
+  bytes network_signature = 5;
+  bytes subnetwork_signature = 6;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+package helium;
+
+enum blockchain_token_type_v1 {
+  hnt = 0;
+  hst = 1;
+  mobile = 2;
+  iot = 3;
+}

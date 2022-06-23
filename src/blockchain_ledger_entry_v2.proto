@@ -1,0 +1,14 @@
+syntax = "proto3";
+package helium;
+
+message blockchain_ledger_entry_v2 {
+  // NOTE: might need to add owner:binary here for portability reasons,
+  // leaving that out for now to revisit later.
+
+  // Top level nonce since entry-specific nonces don't really matter
+  uint64 nonce = 1;
+  uint64 hnt_balance = 2;
+  uint64 hst_balance = 3;
+  uint64 mobile_balance = 4;
+  uint64 iot_balance = 5;
+}

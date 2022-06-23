@@ -1,0 +1,15 @@
+syntax = "proto3";
+package helium;
+
+import "blockchain_token_type_v1.proto";
+
+message blockchain_ledger_subnetwork_v1 {
+  blockchain_token_type_v1 type = 1;
+  uint64 token_treasury = 2;
+  uint64 hnt_treasury = 3;
+  bytes subnetwork_key = 4;
+  repeated bytes reward_server_keys = 5;
+  // this nonce is updated by the update_subnetwork transaction
+  uint64 nonce = 6;
+  uint64 last_rewarded_block = 7;
+}
