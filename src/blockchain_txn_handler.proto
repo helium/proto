@@ -21,4 +21,5 @@ message blockchain_txn_info_v1 {
   uint64 height = 4;
   uint32 queue_pos = 5;
   uint32 queue_len = 6;
+  uint32 txn_protocol_version = 7;
 }
