@@ -14,6 +14,7 @@ message follower_txn_stream_resp_v1 {
   uint64 height = 1;
   bytes txn_hash = 2;
   blockchain_txn txn = 3;
+  uint64 timestamp = 4;
 }
 
 service follower {
