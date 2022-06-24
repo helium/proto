@@ -3,7 +3,7 @@ package helium;
 
 import "blockchain_token_type_v1.proto";
 
-message blockchain_txn_subnetwork_reward_v1 {
+message subnetwork_reward {
   bytes account = 1;
   uint64 amount = 2;
 }
@@ -13,5 +13,5 @@ message blockchain_txn_subnetwork_rewards_v1 {
   uint64 start_epoch = 2;
   uint64 end_epoch = 3;
   bytes reward_server_signature = 4;
-  repeated blockchain_txn_subnetwork_reward_v1 rewards = 5;
+  repeated subnetwork_reward rewards = 5;
 }
