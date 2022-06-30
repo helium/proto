@@ -29,5 +29,11 @@ pub mod services {
         }
     }
 
+    pub mod poc_mobile {
+        include!(concat!(env!("OUT_DIR"), "/helium.poc_mobile.rs"));
+        pub use poc_mobile_client::PocMobileClient as Client;
+        pub use poc_mobile_server::{PocMobile, PocMobileServer as Server};
+    }
+
     pub use tonic::transport::*;
 }
