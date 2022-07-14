@@ -19,7 +19,10 @@ fn main() -> Result<()> {
     tonic_build::configure()
         .build_server(true)
         .type_attribute(".", "#[derive(serde_derive::Serialize)]")
-        .compile(&["src/service/local.proto"], &["src"])?;
+        .compile(
+            &["src/service/local.proto", "src/service/poc_mobile.proto"],
+            &["src"],
+        )?;
     Ok(())
 }
 
