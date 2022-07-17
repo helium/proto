@@ -5,7 +5,7 @@ rwildcard = $(strip $(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(f
 # recursively find all the .proto
 PROTOS := $(strip $(call rwildcard,src,*.proto))
 filter := src/blockchain_block.proto src/blockchain_block_v1.proto
-filter := $(filter) src/service/gateway.proto src/service/router.proto src/service/state_channel.proto
+filter := $(filter) $(strip $(call rwildcard,src/service,*.proto))
 PROTOS := $(filter-out $(filter),$(PROTOS))
 
 # create C_SRCS which will be our build targets
