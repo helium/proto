@@ -8,7 +8,9 @@ pub use prost::{DecodeError, EncodeError, Message};
 
 #[cfg(feature = "services")]
 pub mod services {
-    use crate::{BlockchainTokenTypeV1, BlockchainTxn, RoutingAddress};
+    use crate::{
+        BlockchainTokenTypeV1, BlockchainTxn, DataRate, GatewayStakingMode, RoutingAddress,
+    };
 
     pub mod router {
         pub use crate::router_client::RouterClient;
@@ -50,6 +52,12 @@ pub mod services {
                 self.validity == 0
             }
         }
+    }
+
+    pub mod poc_lora {
+        include!(concat!(env!("OUT_DIR"), "/helium.poc_lora.rs"));
+        pub use poc_lora_client::PocLoraClient as Client;
+        pub use poc_lora_server::{PocLora, PocLoraServer as Server};
     }
 
     pub mod follower {

@@ -18,6 +18,7 @@ fn main() -> Result<()> {
                 "src/service/transaction.proto",
                 "src/service/follower.proto",
                 "src/service/poc_mobile.proto",
+                "src/service/poc_lora.proto",
             ],
             &["src"],
         )?;

@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package helium.poc_lora;
+
+import "data_rate.proto";
+
+enum invalid_participant_side {
+  beaconer = 0;
+  witness = 1;
+}
+
+enum invalid_reason {
+  bad_signature = 0;
+  not_asserted = 1;
+  entropy_expired = 2;
+  bad_entropy = 3;
+  invalid_capability = 4;
+  invalid_pubkey = 5;
+  irregular_interval = 6;
+  gateway_not_found = 7;
+  denied = 8;
+  invalid_packet = 9;
+
+}
+
+// beacon report as submitted by gateway to ingestor
+message lora_beacon_report_req_v1 {
+  bytes pub_key = 2;
+  bytes local_entropy = 3;
+  bytes remote_entropy = 4;
+  bytes data = 5;
+  uint32 frequency = 6;
+  int32 channel = 7;
+  data_rate datarate = 8;
+  int32 tx_power = 9;
+  // Timestamp of beacon report submit
+  uint64 timestamp = 10;
+  bytes signature = 11;
+}
+
+// response returned to gateway submitting beacon report to ingestor
+message lora_beacon_report_resp_v1 { string id = 1; }
+
+// witness report as submitted by gateway to ingestor
+message lora_witness_report_req_v1 {
+  bytes pub_key = 2;
+  bytes packet = 3;
+  uint64 timestamp = 4;
+  uint32 ts_res = 5;
+  uint32 signal = 6;
+  float snr = 7;
+  uint32 frequency = 8;
+  data_rate datarate = 10;
+  bytes signature = 11;
+}
+
+// response returned to gateway submitting witness report to ingestor
+message lora_witness_report_resp_v1 { string id = 1; }
+
+// beacon report outputted by ingestor, tagged with received timestamp
+message lora_beacon_ingest_report_v1 {
+  uint64 received_timestamp = 1;
+  lora_beacon_report_req_v1 report = 2;
+}
+
+// witness report outputted by ingestor, tagged with received timestamp
+message lora_witness_ingest_report_v1 {
+  uint64 received_timestamp = 1;
+  lora_witness_report_req_v1 report = 2;
+}
+
+// tagged valid beacon report produced by the verifier
+message lora_valid_beacon_report_v1 {
+  uint64 received_timestamp = 1;
+  string location = 2;
+  float hex_scale = 3;
+  lora_beacon_report_req_v1 report = 4;
+}
+
+// tagged valid witness report produced by the verifier
+message lora_valid_witness_report_v1 {
+  uint64 received_timestamp = 1;
+  string location = 2;
+  float hex_scale = 3;
+  lora_witness_report_req_v1 report = 4;
+}
+
+// tagged invalid beacon report produced by the verifier
+message lora_invalid_beacon_report_v1 {
+  uint64 received_timestamp = 1;
+  invalid_reason reason = 2;
+  lora_beacon_report_req_v1 report = 3;
+}
+
+// tagged invalid witness report produced by the verifier
+message lora_invalid_witness_report_v1 {
+  uint64 received_timestamp = 1;
+  invalid_reason reason = 2;
+  lora_witness_report_req_v1 report = 3;
+  // the participant to which the reason applies,
+  // which rendered the report as invalid
+  invalid_participant_side participant_side = 4;
+}
+
+// valid POC report produced by the verifier
+// includes the valid beacon and any valid witnesses
+message lora_valid_poc_v1 {
+  bytes poc_id = 1;
+  lora_valid_beacon_report_v1 beacon_report = 2;
+  repeated lora_valid_witness_report_v1 witness_reports = 3;
+}
+
+service poc_lora {
+  rpc submit_lora_beacon(lora_beacon_report_req_v1)
+      returns (lora_beacon_report_resp_v1);
+  rpc submit_lora_witness(lora_witness_report_req_v1)
+      returns (lora_witness_report_resp_v1);
+}
