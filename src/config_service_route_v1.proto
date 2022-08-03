@@ -20,7 +20,7 @@ enum config_service_route_v1_protocol {
 message config_service_route_v1 {
     uint64 net_id  = 1;
     repeated config_service_route_v1_devaddr_range devaddr_ranges = 2;
-    repeated config_service_route_v1_euis eui = 3;
+    repeated config_service_route_v1_eui euis = 3;
     bytes lns = 4;
     config_service_route_v1_protocol protocol = 5;
     uint64 oui  = 6;
