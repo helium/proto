@@ -53,9 +53,9 @@ message gateway_region_params_update_req_v1 {
 
 message gateway_region_params_req_v1 { region region = 1; }
 message gateway_region_params_resp_v1 {
-  region region = 2;
-  blockchain_region_params_v1 params = 3;
-  uint64 gain = 4;
+  region region = 1;
+  blockchain_region_params_v1 params = 2;
+  uint64 gain = 3;
 }
 
 message gateway_resp_v1 {
