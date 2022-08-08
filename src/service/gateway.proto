@@ -51,7 +51,12 @@ message gateway_region_params_update_req_v1 {
   bytes signature = 2;
 }
 
-message gateway_region_params_req_v1 { region region = 1; }
+message gateway_region_params_req_v1 {
+  region region = 1;
+  bytes address = 2;
+  bytes signature = 3;
+
+}
 message gateway_region_params_resp_v1 {
   region region = 1;
   blockchain_region_params_v1 params = 2;
