@@ -17,6 +17,7 @@ message packet_router_route_eui_v1 {
 enum packet_router_route_protocol_v1 {
   gwmp = 0;
   http = 1;
+  router = 2;
 }
 
 message packet_router_route_v1 {
