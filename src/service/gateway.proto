@@ -77,7 +77,7 @@ message gateway_resp_v1 {
     gateway_poc_check_challenge_target_resp_v1 poc_check_target_resp = 17;
     gateway_public_routing_data_resp_v1 public_route = 18;
     gateway_version_resp_v1 version = 19;
-    gateway_region_params_resp_v1 region_params__resp = 20;
+    gateway_region_params_resp_v1 region_params_resp = 20;
   }
   uint64 block_time = 10;
   uint64 block_age = 11;
