@@ -6,6 +6,7 @@ pub use prost::{DecodeError, EncodeError, Message};
 #[cfg(feature = "services")]
 pub mod services {
     pub mod router {
+        pub use crate::packet_router_client::PacketRouterClient;
         pub use crate::router_client::RouterClient;
         pub use crate::state_channel_client::StateChannelClient;
     }
