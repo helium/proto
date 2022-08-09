@@ -11,7 +11,7 @@ message packet_router_route_devaddr_range_v1 {
 
 message packet_router_route_eui_v1 {
   uint64 app_eui = 1;
-  uint64 dev_eui = 2; 
+  uint64 dev_eui = 2;
 }
 
 enum packet_router_route_protocol_v1 {
@@ -21,12 +21,12 @@ enum packet_router_route_protocol_v1 {
 }
 
 message packet_router_route_v1 {
-  uint64 net_id  = 1;
+  uint64 net_id = 1;
   repeated packet_router_route_devaddr_range_v1 devaddr_ranges = 2;
   repeated packet_router_route_eui_v1 euis = 3;
   bytes lns = 4;
   packet_router_route_protocol_v1 protocol = 5;
-  uint64 oui  = 6;
+  uint64 oui = 6;
 }
 
 message packet_router_packet_up_v1 {
