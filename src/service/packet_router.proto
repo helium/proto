@@ -63,7 +63,9 @@ message packet_router_packet_down_v1 {
 service packet_router {
   rpc packets(stream packet_router_packet_up_v1)
       returns (stream packet_router_packet_down_v1);
-  
+}
+
+service config {
   rpc routes(packet_router_routes_req_v1)
       returns (stream packet_router_routes_res_v1);
 }
