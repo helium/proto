@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package helium;
+package helium.packet_router;
 
 import "packet_router.proto";
 
