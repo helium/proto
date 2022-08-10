@@ -29,6 +29,12 @@ message packet_router_route_v1 {
   uint64 oui = 6;
 }
 
+message packet_router_routes_req_v1 {}
+
+message packet_router_routes_res_v1 {
+  repeated packet_router_route_v1 routes = 1;
+}
+
 message packet_router_packet_up_v1 {
   bytes payload = 1;
   uint64 timestamp = 2;
@@ -55,6 +61,9 @@ message packet_router_packet_down_v1 {
 }
 
 service packet_router {
-  rpc msg(stream packet_router_packet_up_v1)
+  rpc packets(stream packet_router_packet_up_v1)
       returns (stream packet_router_packet_down_v1);
+  
+  rpc routes(packet_router_routes_req_v1)
+      returns (stream packet_router_routes_res_v1);
 }
