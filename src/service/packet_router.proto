@@ -48,6 +48,17 @@ message packet_router_packet_up_v1 {
   bytes signature = 10;
 }
 
+message packet_router_packet_report_v1 {
+  bytes packet_hash = 1;
+  uint64 timestamp = 2;
+  uint32 oui = 3;
+  float signal_strength = 4;
+  float frequency = 5;
+  string datarate = 6;
+  float snr = 7;
+  region region = 8;
+}
+
 message window_v1 {
   uint64 timestamp = 1;
   float frequency = 2;
