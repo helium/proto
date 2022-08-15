@@ -3,6 +3,7 @@ syntax = "proto3";
 package helium.packet_router;
 
 import "region.proto";
+import "data_rate.proto";
 
 message packet_router_route_devaddr_range_v1 {
   uint64 start = 1;
@@ -38,20 +39,33 @@ message packet_router_routes_res_v1 {
 message packet_router_packet_up_v1 {
   bytes payload = 1;
   uint64 timestamp = 2;
-  float signal_strength = 3;
-  float frequency = 4;
-  string datarate = 5;
+  uint32 rssi = 3;
+  float frequency_mhz = 4;
+  data_rate datarate = 5;
   float snr = 6;
   region region = 7;
   uint64 hold_time = 8;
-  bytes hotspot = 9;
+  bytes gateway = 9;
   bytes signature = 10;
+}
+
+message packet_router_packet_report_v1 {
+  uint64 gateway_timestamp_ms = 1;
+  uint32 oui = 2;
+  uint64 net_id = 3;
+  uint32 rssi = 4;               // LoRa signal strength
+  float frequency_mhz = 5;
+  float snr = 6;
+  data_rate datarate = 7;
+  region region = 8;
+  bytes gateway = 9;
+  bytes payload_hash = 10;  // Hash of `payload` within `message packet`
 }
 
 message window_v1 {
   uint64 timestamp = 1;
   float frequency = 2;
-  string datarate = 3;
+  data_rate datarate = 3;
 }
 
 message packet_router_packet_down_v1 {
@@ -60,7 +74,7 @@ message packet_router_packet_down_v1 {
   window_v1 rx2 = 3;
 }
 
-service hotspot {
+service gateway {
   rpc send_packet(stream packet_router_packet_up_v1)
       returns (stream packet_router_packet_down_v1);
 }
