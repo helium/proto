@@ -19,3 +19,4 @@ serde_json = "1"
 [build-dependencies]
 tonic-build = {version = "0", optional = true}
 prost-build = "0"
+protobuf-src = "1"
