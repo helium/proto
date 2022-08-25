@@ -5,7 +5,7 @@ package helium;
 import "blockchain_txn.proto";
 
 message follower_txn_stream_req_v1 {
-  optional uint64 height = 1;
+  uint64 height = 1;
   bytes txn_hash = 2;
   repeated string txn_types = 3;
 }
