@@ -75,9 +75,10 @@ message packet_router_packet_down_v1 {
 
 
 message packet_verifier_report_v1 {
-  uint32 n_entries = 1;
-  repeated report_file_ref files = 2;
-  repeated report_entry entries = 3;
+  uint32 n_files = 1;
+  uint32 n_entries = 2;
+  repeated report_file_ref files = 3;
+  repeated report_entry entries = 4;
 }
 
 message report_file_ref {
