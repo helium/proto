@@ -91,7 +91,8 @@ message report_entry {
   uint32 file_offset_bytes = 2;
   uint32 oui = 3;
   uint32 packet_count = 4;
-  repeated bytes gateways = 5;
+  uint32 n_gateways = 5;
+  repeated bytes gateways = 6;
 }
 
 
