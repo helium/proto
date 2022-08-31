@@ -59,7 +59,7 @@ message packet_router_packet_report_v1 {
   data_rate datarate = 7;
   region region = 8;
   bytes gateway = 9;
-  bytes lora_payload_hash = 10;  // Hash of `payload` within `message packet`
+  bytes payload_hash = 10;  // Hash of `payload` within `message packet`
 }
 
 message window_v1 {
