@@ -51,7 +51,7 @@ message packet_router_packet_up_v1 {
 message packet_router_packet_report_v1 {
   uint64 gateway_timestamp_ms = 1;
   uint32 oui = 2;
-  uint32 netid = 3;
+  uint64 net_id = 3;
   uint32 rssi = 4;               // LoRa signal strength
   float frequency_mhz = 5;
   float snr = 6;
