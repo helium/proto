@@ -17,6 +17,7 @@ fn main() -> Result<()> {
                 "src/service/gateway.proto",
                 "src/service/follower.proto",
                 "src/service/transaction.proto",
+                "src/service/verifier.proto",
             ],
             &["src/"],
         )?;
