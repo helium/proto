@@ -49,14 +49,16 @@ message packet_router_packet_up_v1 {
 }
 
 message packet_router_packet_report_v1 {
-  bytes packet_hash = 1;
-  uint64 timestamp = 2;
-  uint32 oui = 3;
-  float signal_strength = 4;
-  float frequency = 5;
-  string datarate = 6;
-  float snr = 7;
+  uint64 gateway_timestamp_ms = 1;
+  uint32 oui = 2;
+  uint32 netid = 3;
+  uint32 rssi = 4;               // LoRa signal strength
+  float frequency_mhz = 5;
+  float snr = 6;
+  data_rate datarate = 7;
   region region = 8;
+  bytes gateway = 9;
+  bytes lora_payload_hash = 10;  // Hash of `payload` within `message packet`
 }
 
 message window_v1 {
