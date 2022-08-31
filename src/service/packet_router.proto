@@ -41,7 +41,7 @@ message packet_router_packet_up_v1 {
   uint64 timestamp = 2;
   float signal_strength = 3;
   float frequency = 4;
-  string datarate = 5;
+  data_rate datarate = 5;
   float snr = 6;
   region region = 7;
   uint64 hold_time = 8;
@@ -65,7 +65,7 @@ message packet_router_packet_report_v1 {
 message window_v1 {
   uint64 timestamp = 1;
   float frequency = 2;
-  string datarate = 3;
+  data_rate datarate = 3;
 }
 
 message packet_router_packet_down_v1 {
