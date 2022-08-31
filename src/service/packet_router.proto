@@ -39,8 +39,8 @@ message packet_router_routes_res_v1 {
 message packet_router_packet_up_v1 {
   bytes payload = 1;
   uint64 timestamp = 2;
-  float signal_strength = 3;
-  float frequency = 4;
+  uint32 rssi = 3;
+  float frequency_mhz = 4;
   data_rate datarate = 5;
   float snr = 6;
   region region = 7;
