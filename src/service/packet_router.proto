@@ -74,29 +74,6 @@ message packet_router_packet_down_v1 {
   window_v1 rx2 = 3;
 }
 
-
-message packet_verifier_report_v1 {
-  uint32 n_files = 1;
-  uint32 n_entries = 2;
-  repeated report_file_ref files = 3;
-  repeated report_entry entries = 4;
-}
-
-message report_file_ref {
-  uint32 file_id = 1;    // Unique only within associated set of `entries`
-  bytes file_name = 2;   // S3 file
-}
-
-message report_entry {
-  uint32 file_id = 1;
-  uint32 file_offset_bytes = 2;
-  uint32 oui = 3;
-  uint32 packet_count = 4;
-  uint32 n_gateways = 5;
-  repeated bytes gateways = 6;
-}
-
-
 service gateway {
   rpc send_packet(stream packet_router_packet_up_v1)
       returns (stream packet_router_packet_down_v1);
