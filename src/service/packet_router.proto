@@ -3,7 +3,7 @@ syntax = "proto3";
 package helium.packet_router;
 
 import "region.proto";
-import "date_rate.proto";
+import "data_rate.proto";
 
 message packet_router_route_devaddr_range_v1 {
   uint64 start = 1;
