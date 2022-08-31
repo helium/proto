@@ -45,7 +45,7 @@ message packet_router_packet_up_v1 {
   float snr = 6;
   region region = 7;
   uint64 hold_time = 8;
-  bytes hotspot = 9;
+  bytes gateway = 9;
   bytes signature = 10;
 }
 
@@ -97,7 +97,7 @@ message report_entry {
 }
 
 
-service hotspot {
+service gateway {
   rpc send_packet(stream packet_router_packet_up_v1)
       returns (stream packet_router_packet_down_v1);
 }
