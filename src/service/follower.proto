@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package helium;
 
+import "blockchain_token_type_v1.proto";
 import "blockchain_txn.proto";
 
 message follower_txn_stream_req_v1 {
@@ -36,8 +37,24 @@ message follower_gateway_resp_v1 {
   bytes owner = 4;
 }
 
+/// Query the last reward block for the given subnetwork by token type
+message follower_subnetwork_last_reward_height_req_v1 {
+  /// The token type of the subnetwork to query
+  blockchain_token_type_v1 token_type = 1;
+}
+
+message follower_subnetwork_last_reward_height_resp_v1 {
+  /// The current height at the time of the request
+  uint64 height = 1;
+  /// The height of the reward block
+  uint64 reward_height = 2;
+}
+
 service follower {
   rpc txn_stream(follower_txn_stream_req_v1)
       returns (stream follower_txn_stream_resp_v1);
   rpc find_gateway(follower_gateway_req_v1) returns (follower_gateway_resp_v1);
+  rpc subnetwork_last_reward_height(
+      follower_subnetwork_last_reward_height_req_v1)
+      returns (follower_subnetwork_last_reward_height_resp_v1);
 }
