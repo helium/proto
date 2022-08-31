@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package helium;
 
-enum date_rate {
+enum data_rate {
     SF12BW125 = 1;
     SF11BW125 = 2;
     SF10BW125 = 3;
