@@ -63,7 +63,7 @@ message shares {
   repeated share shares = 1;
 }
 
-message unrewardable_share {
+message invalid_share {
   string cbsd_id = 1;
   bytes pub_key = 2;
   uint64 weight = 3;
@@ -72,13 +72,15 @@ message unrewardable_share {
   string invalid_reason = 6;
 }
 
-message unrewardable_shares {
-  repeated unrewardable_share shares = 1;
+message invalid_shares {
+  repeated invalid_share shares = 1;
 }
 
 message speed_share {
   bytes pub_key = 1;
+  /// bytes/sec
   uint64 upload_speed = 2;
+  /// bytes/sec
   uint64 download_speed = 3;
   uint32 latency = 4;
   uint64 timestamp = 5;
@@ -91,6 +93,26 @@ message speed_share_list {
 
 message speed_shares {
   repeated speed_share_list speed_shares = 1;
+}
+
+message invalid_speed_share {
+  bytes pub_key = 1;
+  /// bytes/sec
+  uint64 upload_speed = 2;
+  /// bytes/sec
+  uint64 download_speed = 3;
+  uint32 latency = 4;
+  uint64 timestamp = 5;
+  string invalid_reason = 6;
+}
+
+message invalid_speed_share_list {
+  bytes gw_pub_key = 1;
+  repeated invalid_speed_share speed_shares = 2;
+}
+
+message invalid_speed_shares {
+  repeated invalid_speed_share_list speed_shares = 1;
 }
 
 message moving_avg {
