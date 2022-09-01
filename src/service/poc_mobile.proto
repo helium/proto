@@ -106,6 +106,7 @@ message average {
   uint64 upload_speed_avg = 1;
   /// bytes/sec
   uint64 download_speed_avg =  2;
+  /// in ms
   uint32 latency_avg = 3;
 }
 
@@ -115,6 +116,7 @@ message speed_share_moving_avgs {
 
 message cell_share {
   cell_type cell_type = 1;
+  /// weight will be x10, i.e. 40 = 4.0
   uint64 weight = 2;
 }
 
