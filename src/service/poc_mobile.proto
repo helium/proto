@@ -54,7 +54,7 @@ message processed_files {
 message share {
   string cbsd_id = 1;
   bytes pub_key = 2;
-  bytes weight = 3;
+  uint64 weight = 3;
   uint64 timestamp = 4;
   cell_type cell_type = 5;
 }
@@ -66,7 +66,7 @@ message shares {
 message unrewardable_share {
   string cbsd_id = 1;
   bytes pub_key = 2;
-  bytes weight = 3;
+  uint64 weight = 3;
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   string invalid_reason = 6;
@@ -113,7 +113,7 @@ message speed_share_moving_avgs {
 
 message cell_share {
   cell_type cell_type = 1;
-  bytes weight = 2;
+  uint64 weight = 2;
 }
 
 message cell_shares {
@@ -122,7 +122,7 @@ message cell_shares {
 
 message hotspot_share {
   bytes pub_key = 1;
-  bytes weight = 2;
+  uint64 weight = 2;
 }
 
 message hotspot_shares {
@@ -131,7 +131,7 @@ message hotspot_shares {
 
 message owner_share {
   bytes pub_key = 1;
-  bytes weight = 2;
+  uint64 weight = 2;
 }
 
 message owner_shares {
@@ -140,7 +140,7 @@ message owner_shares {
 
 message missing_owner_share {
   bytes pub_key = 1;
-  bytes weight = 2;
+  uint64 weight = 2;
 }
 
 message missing_owner_shares {
@@ -149,7 +149,7 @@ message missing_owner_shares {
 
 message owner_emission {
   bytes pub_key = 1;
-  bytes weight = 2;
+  uint64 weight = 2;
 }
 
 message owner_emissions {
@@ -163,7 +163,7 @@ enum file_type {
 
 enum cell_type {
   nova436h = 0;
-  nova4301 = 1;
+  nova430i = 1;
   neutrino430 = 2;
   sercomm_indoor = 3;
   sercomm_outdoor = 4;
