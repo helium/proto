@@ -14,10 +14,6 @@ pub mod services {
         pub use crate::gateway_client::GatewayClient as Client;
     }
 
-    pub mod verifier {
-        include!(concat!(env!("OUT_DIR"), "/helium.verifier.rs"));
-    }
-    
     pub mod local {
         include!(concat!(env!("OUT_DIR"), "/helium.local.rs"));
         pub use api_client::ApiClient as Client;
