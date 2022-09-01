@@ -106,13 +106,8 @@ message invalid_speed_share {
   string invalid_reason = 6;
 }
 
-message invalid_speed_share_list {
-  bytes gw_pub_key = 1;
-  repeated invalid_speed_share speed_shares = 2;
-}
-
 message invalid_speed_shares {
-  repeated invalid_speed_share_list speed_shares = 1;
+  repeated invalid_speed_share speed_shares = 1;
 }
 
 message moving_avg {
