@@ -104,6 +104,7 @@ message moving_avg {
 message average {
   /// bytes/sec
   uint64 upload_speed_avg = 1;
+  /// bytes/sec
   uint64 download_speed_avg =  2;
   uint32 latency_avg = 3;
 }
