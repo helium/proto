@@ -51,6 +51,18 @@ message gateway_region_params_update_req_v1 {
   bytes signature = 2;
 }
 
+message gateway_region_params_req_v1 {
+  region region = 1;
+  bytes address = 2;
+  bytes signature = 3;
+}
+
+message gateway_region_params_resp_v1 {
+  region region = 1;
+  blockchain_region_params_v1 params = 2;
+  uint64 gain = 3;
+}
+
 message gateway_resp_v1 {
   uint64 height = 1;
   bytes signature = 2;
@@ -70,6 +82,7 @@ message gateway_resp_v1 {
     gateway_poc_check_challenge_target_resp_v1 poc_check_target_resp = 17;
     gateway_public_routing_data_resp_v1 public_route = 18;
     gateway_version_resp_v1 version = 19;
+    gateway_region_params_resp_v1 region_params_resp = 20;
   }
   uint64 block_time = 10;
   uint64 block_age = 11;
@@ -225,4 +238,5 @@ service gateway {
   rpc validators(gateway_validators_req_v1) returns (gateway_resp_v1);
   rpc region_params_update(gateway_region_params_update_req_v1)
       returns (stream gateway_resp_v1);
+  rpc region_params(gateway_region_params_req_v1) returns (gateway_resp_v1);
 }
