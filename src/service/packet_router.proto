@@ -4,37 +4,6 @@ package helium.packet_router;
 
 import "region.proto";
 
-message packet_router_route_devaddr_range_v1 {
-  uint64 start = 1;
-  uint64 end = 2;
-}
-
-message packet_router_route_eui_v1 {
-  uint64 app_eui = 1;
-  uint64 dev_eui = 2;
-}
-
-enum packet_router_route_protocol_v1 {
-  gwmp = 0;
-  http = 1;
-  router = 2;
-}
-
-message packet_router_route_v1 {
-  uint64 net_id = 1;
-  repeated packet_router_route_devaddr_range_v1 devaddr_ranges = 2;
-  repeated packet_router_route_eui_v1 euis = 3;
-  bytes lns = 4;
-  packet_router_route_protocol_v1 protocol = 5;
-  uint64 oui = 6;
-}
-
-message packet_router_routes_req_v1 {}
-
-message packet_router_routes_res_v1 {
-  repeated packet_router_route_v1 routes = 1;
-}
-
 message packet_router_packet_up_v1 {
   bytes payload = 1;
   uint64 timestamp = 2;
@@ -63,9 +32,4 @@ message packet_router_packet_down_v1 {
 service hotspot {
   rpc send_packet(stream packet_router_packet_up_v1)
       returns (stream packet_router_packet_down_v1);
-}
-
-service config {
-  rpc route_updates(packet_router_routes_req_v1)
-      returns (stream packet_router_routes_res_v1);
 }
