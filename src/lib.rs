@@ -6,9 +6,9 @@ pub use prost::{DecodeError, EncodeError, Message};
 
 #[cfg(feature = "services")]
 pub mod services {
+    pub use crate::DataRate;
     // Referenced with helium.packet_router.rs as super::Region
     pub use crate::Region;
-    pub use crate::DataRate;
     pub mod router {
         pub use crate::router_client::RouterClient;
         pub use crate::state_channel_client::StateChannelClient;
