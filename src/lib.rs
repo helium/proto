@@ -8,12 +8,13 @@ pub use prost::{DecodeError, EncodeError, Message};
 pub mod services {
     // Referenced with helium.packet_router.rs as super::Region
     pub use crate::Region;
+    pub use crate::DataRate;
     pub mod router {
         pub use crate::router_client::RouterClient;
         pub use crate::state_channel_client::StateChannelClient;
 
         include!(concat!(env!("OUT_DIR"), "/helium.packet_router.rs"));
-        pub use hotspot_client::HotspotClient as PacketRouterClient;
+        pub use gateway_client::GatewayClient as PacketRouterClient;
     }
     pub mod gateway {
         pub use crate::gateway_client::GatewayClient as Client;
