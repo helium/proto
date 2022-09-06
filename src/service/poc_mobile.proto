@@ -47,9 +47,7 @@ message file_info {
   uint64 size = 4;
 }
 
-message processed_files {
-  repeated file_info files = 1; 
-}
+message processed_files { repeated file_info files = 1; }
 
 message share {
   string cbsd_id = 1;
@@ -59,9 +57,7 @@ message share {
   cell_type cell_type = 5;
 }
 
-message shares {
-  repeated share shares = 1;
-}
+message shares { repeated share shares = 1; }
 
 message invalid_share {
   string cbsd_id = 1;
@@ -72,9 +68,7 @@ message invalid_share {
   string invalid_reason = 6;
 }
 
-message invalid_shares {
-  repeated invalid_share shares = 1;
-}
+message invalid_shares { repeated invalid_share shares = 1; }
 
 message speed_share {
   bytes pub_key = 1;
@@ -91,9 +85,7 @@ message speed_share_list {
   repeated speed_share speed_shares = 2;
 }
 
-message speed_shares {
-  repeated speed_share_list speed_shares = 1;
-}
+message speed_shares { repeated speed_share_list speed_shares = 1; }
 
 message invalid_speed_share {
   bytes pub_key = 1;
@@ -106,15 +98,13 @@ message invalid_speed_share {
   string invalid_reason = 6;
 }
 
-message invalid_speed_shares {
-  repeated invalid_speed_share speed_shares = 1;
-}
+message invalid_speed_shares { repeated invalid_speed_share speed_shares = 1; }
 
 message moving_avg {
   bytes pub_key = 1;
   uint64 window_size = 2;
   average average = 3;
-  bool is_valid = 4; 
+  bool is_valid = 4;
   repeated speed_share speed_shares = 5;
 }
 
@@ -122,14 +112,12 @@ message average {
   /// bytes/sec
   uint64 upload_speed_avg = 1;
   /// bytes/sec
-  uint64 download_speed_avg =  2;
+  uint64 download_speed_avg = 2;
   /// in ms
   uint32 latency_avg = 3;
 }
 
-message speed_share_moving_avgs {
-  repeated moving_avg moving_avgs = 1; 
-}
+message speed_share_moving_avgs { repeated moving_avg moving_avgs = 1; }
 
 message cell_share {
   cell_type cell_type = 1;
@@ -137,45 +125,35 @@ message cell_share {
   uint64 weight = 2;
 }
 
-message cell_shares {
-  repeated cell_share shares = 1;
-}
+message cell_shares { repeated cell_share shares = 1; }
 
 message hotspot_share {
   bytes pub_key = 1;
   uint64 weight = 2;
 }
 
-message hotspot_shares {
-  repeated hotspot_share shares = 1;
-}
+message hotspot_shares { repeated hotspot_share shares = 1; }
 
 message owner_share {
   bytes pub_key = 1;
   uint64 weight = 2;
 }
 
-message owner_shares {
-  repeated owner_share shares = 1;
-}
+message owner_shares { repeated owner_share shares = 1; }
 
 message missing_owner_share {
   bytes pub_key = 1;
   uint64 weight = 2;
 }
 
-message missing_owner_shares {
-  repeated missing_owner_share shares = 1;
-}
+message missing_owner_shares { repeated missing_owner_share shares = 1; }
 
 message owner_emission {
   bytes pub_key = 1;
   uint64 weight = 2;
 }
 
-message owner_emissions {
-  repeated owner_emission emissions = 1;
-}
+message owner_emissions { repeated owner_emission emissions = 1; }
 
 enum file_type {
   heartbeat = 0;
