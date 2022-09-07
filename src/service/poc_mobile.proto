@@ -90,6 +90,7 @@ enum validity {
 
 message moving_avg {
   bytes pub_key = 1;
+  /// Refers to the number of speed_shares used to calculate the average
   uint64 window_size = 2;
   average average = 3;
   bool is_valid = 4;
