@@ -75,7 +75,7 @@ pub mod services {
                 "LRFHSS1BW1523" => Ok(DataRate::Lrfhss1bw1523),
                 "LRFHSS2BW1523" => Ok(DataRate::Lrfhss2bw1523),
                 "FSK50" => Ok(DataRate::Fsk50),
-                unknown => Err(prost::DecodeError::new(format!("unknown datarate: {}", unknown)))
+                unknown => Err(prost::DecodeError::new(format!("unknown datarate: {unknown}")))
             }
         }
     }
