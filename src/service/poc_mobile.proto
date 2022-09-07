@@ -63,9 +63,9 @@ message shares { repeated share shares = 1; }
 message speed_share {
   bytes pub_key = 1;
   /// bytes/sec
-  uint64 upload_speed = 2;
+  uint64 upload_speed_bps = 2;
   /// bytes/sec
-  uint64 download_speed = 3;
+  uint64 download_speed_bps = 3;
   uint32 latency = 4;
   uint64 timestamp = 5;
   validity validity = 6;
