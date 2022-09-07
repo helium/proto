@@ -66,7 +66,7 @@ message speed_share {
   uint64 upload_speed_bps = 2;
   /// bytes/sec
   uint64 download_speed_bps = 3;
-  uint32 latency = 4;
+  uint32 latency_ms = 4;
   uint64 timestamp = 5;
   validity validity = 6;
 }
