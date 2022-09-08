@@ -12,6 +12,7 @@ fn main() -> Result<()> {
         .compile(
             &[
                 "src/blockchain_txn.proto",
+                "src/iot_packet_verifier.proto",
                 "src/service/router.proto",
                 "src/service/state_channel.proto",
                 "src/service/gateway.proto",

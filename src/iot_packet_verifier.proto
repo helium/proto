@@ -10,7 +10,7 @@ message iot_packet_verifier_bookkeeping {
   uint32 num_gateway_entries = 2;
   repeated oui_bookkeeping ouis = 3;
   repeated gateway_bookkeeping gateways = 4;
-  bytes filename = 5;            // file in S3 used as input
+  bytes filename = 5;  // file in S3 used as input
 }
 
 message oui_bookkeeping {
