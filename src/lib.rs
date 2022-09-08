@@ -1,4 +1,6 @@
 #![allow(clippy::derive_partial_eq_without_eq)]
+#![allow(non_camel_case_types)]
+
 include!(concat!(env!("OUT_DIR"), "/helium.rs"));
 
 pub use blockchain_txn::Txn;
@@ -6,6 +8,8 @@ pub use prost::{DecodeError, EncodeError, Message};
 
 #[cfg(feature = "services")]
 pub mod services {
+    use crate::{BlockchainTokenTypeV1, BlockchainTxn, RoutingAddress};
+
     pub mod router {
         pub use crate::router_client::RouterClient;
         pub use crate::state_channel_client::StateChannelClient;
@@ -34,6 +38,18 @@ pub mod services {
         include!(concat!(env!("OUT_DIR"), "/helium.poc_mobile.rs"));
         pub use poc_mobile_client::PocMobileClient as Client;
         pub use poc_mobile_server::{PocMobile, PocMobileServer as Server};
+    }
+
+    pub mod follower {
+        include!(concat!(env!("OUT_DIR"), "/helium.follower.rs"));
+        pub use follower_client::FollowerClient as Client;
+        pub use follower_server::FollowerServer as Server;
+    }
+
+    pub mod transaction {
+        include!(concat!(env!("OUT_DIR"), "/helium.transaction.rs"));
+        pub use transaction_client::TransactionClient as Client;
+        pub use transaction_server::TransactionServer as Server;
     }
 
     pub use tonic::transport::*;

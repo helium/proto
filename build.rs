@@ -7,25 +7,21 @@ fn main() -> Result<()> {
     std::env::set_var("PROTOC", protobuf_src::protoc());
 
     tonic_build::configure()
-        .build_server(false)
+        .build_server(true)
+        .build_client(true)
         .type_attribute(".", "#[derive(serde_derive::Serialize)]")
         .compile(
             &[
                 "src/blockchain_txn.proto",
+                "src/entropy.proto",
                 "src/service/router.proto",
                 "src/service/state_channel.proto",
+                "src/service/local.proto",
                 "src/service/gateway.proto",
-                "src/service/follower.proto",
                 "src/service/transaction.proto",
+                "src/service/follower.proto",
+                "src/service/poc_mobile.proto",
             ],
-            &["src/"],
-        )?;
-
-    tonic_build::configure()
-        .build_server(true)
-        .type_attribute(".", "#[derive(serde_derive::Serialize)]")
-        .compile(
-            &["src/service/local.proto", "src/service/poc_mobile.proto"],
             &["src"],
         )?;
     Ok(())
@@ -39,6 +35,6 @@ fn main() -> Result<()> {
     std::env::set_var("PROTOC", protobuf_src::protoc());
     prost_build::Config::new()
         .type_attribute(".", "#[derive(serde_derive::Serialize)]")
-        .compile_protos(&["src/blockchain_txn.proto"], &["src/"])?;
+        .compile_protos(&["src/blockchain_txn.proto"], &["src"])?;
     Ok(())
 }
