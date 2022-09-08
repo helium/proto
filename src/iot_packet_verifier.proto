@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package helium;
+
+// Summary of Helium Packet-Router reports after digesting a single S3 file.
+// See also ./service/packet_router.proto
+
+message iot_packet_verifier_bookkeeping {
+  uint32 num_oui_entries = 1;
+  uint32 num_gateway_entries = 2;
+  repeated oui_bookkeeping ouis = 3;
+  repeated gateway_bookkeeping gateways = 4;
+  bytes filename = 5;            // file in S3 used as input
+}
+
+message oui_bookkeeping {
+  uint32 oui = 1;
+  uint32 packet_count = 2;
+}
+
+message gateway_bookkeeping {
+  uint32 packet_count = 1;
+  bytes gateway = 2;             // PubKeyBin
+}
