@@ -20,5 +20,10 @@ message oui_bookkeeping {
 
 message gateway_bookkeeping {
   uint32 packet_count = 1;
-  bytes gateway = 2;             // PubKeyBin
+  bytes gateway = 2;  // PubKeyBin
+}
+
+message iot_oui_updates {
+  repeated uint32 enable_ouis = 1;
+  repeated uint32 disable_ouis = 2;
 }
