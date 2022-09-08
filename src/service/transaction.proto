@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package helium;
+package helium.transaction;
 
 import "blockchain_routing_address.proto";
 import "blockchain_txn.proto";
