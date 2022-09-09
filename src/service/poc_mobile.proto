@@ -55,7 +55,7 @@ message share {
   uint64 weight = 3;
   uint64 timestamp = 4;
   cell_type cell_type = 5;
-  optional invalid_share_reason invalid = 6;
+  oneof optional_invalid_share_reason { invalid_share_reason invalid = 6; }
 }
 
 message shares { repeated share shares = 1; }
@@ -68,7 +68,7 @@ message speed_share {
   uint64 download_speed_bps = 3;
   uint32 latency_ms = 4;
   uint64 timestamp = 5;
-  optional invalid_share_reason invalid = 6;
+  oneof optional_invalid_share_reason { invalid_share_reason invalid = 6; }
 }
 
 message speed_share_list {
