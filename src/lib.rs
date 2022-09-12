@@ -41,7 +41,13 @@ pub mod services {
 
         impl Share {
             pub fn is_valid(&self) -> bool {
-                self.invalid.is_none()
+                self.validity == 0
+            }
+        }
+
+        impl SpeedShare {
+            pub fn is_valid(&self) -> bool {
+                self.validity == 0
             }
         }
     }
