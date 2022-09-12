@@ -55,7 +55,7 @@ message share {
   uint64 weight = 3;
   uint64 timestamp = 4;
   cell_type cell_type = 5;
-  validity validity = 6;
+  share_validity validity = 6;
 }
 
 message shares { repeated share shares = 1; }
@@ -68,7 +68,7 @@ message speed_share {
   uint64 download_speed_bps = 3;
   uint32 latency_ms = 4;
   uint64 timestamp = 5;
-  validity validity = 6;
+  share_validity validity = 6;
 }
 
 message speed_share_list {
@@ -80,12 +80,12 @@ message speed_shares { repeated speed_share_list speed_shares = 1; }
 
 message invalid_speed_shares { repeated speed_share speed_shares = 1; }
 
-enum validity {
-  valid = 0;
-  invalid_decode_failed = 1;
-  invalid_gateway_owner_not_found = 2;
-  invalid_heartbeat_not_within_range = 3;
-  invalid_cbsd_id = 4;
+enum share_validity {
+  share_validity_valid = 0;
+  share_validity_decode_failed = 1;
+  share_validity_gateway_owner_not_found = 2;
+  share_validity_heartbeat_outside_range = 3;
+  share_validity_bad_cbsd_id = 4;
 }
 
 message moving_avg {
