@@ -5,15 +5,17 @@ message gps_response_t {
 }
 
 message gps_response_v1 {
-  uint32 unix_time = 1; /**<   Unix time in seconds */
-  int32 lat =
-      2; /**<   Latitude of the current base station in units of 0.25 sec. */
-  int32 lon =
-      3; /**<   Longitude of the current base station in units of 0.25 sec. */
-  uint32 hdop = 4; /**<   Horizontal dilution of position given in 10**2 (each
-                      unit is 0.01 HDOP) */
-  uint64 altitude = 5; /**<   Altitude in units of 0.25m above the WGS 84
-                          reference ellipsoid. */
+  /**<   Unix time in seconds */
+  uint32 unix_time = 1;
+  /**<   Latitude of the current base station in units of 0.25 sec. */
+  int32 lat = 2;
+  /**<   Longitude of the current base station in units of 0.25 sec. */
+  int32 lon = 3;
+  /**<   Horizontal dilution of position in units of 0.01 HDOP. */
+  uint32 hdop = 4;
+  /**<   Altitude in units of 0.25m above the WGS 84 reference ellipsoid. */
+  uint64 altitude = 5;
   int32 num_sats = 6;
-  uint32 speed = 7; /**<   Speed in speed in 0.25m/s per second. */
+  /**<   Speed in speed in 0.25m/s per second. */
+  uint32 speed = 7;
 }

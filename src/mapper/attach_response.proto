@@ -27,9 +27,8 @@ message attach_response_v1 {
     uint32 plmn = 4;
     uint32 fcn = 5;
   }
-
-  int32 attach_response_counter =
-      1; // This allows us to detect censorship efforts. It can roll over.
+  // This allows us to detect censorship efforts. It can roll over.
+  int32 attach_response_counter = 1;
   gps_response_v1 gps = 2;
   candidate_t candidate = 3;
   result_t result = 4;
