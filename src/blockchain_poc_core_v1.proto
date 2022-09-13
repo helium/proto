@@ -21,6 +21,8 @@ message blockchain_poc_receipt_v1 {
   // Transmit power at which this packet was transmitted
   // It is x10, for example: 270 = 27db, 36 = 3.6db etc
   int32 tx_power = 12;
+  uint32 reward_shares = 13; // fixed point reward shares added by off-chain poc verifier,
+                             // propose 2 decimal places
 }
 
 message blockchain_poc_witness_v1 {
@@ -33,6 +35,8 @@ message blockchain_poc_witness_v1 {
   float frequency = 7;
   int32 channel = 8;
   string datarate = 9;
+  uint32 reward_shares = 10; // fixed point reward shares added by off-chain poc verifier,
+                             //propose 2 decimal places
 }
 
 message blockchain_poc_response_v1 {
