@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+import "gps_response.proto";
+
+message attach_response_t {
+  oneof version {
+    attach_response_v1 attach_response_v1 = 1;
+  }
+}
+
+message attach_response_v1 {
+  enum result_t {
+    NONE = 0;
+    CONNECT = 1;
+    LIMSERV = 2;
+    NOCONN = 3;
+    SEARCH = 4;
+  }
+  message candidate_t {
+    enum cell_tech {
+      lte = 0;
+      nr = 1;
+    }
+    cell_tech type = 1;
+    // Corresponds "scan_response_counter" in the scan_response_counter which we selected attach candidates from
+    uint32 from_scan_response = 2;
+    uint32 delay = 3; // delay in seconds between AT+QNWLOCK and AT+QENG
+    uint32 plmn = 4;
+    uint32 fcn = 5;
+  }
+
+  int32 attach_response_counter = 1; // This allows us to detect censorship efforts. It can roll over.
+  gps_response_v1 gps = 2;
+  candidate_t candidate = 3;
+  result_t result = 4;
+}
+
+

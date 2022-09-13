@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "gps_response.proto";
+
+message scan_response_t {
+  oneof version {
+    scan_response_v1 scan_response_v1 = 1;
+  }
+}
+
+message scan_response_v1 {
+  uint32 scan_response_counter = 1;
+  gps_response_v1 gps = 2;
+  repeated result results = 3;
+}
+
+message result {
+  uint32 cid = 1;
+  uint32 plmn = 2;
+  uint32 fcn = 3;         /**<   earfcn or uarfcn */
+  uint32 pci = 4;
+  int32 rsrp = 5;         /**<   Current RSRQ in units of 0.1 dB as measured by L1. */
+  int32 rsrq = 6;         /**<   Current RSRP in units of 0.1 dBm as measured by L1. */
+  int32  snr = 7;         /**<   Current SNR in units of 0.1 dB as measured by L1. */
+}
+
