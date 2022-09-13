@@ -5,10 +5,13 @@ package helium.poc_mobile;
 message speedtest_req_v1 {
   bytes pub_key = 1;
   string serial = 2;
-  // Timestamp of speedtest test in seconds from unix epoch
+  /// Timestamp of speedtest test in seconds from unix epoch
   uint64 timestamp = 3;
+  /// Measured upload speed in bytes/sec. <value>*8/10E6 = Mbps
   uint64 upload_speed = 4;
+  /// Measured download speed in bytes/sec. <value>*8/10E6 = Mbps
   uint64 download_speed = 5;
+  /// Measured latency in milliseconds
   uint32 latency = 6;
 
   bytes signature = 7;
