@@ -12,7 +12,11 @@ message eui_v1 {
   uint64 dev_eui = 2;
 }
 
-enum lns_protocol_v1 { gwmp = 0; http = 1; router = 2; }
+enum lns_protocol_v1 {
+  gwmp = 0;
+  http = 1;
+  router = 2;
+}
 
 message route_v1 {
   uint64 net_id = 1;
@@ -28,5 +32,5 @@ message routes_req_v1 {}
 message routes_res_v1 { repeated route_v1 routes = 1; }
 
 service config_service {
-  rpc route_updates(routes_req_v1) returns(stream routes_res_v1);
+  rpc route_updates(routes_req_v1) returns (stream routes_res_v1);
 }
