@@ -130,13 +130,6 @@ message owner_share {
 
 message owner_shares { repeated owner_share shares = 1; }
 
-message owner_emission {
-  bytes pub_key = 1;
-  uint64 weight = 2;
-}
-
-message owner_emissions { repeated owner_emission emissions = 1; }
-
 enum file_type {
   heartbeat = 0;
   speedtest = 1;
