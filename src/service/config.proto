@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package helium_config;
+package helium.config;
 
 message devaddr_range_v1 {
   uint64 start_addr = 1;
