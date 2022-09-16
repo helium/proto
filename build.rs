@@ -9,10 +9,7 @@ fn main() -> Result<()> {
     tonic_build::configure()
         .build_server(true)
         .build_client(true)
-        .type_attribute(
-            ".",
-            "#[derive(serde_derive::Serialize, serde_derive::Deserialize)]",
-        )
+        .type_attribute(".", "#[derive(serde_derive::Serialize)]")
         .compile(
             &[
                 "src/blockchain_txn.proto",
