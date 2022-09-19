@@ -21,9 +21,9 @@ message speedtest_resp_v1 { string id = 1; }
 
 // speedtest report outputted by ingestor, tagged with received_timestamp
 message speedtest_ingest_report_v1 {
-    // timestamp in milliseconds since unix epoch
-    uint64 received_timestamp = 1;
-    speedtest_req_v1 report = 2;
+  // timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  speedtest_req_v1 report = 2;
 }
 
 message cell_heartbeat_req_v1 {
@@ -46,9 +46,9 @@ message cell_heartbeat_resp_v1 { string id = 1; }
 
 // cell heartbeat report outputted by ingestor, tagged with received_timestamp
 message cell_heartbeat_ingest_report_v1 {
-    // timestamp in millisconds since unix epoch
-    uint64 received_timestamp = 1;
-    cell_heartbeat_req_v1 report = 2;
+  // timestamp in millisconds since unix epoch
+  uint64 received_timestamp = 1;
+  cell_heartbeat_req_v1 report = 2;
 }
 
 service poc_mobile {
