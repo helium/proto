@@ -28,5 +28,4 @@ enum data_rate {
   LRFHSS1BW1523 = 22;
   LRFHSS2BW1523 = 23;
   FSK50 = 24;
-  RFU = 25;
 }

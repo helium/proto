@@ -20,7 +20,6 @@ enum invalid_reason {
   gateway_not_found = 7;
   denied = 8;
   invalid_packet = 9;
-
 }
 
 // beacon report as submitted by gateway to ingestor
@@ -29,11 +28,12 @@ message lora_beacon_report_req_v1 {
   bytes local_entropy = 3;
   bytes remote_entropy = 4;
   bytes data = 5;
+  // Frequency in kHz
   uint32 frequency = 6;
   int32 channel = 7;
   data_rate datarate = 8;
   int32 tx_power = 9;
-  // Timestamp of beacon report submit
+  // Timestamp of beacon transmit in nanos since unix epoch
   uint64 timestamp = 10;
   bytes signature = 11;
 }
@@ -44,11 +44,13 @@ message lora_beacon_report_resp_v1 { string id = 1; }
 // witness report as submitted by gateway to ingestor
 message lora_witness_report_req_v1 {
   bytes pub_key = 2;
-  bytes packet = 3;
+  bytes data = 3;
+  // Timestamp of witness received in nanos since unix epoch
   uint64 timestamp = 4;
   uint32 ts_res = 5;
   uint32 signal = 6;
   float snr = 7;
+  // Frequency in kHz
   uint32 frequency = 8;
   data_rate datarate = 10;
   bytes signature = 11;
@@ -59,18 +61,21 @@ message lora_witness_report_resp_v1 { string id = 1; }
 
 // beacon report outputted by ingestor, tagged with received timestamp
 message lora_beacon_ingest_report_v1 {
+  // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   lora_beacon_report_req_v1 report = 2;
 }
 
 // witness report outputted by ingestor, tagged with received timestamp
 message lora_witness_ingest_report_v1 {
+  // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   lora_witness_report_req_v1 report = 2;
 }
 
 // tagged valid beacon report produced by the verifier
 message lora_valid_beacon_report_v1 {
+  // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   string location = 2;
   float hex_scale = 3;
@@ -79,6 +84,7 @@ message lora_valid_beacon_report_v1 {
 
 // tagged valid witness report produced by the verifier
 message lora_valid_witness_report_v1 {
+  // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   string location = 2;
   float hex_scale = 3;
@@ -87,6 +93,7 @@ message lora_valid_witness_report_v1 {
 
 // tagged invalid beacon report produced by the verifier
 message lora_invalid_beacon_report_v1 {
+  // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   invalid_reason reason = 2;
   lora_beacon_report_req_v1 report = 3;
@@ -94,6 +101,7 @@ message lora_invalid_beacon_report_v1 {
 
 // tagged invalid witness report produced by the verifier
 message lora_invalid_witness_report_v1 {
+  // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   invalid_reason reason = 2;
   lora_witness_report_req_v1 report = 3;
