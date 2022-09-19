@@ -16,14 +16,8 @@ serde = "1"
 serde_derive = "1"
 serde_json = "1"
 
-# protobuf-src is broken on Windows, and we only need use it to
-# simplify cargo-cross builds.
-[target.'cfg(target_family = "windows")'.build-dependencies]
-tonic-build = {version = "0", optional = true}
-prost-build = "0"
+[build-dependencies]
+# simplify builds (including for cross builds) by using a vendored protoc
 protoc-bin-vendored = "3"
-
-[target.'cfg(not(target_family = "windows"))'.build-dependencies]
 tonic-build = {version = "0", optional = true}
 prost-build = "0"
-protobuf-src = "1"
