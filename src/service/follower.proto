@@ -41,6 +41,8 @@ message follower_gateway_resp_v1 {
   bytes owner = 4;
   // the staking mode of the gateway
   gateway_staking_mode staking_mode = 5;
+  // the gain value of the gateway
+  int32 gain = 6;
 }
 
 /// Query the last reward block for the given subnetwork by token type
