@@ -41,7 +41,7 @@ message follower_gateway_resp_v1 {
   bytes owner = 4;
   // the staking mode of the gateway
   gateway_staking_mode staking_mode = 5;
-  // the gain value of the gateway
+  // the transmit gain value of the gateway, set as part of assert
   int32 gain = 6;
 }
 
