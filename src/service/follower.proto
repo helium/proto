@@ -4,6 +4,7 @@ package helium.follower;
 
 import "blockchain_token_type_v1.proto";
 import "blockchain_txn.proto";
+import "gateway_staking_mode.proto";
 
 message follower_txn_stream_req_v1 {
   uint64 height = 1;
@@ -38,6 +39,11 @@ message follower_gateway_resp_v1 {
   /// The pubkey_bin address of the current owner of the gateway. An empty bytes
   /// if the hotspot is not found
   bytes owner = 4;
+  // the staking mode of the gateway
+  gateway_staking_mode staking_mode = 5;
+  // the transmit gain value of the gateway in dbi x 10 For exmaple 1 dbi = 10,
+  // 15 dbi = 150
+  int32 gain = 6;
 }
 
 /// Query the last reward block for the given subnetwork by token type
