@@ -112,6 +112,38 @@ impl std::str::FromStr for DataRate {
     }
 }
 
+impl std::fmt::Display for DataRate {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            DataRate::Sf12bw125 => f.write_str("SF12BW125"),
+            DataRate::Sf11bw125 => f.write_str("SF11BW125"),
+            DataRate::Sf10bw125 => f.write_str("SF10BW125"),
+            DataRate::Sf9bw125 => f.write_str("SF9BW125"),
+            DataRate::Sf8bw125 => f.write_str("SF8BW125"),
+            DataRate::Sf7bw125 => f.write_str("SF7BW125"),
+            DataRate::Sf12bw250 => f.write_str("SF12BW250"),
+            DataRate::Sf11bw250 => f.write_str("SF11BW250"),
+            DataRate::Sf10bw250 => f.write_str("SF10BW250"),
+            DataRate::Sf9bw250 => f.write_str("SF9BW250"),
+            DataRate::Sf8bw250 => f.write_str("SF8BW250"),
+            DataRate::Sf7bw250 => f.write_str("SF7BW250"),
+            DataRate::Sf12bw500 => f.write_str("SF12BW500"),
+            DataRate::Sf11bw500 => f.write_str("SF11BW500"),
+            DataRate::Sf10bw500 => f.write_str("SF10BW500"),
+            DataRate::Sf9bw500 => f.write_str("SF9BW500"),
+            DataRate::Sf8bw500 => f.write_str("SF8BW500"),
+            DataRate::Sf7bw500 => f.write_str("SF7BW500"),
+            DataRate::Lrfhss1bw137 => f.write_str("LRFHSS1BW137"),
+            DataRate::Lrfhss2bw137 => f.write_str("LRFHSS2BW137"),
+            DataRate::Lrfhss1bw336 => f.write_str("LRFHSS1BW336"),
+            DataRate::Lrfhss2bw336 => f.write_str("LRFHSS2BW336"),
+            DataRate::Lrfhss1bw1523 => f.write_str("LRFHSS1BW1523"),
+            DataRate::Lrfhss2bw1523 => f.write_str("LRFHSS2BW1523"),
+            DataRate::Fsk50 => f.write_str("FSK50"),
+        }
+    }
+}
+
 impl std::str::FromStr for Region {
     type Err = prost::DecodeError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -133,6 +165,27 @@ impl std::str::FromStr for Region {
             unsupported => Err(prost::DecodeError::new(format!(
                 "unknown region: {unsupported}"
             ))),
+        }
+    }
+}
+
+impl std::fmt::Display for Region {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            Region::Us915 => f.write_str("US915"),
+            Region::Eu868 => f.write_str("EU868"),
+            Region::Eu433 => f.write_str("EU433"),
+            Region::Cn470 => f.write_str("CN470"),
+            Region::Cn779 => f.write_str("CN779"),
+            Region::Au915 => f.write_str("AU915"),
+            Region::As9231 => f.write_str("AS923_1"),
+            Region::As9231b => f.write_str("AS923_1B"),
+            Region::As9232 => f.write_str("AS923_2"),
+            Region::As9233 => f.write_str("AS923_3"),
+            Region::As9234 => f.write_str("AS923_4"),
+            Region::Kr920 => f.write_str("KR920"),
+            Region::In865 => f.write_str("IN865"),
+            Region::Cd9001a => f.write_str("CD900_1A"),
         }
     }
 }
