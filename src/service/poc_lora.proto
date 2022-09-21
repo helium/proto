@@ -28,8 +28,8 @@ message lora_beacon_report_req_v1 {
   bytes local_entropy = 3;
   bytes remote_entropy = 4;
   bytes data = 5;
-  // Frequency in kHz
-  uint32 frequency = 6;
+  // Frequency in Hz
+  uint64 frequency = 6;
   int32 channel = 7;
   data_rate datarate = 8;
   int32 tx_power = 9;
@@ -50,8 +50,8 @@ message lora_witness_report_req_v1 {
   uint32 ts_res = 5;
   uint32 signal = 6;
   float snr = 7;
-  // Frequency in kHz
-  uint32 frequency = 8;
+  // Frequency in Hz
+  uint64 frequency = 8;
   data_rate datarate = 10;
   bytes signature = 11;
 }
