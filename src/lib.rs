@@ -111,3 +111,28 @@ impl std::str::FromStr for DataRate {
         }
     }
 }
+
+impl std::str::FromStr for Region {
+    type Err = prost::DecodeError;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.to_ascii_uppercase().as_str() {
+            "US915" => Ok(Region::Us915),
+            "EU868" => Ok(Region::Eu868),
+            "EU433" => Ok(Region::Eu433),
+            "CN470" => Ok(Region::Cn470),
+            "CN779" => Ok(Region::Cn779),
+            "AU915" => Ok(Region::Au915),
+            "AS923_1" => Ok(Region::As9231),
+            "AS923_1B" => Ok(Region::As9231b),
+            "AS923_2" => Ok(Region::As9232),
+            "AS923_3" => Ok(Region::As9233),
+            "AS923_4" => Ok(Region::As9234),
+            "KR920" => Ok(Region::Kr920),
+            "IN865" => Ok(Region::In865),
+            "CD900_1A" => Ok(Region::Cd9001a),
+            unsupported => Err(prost::DecodeError::new(format!(
+                "unknown region: {unsupported}"
+            ))),
+        }
+    }
+}
