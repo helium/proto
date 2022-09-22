@@ -9,7 +9,7 @@ pub use prost::{DecodeError, EncodeError, Message};
 #[cfg(feature = "services")]
 pub mod services {
     use crate::{
-        BlockchainTokenTypeV1, BlockchainTxn, DataRate, GatewayStakingMode, RoutingAddress,
+        BlockchainTokenTypeV1, BlockchainTxn, DataRate, Entropy, GatewayStakingMode, RoutingAddress,
     };
 
     pub mod router {
