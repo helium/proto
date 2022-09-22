@@ -25,9 +25,6 @@ message follower_gateway_req_v1 {
   bytes address = 1;
 }
 
-/// Request a stream of all active gateways from the on-chain metadata
-message follower_gateway_stream_req_v1 {}
-
 message follower_gateway_resp_v1 {
   /// The height for at which the ownership was looked up
   uint64 height = 1;
@@ -44,6 +41,14 @@ message follower_gateway_resp_v1 {
   // the transmit gain value of the gateway in dbi x 10 For exmaple 1 dbi = 10,
   // 15 dbi = 150
   int32 gain = 6;
+}
+
+/// Request a stream of all active gateways from the on-chain metadata
+message follower_gateway_stream_req_v1 { uint32 batch_size = 1; }
+
+/// Active gateway info streaming response containing a batch of gateways
+message follower_gateway_stream_resp_v1 {
+  repeated follower_gateway_resp_v1 gateways = 1;
 }
 
 /// Query the last reward block for the given subnetwork by token type
@@ -64,7 +69,7 @@ service follower {
       returns (stream follower_txn_stream_resp_v1);
   rpc find_gateway(follower_gateway_req_v1) returns (follower_gateway_resp_v1);
   rpc active_gateways(follower_gateway_stream_req_v1)
-      returns (stream follower_gateway_resp_v1);
+      returns (stream follower_gateway_stream_resp_v1);
   rpc subnetwork_last_reward_height(
       follower_subnetwork_last_reward_height_req_v1)
       returns (follower_subnetwork_last_reward_height_resp_v1);
