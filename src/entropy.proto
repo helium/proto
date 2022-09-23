@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package helium;
 
-message entropy {
+message entropy_report_v1 {
   /// The entropy data
   bytes data = 1;
   /// The start time for the validity of this entropy in seconds since unix
