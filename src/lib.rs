@@ -9,7 +9,7 @@ pub use prost::{DecodeError, EncodeError, Message};
 #[cfg(feature = "services")]
 pub mod services {
     use crate::{
-        BlockchainTokenTypeV1, BlockchainTxn, DataRate, GatewayStakingMode, RoutingAddress,
+        Region, BlockchainTokenTypeV1, BlockchainTxn, DataRate, GatewayStakingMode, RoutingAddress,
     };
 
     pub mod router {
@@ -76,41 +76,6 @@ pub mod services {
     }
 
     pub use tonic::transport::*;
-
-    impl FromStr for DataRate {
-        type Err = prost::DecodeError;
-
-        fn from_str(s: &str) -> Result<Self, Self::Err> {
-            match s.to_ascii_uppercase().as_str() {
-                "SF12BW125" => Ok(DataRate::Sf12bw125),
-                "SF11BW125" => Ok(DataRate::Sf11bw125),
-                "SF10BW125" => Ok(DataRate::Sf10bw125),
-                "SF9BW125" => Ok(DataRate::Sf9bw125),
-                "SF8BW125" => Ok(DataRate::Sf8bw125),
-                "SF7BW125" => Ok(DataRate::Sf7bw125),
-                "SF12BW250" => Ok(DataRate::Sf12bw250),
-                "SF11BW250" => Ok(DataRate::Sf11bw250),
-                "SF10BW250" => Ok(DataRate::Sf10bw250),
-                "SF9BW250" => Ok(DataRate::Sf9bw250),
-                "SF8BW250" => Ok(DataRate::Sf8bw250),
-                "SF7BW250" => Ok(DataRate::Sf7bw250),
-                "SF12BW500" => Ok(DataRate::Sf12bw500),
-                "SF11BW500" => Ok(DataRate::Sf11bw500),
-                "SF10BW500" => Ok(DataRate::Sf10bw500),
-                "SF9BW500" => Ok(DataRate::Sf9bw500),
-                "SF8BW500" => Ok(DataRate::Sf8bw500),
-                "SF7BW500" => Ok(DataRate::Sf7bw500),
-                "LRFHSS1BW137" => Ok(DataRate::Lrfhss1bw137),
-                "LRFHSS2BW137" => Ok(DataRate::Lrfhss2bw137),
-                "LRFHSS1BW336" => Ok(DataRate::Lrfhss1bw336),
-                "LRFHSS2BW336" => Ok(DataRate::Lrfhss2bw336),
-                "LRFHSS1BW1523" => Ok(DataRate::Lrfhss1bw1523),
-                "LRFHSS2BW1523" => Ok(DataRate::Lrfhss2bw1523),
-                "FSK50" => Ok(DataRate::Fsk50),
-                unknown => Err(prost::DecodeError::new(format!("unknown datarate: {unknown}")))
-            }
-        }
-    }
 }
 
 impl std::str::FromStr for DataRate {
