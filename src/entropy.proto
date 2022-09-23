@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package helium;
+
+message entropy_report_v1 {
+  /// The entropy data
+  bytes data = 1;
+  /// The start time for the validity of this entropy in seconds since unix
+  // epoch
+  uint64 timestamp = 2;
+  /// The entropy version
+  uint32 version = 3;
+}

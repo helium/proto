@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package helium.local;
 
+import "gateway_staking_mode.proto";
+
 message pubkey_res {
   bytes address = 1;
   bytes onboarding_address = 2;
@@ -39,11 +41,6 @@ message height_res {
 message region_req {}
 message region_res { int32 region = 1; }
 
-enum gateway_staking_mode {
-  dataonly = 0;
-  full = 1;
-  light = 2;
-}
 message add_gateway_req {
   bytes owner = 1;
   bytes payer = 2;
