@@ -1,32 +1,38 @@
 use std::io::Result;
+
+#[cfg(feature = "services")]
+const SERVICES: &[&str] = &[
+    "src/service/router.proto",
+    "src/service/state_channel.proto",
+    "src/service/local.proto",
+    "src/service/gateway.proto",
+    "src/service/transaction.proto",
+    "src/service/follower.proto",
+    "src/service/poc_mobile.proto",
+    "src/service/poc_lora.proto",
+];
+
+const MESSAGES: &[&str] = &[
+    "src/blockchain_txn.proto",
+    "src/entropy.proto",
+    "src/data_rate.proto",
+    "src/region.proto",
+];
+
 #[cfg(feature = "services")]
 fn main() -> Result<()> {
-    #[cfg(target_family = "windows")]
     std::env::set_var("PROTOC", protoc_bin_vendored::protoc_bin_path().unwrap());
-    #[cfg(not(target_family = "windows"))]
-    std::env::set_var("PROTOC", protobuf_src::protoc());
-
-    tonic_build::configure()
-        .build_server(false)
-        .type_attribute(".", "#[derive(serde_derive::Serialize)]")
-        .compile(
-            &[
-                "src/blockchain_txn.proto",
-                "src/service/router.proto",
-                "src/service/state_channel.proto",
-                "src/service/gateway.proto",
-                "src/service/follower.proto",
-                "src/service/packet_router.proto",
-                "src/service/transaction.proto",
-            ],
-            &["src/"],
-        )?;
 
     tonic_build::configure()
         .build_server(true)
+        .build_client(true)
         .type_attribute(".", "#[derive(serde_derive::Serialize)]")
         .compile(
-            &["src/service/local.proto", "src/service/poc_mobile.proto"],
+            &MESSAGES
+                .iter()
+                .chain(SERVICES)
+                .map(|str| *str)
+                .collect::<Vec<&str>>(),
             &["src"],
         )?;
     Ok(())
@@ -34,12 +40,9 @@ fn main() -> Result<()> {
 
 #[cfg(not(feature = "services"))]
 fn main() -> Result<()> {
-    #[cfg(target_family = "windows")]
     std::env::set_var("PROTOC", protoc_bin_vendored::protoc_bin_path().unwrap());
-    #[cfg(not(target_family = "windows"))]
-    std::env::set_var("PROTOC", protobuf_src::protoc());
     prost_build::Config::new()
         .type_attribute(".", "#[derive(serde_derive::Serialize)]")
-        .compile_protos(&["src/blockchain_txn.proto"], &["src/"])?;
+        .compile_protos(MESSAGES, &["src"])?;
     Ok(())
 }

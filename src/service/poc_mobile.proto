@@ -5,16 +5,26 @@ package helium.poc_mobile;
 message speedtest_req_v1 {
   bytes pub_key = 1;
   string serial = 2;
-  // Timestamp of speedtest test in seconds from unix epoch
+  /// Timestamp of speedtest test in seconds from unix epoch
   uint64 timestamp = 3;
+  /// Measured upload speed in bytes/sec. <value>*8/10E5 = Mbps
   uint64 upload_speed = 4;
+  /// Measured download speed in bytes/sec. <value>*8/10E5 = Mbps
   uint64 download_speed = 5;
+  /// Measured latency in milliseconds
   uint32 latency = 6;
 
   bytes signature = 7;
 }
 
 message speedtest_resp_v1 { string id = 1; }
+
+// speedtest report outputted by ingestor, tagged with received_timestamp
+message speedtest_ingest_report_v1 {
+  // timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  speedtest_req_v1 report = 2;
+}
 
 message cell_heartbeat_req_v1 {
   // Public key of the hotspot
@@ -34,8 +44,115 @@ message cell_heartbeat_req_v1 {
 
 message cell_heartbeat_resp_v1 { string id = 1; }
 
+// cell heartbeat report outputted by ingestor, tagged with received_timestamp
+message cell_heartbeat_ingest_report_v1 {
+  // timestamp in millisconds since unix epoch
+  uint64 received_timestamp = 1;
+  cell_heartbeat_req_v1 report = 2;
+}
+
 service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
       returns (cell_heartbeat_resp_v1);
+}
+
+message file_info {
+  string key = 1;
+  file_type file_type = 2;
+  uint64 timestamp = 3;
+  uint64 size = 4;
+}
+
+message processed_files { repeated file_info files = 1; }
+
+message share {
+  string cbsd_id = 1;
+  bytes pub_key = 2;
+  uint64 weight = 3;
+  uint64 timestamp = 4;
+  cell_type cell_type = 5;
+  share_validity validity = 6;
+}
+
+message shares { repeated share shares = 1; }
+
+message speed_share {
+  bytes pub_key = 1;
+  /// bytes/sec
+  uint64 upload_speed_bps = 2;
+  /// bytes/sec
+  uint64 download_speed_bps = 3;
+  uint32 latency_ms = 4;
+  uint64 timestamp = 5;
+  share_validity validity = 6;
+}
+
+message speed_share_list {
+  bytes gw_pub_key = 1;
+  repeated speed_share speed_shares = 2;
+}
+
+message speed_shares { repeated speed_share_list speed_shares = 1; }
+
+message invalid_speed_shares { repeated speed_share speed_shares = 1; }
+
+enum share_validity {
+  share_validity_valid = 0;
+  share_validity_decode_failed = 1;
+  share_validity_gateway_owner_not_found = 2;
+  share_validity_heartbeat_outside_range = 3;
+  share_validity_bad_cbsd_id = 4;
+}
+
+message moving_avg {
+  bytes pub_key = 1;
+  /// Refers to the number of speed_shares used to calculate the average
+  uint64 window_size = 2;
+  average average = 3;
+  bool is_valid = 4;
+  repeated speed_share speed_shares = 5;
+}
+
+message average {
+  uint64 upload_speed_avg_bps = 1;
+  uint64 download_speed_avg_bps = 2;
+  uint32 latency_avg_ms = 3;
+}
+
+message speed_share_moving_avgs { repeated moving_avg moving_avgs = 1; }
+
+message cell_share {
+  cell_type cell_type = 1;
+  /// weight will be x10, i.e. 40 = 4.0
+  uint64 weight = 2;
+}
+
+message cell_shares { repeated cell_share shares = 1; }
+
+message hotspot_share {
+  bytes pub_key = 1;
+  uint64 weight = 2;
+}
+
+message hotspot_shares { repeated hotspot_share shares = 1; }
+
+message owner_share {
+  bytes pub_key = 1;
+  uint64 weight = 2;
+}
+
+message owner_shares { repeated owner_share shares = 1; }
+
+enum file_type {
+  heartbeat = 0;
+  speedtest = 1;
+}
+
+enum cell_type {
+  nova436h = 0;
+  nova430i = 1;
+  neutrino430 = 2;
+  sercomm_indoor = 3;
+  sercomm_outdoor = 4;
 }

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package helium;
+
+enum gateway_staking_mode {
+  dataonly = 0;
+  full = 1;
+  light = 2;
+}
