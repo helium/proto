@@ -9,7 +9,9 @@ message subnetwork_reward {
 }
 
 message subnetwork_rewards {
+  /// UNIX timestamp indicating the start of the rewards period
   uint64 start_epoch = 1;
+  /// UNIX timestamp indicating the end of the rewards period
   uint64 end_epoch = 2;
   repeated subnetwork_reward rewards = 3;
 }
