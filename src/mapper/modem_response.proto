@@ -1,4 +1,5 @@
 syntax = "proto3";
+package mapper;
 
 import "attach_response.proto";
 import "scan_response.proto";

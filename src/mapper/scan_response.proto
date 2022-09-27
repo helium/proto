@@ -1,4 +1,5 @@
 syntax = "proto3";
+package mapper;
 
 import "gps_response.proto";
 
@@ -9,11 +10,11 @@ message scan_response_t {
 message scan_response_v1 {
   uint32 scan_response_counter = 1;
   gps_response_v1 gps = 2;
-  repeated result results = 3;
+  repeated scan_result_t results = 3;
 }
 
-message result {
-  uint32 cid = 1;
+message scan_result_t {
+  uint64 cid = 1; /**<   28-bit (UMTS, LTE) or 36-bit (5G NR) */
   uint32 plmn = 2;
   uint32 fcn = 3; /**<   earfcn or uarfcn */
   uint32 pci = 4;

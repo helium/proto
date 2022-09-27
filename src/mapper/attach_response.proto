@@ -1,4 +1,5 @@
 syntax = "proto3";
+package mapper;
 
 import "gps_response.proto";
 
@@ -28,7 +29,7 @@ message attach_response_v1 {
     uint32 fcn = 5;
   }
   // This allows us to detect censorship efforts. It can roll over.
-  int32 attach_response_counter = 1;
+  uint32 attach_response_counter = 1;
   gps_response_v1 gps = 2;
   candidate_t candidate = 3;
   result_t result = 4;
