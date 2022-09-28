@@ -9,4 +9,5 @@ message blockchain_txn_subnetwork_fund_v1 {
   uint64 nonce = 3;
   bytes payer = 4;
   bytes signature = 5;
+  uint64 fee = 6;
 }
