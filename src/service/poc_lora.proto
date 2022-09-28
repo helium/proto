@@ -20,6 +20,10 @@ enum invalid_reason {
   gateway_not_found = 7;
   denied = 8;
   invalid_packet = 9;
+  bad_rssi = 10;
+  invalid_region = 11;
+  max_distance_exceeded = 12;
+  invalid_frequency = 13;
 }
 
 // beacon report as submitted by gateway to ingestor
