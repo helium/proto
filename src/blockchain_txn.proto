@@ -44,6 +44,7 @@ import "blockchain_txn_transfer_hotspot_v2.proto";
 import "blockchain_txn_add_subnetwork_v1.proto";
 import "blockchain_txn_update_subnetwork_v1.proto";
 import "blockchain_txn_subnetwork_rewards_v1.proto";
+import "blockchain_txn_subnetwork_fund_v1.proto";
 
 import "blockchain_txn_token_redeem_v1.proto";
 
@@ -90,6 +91,7 @@ message blockchain_txn {
     blockchain_txn_update_subnetwork_v1 update_subnetwork = 39;
     blockchain_txn_subnetwork_rewards_v1 subnetwork_rewards = 40;
     blockchain_txn_token_redeem_v1 token_redeem = 41;
+    blockchain_txn_subnetwork_fund_v1 subnetwork_fund = 42;
   }
 }
 

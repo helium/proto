@@ -1,0 +1,13 @@
+syntax = "proto3";
+package helium;
+
+import "blockchain_token_type_v1.proto";
+
+message blockchain_txn_subnetwork_fund_v1 {
+  blockchain_token_type_v1 token_type = 1;
+  uint64 amount = 2;
+  uint64 nonce = 3;
+  bytes payer = 4;
+  bytes signature = 5;
+  uint64 fee = 6;
+}
