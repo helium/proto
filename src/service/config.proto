@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package helium.config;
+
+message devaddr_range_v1 {
+  uint64 start_addr = 1;
+  uint64 end_addr = 2;
+}
+
+message eui_v1 {
+  uint64 app_eui = 1;
+  uint64 dev_eui = 2;
+}
+
+message protocol_router {
+  bytes ip = 1;
+  uint32 port = 2;
+}
+
+message protocol_gwmp {
+  bytes ip = 1;
+  uint32 port = 2;
+}
+
+message protocol_http_roaming {
+  bytes ip = 1;
+  uint32 port = 2;
+}
+
+message route_v1 {
+  uint64 net_id = 1;
+  repeated devaddr_range_v1 devaddr_ranges = 2;
+  repeated eui_v1 euis = 3;
+  uint64 oui = 4;
+  oneof protocol {
+    protocol_router router = 5;
+    protocol_gwmp gwmp = 6;
+    protocol_http_roaming http_roaming = 7;
+  }
+}
+
+message routes_req_v1 {}
+
+message routes_res_v1 { repeated route_v1 routes = 1; }
+
+service config_service {
+  rpc route_updates(routes_req_v1) returns (stream routes_res_v1);
+}
