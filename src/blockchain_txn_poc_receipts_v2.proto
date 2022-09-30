@@ -11,4 +11,6 @@ message blockchain_txn_poc_receipts_v2 {
   uint64 fee = 5;
   bytes signature = 6;
   bytes block_hash = 7;
+  // used for off-chain poc replay prevention
+  uint64 timestamp = 8;
 }
