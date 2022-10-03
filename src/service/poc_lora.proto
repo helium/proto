@@ -26,6 +26,56 @@ enum invalid_reason {
   invalid_frequency = 13;
 }
 
+message secure_packet_v1 {
+  // frequency in Hz
+  uint64 freq = 1;
+
+  data_rate datarate = 2;
+
+  // Signal to Noise radio (0.01dB)
+  int32 snr = 3;
+
+  // Received Signal Strength Indicator (1 dBm)
+  int32 rssi = 4;
+
+  // Internal timestamp of "RX finished" event
+  uint32 tmst = 5;
+
+  // Globally Unique identifier of Concentrator Card
+  bytes card_id = 6;
+
+  optional wgs84_position pos = 7;
+
+  // time of beacon was received by concentrator (can be used for TDOA)
+  optional gps_time time = 8;
+
+  // signature of the RX pkt signed by Secure Concentrator Card
+  bytes signature = 9;
+}
+
+message wgs84_position {
+  // (deg) 1e-7 scale
+  int32 latitude = 1;
+
+  // (deg) 1e-7 scale
+  int32 longitude = 2;
+
+  // Height above ellipsoid (mm)
+  int32 height = 3;
+
+  // Horizontal accuracy estimate (mm)
+  uint32 hacc = 4;
+
+  // Vertical accuracy estimate (mm)
+  optional uint32 vacc = 5;
+}
+
+// Duration since the GPS epoc (0h 6-Jan-1980)
+message gps_time {
+  uint64 sec = 2;
+  uint32 nano = 3;
+}
+
 // beacon report as submitted by gateway to ingestor
 message lora_beacon_report_req_v1 {
   bytes pub_key = 2;
@@ -58,6 +108,7 @@ message lora_witness_report_req_v1 {
   uint64 frequency = 8;
   data_rate datarate = 10;
   bytes signature = 11;
+  optional secure_packet_v1 secure_pkt = 12;
 }
 
 // response returned to gateway submitting witness report to ingestor
