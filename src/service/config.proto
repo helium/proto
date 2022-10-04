@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package helium.config;
 
+import "region.proto";
+
 message devaddr_range_v1 {
   uint64 start_addr = 1;
   uint64 end_addr = 2;
@@ -12,19 +14,29 @@ message eui_v1 {
   uint64 dev_eui = 2;
 }
 
-message protocol_router {
-  bytes ip = 1;
+message protocol_packet_router_v1 {
+}
+
+message protocol_gwmp_mapping_v1 {
+  region region = 1;
   uint32 port = 2;
 }
 
-message protocol_gwmp {
-  bytes ip = 1;
-  uint32 port = 2;
+message protocol_gwmp_v1 {
+  repeated protocol_gwmp_mapping_v1 mapping = 1;
 }
 
-message protocol_http_roaming {
-  bytes ip = 1;
+message protocol_http_roaming_v1 {
+}
+
+message server_v1 {
+  bytes host = 1;
   uint32 port = 2;
+  oneof protocol {
+    protocol_packet_router_v1 packet_router = 3;
+    protocol_gwmp_v1 gwmp = 4;
+    protocol_http_roaming_v1 http_roaming = 5;
+  }
 }
 
 message route_v1 {
@@ -32,11 +44,7 @@ message route_v1 {
   repeated devaddr_range_v1 devaddr_ranges = 2;
   repeated eui_v1 euis = 3;
   uint64 oui = 4;
-  oneof protocol {
-    protocol_router router = 5;
-    protocol_gwmp gwmp = 6;
-    protocol_http_roaming http_roaming = 7;
-  }
+  server_v1 server = 5;
 }
 
 message routes_req_v1 {}

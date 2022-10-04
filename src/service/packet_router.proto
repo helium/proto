@@ -48,7 +48,7 @@ message packet_router_packet_down_v1 {
   window_v1 rx2 = 3;
 }
 
-service gateway {
-  rpc send_packet(stream packet_router_packet_up_v1)
+service packet {
+  rpc route(stream packet_router_packet_up_v1)
       returns (stream packet_router_packet_down_v1);
 }
