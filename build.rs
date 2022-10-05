@@ -28,8 +28,7 @@ const MESSAGES: &[&str] = &[
 
 #[cfg(feature = "services")]
 fn main() -> Result<()> {
-    std::env::set_var("PROTOC", protoc_bin_vendored::protoc_bin_path().unwrap());
-
+    maybe_set_protoc();
     tonic_build::configure()
         .build_server(true)
         .build_client(true)
@@ -50,7 +49,7 @@ fn main() -> Result<()> {
 
 #[cfg(not(feature = "services"))]
 fn main() -> Result<()> {
-    std::env::set_var("PROTOC", protoc_bin_vendored::protoc_bin_path().unwrap());
+    maybe_set_protoc();
     prost_build::Config::new()
         .type_attribute(
             ".",
@@ -58,4 +57,12 @@ fn main() -> Result<()> {
         )
         .compile_protos(MESSAGES, &["src"])?;
     Ok(())
+}
+
+// Sets `PROTOC` environment variable if not already set.
+fn maybe_set_protoc() {
+    if std::env::var("PROTOC").is_err() {
+        std::env::set_var("PROTOC", protoc_bin_vendored::protoc_bin_path().unwrap());
+    }
+    println!("cargo:rerun-if-env-changed=PROTOC");
 }
