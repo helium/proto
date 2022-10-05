@@ -15,6 +15,9 @@ pub mod services {
     pub mod router {
         pub use crate::router_client::RouterClient;
         pub use crate::state_channel_client::StateChannelClient;
+
+        include!(concat!(env!("OUT_DIR"), "/helium.packet_router.rs"));
+        pub use packet_client::PacketClient as PacketRouterClient;
     }
     pub mod gateway {
         pub use crate::gateway_client::GatewayClient as Client;
