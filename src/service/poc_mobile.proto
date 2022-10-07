@@ -156,3 +156,18 @@ enum cell_type {
   sercomm_indoor = 3;
   sercomm_outdoor = 4;
 }
+
+message rewards_report {
+  repeated hotspot_reward_report hotspot_rewards = 1;
+  repeated radio_reward_report radio_rewards = 2;
+}
+
+message hotspot_reward_report {
+  bytes pub_key = 1;
+  uint64 reward = 2;
+}
+
+message radio_reward_report {
+  bytes pub_key = 1;
+  uint64 reward = 2;
+}
