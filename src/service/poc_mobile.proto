@@ -2,6 +2,25 @@ syntax = "proto3";
 
 package helium.poc_mobile;
 
+message attach_req_v1 {
+  bytes pub_key = 1;
+  /// Hash bytes of the imsi that attached
+  bytes imsi = 2;
+  /// The timestamp the attach occurred at in millis from unix epoch
+  uint64 timestamp = 3;
+
+  bytes signature = 4;
+}
+
+message attach_resp_v1 { string id = 1; }
+
+// attach report outputted by ingestor, tagged with received_timestamp
+message attach_ingest_report_v1 {
+  // timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  attach_req_v1 report = 2;
+}
+
 message speedtest_req_v1 {
   bytes pub_key = 1;
   string serial = 2;
@@ -52,6 +71,7 @@ message cell_heartbeat_ingest_report_v1 {
 }
 
 service poc_mobile {
+  rpc submit_attach(attach_req_v1) returns (attach_resp_v1);
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
       returns (cell_heartbeat_resp_v1);
