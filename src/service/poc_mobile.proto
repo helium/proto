@@ -163,11 +163,19 @@ message rewards_report {
 }
 
 message hotspot_reward_report {
+  /// Public key of the hotspot
   bytes pub_key = 1;
-  uint64 reward = 2;
+  /// Public key of the owner of the hotspot
+  bytes owner = 2;
+  /// Reward amount in bones
+  uint64 reward = 3;
 }
 
 message radio_reward_report {
+  /// Public key of the radio
   bytes pub_key = 1;
-  uint64 reward = 2;
+  /// Public key of the owner of the radio
+  bytes owner = 2;
+  /// Reward amount in bones
+  uint64 reward = 3;
 }
