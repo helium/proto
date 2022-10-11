@@ -8,6 +8,7 @@ import "data_rate.proto";
 message packet_router_packet_up_v1 {
   bytes payload = 1;
   uint64 timestamp = 2;
+  // signal strength in dBm
   sint32 rssi = 3;
   // Frequency in hz
   uint32 frequency = 4;
@@ -23,7 +24,7 @@ message packet_router_packet_report_v1 {
   uint64 gateway_timestamp_ms = 1;
   uint32 oui = 2;
   uint64 net_id = 3;
-  // LoRa signal strength
+  // signal strength in dBm
   sint32 rssi = 4;
   // Frequency in hz
   uint32 frequency = 5;
