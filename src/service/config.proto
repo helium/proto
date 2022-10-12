@@ -41,6 +41,7 @@ message route_v1 {
   repeated eui_v1 euis = 3;
   uint64 oui = 4;
   server_v1 server = 5;
+  uint32 max_copies = 6;
 }
 
 message routes_req_v1 {}
