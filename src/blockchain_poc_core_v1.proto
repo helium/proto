@@ -29,7 +29,7 @@ message blockchain_poc_receipt_v1 {
 message blockchain_poc_witness_v1 {
   bytes gateway = 1;
   uint64 timestamp = 2;
-  sint32 signal = 3;
+  float signal = 3;
   bytes packet_hash = 4;
   bytes signature = 5;
   float snr = 6;
