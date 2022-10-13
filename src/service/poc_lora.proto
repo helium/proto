@@ -24,6 +24,7 @@ enum invalid_reason {
   invalid_region = 11;
   max_distance_exceeded = 12;
   invalid_frequency = 13;
+  self_witness = 14;
 }
 
 // beacon report as submitted by gateway to ingestor
