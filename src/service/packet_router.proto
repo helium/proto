@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package helium.packet_router;
+
+import "region.proto";
+import "data_rate.proto";
+
+message packet_router_packet_up_v1 {
+  bytes payload = 1;
+  uint64 timestamp = 2;
+  // signal strength in dBm
+  sint32 rssi = 3;
+  // Frequency in hz
+  uint32 frequency = 4;
+  data_rate datarate = 5;
+  float snr = 6;
+  region region = 7;
+  uint64 hold_time = 8;
+  bytes gateway = 9;
+  bytes signature = 10;
+}
+
+message packet_router_packet_report_v1 {
+  uint64 gateway_timestamp_ms = 1;
+  uint32 oui = 2;
+  uint64 net_id = 3;
+  // signal strength in dBm
+  sint32 rssi = 4;
+  // Frequency in hz
+  uint32 frequency = 5;
+  float snr = 6;
+  data_rate datarate = 7;
+  region region = 8;
+  bytes gateway = 9;
+  // Hash of `payload` within `message packet`
+  bytes payload_hash = 10;
+}
+
+message window_v1 {
+  uint64 timestamp = 1;
+  // Frequency in hz
+  uint32 frequency = 2;
+  data_rate datarate = 3;
+}
+
+message packet_router_packet_down_v1 {
+  bytes payload = 1;
+  window_v1 rx1 = 2;
+  window_v1 rx2 = 3;
+}
+
+service packet {
+  rpc route(stream packet_router_packet_up_v1)
+      returns (stream packet_router_packet_down_v1);
+}

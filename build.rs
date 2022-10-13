@@ -10,6 +10,7 @@ const SERVICES: &[&str] = &[
     "src/service/follower.proto",
     "src/service/poc_mobile.proto",
     "src/service/poc_lora.proto",
+    "src/service/packet_router.proto",
 ];
 
 const MESSAGES: &[&str] = &[
