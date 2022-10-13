@@ -9,11 +9,10 @@
   + There are many floating point representations from IEEE, plus others
   + i.e., some range of interior digits are random per float spec
 - Frequency should use `uint32` and should be in Hz
-  + Locally, define accessor functions to return float after appropriate division
 - rssi or signal is always negative, thus use `sint32` and is in deci-dbm (aka `ddbm`) which is `dbm * 10`
 - snr is signal-to-noise ratio and should be `uint32`
 - Fetch and share time in nanos, then truncate to appropriate granularity as needed
   + e.g., get from OS in nanos
 - Reject any PR unless units are documented inline within Protobuf definition
-- Append units suffix on field names when deviating from the above descriptions
+- Document units of fields
 - When exceptions to the above occur, please explain *why* within comments
