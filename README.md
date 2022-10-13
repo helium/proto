@@ -8,9 +8,9 @@
 - Avoid `float` in Protobufs because representations differ across hardware architectures
   + There are many floating point representations from IEEE, plus others
   + i.e., some range of interior digits are random per float spec
-- Frequency should use `uint32`
+- Frequency should use `uint32` and should be in Hz
   + Locally, define accessor functions to return float after appropriate division
-- rssi or signal is always negative, thus use `sint32`
+- rssi or signal is always negative, thus use `sint32` and is in deci-dbm (aka `ddbm`) which is `dbm * 10`
 - snr is signal-to-noise ratio and should be `uint32`
 - Fetch and share time in nanos, then truncate to appropriate granularity as needed
   + e.g., get from OS in nanos
