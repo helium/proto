@@ -23,7 +23,9 @@ message protocol_gwmp_mapping_v1 {
 
 message protocol_gwmp_v1 { repeated protocol_gwmp_mapping_v1 mapping = 1; }
 
-message protocol_http_roaming_v1 {}
+message protocol_http_roaming_v1 {
+  flow_rate flow_rate = 1;
+}
 
 message server_v1 {
   bytes host = 1;
