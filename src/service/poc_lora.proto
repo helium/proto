@@ -24,6 +24,8 @@ enum invalid_reason {
   invalid_region = 11;
   max_distance_exceeded = 12;
   invalid_frequency = 13;
+  self_witness = 14;
+  stale = 15;
 }
 
 message secure_packet_v1 {
@@ -102,7 +104,8 @@ message lora_witness_report_req_v1 {
   // Timestamp of witness received in nanos since unix epoch
   uint64 timestamp = 4;
   uint32 ts_res = 5;
-  uint32 signal = 6;
+  // Signal in ddbm
+  sint32 signal = 6;
   int32 snr = 7;
   // Frequency in Hz
   uint64 frequency = 8;
