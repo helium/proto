@@ -42,6 +42,7 @@ message lora_beacon_report_req_v1 {
   // Timestamp of beacon transmit in nanos since unix epoch
   uint64 timestamp = 10;
   bytes signature = 11;
+  uint32 tmst = 12;
 }
 
 // response returned to gateway submitting beacon report to ingestor
@@ -53,7 +54,7 @@ message lora_witness_report_req_v1 {
   bytes data = 3;
   // Timestamp of witness received in nanos since unix epoch
   uint64 timestamp = 4;
-  uint32 ts_res = 5;
+  uint32 tmst = 5;
   // Signal in ddbm
   sint32 signal = 6;
   int32 snr = 7;
