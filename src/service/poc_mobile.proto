@@ -103,6 +103,7 @@ enum share_validity {
   share_validity_gateway_owner_not_found = 2;
   share_validity_heartbeat_outside_range = 3;
   share_validity_bad_cbsd_id = 4;
+  share_validity_not_operational = 5;
 }
 
 message moving_avg {
