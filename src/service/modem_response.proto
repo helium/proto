@@ -1,9 +1,9 @@
 syntax = "proto3";
-package mapper;
+package helium.mapper;
 
-import "attach_response.proto";
-import "scan_response.proto";
-import "gps_response.proto";
+import "service/attach_response.proto";
+import "service/scan_response.proto";
+import "service/gps_response.proto";
 
 message modem_response_t {
   oneof message {

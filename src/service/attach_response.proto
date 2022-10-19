@@ -1,7 +1,7 @@
 syntax = "proto3";
-package mapper;
+package helium.mapper;
 
-import "gps_response.proto";
+import "service/gps_response.proto";
 
 message attach_response_t {
   oneof version { attach_response_v1 attach_response_v1 = 1; }
@@ -14,6 +14,7 @@ message attach_response_v1 {
     LIMSERV = 2;
     NOCONN = 3;
     SEARCH = 4;
+    NO_NETWORK_SERVICE = 5;
   }
   message candidate_t {
     enum cell_tech {

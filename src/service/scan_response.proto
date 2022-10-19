@@ -1,7 +1,7 @@
 syntax = "proto3";
-package mapper;
+package helium.mapper;
 
-import "gps_response.proto";
+import "service/gps_response.proto";
 
 message scan_response_t {
   oneof version { scan_response_v1 scan_response_v1 = 1; }
@@ -20,5 +20,4 @@ message scan_result_t {
   uint32 pci = 4;
   int32 rsrp = 5; /**<   Current RSRQ in units of 0.1 dB as measured by L1. */
   int32 rsrq = 6; /**<   Current RSRP in units of 0.1 dBm as measured by L1. */
-  int32 snr = 7;  /**<   Current SNR in units of 0.1 dB as measured by L1. */
 }
