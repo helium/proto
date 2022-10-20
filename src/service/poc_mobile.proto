@@ -95,6 +95,7 @@ message speedtest_avg {
   uint32 latency_avg_ms = 4;
   speedtest_avg_validity validity = 5;
   repeated speedtest speedtests = 6;
+  uint64 timestamp = 7;
 }
 
 message speedtest {
