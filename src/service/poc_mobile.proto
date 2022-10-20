@@ -88,14 +88,20 @@ enum share_validity {
 
 message speedtest_avg {
   bytes pub_key = 1;
-  /// Number of speedtests used in calculating this average
-  uint64 window_size = 2;
   /// bytes/sec
-  uint64 upload_speed_avg_bps = 3;
+  uint64 upload_speed_avg_bps = 2;
   /// bytes/sec
-  uint64 download_speed_avg_bps = 4;
-  uint32 latency_avg_ms = 5;
-  speedtest_avg_validity validity = 6;
+  uint64 download_speed_avg_bps = 3;
+  uint32 latency_avg_ms = 4;
+  speedtest_avg_validity validity = 5;
+  repeated speedtest speedtests = 6;
+}
+
+message speedtest {
+  uint64 upload_speed_bps = 1;
+  uint64 download_speed_bps = 2;
+  uint32 latency_ms = 3;
+  uint64 timestamp = 4;
 }
 
 enum speedtest_avg_validity {
