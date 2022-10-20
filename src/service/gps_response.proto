@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package helium.mapper;
 
-message gps_response_t {
+message gps_response {
   oneof version { gps_response_v1 gps_response_v1 = 1; }
 }
 

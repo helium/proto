@@ -7,9 +7,9 @@ import "service/gps_response.proto";
 
 message modem_response_t {
   oneof message {
-    gps_response_t gps_response = 1;
-    scan_response_t scan_response = 2;
-    attach_response_t attach_response = 3;
+    gps_response gps_response = 1;
+    scan_response scan_response = 2;
+    attach_response attach_response = 3;
   }
   repeated bytes signature = 4;
 }
