@@ -25,7 +25,8 @@ message attach_response_v1 {
     // Corresponds "scan_response_counter" in the scan_response_counter which we
     // selected attach candidates from
     uint32 from_scan_response = 2;
-    uint32 delay = 3; // delay in seconds between AT+QNWLOCK and AT+QENG
+    // delay in seconds between locking to the cell and evaluating connectivity
+    uint32 delay = 3;
     uint32 plmn = 4;
     uint32 fcn = 5;
   }
