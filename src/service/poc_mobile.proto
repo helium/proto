@@ -77,26 +77,6 @@ message share {
 
 message shares { repeated share shares = 1; }
 
-message speed_share {
-  bytes pub_key = 1;
-  /// bytes/sec
-  uint64 upload_speed_bps = 2;
-  /// bytes/sec
-  uint64 download_speed_bps = 3;
-  uint32 latency_ms = 4;
-  uint64 timestamp = 5;
-  share_validity validity = 6;
-}
-
-message speed_share_list {
-  bytes gw_pub_key = 1;
-  repeated speed_share speed_shares = 2;
-}
-
-message speed_shares { repeated speed_share_list speed_shares = 1; }
-
-message invalid_speed_shares { repeated speed_share speed_shares = 1; }
-
 enum share_validity {
   share_validity_valid = 0;
   share_validity_decode_failed = 1;
@@ -106,22 +86,25 @@ enum share_validity {
   share_validity_not_operational = 5;
 }
 
-message moving_avg {
+message speedtest_avg {
   bytes pub_key = 1;
-  /// Refers to the number of speed_shares used to calculate the average
+  /// Number of speedtests used in calculating this average
   uint64 window_size = 2;
-  average average = 3;
-  bool is_valid = 4;
-  repeated speed_share speed_shares = 5;
+  /// bytes/sec
+  uint64 upload_speed_avg_bps = 3;
+  /// bytes/sec
+  uint64 download_speed_avg_bps = 4;
+  uint32 latency_avg_ms = 5;
+  speedtest_avg_validity validity = 6;
 }
 
-message average {
-  uint64 upload_speed_avg_bps = 1;
-  uint64 download_speed_avg_bps = 2;
-  uint32 latency_avg_ms = 3;
+enum speedtest_avg_validity {
+  speedtest_avg_validity_valid = 0;
+  speedtest_avg_validity_too_few_samples = 1;
+  speedtest_avg_validity_slow_download_speed = 2;
+  speedtest_avg_validity_slow_upload_speed = 3;
+  speedtest_avg_validity_high_latency = 4;
 }
-
-message speed_share_moving_avgs { repeated moving_avg moving_avgs = 1; }
 
 message cell_share {
   cell_type cell_type = 1;
