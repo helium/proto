@@ -11,6 +11,8 @@ message modem_response {
     scan_response scan_response = 2;
     attach_response attach_response = 3;
   }
+  // the pubkey signs over the message above
+  // which does not contain the pubkey itself
   repeated bytes signature = 4;
-  repeated bytes signer = 5;
+  repeated bytes pubkey = 5;
 }
