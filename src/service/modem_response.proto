@@ -14,5 +14,5 @@ message modem_response {
   // the pubkey signs over the message above
   // which does not contain the pubkey itself
   repeated bytes signature = 4;
-  repeated bytes pubkey = 5;
+  repeated bytes pub_key = 5;
 }
