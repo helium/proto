@@ -66,24 +66,22 @@ message file_info {
 
 message processed_files { repeated file_info files = 1; }
 
-message share {
+message heartbeat {
   string cbsd_id = 1;
   bytes pub_key = 2;
   uint64 weight = 3;
   uint64 timestamp = 4;
   cell_type cell_type = 5;
-  share_validity validity = 6;
+  heartbeat_validity validity = 6;
 }
 
-message shares { repeated share shares = 1; }
-
-enum share_validity {
-  share_validity_valid = 0;
-  share_validity_decode_failed = 1;
-  share_validity_gateway_owner_not_found = 2;
-  share_validity_heartbeat_outside_range = 3;
-  share_validity_bad_cbsd_id = 4;
-  share_validity_not_operational = 5;
+enum heartbeat_validity {
+  heartbeat_validity_valid = 0;
+  heartbeat_validity_decode_failed = 1;
+  heartbeat_validity_gateway_owner_not_found = 2;
+  heartbeat_validity_heartbeat_outside_range = 3;
+  heartbeat_validity_bad_cbsd_id = 4;
+  heartbeat_validity_not_operational = 5;
 }
 
 message speedtest_avg {
