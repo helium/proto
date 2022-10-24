@@ -135,8 +135,8 @@ message owner_share {
 message owner_shares { repeated owner_share shares = 1; }
 
 enum file_type {
-  heartbeat = 0;
-  speedtest = 1;
+  file_type_heartbeat = 0;
+  file_type_speedtest = 1;
 }
 
 enum cell_type {
