@@ -7,6 +7,12 @@ import "blockchain_txn.proto";
 import "gateway_staking_mode.proto";
 import "region.proto";
 
+message gateway_not_found { bytes address = 1; }
+
+message follower_error {
+  oneof type { gateway_not_found not_found = 1; }
+}
+
 message follower_txn_stream_req_v1 {
   uint64 height = 1;
   bytes txn_hash = 2;
@@ -20,6 +26,24 @@ message follower_txn_stream_resp_v1 {
   uint64 timestamp = 4;
 }
 
+message gateway_info {
+  /// The asserted h3 (string) location of the gateway. Empty string if the
+  // gateway is not found
+  string location = 1;
+  /// The pubkey_bin address of the requested gateway
+  bytes address = 2;
+  /// The pubkey_bin address of the current owner of the gateway. An empty bytes
+  /// if the hotspot is not found
+  bytes owner = 3;
+  /// the staking mode of the gateway
+  gateway_staking_mode staking_mode = 4;
+  /// the transmit gain value of the gateway in dbi x 10 For example 1 dbi = 10,
+  // 15 dbi = 150
+  int32 gain = 5;
+  /// The region of the gateway's corresponding location
+  region region = 6;
+}
+
 /// Look up the owner of a given hotspot public key
 message follower_gateway_req_v1 {
   /// The pubkey_bin address of the gateway to look up
@@ -29,21 +53,10 @@ message follower_gateway_req_v1 {
 message follower_gateway_resp_v1 {
   /// The height for at which the ownership was looked up
   uint64 height = 1;
-  /// The asserted h3 (string) location of the gateway. Empty string if the
-  // gateway is not found
-  string location = 2;
-  /// The pubkey_bin address of the requested gateway
-  bytes address = 3;
-  /// The pubkey_bin address of the current owner of the gateway. An empty bytes
-  /// if the hotspot is not found
-  bytes owner = 4;
-  /// the staking mode of the gateway
-  gateway_staking_mode staking_mode = 5;
-  /// the transmit gain value of the gateway in dbi x 10 For example 1 dbi = 10,
-  // 15 dbi = 150
-  int32 gain = 6;
-  /// The region of the gateway's corresponding location
-  region region = 7;
+  oneof result {
+    gateway_info info = 2;
+    follower_error error = 3;
+  }
 }
 
 /// Request a stream of all active gateways from the on-chain metadata
