@@ -8,7 +8,7 @@ message attach_response {
 }
 
 message attach_response_v1 {
-  enum result {
+  enum attach_response_result {
     NONE = 0;
     CONNECT = 1;
     LIMSERV = 2;
@@ -16,7 +16,7 @@ message attach_response_v1 {
     SEARCH = 4;
     NO_NETWORK_SERVICE = 5;
   }
-  message candidate {
+  message attach_response_candidate {
     enum cell_tech {
       lte = 0;
       nr = 1;
@@ -33,6 +33,6 @@ message attach_response_v1 {
   // This allows us to detect censorship efforts. It can roll over.
   uint32 attach_response_counter = 1;
   gps_response_v1 gps = 2;
-  candidate candidate = 3;
-  result result = 4;
+  attach_response_candidate candidate = 3;
+  attach_response_result result = 4;
 }
