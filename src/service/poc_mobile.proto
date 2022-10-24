@@ -77,11 +77,10 @@ message heartbeat {
 
 enum heartbeat_validity {
   heartbeat_validity_valid = 0;
-  heartbeat_validity_decode_failed = 1;
-  heartbeat_validity_gateway_owner_not_found = 2;
-  heartbeat_validity_heartbeat_outside_range = 3;
-  heartbeat_validity_bad_cbsd_id = 4;
-  heartbeat_validity_not_operational = 5;
+  heartbeat_validity_gateway_owner_not_found = 1;
+  heartbeat_validity_heartbeat_outside_range = 2;
+  heartbeat_validity_bad_cbsd_id = 3;
+  heartbeat_validity_not_operational = 4;
 }
 
 message speedtest_avg {
@@ -135,8 +134,8 @@ message owner_share {
 message owner_shares { repeated owner_share shares = 1; }
 
 enum file_type {
-  file_type_heartbeat = 0;
-  file_type_speedtest = 1;
+  heartbeat = 0;
+  speedtest = 1;
 }
 
 enum cell_type {
