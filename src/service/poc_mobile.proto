@@ -69,7 +69,7 @@ message processed_files { repeated file_info files = 1; }
 message heartbeat {
   string cbsd_id = 1;
   bytes pub_key = 2;
-  uint64 weight = 3;
+  float reward_multiplier = 3;
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
