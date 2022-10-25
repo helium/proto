@@ -94,6 +94,7 @@ message speedtest_avg {
   repeated speedtest speedtests = 6;
   /// Unix timestamp (seconds since 1970) of when the average was calculated
   uint64 timestamp = 7;
+  float reward_multiplier = 8;
 }
 
 message speedtest {
