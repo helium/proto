@@ -118,6 +118,16 @@ message route_stream_req_v1 {
   bytes signature = 3;
 }
 
+message route_stream_res_v1 {
+  enum action {
+    create = 0;
+    update = 1;
+    delete = 2;
+  }
+  action action = 1;
+  route_v1 route = 2;
+}
+
 service org {
   rpc list(org_list_req_v1) returns (org_list_res_v1);
   rpc get(org_get_req_v1) returns (org_v1);
@@ -130,5 +140,5 @@ service route {
   rpc create(route_create_req_v1) returns (route_v1);
   rpc update(route_update_req_v1) returns (route_v1);
   rpc delete (route_delete_req_v1) returns (route_v1);
-  rpc stream(route_stream_req_v1) returns (stream route_v1);
+  rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
 }
