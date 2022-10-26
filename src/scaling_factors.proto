@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package helium;
+
+message scaling_factors { map<string, double> hex_to_sf = 1; }
