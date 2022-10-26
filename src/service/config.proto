@@ -119,12 +119,12 @@ message route_stream_req_v1 {
 }
 
 message route_stream_res_v1 {
-  enum action {
+  enum action_v1 {
     create = 0;
     update = 1;
     delete = 2;
   }
-  action action = 1;
+  action_v1 action = 1;
   route_v1 route = 2;
 }
 
