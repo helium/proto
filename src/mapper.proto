@@ -9,7 +9,7 @@ message mapper {
   oneof message {
     mapper_gps gps = 1;
     mapper_scan scan = 2;
-    mapper_attach  attach = 3;
+    mapper_attach attach = 3;
   }
   // the pubkey signs over the message above
   // which does not contain the pubkey itself
