@@ -1,10 +1,6 @@
 syntax = "proto3";
 package helium.mapper;
 
-import "mapper_attach.proto";
-import "mapper_scan.proto";
-import "mapper_gps.proto";
-
 message mapper {
   oneof message {
     mapper_gps gps = 1;
