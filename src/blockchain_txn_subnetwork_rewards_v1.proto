@@ -5,15 +5,20 @@ import "blockchain_token_type_v1.proto";
 
 message subnetwork_reward {
   bytes account = 1;
+  uint64 amount = 2;
+}
+
+message subnetwork_reward_share {
+  bytes account = 1;
   /// Value between (0, 1] indicating the percentage of rewards to be given to
   /// the given account.
   double reward_percent = 2;
 }
 
-message subnetwork_rewards {
+message subnetwork_reward_shares {
   uint64 start_epoch = 1;
   uint64 end_epoch = 2;
-  repeated subnetwork_reward rewards = 3;
+  repeated subnetwork_reward_shares rewards = 3;
 }
 
 message blockchain_txn_subnetwork_rewards_v1 {
