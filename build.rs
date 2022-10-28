@@ -11,10 +11,10 @@ const SERVICES: &[&str] = &[
     "src/service/poc_mobile.proto",
     "src/service/poc_lora.proto",
     "src/service/packet_router.proto",
-    "src/service/gps_response.proto",
-    "src/service/attach_response.proto",
-    "src/service/scan_response.proto",
-    "src/service/modem_response.proto",
+    "src/service/mapper_gps.proto",
+    "src/service/mapper_attach.proto",
+    "src/service/mapper_scan.proto",
+    "src/service/mapper.proto",
 ];
 
 const MESSAGES: &[&str] = &[

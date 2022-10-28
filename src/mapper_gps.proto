@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package helium.mapper;
 
-message gps_response {
-  oneof version { gps_response_v1 gps_response_v1 = 1; }
+message mapper_gps {
+  oneof version { mapper_gps_v1 gps_v1 = 1; }
 }
 
-message gps_response_v1 {
+message mapper_gps_v1 {
   // Unix time in seconds
   uint32 unix_time = 1;
   // Latitude of the current base station in units of 0.25 sec.

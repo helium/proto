@@ -1,0 +1,18 @@
+syntax = "proto3";
+package helium.mapper;
+
+import "mapper_attach.proto";
+import "mapper_scan.proto";
+import "mapper_gps.proto";
+
+message mapper {
+  oneof message {
+    mapper_gps gps = 1;
+    mapper_scan scan = 2;
+    mapper_attach  attach = 3;
+  }
+  // the pubkey signs over the message above
+  // which does not contain the pubkey itself
+  repeated bytes signature = 4;
+  repeated bytes pub_key = 5;
+}
