@@ -18,7 +18,7 @@ message subnetwork_reward_share {
 message subnetwork_reward_shares {
   uint64 start_epoch = 1;
   uint64 end_epoch = 2;
-  repeated subnetwork_reward_shares rewards = 3;
+  repeated subnetwork_reward_share reward_shares = 3;
 }
 
 message blockchain_txn_subnetwork_rewards_v1 {
