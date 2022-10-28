@@ -57,7 +57,6 @@ message mapper_attach_v1 {
   mapper_attach_result result = 4;
 }
 
-
 message mapper_gps {
   oneof version { mapper_gps_v1 gps_v1 = 1; }
 }
