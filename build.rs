@@ -11,10 +11,6 @@ const SERVICES: &[&str] = &[
     "src/service/poc_mobile.proto",
     "src/service/poc_lora.proto",
     "src/service/packet_router.proto",
-    "src/service/gps_response.proto",
-    "src/service/attach_response.proto",
-    "src/service/scan_response.proto",
-    "src/service/modem_response.proto",
 ];
 
 const MESSAGES: &[&str] = &[
@@ -22,6 +18,7 @@ const MESSAGES: &[&str] = &[
     "src/entropy.proto",
     "src/data_rate.proto",
     "src/region.proto",
+    "src/mapper.proto",
 ];
 
 #[cfg(feature = "services")]
