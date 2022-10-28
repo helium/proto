@@ -5,6 +5,9 @@
 
 ## Contributing
 
+- Protobuf `message` definitions live in either:
+  + `src/service/*.proto` if only used in gRPC service definitions, or
+  + `src/*.proto` if used by service-free code or shared across gRPC services
 - Avoid `float` in Protobufs because representations differ across hardware architectures
   + There are many floating point representations from IEEE, plus others
   + i.e., some range of interior digits are random per float spec
