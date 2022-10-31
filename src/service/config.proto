@@ -3,7 +3,6 @@ syntax = "proto3";
 package helium.config;
 
 import "region.proto";
-import "flow_type.proto";
 
 message devaddr_range_v1 {
   uint64 start_addr = 1;
