@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package helium;
-
-enum flow_type {
-  sync = 0;
-  async = 1;
-}
