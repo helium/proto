@@ -180,3 +180,26 @@ impl std::fmt::Display for Region {
         }
     }
 }
+
+#[cfg(feature = "rust_decimal")]
+mod rust_decimal_impls {
+    use super::*;
+
+    impl From<Decimal> for rust_decimal::Decimal {
+        fn from(dec: Decimal) -> Self {
+            let [a, b, c, d, e, f, g, h] = dec.lo.to_be_bytes();
+            let [i, j, k, l, m, n, o, p] = dec.hi.to_be_bytes();
+            Self::deserialize([a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p])
+        }
+    }
+
+    impl From<rust_decimal::Decimal> for Decimal {
+        fn from(dec: rust_decimal::Decimal) -> Self {
+            let [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p] = dec.serialize();
+            Self {
+                lo: u64::from_be_bytes([a, b, c, d, e, f, g, h]),
+                hi: u64::from_be_bytes([i, j, k, l, m, n, o, p]),
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+package helium;
+
+/// rust_decimal serializes to an array of 16 bytes. We encode that as two uint64s
+/// taking the bytes in big-endian (arbitrarily chosen).
+message decimal {
+  uint64 hi = 1;
+  uint64 lo = 2;
+}

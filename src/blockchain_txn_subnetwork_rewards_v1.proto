@@ -1,6 +1,7 @@
 syntax = "proto3";
 package helium;
 
+import "decimal.proto";
 import "blockchain_token_type_v1.proto";
 
 message subnetwork_reward {
@@ -12,7 +13,7 @@ message subnetwork_reward_share {
   bytes account = 1;
   /// Value between (0, 1] indicating the percentage of rewards to be given to
   /// the given account.
-  double reward_percent = 2;
+  decimal reward_percent = 2;
 }
 
 message subnetwork_reward_shares {
