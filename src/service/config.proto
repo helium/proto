@@ -31,8 +31,8 @@ enum flow_type {
 
 message protocol_http_roaming_v1 {
   flow_type flow_type = 1;
-  uint32 dedupe_timeout = 2;  // milliseconds
-  string path = 3;  // path component of URL of roaming partner
+  uint32 dedupe_timeout = 2; // milliseconds
+  string path = 3;           // path component of URL of roaming partner
 }
 
 message server_v1 {
