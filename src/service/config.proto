@@ -31,11 +31,11 @@ message protocol_gwmp_mapping_v1 {
 message protocol_gwmp_v1 { repeated protocol_gwmp_mapping_v1 mapping = 1; }
 
 message protocol_http_roaming_v1 {
-  enum flow_type {
+  enum flow_type_v1 {
     sync = 0;
     async = 1;
   }
-  flow_type flow_type = 1;
+  flow_type_v1 flow_type = 1;
   uint32 dedupe_timeout = 2; // milliseconds
   string path = 3;           // path component of URL of roaming partner
 }
