@@ -55,6 +55,9 @@ message mapper_attach_v1 {
 
 message mapper_gps {
   oneof version { mapper_gps_v1 gps_v1 = 1; }
+  // Optionally, the hash of a mapper_scan may be included.
+  // This data is NOT signed over and shall be removed when verifying signature.
+  repeated bytes scan_hash = 2;
 }
 
 message mapper_gps_v1 {
