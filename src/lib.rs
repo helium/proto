@@ -12,6 +12,12 @@ pub mod services {
         BlockchainTokenTypeV1, BlockchainTxn, DataRate, GatewayStakingMode, Region, RoutingAddress,
     };
 
+    pub mod config {
+        include!(concat!(env!("OUT_DIR"), "/helium.config.rs"));
+        pub use org_client as config_org_client;
+        pub use route_client as config_route_client;
+    }
+
     pub mod router {
         pub use crate::router_client::RouterClient;
         pub use crate::state_channel_client::StateChannelClient;

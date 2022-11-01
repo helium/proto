@@ -11,6 +11,7 @@ const SERVICES: &[&str] = &[
     "src/service/poc_mobile.proto",
     "src/service/poc_lora.proto",
     "src/service/packet_router.proto",
+    "src/service/config.proto",
 ];
 
 const MESSAGES: &[&str] = &[
@@ -29,6 +30,7 @@ fn main() -> Result<()> {
         .build_server(true)
         .build_client(true)
         .type_attribute(".", "#[derive(serde_derive::Serialize)]")
+        .type_attribute(".helium.config", "#[derive(serde_derive::Deserialize)]")
         .compile(
             &MESSAGES
                 .iter()
