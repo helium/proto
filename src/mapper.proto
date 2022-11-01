@@ -11,6 +11,14 @@ message mapper {
   // which does not contain the pubkey itself
   repeated bytes signature = 4;
   repeated bytes pub_key = 5;
+
+  // below is optional metadata which depending
+  // on the message above, may or may not be populated.
+  // it is included here because it cannot be signed
+
+  // hotspots that received the mapper message if it
+  // was received over lorawan
+  repeated bytes hotspots = 6;
 }
 
 message mapper_attach {
