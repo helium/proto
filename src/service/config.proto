@@ -4,6 +4,13 @@ package helium.config;
 
 import "region.proto";
 
+message org_v1 {
+  uint64 oui = 1;
+  bytes owner = 2;
+  bytes payer = 3;
+  uint32 nonce = 4;
+}
+
 message devaddr_range_v1 {
   uint64 start_addr = 1;
   uint64 end_addr = 2;
@@ -23,12 +30,11 @@ message protocol_gwmp_mapping_v1 {
 
 message protocol_gwmp_v1 { repeated protocol_gwmp_mapping_v1 mapping = 1; }
 
-enum flow_type {
-  sync = 0;
-  async = 1;
-}
-
 message protocol_http_roaming_v1 {
+  enum flow_type {
+    sync = 0;
+    async = 1;
+  }
   flow_type flow_type = 1;
   uint32 dedupe_timeout = 2; // milliseconds
   string path = 3;           // path component of URL of roaming partner
@@ -45,18 +51,93 @@ message server_v1 {
 }
 
 message route_v1 {
-  uint64 net_id = 1;
-  repeated devaddr_range_v1 devaddr_ranges = 2;
-  repeated eui_v1 euis = 3;
-  uint64 oui = 4;
-  server_v1 server = 5;
-  uint32 max_copies = 6;
+  bytes id = 1;
+  uint64 net_id = 2;
+  repeated devaddr_range_v1 devaddr_ranges = 3;
+  repeated eui_v1 euis = 4;
+  uint64 oui = 5;
+  server_v1 server = 6;
+  uint32 max_copies = 7;
+  uint32 nonce = 8;
 }
 
-message routes_req_v1 {}
+message org_list_req_v1 {}
 
-message routes_res_v1 { repeated route_v1 routes = 1; }
+message org_list_res_v1 { repeated org_v1 orgs = 1; }
 
-service config_service {
-  rpc route_updates(routes_req_v1) returns (stream routes_res_v1);
+message org_get_req_v1 { uint64 oui = 1; }
+
+message org_create_req_v1 {
+  org_v1 org = 1;
+  uint64 timestamp = 2; // in ms
+  bytes signature = 3;
+}
+
+message route_list_req_v1 {
+  uint64 oui = 1;
+  bytes owner = 2;
+  uint64 timestamp = 3; // in ms
+  bytes signature = 4;
+}
+
+message route_list_res_v1 { repeated route_v1 routes = 1; }
+
+message route_get_req_v1 {
+  bytes id = 1;
+  bytes owner = 2;
+  uint64 timestamp = 3; // in ms
+  bytes signature = 4;
+}
+
+message route_create_req_v1 {
+  uint64 oui = 1;
+  route_v1 route = 2;
+  bytes owner = 3;
+  uint64 timestamp = 4; // in ms
+  bytes signature = 5;
+}
+
+message route_update_req_v1 {
+  route_v1 route = 1;
+  bytes owner = 2;
+  uint64 timestamp = 3; // in ms
+  bytes signature = 4;
+}
+
+message route_delete_req_v1 {
+  bytes id = 1;
+  bytes owner = 2;
+  uint64 timestamp = 3; // in ms
+  bytes signature = 4;
+}
+
+message route_stream_req_v1 {
+  bytes pub_key = 1;
+  uint64 timestamp = 2; // in ms
+  bytes signature = 3;
+}
+
+message route_stream_res_v1 {
+  enum action_v1 {
+    create = 0;
+    update = 1;
+    delete = 2;
+  }
+  action_v1 action = 1;
+  route_v1 route = 2;
+}
+
+service org {
+  rpc list(org_list_req_v1) returns (org_list_res_v1);
+  rpc get(org_get_req_v1) returns (org_v1);
+  rpc create(org_create_req_v1) returns (org_v1);
+}
+
+service route {
+  rpc list(route_list_req_v1) returns (route_list_res_v1);
+  rpc get(route_get_req_v1) returns (route_v1);
+  rpc create(route_create_req_v1) returns (route_v1);
+  rpc update(route_update_req_v1) returns (route_v1);
+  rpc delete (route_delete_req_v1) returns (route_v1);
+  rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
 }

@@ -22,7 +22,7 @@ message packet_router_packet_up_v1 {
 
 message packet_router_packet_report_v1 {
   uint64 gateway_timestamp_ms = 1;
-  uint32 oui = 2;
+  uint64 oui = 2;
   uint64 net_id = 3;
   // signal strength in dBm
   sint32 rssi = 4;
