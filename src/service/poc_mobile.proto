@@ -109,7 +109,7 @@ message radio_reward_share {
   bytes pub_key = 1;
   /// cbsd Id of the radio
   string cbsd_id = 2;
-  /// Amount rewarded to the owner of the hotspot, for this hotspot
+  /// Amount rewarded to the owner of the radio
   uint64 amount = 3;
   /// Unix timestamp of the start of the reward period
   uint64 start_epoch = 4;
