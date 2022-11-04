@@ -104,11 +104,17 @@ message speedtest {
   uint64 timestamp = 4;
 }
 
-message hotspot_reward_share {
-  /// Public key of the hotspot
+message radio_reward_share {
+  /// Public key of the hotspot of the radio
   bytes pub_key = 1;
+  /// cbsd Id of the radio
+  string cbsd_id = 2;
   /// Amount rewarded to the owner of the hotspot, for this hotspot
-  uint64 amount = 2;
+  uint64 amount = 3;
+  /// Unix timestamp of the start of the reward period
+  uint64 start_epoch = 4;
+  /// Unix timestamp of the end of the reward period
+  uint64 end_epoch = 5;
 }
 
 enum speedtest_avg_validity {
