@@ -113,6 +113,21 @@ message speedtest {
   uint64 timestamp = 4;
 }
 
+message radio_reward_share {
+  /// Public key of the owner of the radio
+  bytes owner_key = 1;
+  /// Public key of the hotspot of the radio
+  bytes hotspot_key = 2;
+  /// cbsd Id of the radio
+  string cbsd_id = 3;
+  /// Amount rewarded to the owner of the radio
+  uint64 amount = 4;
+  /// Unix timestamp in seconds of the start of the reward period
+  uint64 start_epoch = 5;
+  /// Unix timestamp in seconds of the end of the reward period
+  uint64 end_epoch = 6;
+}
+
 enum speedtest_avg_validity {
   speedtest_avg_validity_valid = 0;
   speedtest_avg_validity_too_few_samples = 1;
@@ -120,28 +135,6 @@ enum speedtest_avg_validity {
   speedtest_avg_validity_slow_upload_speed = 3;
   speedtest_avg_validity_high_latency = 4;
 }
-
-message cell_share {
-  cell_type cell_type = 1;
-  /// weight will be x10, i.e. 40 = 4.0
-  uint64 weight = 2;
-}
-
-message cell_shares { repeated cell_share shares = 1; }
-
-message hotspot_share {
-  bytes pub_key = 1;
-  uint64 weight = 2;
-}
-
-message hotspot_shares { repeated hotspot_share shares = 1; }
-
-message owner_share {
-  bytes pub_key = 1;
-  uint64 weight = 2;
-}
-
-message owner_shares { repeated owner_share shares = 1; }
 
 enum file_type {
   file_type_heartbeat = 0;
