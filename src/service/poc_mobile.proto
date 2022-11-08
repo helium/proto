@@ -105,16 +105,18 @@ message speedtest {
 }
 
 message radio_reward_share {
+  /// Public key of the owner of the radio
+  bytes owner_key = 1;
   /// Public key of the hotspot of the radio
-  bytes pub_key = 1;
+  bytes hotspot_key = 2;
   /// cbsd Id of the radio
-  string cbsd_id = 2;
+  string cbsd_id = 3;
   /// Amount rewarded to the owner of the radio
-  uint64 amount = 3;
+  uint64 amount = 4;
   /// Unix timestamp of the start of the reward period
-  uint64 start_epoch = 4;
+  uint64 start_epoch = 5;
   /// Unix timestamp of the end of the reward period
-  uint64 end_epoch = 5;
+  uint64 end_epoch = 6;
 }
 
 enum speedtest_avg_validity {
