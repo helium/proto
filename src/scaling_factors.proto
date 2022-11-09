@@ -2,4 +2,6 @@ syntax = "proto3";
 
 package helium;
 
-message scaling_factors { map<string, double> hex_to_sf = 1; }
+// map of string h3 res 12 hex address to reward scaling factor
+// as an integer representation of the 2-point precision decimal percent
+message scaling_factors { map<string, uint32> hex_to_sf = 1; }

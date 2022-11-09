@@ -86,8 +86,8 @@ message lora_valid_beacon_report_v1 {
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   string location = 2;
-  // string encoding of a reward multiplier between 0.0 and 1.0
-  string hex_scale = 3;
+  // integer representation of a 2-point precision decimal percent multiplier
+  uint32 hex_scale = 3;
   lora_beacon_report_req_v1 report = 4;
 }
 
@@ -96,8 +96,8 @@ message lora_valid_witness_report_v1 {
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   string location = 2;
-  // string encoding of a reward multiplier between 0.0 and 1.0
-  string hex_scale = 3;
+  // integer representation of a 2-point precision decimal percent multiplier
+  uint32 hex_scale = 3;
   lora_witness_report_req_v1 report = 4;
 }
 
