@@ -9,8 +9,8 @@ message mapper {
   }
   // the pubkey signs over the message above
   // which does not contain the pubkey itself
-  repeated bytes signature = 4;
-  repeated bytes pub_key = 5;
+  bytes signature = 4;
+  bytes pub_key = 5;
 
   // below is optional metadata which depending
   // on the message above, may or may not be populated.
