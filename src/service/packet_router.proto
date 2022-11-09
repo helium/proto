@@ -63,12 +63,9 @@ message packet_router_packet_down_v1 {
 }
 
 message envelope_down_v1 {
-  oneof data {
-    packet_router_packet_down_v1 packet = 1;
-  }
+  oneof data { packet_router_packet_down_v1 packet = 1; }
 }
 
 service packet {
-  rpc route(stream envelope_up_v1)
-      returns (stream envelope_down_v1); 
+  rpc route(stream envelope_up_v1) returns (stream envelope_down_v1);
 }
