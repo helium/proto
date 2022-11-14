@@ -90,6 +90,9 @@ message lora_valid_beacon_report_v1 {
   // ex: 5015 == 0.5015
   uint32 hex_scale = 3;
   lora_beacon_report_req_v1 report = 4;
+  // integer representation of a 4-point precision decimal multiplier
+  // based on the number of witnesses to a poc event
+  uint32 reward_unit = 5;
 }
 
 // tagged valid witness report produced by the verifier
@@ -101,6 +104,9 @@ message lora_valid_witness_report_v1 {
   // ex: 5015 == 0.5015
   uint32 hex_scale = 3;
   lora_witness_report_req_v1 report = 4;
+  // integer representation of a 4-point precision decimal multiplier
+  // based on the number of witnesses to a poc event
+  uint32 reward_unit = 5;
 }
 
 // tagged invalid beacon report produced by the verifier
