@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package helium;
 
-message inventory {
-  repeated string written_files = 0;
+message reward_manifest {
+  repeated string written_files = 1;
   /// Unix timestamp in seconds of the start of the inventory period
-  uint64 start_epoch = 1;
+  uint64 start_timestamp = 2;
   /// Unix timestamp in seconds of the end of the inventory period
-  uint64 end_epoch = 2;
+  uint64 end_timestamp = 3;
 }
