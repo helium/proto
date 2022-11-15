@@ -128,14 +128,6 @@ message radio_reward_share {
   uint64 end_epoch = 6;
 }
 
-message inventory {
-  repeated string written_files = 0;
-  /// Unix timestamp in seconds of the start of the inventory period
-  uint64 start_epoch = 1;
-  /// Unix timestamp in seconds of the end of the inventory period
-  uint64 end_epoch = 2;
-}
-
 enum speedtest_avg_validity {
   speedtest_avg_validity_valid = 0;
   speedtest_avg_validity_too_few_samples = 1;
