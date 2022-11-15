@@ -20,6 +20,7 @@ const MESSAGES: &[&str] = &[
     "src/data_rate.proto",
     "src/region.proto",
     "src/mapper.proto",
+    "src/reward_manifest.proto",
 ];
 
 #[cfg(feature = "services")]
