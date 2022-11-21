@@ -4,6 +4,12 @@ package helium.config;
 
 import "region.proto";
 
+enum action_v1 {
+  create = 0;
+  update = 1;
+  delete = 2;
+}
+
 message org_v1 {
   uint64 oui = 1;
   bytes owner = 2;
@@ -134,13 +140,57 @@ message route_stream_req_v1 {
 }
 
 message route_stream_res_v1 {
-  enum action_v1 {
-    create = 0;
-    update = 1;
-    delete = 2;
-  }
   action_v1 action = 1;
   route_v1 route = 2;
+}
+
+message session_key_filter_v1 {
+  int64 devaddr = 1;
+  repeated bytes session_keys = 2;
+}
+
+message session_key_filter_list_req_v1 {
+  uint64 oui = 1;
+  bytes signature = 2;
+}
+
+message session_key_filter_list_res_v1 {
+  repeated session_key_filter_v1 filters = 1;
+}
+
+message session_key_filter_get_req_v1 {
+  uint64 oui = 1;
+  int64 devaddr = 2;
+  bytes signature = 3;
+}
+
+message session_key_filter_create_req_v1 {
+  uint64 oui = 1;
+  session_key_filter_v1 filter = 2;
+  bytes signature = 3;
+}
+
+message session_key_filter_update_req_v1 {
+  uint64 oui = 1;
+  session_key_filter_v1 filter = 2;
+  bytes signature = 3;
+}
+
+message session_key_filter_delete_req_v1 {
+  uint64 oui = 1;
+  int64 devaddr = 2;
+  bytes signature = 3;
+}
+
+message session_key_filter_stream_req_v1 {
+  bytes pub_key = 1;
+  uint64 timestamp = 2; // in ms
+  bytes signature = 3;
+}
+
+message session_key_filter_stream_res_v1 {
+  action_v1 action = 1;
+  session_key_filter_v1 filter = 2;
 }
 
 service org {
@@ -157,4 +207,15 @@ service route {
   rpc update(route_update_req_v1) returns (route_v1);
   rpc delete (route_delete_req_v1) returns (route_v1);
   rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
+}
+
+service session_key_filter {
+  rpc list(session_key_filter_list_req_v1)
+      returns (session_key_filter_list_res_v1);
+  rpc get(session_key_filter_get_req_v1) returns (session_key_filter_v1);
+  rpc create(session_key_filter_create_req_v1) returns (session_key_filter_v1);
+  rpc update(session_key_filter_update_req_v1) returns (session_key_filter_v1);
+  rpc delete (session_key_filter_delete_req_v1) returns (session_key_filter_v1);
+  rpc stream(session_key_filter_stream_req_v1)
+      returns (stream session_key_filter_stream_res_v1);
 }
