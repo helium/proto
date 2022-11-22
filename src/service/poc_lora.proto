@@ -136,6 +136,21 @@ message lora_valid_poc_v1 {
   repeated lora_valid_witness_report_v1 witness_reports = 3;
 }
 
+// iot per-gateway reward share for a given reward period
+// for PoC coverage events provided between the start and end timestamps
+message gateway_reward_share {
+  /// Public key of the hotspot
+  bytes hotspot_key = 1;
+  /// Amount credited to the hotspot for beaconing
+  uint64 beacon_amount = 2;
+  /// Amount credited to the hotspot for witnessing
+  uint64 witness_amount = 3;
+  /// Unix timestamp in seconds of the start of the reward period
+  uint64 start_period = 4;
+  /// Unix timestamp in seconds of the end of the reward period
+  uint64 end_period = 5;
+}
+
 service poc_lora {
   rpc submit_lora_beacon(lora_beacon_report_req_v1)
       returns (lora_beacon_report_resp_v1);
