@@ -78,7 +78,8 @@ message org_create_helium_req_v1 {
   bytes payer = 2;
   uint64 devaddrs = 3;
   uint64 timestamp = 4; // in ms
-  bytes signature = 5;
+  bytes signer = 5;
+  bytes signature = 6;
 }
 
 message org_create_roamer_req_v1 {
@@ -86,7 +87,8 @@ message org_create_roamer_req_v1 {
   bytes payer = 2;
   uint64 net_id = 3;
   uint64 timestamp = 4; // in ms
-  bytes signature = 5;
+  bytes signer = 5;
+  bytes signature = 6;
 }
 
 message org_res_v1 {
@@ -97,8 +99,8 @@ message org_res_v1 {
 
 message route_list_req_v1 {
   uint64 oui = 1;
-  bytes owner = 2;
-  uint64 timestamp = 3; // in ms
+  uint64 timestamp = 2; // in ms
+  bytes signer = 3;
   bytes signature = 4;
 }
 
@@ -106,36 +108,36 @@ message route_list_res_v1 { repeated route_v1 routes = 1; }
 
 message route_get_req_v1 {
   bytes id = 1;
-  bytes owner = 2;
-  uint64 timestamp = 3; // in ms
+  uint64 timestamp = 2; // in ms
+  bytes signer = 3;
   bytes signature = 4;
 }
 
 message route_create_req_v1 {
   uint64 oui = 1;
   route_v1 route = 2;
-  bytes owner = 3;
-  uint64 timestamp = 4; // in ms
+  uint64 timestamp = 3; // in ms
+  bytes signer = 4;
   bytes signature = 5;
 }
 
 message route_update_req_v1 {
   route_v1 route = 1;
-  bytes owner = 2;
-  uint64 timestamp = 3; // in ms
+  uint64 timestamp = 2; // in ms
+  bytes signer = 3;
   bytes signature = 4;
 }
 
 message route_delete_req_v1 {
   bytes id = 1;
-  bytes owner = 2;
-  uint64 timestamp = 3; // in ms
+  uint64 timestamp = 2; // in ms
+  bytes signer = 3;
   bytes signature = 4;
 }
 
 message route_stream_req_v1 {
-  bytes pub_key = 1;
-  uint64 timestamp = 2; // in ms
+  uint64 timestamp = 1; // in ms
+  bytes signer = 2;
   bytes signature = 3;
 }
 
@@ -151,7 +153,9 @@ message session_key_filter_v1 {
 
 message session_key_filter_list_req_v1 {
   uint64 oui = 1;
-  bytes signature = 2;
+  uint64 timestamp = 2; // in ms
+  bytes signer = 3;
+  bytes signature = 4;
 }
 
 message session_key_filter_list_res_v1 {
@@ -161,31 +165,39 @@ message session_key_filter_list_res_v1 {
 message session_key_filter_get_req_v1 {
   uint64 oui = 1;
   int64 devaddr = 2;
-  bytes signature = 3;
+  uint64 timestamp = 3; // in ms
+  bytes signer = 4;
+  bytes signature = 5;
 }
 
 message session_key_filter_create_req_v1 {
   uint64 oui = 1;
   session_key_filter_v1 filter = 2;
-  bytes signature = 3;
+  uint64 timestamp = 3; // in ms
+  bytes signer = 4;
+  bytes signature = 5;
 }
 
 message session_key_filter_update_req_v1 {
   uint64 oui = 1;
   session_key_filter_v1 filter = 2;
-  bytes signature = 3;
+  uint64 timestamp = 3; // in ms
+  bytes signer = 4;
+  bytes signature = 5;
 }
 
 message session_key_filter_delete_req_v1 {
   uint64 oui = 1;
   int64 devaddr = 2;
-  bytes signature = 3;
+  uint64 timestamp = 3; // in ms
+  bytes signer = 4;
+  bytes signature = 5;
 }
 
 message session_key_filter_stream_req_v1 {
-  bytes pub_key = 1;
-  uint64 timestamp = 2; // in ms
-  bytes signature = 3;
+  uint64 timestamp = 3; // in ms
+  bytes signer = 4;
+  bytes signature = 5;
 }
 
 message session_key_filter_stream_res_v1 {
