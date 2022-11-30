@@ -137,7 +137,7 @@ message route_delete_req_v1 {
 
 enum route_euis_action_v1 {
   add = 0;
-  delete = 1;
+  remove = 1;
 }
 
 message route_euis_req_v1 {
@@ -200,7 +200,7 @@ message session_key_filter_create_req_v1 {
 
 message session_key_filter_update_req_v1 {
   enum skf_action_v1 {
-    add = 0; // Add the session_keys for that devaddr
+    add = 0;    // Add the session_keys for that devaddr
     delete = 1; // Delete the session_keys for that  devaddr
     update = 2; // Replace all the session_keys for that  devaddr
   }
