@@ -242,9 +242,9 @@ message session_key_filter_delete_req_v1 {
 }
 
 message session_key_filter_stream_req_v1 {
-  uint64 timestamp = 3;
-  bytes signer = 4;
-  bytes signature = 5;
+  uint64 timestamp = 1;
+  bytes signer = 2;
+  bytes signature = 3;
 }
 
 message session_key_filter_stream_res_v1 {
