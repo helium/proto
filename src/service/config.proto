@@ -23,13 +23,13 @@ message org_v1 {
   uint64 oui = 1;
   bytes owner = 2;
   bytes payer = 3;
-  uint32 nonce = 4;
+  uint64 nonce = 4;
 }
 
 // Device address range, ex: 16#00000001 to 16#0000000A
 message devaddr_range_v1 {
-  uint64 start_addr = 1;
-  uint64 end_addr = 2;
+  uint32 start_addr = 1;
+  uint32 end_addr = 2;
 }
 
 // Device App EUI and Dev EUI
@@ -63,7 +63,7 @@ message protocol_http_roaming_v1 {
 
 // Server Route definition
 message server_v1 {
-  bytes host = 1;  // ex: endpoint.test.com
+  string host = 1;  // ex: endpoint.test.com
   uint32 port = 2; // ex: 8080
   oneof protocol {
     protocol_packet_router_v1 packet_router = 3;
@@ -74,14 +74,14 @@ message server_v1 {
 
 // Route definition
 message route_v1 {
-  bytes id = 1;      // UUID
+  string id = 1;      // UUID
   uint64 net_id = 2; // LoraWan Network ID
   repeated devaddr_range_v1 devaddr_ranges = 3;
   repeated eui_v1 euis = 4;
   uint64 oui = 5; // Oraganisation Unique ID
   server_v1 server = 6;
   uint32 max_copies = 7; // Number of packet copies bought by this route
-  uint32 nonce = 8;      // Incremental int for updates
+  uint64 nonce = 8;      // Incremental int for updates
 }
 
 // ------------------------------------------------------------------
@@ -128,7 +128,7 @@ message route_list_req_v1 {
 message route_list_res_v1 { repeated route_v1 routes = 1; }
 
 message route_get_req_v1 {
-  bytes id = 1;
+  string id = 1;
   uint64 timestamp = 2;
   bytes signer = 3;
   bytes signature = 4;
@@ -150,7 +150,7 @@ message route_update_req_v1 {
 }
 
 message route_delete_req_v1 {
-  bytes id = 1;
+  string id = 1;
   uint64 timestamp = 2;
   bytes signer = 3;
   bytes signature = 4;
@@ -162,7 +162,7 @@ enum route_euis_action_v1 {
 }
 
 message route_euis_req_v1 {
-  bytes id = 1;
+  string id = 1;
   route_euis_action_v1 action = 2;
   repeated eui_v1 euis = 3;
   uint64 timestamp = 4;
@@ -171,7 +171,7 @@ message route_euis_req_v1 {
 }
 
 message route_euis_res_v1 {
-  bytes id = 1;
+  string id = 1;
   route_euis_action_v1 action = 2;
   repeated eui_v1 euis = 3;
 }
