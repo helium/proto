@@ -4,12 +4,21 @@ package helium.config;
 
 import "region.proto";
 
+// ------------------------------------------------------------------
+// Message Definitions
+// ------------------------------------------------------------------
+
+// - Every message including `signature` will need to be signed over the all
+//    message, with the `signature` field set to an empty value.
+// - Every `timestamp` is in millseconds
+
 enum action_v1 {
   create = 0;
   update = 1;
   delete = 2;
 }
 
+// Define an organisation
 message org_v1 {
   uint64 oui = 1;
   bytes owner = 2;
@@ -17,16 +26,19 @@ message org_v1 {
   uint32 nonce = 4;
 }
 
+// Device address range, ex: 16#00000001 to 16#0000000A
 message devaddr_range_v1 {
   uint64 start_addr = 1;
   uint64 end_addr = 2;
 }
 
+// Device App EUI and Dev EUI
 message eui_v1 {
   uint64 app_eui = 1;
   uint64 dev_eui = 2;
 }
 
+// Packet Router protocol options (empty for now)
 message protocol_packet_router_v1 {}
 
 message protocol_gwmp_mapping_v1 {
@@ -34,8 +46,11 @@ message protocol_gwmp_mapping_v1 {
   uint32 port = 2;
 }
 
+// GWMP protocol options (region to port mapping, see
+// https://github.com/Lora-net/packet_forwarder/blob/master/PROTOCOL.TXT)
 message protocol_gwmp_v1 { repeated protocol_gwmp_mapping_v1 mapping = 1; }
 
+// HTTP Roaming protocol options
 message protocol_http_roaming_v1 {
   enum flow_type_v1 {
     sync = 0;
@@ -46,9 +61,10 @@ message protocol_http_roaming_v1 {
   string path = 3;           // path component of URL of roaming partner
 }
 
+// Server Route definition
 message server_v1 {
-  bytes host = 1;
-  uint32 port = 2;
+  bytes host = 1;  // ex: endpoint.test.com
+  uint32 port = 2; // ex: 8080
   oneof protocol {
     protocol_packet_router_v1 packet_router = 3;
     protocol_gwmp_v1 gwmp = 4;
@@ -56,16 +72,21 @@ message server_v1 {
   }
 }
 
+// Route definition
 message route_v1 {
-  bytes id = 1;
-  uint64 net_id = 2;
+  bytes id = 1;      // UUID
+  uint64 net_id = 2; // LoraWan Network ID
   repeated devaddr_range_v1 devaddr_ranges = 3;
   repeated eui_v1 euis = 4;
-  uint64 oui = 5;
+  uint64 oui = 5; // Oraganisation Unique ID
   server_v1 server = 6;
-  uint32 max_copies = 7;
-  uint32 nonce = 8;
+  uint32 max_copies = 7; // Number of packet copies bought by this route
+  uint32 nonce = 8;      // Incremental int for updates
 }
+
+// ------------------------------------------------------------------
+// Service Message Definitions
+// ------------------------------------------------------------------
 
 message org_list_req_v1 {}
 
@@ -76,8 +97,8 @@ message org_get_req_v1 { uint64 oui = 1; }
 message org_create_helium_req_v1 {
   bytes owner = 1;
   bytes payer = 2;
-  uint64 devaddrs = 3;
-  uint64 timestamp = 4; // in ms
+  uint64 devaddrs = 3; // Number of device address needed
+  uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
 }
@@ -86,7 +107,7 @@ message org_create_roamer_req_v1 {
   bytes owner = 1;
   bytes payer = 2;
   uint64 net_id = 3;
-  uint64 timestamp = 4; // in ms
+  uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
 }
@@ -99,7 +120,7 @@ message org_res_v1 {
 
 message route_list_req_v1 {
   uint64 oui = 1;
-  uint64 timestamp = 2; // in ms
+  uint64 timestamp = 2;
   bytes signer = 3;
   bytes signature = 4;
 }
@@ -108,7 +129,7 @@ message route_list_res_v1 { repeated route_v1 routes = 1; }
 
 message route_get_req_v1 {
   bytes id = 1;
-  uint64 timestamp = 2; // in ms
+  uint64 timestamp = 2;
   bytes signer = 3;
   bytes signature = 4;
 }
@@ -116,21 +137,21 @@ message route_get_req_v1 {
 message route_create_req_v1 {
   uint64 oui = 1;
   route_v1 route = 2;
-  uint64 timestamp = 3; // in ms
+  uint64 timestamp = 3;
   bytes signer = 4;
   bytes signature = 5;
 }
 
 message route_update_req_v1 {
   route_v1 route = 1;
-  uint64 timestamp = 2; // in ms
+  uint64 timestamp = 2;
   bytes signer = 3;
   bytes signature = 4;
 }
 
 message route_delete_req_v1 {
   bytes id = 1;
-  uint64 timestamp = 2; // in ms
+  uint64 timestamp = 2;
   bytes signer = 3;
   bytes signature = 4;
 }
@@ -144,7 +165,7 @@ message route_euis_req_v1 {
   bytes id = 1;
   route_euis_action_v1 action = 2;
   repeated eui_v1 euis = 3;
-  uint64 timestamp = 4; // in ms
+  uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
 }
@@ -156,7 +177,7 @@ message route_euis_res_v1 {
 }
 
 message route_stream_req_v1 {
-  uint64 timestamp = 1; // in ms
+  uint64 timestamp = 1;
   bytes signer = 2;
   bytes signature = 3;
 }
@@ -173,7 +194,7 @@ message session_key_filter_v1 {
 
 message session_key_filter_list_req_v1 {
   uint64 oui = 1;
-  uint64 timestamp = 2; // in ms
+  uint64 timestamp = 2;
   bytes signer = 3;
   bytes signature = 4;
 }
@@ -185,7 +206,7 @@ message session_key_filter_list_res_v1 {
 message session_key_filter_get_req_v1 {
   uint64 oui = 1;
   int64 devaddr = 2;
-  uint64 timestamp = 3; // in ms
+  uint64 timestamp = 3;
   bytes signer = 4;
   bytes signature = 5;
 }
@@ -193,21 +214,21 @@ message session_key_filter_get_req_v1 {
 message session_key_filter_create_req_v1 {
   uint64 oui = 1;
   session_key_filter_v1 filter = 2;
-  uint64 timestamp = 3; // in ms
+  uint64 timestamp = 3;
   bytes signer = 4;
   bytes signature = 5;
 }
 
 message session_key_filter_update_req_v1 {
   enum skf_action_v1 {
-    add = 0;    // Add the session_keys for that devaddr
-    delete = 1; // Delete the session_keys for that  devaddr
-    update = 2; // Replace all the session_keys for that  devaddr
+    update = 0; // Replace all the session_keys for that devaddr
+    add = 1;    // Add the session_keys for that devaddr
+    delete = 2; // Delete the session_keys for that devaddr
   }
   uint64 oui = 1;
   skf_action_v1 action = 2;
   session_key_filter_v1 filter = 3;
-  uint64 timestamp = 4; // in ms
+  uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
 }
@@ -215,13 +236,13 @@ message session_key_filter_update_req_v1 {
 message session_key_filter_delete_req_v1 {
   uint64 oui = 1;
   int64 devaddr = 2;
-  uint64 timestamp = 3; // in ms
+  uint64 timestamp = 3;
   bytes signer = 4;
   bytes signature = 5;
 }
 
 message session_key_filter_stream_req_v1 {
-  uint64 timestamp = 3; // in ms
+  uint64 timestamp = 3;
   bytes signer = 4;
   bytes signature = 5;
 }
@@ -231,30 +252,49 @@ message session_key_filter_stream_res_v1 {
   session_key_filter_v1 filter = 2;
 }
 
+// ------------------------------------------------------------------
+// Service Definitions
+// ------------------------------------------------------------------
+
 service org {
-  rpc list(org_list_req_v1) returns (org_list_res_v1);
-  rpc get(org_get_req_v1) returns (org_res_v1);
-  rpc create_helium(org_create_helium_req_v1) returns (org_res_v1);
-  rpc create_roamer(org_create_roamer_req_v1) returns (org_res_v1);
+  rpc list(org_list_req_v1) returns (org_list_res_v1); // List Org (no auth)
+  rpc get(org_get_req_v1) returns (org_res_v1);        // Get Org (no auth)
+  rpc create_helium(org_create_helium_req_v1)
+      returns (org_res_v1); // Create Org on Helium Network (auth admin only)
+  rpc create_roamer(org_create_roamer_req_v1)
+      returns (org_res_v1); // Create Org on any network (auth admin only)
 }
 
 service route {
-  rpc list(route_list_req_v1) returns (route_list_res_v1);
-  rpc get(route_get_req_v1) returns (route_v1);
-  rpc create(route_create_req_v1) returns (route_v1);
-  rpc update(route_update_req_v1) returns (route_v1);
-  rpc delete (route_delete_req_v1) returns (route_v1);
-  rpc euis(route_euis_req_v1) returns (route_euis_res_v1);
-  rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
+  rpc list(route_list_req_v1)
+      returns (route_list_res_v1); // List Routes for an Org (auth owner/admin)
+  rpc get(route_get_req_v1)
+      returns (route_v1); // Get Route for an Org (auth owner/admin)
+  rpc create(route_create_req_v1)
+      returns (route_v1); // Create Route for an Org (auth owner/admin)
+  rpc update(route_update_req_v1)
+      returns (route_v1); // Update Route for an Org (auth owner/admin)
+  rpc delete (route_delete_req_v1)
+      returns (route_v1); // Delete Route for an Org (auth owner/admin)
+  rpc euis(route_euis_req_v1) returns (
+      route_euis_res_v1); // Add / Remove EUIs from a Route (auth owner/admin)
+  rpc stream(route_stream_req_v1) returns (
+      stream route_stream_res_v1); // Stream Routes update (auth admin only)
 }
 
 service session_key_filter {
   rpc list(session_key_filter_list_req_v1)
-      returns (session_key_filter_list_res_v1);
-  rpc get(session_key_filter_get_req_v1) returns (session_key_filter_v1);
-  rpc create(session_key_filter_create_req_v1) returns (session_key_filter_v1);
-  rpc update(session_key_filter_update_req_v1) returns (session_key_filter_v1);
-  rpc delete (session_key_filter_delete_req_v1) returns (session_key_filter_v1);
+      returns (session_key_filter_list_res_v1); // List Filters for an Org (auth
+                                                // owner/admin)
+  rpc get(session_key_filter_get_req_v1) returns (
+      session_key_filter_v1); // List Filters for an Org (auth owner/admin)
+  rpc create(session_key_filter_create_req_v1) returns (
+      session_key_filter_v1); // Get Filter for an Org (auth owner/admin)
+  rpc update(session_key_filter_update_req_v1) returns (
+      session_key_filter_v1); // Update Filters for an Org (auth owner/admin)
+  rpc delete (session_key_filter_delete_req_v1) returns (
+      session_key_filter_v1); // delete Filters for an Org (auth owner/admin)
   rpc stream(session_key_filter_stream_req_v1)
-      returns (stream session_key_filter_stream_res_v1);
+      returns (stream session_key_filter_stream_res_v1); // Stream Filter update
+                                                         // (auth admin only)
 }
