@@ -12,6 +12,7 @@ const SERVICES: &[&str] = &[
     "src/service/poc_lora.proto",
     "src/service/packet_router.proto",
     "src/service/config.proto",
+    "src/service/downlink.proto",
 ];
 
 const MESSAGES: &[&str] = &[

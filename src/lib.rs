@@ -17,6 +17,12 @@ pub mod services {
         include!(concat!(env!("OUT_DIR"), "/helium.config.rs"));
         pub use org_client as config_org_client;
         pub use route_client as config_route_client;
+        pub use session_key_filter_client as config_session_key_filter_client;
+    }
+
+    pub mod downlink {
+        include!(concat!(env!("OUT_DIR"), "/helium.downlink.rs"));
+        pub use downlink_server::{Downlink, DownlinkServer as Server};
     }
 
     pub mod router {
