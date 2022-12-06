@@ -22,7 +22,7 @@ pub mod services {
 
     pub mod downlink {
         include!(concat!(env!("OUT_DIR"), "/helium.downlink.rs"));
-        pub use downlink_server::{Downlink, DownlinkServer as Server};
+        pub use http_roaming_server::{Downlink, DownlinkServer as Server};
     }
 
     pub mod router {
