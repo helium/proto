@@ -13,7 +13,7 @@ message http_roaming_register_v1 {
 
 message http_roaming_downlink_v1 { bytes data = 1; }
 
-service downlink {
-  rpc http_roaming(http_roaming_register_v1)
+service http_roaming {
+  rpc stream(http_roaming_register_v1)
       returns (stream http_roaming_downlink_v1);
 }
