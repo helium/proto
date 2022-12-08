@@ -160,6 +160,7 @@ impl std::str::FromStr for Region {
             "KR920" => Ok(Region::Kr920),
             "IN865" => Ok(Region::In865),
             "CD900_1A" => Ok(Region::Cd9001a),
+            "RU864" => Ok(Region::Ru864),
             unsupported => Err(prost::DecodeError::new(format!(
                 "unknown region: {unsupported}"
             ))),
@@ -184,6 +185,7 @@ impl std::fmt::Display for Region {
             Region::Kr920 => f.write_str("KR920"),
             Region::In865 => f.write_str("IN865"),
             Region::Cd9001a => f.write_str("CD900_1A"),
+            Region::Ru864 => f.write_str("RU864"),
         }
     }
 }
