@@ -135,6 +135,15 @@ message org_res_v1 {
   repeated devaddr_range_v1 devaddr_ranges = 3;
 }
 
+message org_disable_req_v1 {
+  uint64 oui = 1;
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message org_disable_res_v1 { uint64 oui = 1; }
+
 message route_list_req_v1 {
   uint64 oui = 1;
   uint64 timestamp = 2;
@@ -285,6 +294,9 @@ service org {
   rpc create_helium(org_create_helium_req_v1) returns (org_res_v1);
   // Create Org on any network (auth admin only)
   rpc create_roamer(org_create_roamer_req_v1) returns (org_res_v1);
+  // Disable an org, this should send a route/stream delete to HPR (auth admin
+  // only)
+  rpc disable(org_disable_req_v1) returns (org_disable_res_v1);
 }
 
 service route {
