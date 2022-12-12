@@ -326,7 +326,7 @@ service session_key_filter {
   rpc create(session_key_filter_create_req_v1) returns (session_key_filter_v1);
   // Update Filters for an Org (auth delegate_keys/owner/admin)
   rpc update(session_key_filter_update_req_v1) returns (session_key_filter_v1);
-  // delete Filters for an Org (auth delegate_keys/owner/admin)
+  // Delete Filters for an Org (auth delegate_keys/owner/admin)
   rpc delete (session_key_filter_delete_req_v1) returns (session_key_filter_v1);
   // Stream Filter update (auth admin only)
   rpc stream(session_key_filter_stream_req_v1)
