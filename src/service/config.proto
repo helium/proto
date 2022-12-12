@@ -214,7 +214,7 @@ message route_stream_res_v1 {
 }
 
 message session_key_filter_v1 {
-  int64 devaddr = 1;
+  uint32 devaddr = 1;
   repeated bytes session_keys = 2;
 }
 
