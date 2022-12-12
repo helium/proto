@@ -91,7 +91,7 @@ message route_v1 {
   uint64 net_id = 2;
   repeated devaddr_range_v1 devaddr_ranges = 3;
   repeated eui_v1 euis = 4;
-  // Oraganisation Unique ID
+  // Organization Unique ID
   uint64 oui = 5;
   server_v1 server = 6;
   // Number of packet copies bought by this route
