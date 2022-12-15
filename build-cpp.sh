@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SERVICES=$(echo src/service/{config,follower,gateway,local,packet_router,poc_lora,poc_mobile,router,state_channel,transaction}.proto)
+SERVICES=$(echo src/service/{iot_config,downlink,follower,gateway,local,packet_router,poc_lora,poc_mobile,router,state_channel,transaction}.proto)
 MESSAGES=$(echo src/{blockchain_txn,entropy,data_rate,region,mapper}.proto)
 SRC_FILES="$SERVICES $MESSAGES"
 
