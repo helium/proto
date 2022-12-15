@@ -21,6 +21,7 @@ const MESSAGES: &[&str] = &[
     "src/region.proto",
     "src/mapper.proto",
     "src/reward_manifest.proto",
+    "src/packet.proto",
 ];
 
 #[cfg(feature = "services")]
