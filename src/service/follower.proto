@@ -59,6 +59,17 @@ message follower_gateway_resp_v1 {
   }
 }
 
+message follower_oui_balance_update_req_v1 {}
+
+message follower_oui_balance_update_resp_v1 {
+  repeated follower_oui_balance_update updated_balances = 1;
+}
+
+message follower_oui_balance_update {
+  uint32 oui = 1;
+  uint64 balance = 2;
+}
+
 /// Request a stream of all active gateways from the on-chain metadata
 message follower_gateway_stream_req_v1 { uint32 batch_size = 1; }
 
@@ -89,4 +100,6 @@ service follower {
   rpc subnetwork_last_reward_height(
       follower_subnetwork_last_reward_height_req_v1)
       returns (follower_subnetwork_last_reward_height_resp_v1);
+  rpc oui_balance_stream(follower_oui_balance_update_req_v1)
+      returns (stream follower_oui_balance_update_resp_v1);
 }
