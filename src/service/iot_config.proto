@@ -335,7 +335,8 @@ service route {
   rpc delete (route_delete_req_v1) returns (route_v1);
   // Add / Remove / Update EUIs from a Route (auth delegate_keys/owner/admin)
   rpc euis(route_euis_req_v1) returns (route_euis_res_v1);
-  // Add / Remove/ Update Devaddr Ranges from a Route (auth delegate_keys/owner/admin)
+  // Add / Remove/ Update Devaddr Ranges from a Route (auth
+  // delegate_keys/owner/admin)
   rpc devaddrs(route_devaddrs_req_v1) returns (route_devaddrs_res_v1);
   // Stream Routes update (auth admin only)
   rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
