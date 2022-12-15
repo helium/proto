@@ -36,3 +36,11 @@ message packet {
   routing_information routing = 9;
   window rx2_window = 10;
 }
+
+message verified_packet {
+  uint64 oui = 1;
+  uint32 payload_size = 2;
+  bytes gateway = 3;
+  bytes payload_hash = 4;
+  bool is_valid = 5;
+}
