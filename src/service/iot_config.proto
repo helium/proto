@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package helium.config;
+package helium.iot_config;
 
 import "region.proto";
 
@@ -24,6 +24,7 @@ enum action_v1 {
 // Define an organisation
 message org_v1 {
   uint64 oui = 1;
+
   // Org admin key
   bytes owner = 2;
   // Key only used for DC payments
