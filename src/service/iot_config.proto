@@ -8,12 +8,29 @@ import "region.proto";
 // Message Definitions
 // ------------------------------------------------------------------
 
+// == Field Notes ==
+//
 // - Every message including `signature` will need to be signed over the all
 //    message, with the `signature` field set to an empty value.
+//
 // - Every `timestamp` is in millseconds
+//
 // - Every key called `owner`, `payer`, `signer` and `delegate_keys` are binary
 //    encoded public keys, Rust encoding example here:
 //    https://github.com/helium/helium-crypto-rs/blob/main/src/public_key.rs#L347-L354
+//
+// == DevAddrs ==
+//
+// - `devaddr_ranges` are inclusive on both sides, `start_addr` and `end_addr`.
+//
+// - `org_res_v1.devaddr_ranges` provides the ranges of DevAddrs available to
+//    any `route_v1` under an Org.
+//
+// - `route_v1.devaddr_ranges` provides the ranges of DevAddrs that should go to
+//    this specific Route. This ranges must always fall within the
+//    `devaddr_ranges` of the owning org.
+
+
 
 enum action_v1 {
   create = 0;
