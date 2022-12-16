@@ -16,10 +16,10 @@ pub mod services {
     pub mod iot_config {
         include!(concat!(env!("OUT_DIR"), "/helium.iot_config.rs"));
         pub use org_client as config_org_client;
-        pub use route_client as config_route_client;
-        pub use session_key_filter_client as config_session_key_filter_client;
         pub use org_server::{Org, OrgServer};
+        pub use route_client as config_route_client;
         pub use route_server::{Route, RouteServer};
+        pub use session_key_filter_client as config_session_key_filter_client;
         pub use session_key_filter_server::{SessionKeyFilter, SessionKeyFilterServer};
     }
 
