@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package helium.iot_config;
 
+import "blockchain_region_param_v1.proto";
 import "region.proto";
 
 // ------------------------------------------------------------------
@@ -319,6 +320,19 @@ message session_key_filter_stream_res_v1 {
   session_key_filter_v1 filter = 2;
 }
 
+message gateway_region_params_req_v1 {
+  region region = 1;
+  bytes address = 2;
+  bytes signature = 3;
+}
+
+message gateway_region_params_res_v1 {
+  region region = 1;
+  blockchain_region_params_v1 params = 2;
+  uint64 gain = 3;
+  bytes signature = 4;
+}
+
 // ------------------------------------------------------------------
 // Service Definitions
 // ------------------------------------------------------------------
@@ -372,4 +386,10 @@ service session_key_filter {
   // Stream Filter update (auth admin only)
   rpc stream(session_key_filter_stream_req_v1)
       returns (stream session_key_filter_stream_res_v1);
+}
+
+service gateway {
+  // Return the region params for the asserted location of the signed gateway address
+  rpc region_params(gateway_region_params_req_v1)
+      returns (gateway_region_params_res_v1);
 }
