@@ -30,8 +30,6 @@ import "region.proto";
 //    this specific Route. This ranges must always fall within the
 //    `devaddr_ranges` of the owning org.
 
-
-
 enum action_v1 {
   create = 0;
   update = 1;
