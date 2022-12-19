@@ -85,6 +85,8 @@ message protocol_http_roaming_v1 {
   uint32 dedupe_timeout = 2;
   // path component of URL of roaming partner
   string path = 3;
+  // Authorization Header
+  string auth_header = 4;
 }
 
 // Server Route definition
