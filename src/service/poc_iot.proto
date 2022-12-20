@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package helium.poc_lora;
+package helium.poc_iot;
 
 import "data_rate.proto";
 
@@ -31,7 +31,7 @@ enum invalid_reason {
 }
 
 // beacon report as submitted by gateway to ingestor
-message lora_beacon_report_req_v1 {
+message iot_beacon_report_req_v1 {
   bytes pub_key = 2;
   bytes local_entropy = 3;
   bytes remote_entropy = 4;
@@ -48,10 +48,10 @@ message lora_beacon_report_req_v1 {
 }
 
 // response returned to gateway submitting beacon report to ingestor
-message lora_beacon_report_resp_v1 { string id = 1; }
+message iot_beacon_report_resp_v1 { string id = 1; }
 
 // witness report as submitted by gateway to ingestor
-message lora_witness_report_req_v1 {
+message iot_witness_report_req_v1 {
   bytes pub_key = 2;
   bytes data = 3;
   // Timestamp of witness received in nanos since unix epoch
@@ -67,64 +67,64 @@ message lora_witness_report_req_v1 {
 }
 
 // response returned to gateway submitting witness report to ingestor
-message lora_witness_report_resp_v1 { string id = 1; }
+message iot_witness_report_resp_v1 { string id = 1; }
 
 // beacon report outputted by ingestor, tagged with received timestamp
-message lora_beacon_ingest_report_v1 {
+message iot_beacon_ingest_report_v1 {
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
-  lora_beacon_report_req_v1 report = 2;
+  iot_beacon_report_req_v1 report = 2;
 }
 
 // witness report outputted by ingestor, tagged with received timestamp
-message lora_witness_ingest_report_v1 {
+message iot_witness_ingest_report_v1 {
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
-  lora_witness_report_req_v1 report = 2;
+  iot_witness_report_req_v1 report = 2;
 }
 
 // tagged valid beacon report produced by the verifier
-message lora_valid_beacon_report_v1 {
+message iot_valid_beacon_report_v1 {
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   string location = 2;
   // integer representation of a 4-point precision decimal multiplier
   // ex: 5015 == 0.5015
   uint32 hex_scale = 3;
-  lora_beacon_report_req_v1 report = 4;
+  iot_beacon_report_req_v1 report = 4;
   // integer representation of a 4-point precision decimal multiplier
   // based on the number of witnesses to a poc event
   uint32 reward_unit = 5;
 }
 
 // tagged valid witness report produced by the verifier
-message lora_valid_witness_report_v1 {
+message iot_valid_witness_report_v1 {
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   string location = 2;
   // integer representation of a 4-point precision decimal multiplier
   // ex: 5015 == 0.5015
   uint32 hex_scale = 3;
-  lora_witness_report_req_v1 report = 4;
+  iot_witness_report_req_v1 report = 4;
   // integer representation of a 4-point precision decimal multiplier
   // based on the number of witnesses to a poc event
   uint32 reward_unit = 5;
 }
 
 // tagged invalid beacon report produced by the verifier
-message lora_invalid_beacon_report_v1 {
+message iot_invalid_beacon_report_v1 {
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   invalid_reason reason = 2;
-  lora_beacon_report_req_v1 report = 3;
+  iot_beacon_report_req_v1 report = 3;
 }
 
 // tagged invalid witness report produced by the verifier
-message lora_invalid_witness_report_v1 {
+message iot_invalid_witness_report_v1 {
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   invalid_reason reason = 2;
-  lora_witness_report_req_v1 report = 3;
+  iot_witness_report_req_v1 report = 3;
   // the participant to which the reason applies,
   // which rendered the report as invalid
   invalid_participant_side participant_side = 4;
@@ -132,10 +132,10 @@ message lora_invalid_witness_report_v1 {
 
 // valid POC report produced by the verifier
 // includes the valid beacon and any valid witnesses
-message lora_valid_poc_v1 {
+message iot_valid_poc_v1 {
   bytes poc_id = 1;
-  lora_valid_beacon_report_v1 beacon_report = 2;
-  repeated lora_valid_witness_report_v1 witness_reports = 3;
+  iot_valid_beacon_report_v1 beacon_report = 2;
+  repeated iot_valid_witness_report_v1 witness_reports = 3;
 }
 
 // iot per-gateway reward share for a given reward period
@@ -153,9 +153,9 @@ message gateway_reward_share {
   uint64 end_period = 5;
 }
 
-service poc_lora {
-  rpc submit_lora_beacon(lora_beacon_report_req_v1)
-      returns (lora_beacon_report_resp_v1);
-  rpc submit_lora_witness(lora_witness_report_req_v1)
-      returns (lora_witness_report_resp_v1);
+service poc_iot {
+  rpc submit_iot_beacon(iot_beacon_report_req_v1)
+      returns (iot_beacon_report_resp_v1);
+  rpc submit_iot_witness(iot_witness_report_req_v1)
+      returns (iot_witness_report_resp_v1);
 }

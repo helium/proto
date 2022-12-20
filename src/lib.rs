@@ -62,10 +62,10 @@ pub mod services {
         pub use poc_mobile_server::{PocMobile, PocMobileServer as Server};
     }
 
-    pub mod poc_lora {
-        include!(concat!(env!("OUT_DIR"), "/helium.poc_lora.rs"));
-        pub use poc_lora_client::PocLoraClient as Client;
-        pub use poc_lora_server::{PocLora, PocLoraServer as Server};
+    pub mod poc_iot {
+        include!(concat!(env!("OUT_DIR"), "/helium.poc_iot.rs"));
+        pub use poc_iot_client::PocIotClient as Client;
+        pub use poc_iot_server::{PocIot, PocIotServer as Server};
     }
 
     pub mod follower {
