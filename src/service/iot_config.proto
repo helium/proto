@@ -218,9 +218,9 @@ enum route_euis_action_v1 {
 message route_euis_req_v1 {
   string id = 1;
   route_euis_action_v1 action = 2;
-  repeated eui_v1 euis
-      // in milliseconds since unix epoch= 3;
-      uint64 timestamp = 4;
+  repeated eui_v1 euis = 3;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
 }
@@ -240,9 +240,9 @@ enum route_devaddrs_action_v1 {
 message route_devaddrs_req_v1 {
   string id = 1;
   route_devaddrs_action_v1 action = 2;
-  repeated devaddr_rang
-      // in milliseconds since unix epoche_v1 devaddr_ranges = 3;
-      uint64 timestamp = 4;
+  repeated devaddr_range_v1 devaddr_ranges = 3;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
 }
@@ -253,11 +253,11 @@ message route_devaddrs_res_v1 {
   repeated devaddr_range_v1 devaddr_ranges = 3;
 }
 
-message route_stream_re
-    // in milliseconds since unix epochq_v1 {
-    uint64 timestamp = 1;
-bytes signer = 2;
-bytes signature = 3;
+message route_stream_req_v1 {
+  // in milliseconds since unix epoch
+  uint64 timestamp = 1;
+  bytes signer = 2;
+  bytes signature = 3;
 }
 
 message route_stream_res_v1 {
@@ -293,9 +293,9 @@ message session_key_filter_get_req_v1 {
 
 message session_key_filter_create_req_v1 {
   uint64 oui = 1;
-  session_key_filter_v1
-      // in milliseconds since unix epoch filter = 2;
-      uint64 timestamp = 3;
+  session_key_filter_v1 filter = 2;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 3;
   bytes signer = 4;
   bytes signature = 5;
 }
@@ -311,9 +311,9 @@ message session_key_filter_update_req_v1 {
   }
   uint64 oui = 1;
   skf_action_v1 action = 2;
-  session_key_filter_v1
-      // in milliseconds since unix epoch filter = 3;
-      uint64 timestamp = 4;
+  session_key_filter_v1 filter = 3;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
 }
@@ -327,11 +327,11 @@ message session_key_filter_delete_req_v1 {
   bytes signature = 5;
 }
 
-message session_key_fil
-    // in milliseconds since unix epochter_stream_req_v1 {
-    uint64 timestamp = 1;
-bytes signer = 2;
-bytes signature = 3;
+message session_key_filter_stream_req_v1 {
+  // in milliseconds since unix epoch
+  uint64 timestamp = 1;
+  bytes signer = 2;
+  bytes signature = 3;
 }
 
 message session_key_filter_stream_res_v1 {
