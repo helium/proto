@@ -11,7 +11,8 @@ const SERVICES: &[&str] = &[
     "src/service/poc_mobile.proto",
     "src/service/poc_lora.proto",
     "src/service/packet_router.proto",
-    "src/service/config.proto",
+    "src/service/iot_config.proto",
+    "src/service/downlink.proto",
 ];
 
 const MESSAGES: &[&str] = &[
@@ -21,6 +22,7 @@ const MESSAGES: &[&str] = &[
     "src/region.proto",
     "src/mapper.proto",
     "src/reward_manifest.proto",
+    "src/blockchain_region_param_v1.proto",
 ];
 
 #[cfg(feature = "services")]

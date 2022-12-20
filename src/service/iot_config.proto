@@ -1,0 +1,415 @@
+syntax = "proto3";
+
+package helium.iot_config;
+
+import "blockchain_region_param_v1.proto";
+import "region.proto";
+
+// ------------------------------------------------------------------
+// Message Definitions
+// ------------------------------------------------------------------
+
+// == Field Notes ==
+//
+// - Every message including `signature` will need to be signed over the all
+//    message, with the `signature` field set to an empty value.
+//
+// - Every `timestamp` is in milliseconds since unix epoch
+//
+// - Every key called `owner`, `payer`, `signer` and `delegate_keys` are binary
+//    encoded public keys, Rust encoding example here:
+//    https://github.com/helium/helium-crypto-rs/blob/main/src/public_key.rs#L347-L354
+//
+// == DevAddrs ==
+//
+// - `devaddr_ranges` are inclusive on both sides, `start_addr` and `end_addr`.
+//
+// - `org_res_v1.devaddr_ranges` provides the ranges of DevAddrs available to
+//    any `route_v1` under an Org.
+//
+// - `route_v1.devaddr_ranges` provides the ranges of DevAddrs that should go to
+//    this specific Route. This ranges must always fall within the
+//    `devaddr_ranges` of the owning org.
+
+enum action_v1 {
+  create = 0;
+  update = 1;
+  delete = 2;
+}
+
+// Define an organisation
+message org_v1 {
+  uint64 oui = 1;
+
+  // Org admin key
+  bytes owner = 2;
+  // Key only used for DC payments
+  bytes payer = 3;
+  // List of keys allowed some specific actions, see services.
+  repeated bytes delegate_keys = 4;
+  uint64 nonce = 5;
+}
+
+// Device address range, ex: 16#00000001 to 16#0000000A
+message devaddr_range_v1 {
+  uint32 start_addr = 1;
+  uint32 end_addr = 2;
+}
+
+// Device App EUI and Dev EUI
+message eui_v1 {
+  uint64 app_eui = 1;
+  uint64 dev_eui = 2;
+}
+
+// Packet Router protocol options (empty for now)
+message protocol_packet_router_v1 {}
+
+message protocol_gwmp_mapping_v1 {
+  region region = 1;
+  uint32 port = 2;
+}
+
+// GWMP protocol options (region to port mapping, see
+// https://github.com/Lora-net/packet_forwarder/blob/master/PROTOCOL.TXT)
+message protocol_gwmp_v1 { repeated protocol_gwmp_mapping_v1 mapping = 1; }
+
+// HTTP Roaming protocol options
+message protocol_http_roaming_v1 {
+  enum flow_type_v1 {
+    sync = 0;
+    async = 1;
+  }
+  flow_type_v1 flow_type = 1;
+  // milliseconds
+  uint32 dedupe_timeout = 2;
+  // path component of URL of roaming partner
+  string path = 3;
+  // Authorization Header
+  string auth_header = 4;
+}
+
+// Server Route definition
+message server_v1 {
+  // LNS address, ex: endpoint.test.com
+  string host = 1;
+  // LNS port, ex: 8080
+  uint32 port = 2;
+  oneof protocol {
+    protocol_packet_router_v1 packet_router = 3;
+    protocol_gwmp_v1 gwmp = 4;
+    protocol_http_roaming_v1 http_roaming = 5;
+  }
+}
+
+// Route definition
+message route_v1 {
+  // UUID
+  string id = 1;
+  // LoraWan Network ID
+  uint64 net_id = 2;
+  repeated devaddr_range_v1 devaddr_ranges = 3;
+  repeated eui_v1 euis = 4;
+  // Organization Unique ID
+  uint64 oui = 5;
+  server_v1 server = 6;
+  // Number of packet copies bought by this route
+  uint32 max_copies = 7;
+  // Incremental int for updates
+  uint64 nonce = 8;
+}
+
+// ------------------------------------------------------------------
+// Service Message Definitions
+// ------------------------------------------------------------------
+
+message org_list_req_v1 {}
+
+message org_list_res_v1 { repeated org_v1 orgs = 1; }
+
+message org_get_req_v1 { uint64 oui = 1; }
+
+message org_create_helium_req_v1 {
+  bytes owner = 1;
+  bytes payer = 2;
+  // Number of device address needed
+  uint64 devaddrs = 3;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 4;
+  bytes signer = 5;
+  bytes signature = 6;
+}
+
+message org_create_roamer_req_v1 {
+  bytes owner = 1;
+  bytes payer = 2;
+  uint64 net_id = 3;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 4;
+  bytes signer = 5;
+  bytes signature = 6;
+}
+
+message org_res_v1 {
+  org_v1 org = 1;
+  uint64 net_id = 2;
+  repeated devaddr_range_v1 devaddr_ranges = 3;
+}
+
+message org_disable_req_v1 {
+  uint64 oui = 1;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message org_disable_res_v1 { uint64 oui = 1; }
+
+message route_list_req_v1 {
+  uint64 oui = 1;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message route_list_res_v1 { repeated route_v1 routes = 1; }
+
+message route_get_req_v1 {
+  string id = 1;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message route_create_req_v1 {
+  uint64 oui = 1;
+  route_v1 route = 2;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 3;
+  bytes signer = 4;
+  bytes signature = 5;
+}
+
+message route_update_req_v1 {
+  route_v1 route = 1;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message route_delete_req_v1 {
+  string id = 1;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+enum route_euis_action_v1 {
+  add_euis = 0;
+  remove_euis = 1;
+  update_euis = 2;
+}
+
+message route_euis_req_v1 {
+  string id = 1;
+  route_euis_action_v1 action = 2;
+  repeated eui_v1 euis = 3;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 4;
+  bytes signer = 5;
+  bytes signature = 6;
+}
+
+message route_euis_res_v1 {
+  string id = 1;
+  route_euis_action_v1 action = 2;
+  repeated eui_v1 euis = 3;
+}
+
+enum route_devaddrs_action_v1 {
+  add_devaddrs = 0;
+  remove_devaddrs = 1;
+  update_devaddrs = 2;
+}
+
+message route_devaddrs_req_v1 {
+  string id = 1;
+  route_devaddrs_action_v1 action = 2;
+  repeated devaddr_range_v1 devaddr_ranges = 3;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 4;
+  bytes signer = 5;
+  bytes signature = 6;
+}
+
+message route_devaddrs_res_v1 {
+  string id = 1;
+  route_devaddrs_action_v1 action = 2;
+  repeated devaddr_range_v1 devaddr_ranges = 3;
+}
+
+message route_stream_req_v1 {
+  // in milliseconds since unix epoch
+  uint64 timestamp = 1;
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
+message route_stream_res_v1 {
+  action_v1 action = 1;
+  route_v1 route = 2;
+}
+
+message session_key_filter_v1 {
+  uint32 devaddr = 1;
+  repeated bytes session_keys = 2;
+}
+
+message session_key_filter_list_req_v1 {
+  uint64 oui = 1;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message session_key_filter_list_res_v1 {
+  repeated session_key_filter_v1 filters = 1;
+}
+
+message session_key_filter_get_req_v1 {
+  uint64 oui = 1;
+  uint32 devaddr = 2;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 3;
+  bytes signer = 4;
+  bytes signature = 5;
+}
+
+message session_key_filter_create_req_v1 {
+  uint64 oui = 1;
+  session_key_filter_v1 filter = 2;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 3;
+  bytes signer = 4;
+  bytes signature = 5;
+}
+
+message session_key_filter_update_req_v1 {
+  enum skf_action_v1 {
+    // Replace all the session_keys for that devaddr
+    update = 0;
+    // Add the session_keys for that devaddr
+    add = 1;
+    // Delete the session_keys for that devaddr
+    delete = 2;
+  }
+  uint64 oui = 1;
+  skf_action_v1 action = 2;
+  session_key_filter_v1 filter = 3;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 4;
+  bytes signer = 5;
+  bytes signature = 6;
+}
+
+message session_key_filter_delete_req_v1 {
+  uint64 oui = 1;
+  uint32 devaddr = 2;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 3;
+  bytes signer = 4;
+  bytes signature = 5;
+}
+
+message session_key_filter_stream_req_v1 {
+  // in milliseconds since unix epoch
+  uint64 timestamp = 1;
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
+message session_key_filter_stream_res_v1 {
+  action_v1 action = 1;
+  session_key_filter_v1 filter = 2;
+}
+
+message gateway_region_params_req_v1 {
+  region region = 1;
+  bytes address = 2;
+  bytes signature = 3;
+}
+
+message gateway_region_params_res_v1 {
+  region region = 1;
+  blockchain_region_params_v1 params = 2;
+  uint64 gain = 3;
+  bytes signature = 4;
+}
+
+// ------------------------------------------------------------------
+// Service Definitions
+// ------------------------------------------------------------------
+
+service org {
+  // List Org (no auth)
+  rpc list(org_list_req_v1) returns (org_list_res_v1);
+  // Get Org (no auth)
+  rpc get(org_get_req_v1) returns (org_res_v1);
+  // Create Org on Helium Network (auth admin only)
+  rpc create_helium(org_create_helium_req_v1) returns (org_res_v1);
+  // Create Org on any network (auth admin only)
+  rpc create_roamer(org_create_roamer_req_v1) returns (org_res_v1);
+  // Disable an org, this should send a route/stream delete to HPR (auth admin
+  // only)
+  rpc disable(org_disable_req_v1) returns (org_disable_res_v1);
+}
+
+service route {
+  // List Routes for an Org (auth delegate_keys/owner/admin)
+  rpc list(route_list_req_v1) returns (route_list_res_v1);
+  // Get Route for an Org (auth delegate_keys/owner/admin)
+  rpc get(route_get_req_v1) returns (route_v1);
+  // Create Route for an Org (auth delegate_keys/owner/admin)
+  rpc create(route_create_req_v1) returns (route_v1);
+  // Update Route for an Org (auth delegate_keys/owner/admin)
+  rpc update(route_update_req_v1) returns (route_v1);
+  // Delete Route for an Org (auth delegate_keys/owner/admin)
+  rpc delete (route_delete_req_v1) returns (route_v1);
+  // Add / Remove / Update EUIs from a Route (auth delegate_keys/owner/admin)
+  rpc euis(route_euis_req_v1) returns (route_euis_res_v1);
+  // Add / Remove/ Update Devaddr Ranges from a Route (auth
+  // delegate_keys/owner/admin)
+  rpc devaddrs(route_devaddrs_req_v1) returns (route_devaddrs_res_v1);
+  // Stream Routes update (auth admin only)
+  rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
+}
+
+service session_key_filter {
+  // List Filters for an Org (auth delegate_keys/owner/admin)
+  rpc list(session_key_filter_list_req_v1)
+      returns (session_key_filter_list_res_v1);
+  // List Filters for an Org (auth delegate_keys/owner/admin
+  rpc get(session_key_filter_get_req_v1) returns (session_key_filter_v1);
+  // Get Filter for an Org (auth delegate_keys/owner/admin)
+  rpc create(session_key_filter_create_req_v1) returns (session_key_filter_v1);
+  // Update Filters for an Org (auth delegate_keys/owner/admin)
+  rpc update(session_key_filter_update_req_v1) returns (session_key_filter_v1);
+  // Delete Filters for an Org (auth delegate_keys/owner/admin)
+  rpc delete (session_key_filter_delete_req_v1) returns (session_key_filter_v1);
+  // Stream Filter update (auth admin only)
+  rpc stream(session_key_filter_stream_req_v1)
+      returns (stream session_key_filter_stream_res_v1);
+}
+
+service gateway {
+  // Return the region params for the asserted location of the signed gateway
+  // address
+  rpc region_params(gateway_region_params_req_v1)
+      returns (gateway_region_params_res_v1);
+}
