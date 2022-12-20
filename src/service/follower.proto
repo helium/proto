@@ -59,14 +59,17 @@ message follower_gateway_resp_v1 {
   }
 }
 
-message follower_oui_balance_update_req_v1 {}
-
-message follower_oui_balance_update_resp_v1 {
-  repeated follower_oui_balance_update updated_balances = 1;
+message follower_balance_req_v1 {
+  /// A list of pubkey_bin addresses of accounts to look up
+  repeated bytes addresses = 1;
 }
 
-message follower_oui_balance_update {
-  uint64 oui = 1;
+message follower_balance_resp_v1 {
+  repeated balance balances = 1;
+}
+
+message account_balance {
+  bytes address = 1;
   uint64 balance = 2;
 }
 
@@ -100,6 +103,6 @@ service follower {
   rpc subnetwork_last_reward_height(
       follower_subnetwork_last_reward_height_req_v1)
       returns (follower_subnetwork_last_reward_height_resp_v1);
-  rpc oui_balance_stream(follower_oui_balance_update_req_v1)
-      returns (stream follower_oui_balance_update_resp_v1);
+  rpc query_balance(follower_balance_req_v1)
+      returns (follower_balance_resp_v1);
 }
