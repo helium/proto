@@ -104,6 +104,5 @@ service follower {
   rpc subnetwork_last_reward_height(
       follower_subnetwork_last_reward_height_req_v1)
       returns (follower_subnetwork_last_reward_height_resp_v1);
-  rpc query_balance(follower_balance_req_v1)
-      returns (follower_balance_resp_v1);
+  rpc query_balance(follower_balance_req_v1) returns (follower_balance_resp_v1);
 }
