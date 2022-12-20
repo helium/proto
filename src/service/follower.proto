@@ -65,7 +65,8 @@ message follower_balance_req_v1 {
 }
 
 message follower_balance_resp_v1 {
-  repeated balance balances = 1;
+  uint64 height = 1;
+  repeated balance balances = 2;
 }
 
 message account_balance {
