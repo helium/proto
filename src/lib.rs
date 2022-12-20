@@ -9,12 +9,13 @@ pub use prost::{DecodeError, EncodeError, Message};
 #[cfg(feature = "services")]
 pub mod services {
     use crate::{
-        BlockchainTokenTypeV1, BlockchainTxn, DataRate, GatewayStakingMode, MapperAttach, Region,
-        RoutingAddress,
+        BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, DataRate,
+        GatewayStakingMode, MapperAttach, Region, RoutingAddress,
     };
 
     pub mod iot_config {
         include!(concat!(env!("OUT_DIR"), "/helium.iot_config.rs"));
+        pub use gateway_server::{Gateway, GatewayServer};
         pub use org_client as config_org_client;
         pub use org_server::{Org, OrgServer};
         pub use route_client as config_route_client;
