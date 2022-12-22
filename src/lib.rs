@@ -166,7 +166,7 @@ impl std::str::FromStr for Region {
             "AS923_1C" => Ok(Region::As9231c),
             "AS923_1D" => Ok(Region::As9231d),
             "AS923_1E" => Ok(Region::As9231e),
-            "AS923_1f" => Ok(Region::As9231f),
+            "AS923_1F" => Ok(Region::As9231f),
             "AS923_2" => Ok(Region::As9232),
             "AS923_3" => Ok(Region::As9233),
             "AS923_4" => Ok(Region::As9234),
