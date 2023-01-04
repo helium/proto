@@ -64,7 +64,8 @@ service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
       returns (cell_heartbeat_resp_v1);
-  rpc submit_data_transfer_session(data_transfer_session_req_v1) returns (data_transfer_session_resp_v1);
+  rpc submit_data_transfer_session(data_transfer_session_req_v1)
+      returns (data_transfer_session_resp_v1);
 }
 
 message file_info {
@@ -175,7 +176,7 @@ enum data_transfer_radio_access_technology {
 message data_transfer_session_resp_v1 { string id = 1; }
 
 message data_transfer_session_ingest_report_v1 {
-  //timestamp in milliseconds since unix epoch
+  // timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
   data_transfer_session_req_v1 report = 2;
 }
