@@ -64,6 +64,7 @@ service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
       returns (cell_heartbeat_resp_v1);
+  rpc submit_data_transfer_session(data_transfer_session_req_v1) returns (data_transfer_session_resp_v1);
 }
 
 message file_info {
@@ -147,4 +148,34 @@ enum cell_type {
   neutrino430 = 2;
   sercomm_indoor = 3;
   sercomm_outdoor = 4;
+}
+
+message data_transfer_session_req_v1 {
+  bytes pub_key = 1;
+  uint64 upload_bytes = 2;
+  uint64 download_bytes = 3;
+  data_transfer_radio_access_technology radio_access_technology = 4;
+
+  // Timestamps in seconds from the unix epoch
+  uint64 start_timestamp = 5;
+  uint64 end_timestamp = 6;
+
+  bytes signature = 7;
+}
+
+enum data_transfer_radio_access_technology {
+  UTRAN = 0;
+  GERAN = 1;
+  WLAN = 2;
+  GAN = 3;
+  HSPA_Evolution = 4;
+  EUTRAN = 5;
+}
+
+message data_transfer_session_resp_v1 { string id = 1; }
+
+message data_transfer_session_ingest_report_v1 {
+  //timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  data_transfer_session_req_v1 report = 2;
 }
