@@ -27,6 +27,7 @@ enum invalid_reason {
   self_witness = 14;
   stale = 15;
   scaling_factor_not_found = 16;
+  unknown_error = 17;
 }
 
 // beacon report as submitted by gateway to ingestor
