@@ -157,11 +157,7 @@ message data_transfer_session_req_v1 {
   uint64 download_bytes = 3;
   data_transfer_radio_access_technology radio_access_technology = 4;
 
-  // Timestamps in seconds from the unix epoch
-  uint64 start_timestamp = 5;
-  uint64 end_timestamp = 6;
-
-  bytes signature = 7;
+  bytes signature = 5;
 }
 
 enum data_transfer_radio_access_technology {
