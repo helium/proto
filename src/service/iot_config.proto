@@ -47,7 +47,8 @@ message org_v1 {
   bytes payer = 3;
   // List of keys allowed some specific actions, see services.
   repeated bytes delegate_keys = 4;
-  uint64 nonce = 5;
+  // Use req timestamps to validate order/avoid replay
+  uint64 nonce = 5 [ deprecated = true ];
 }
 
 // Device address range, ex: 16#00000001 to 16#0000000A
@@ -115,8 +116,8 @@ message route_v1 {
   server_v1 server = 6;
   // Number of packet copies bought by this route
   uint32 max_copies = 7;
-  // Incremental int for updates
-  uint64 nonce = 8;
+  // Use req timestamps to validate order/avoid replay
+  uint64 nonce = 8 [ deprecated = true ];
 }
 
 // ------------------------------------------------------------------
