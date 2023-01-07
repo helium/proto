@@ -32,7 +32,10 @@ fn main() -> Result<()> {
     tonic_build::configure()
         .build_server(true)
         .build_client(true)
-        .type_attribute(".", "#[derive(serde_derive::Serialize)]")
+        .type_attribute(
+            ".",
+            "#[derive(serde_derive::Serialize, serde_derive::Deserialize)]",
+        )
         .type_attribute(".helium.config", "#[derive(serde_derive::Deserialize)]")
         .compile(
             &MESSAGES
@@ -49,7 +52,10 @@ fn main() -> Result<()> {
 fn main() -> Result<()> {
     std::env::set_var("PROTOC", protoc_bin_vendored::protoc_bin_path().unwrap());
     prost_build::Config::new()
-        .type_attribute(".", "#[derive(serde_derive::Serialize)]")
+        .type_attribute(
+            ".",
+            "#[derive(serde_derive::Serialize, serde_derive::Deserialize)]",
+        )
         .compile_protos(MESSAGES, &["src"])?;
     Ok(())
 }
