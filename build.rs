@@ -36,7 +36,6 @@ fn main() -> Result<()> {
             ".",
             "#[derive(serde_derive::Serialize, serde_derive::Deserialize)]",
         )
-        .type_attribute(".helium.config", "#[derive(serde_derive::Deserialize)]")
         .compile(
             &MESSAGES
                 .iter()
