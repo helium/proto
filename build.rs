@@ -13,6 +13,7 @@ const SERVICES: &[&str] = &[
     "src/service/packet_router.proto",
     "src/service/iot_config.proto",
     "src/service/downlink.proto",
+    "src/service/packet_verifier.proto",
 ];
 
 const MESSAGES: &[&str] = &[
