@@ -56,6 +56,10 @@ pub mod services {
         }
     }
 
+    pub mod packet_verifier {
+        include!(concat!(env!("OUT_DIR"), "/helium.packet_verifier.rs"));
+    }
+
     pub mod poc_mobile {
         include!(concat!(env!("OUT_DIR"), "/helium.poc_mobile.rs"));
         pub use poc_mobile_client::PocMobileClient as Client;
