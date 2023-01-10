@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package helium.packet_verifier;
+
+message verified_packet {
+  bytes router = 1;
+  uint32 payload_size = 2;
+  bytes gateway = 3;
+  bytes payload_hash = 4;
+  bool is_valid = 5;
+}
+
