@@ -139,6 +139,7 @@ message org_create_helium_req_v1 {
   uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
+  repeated bytes delegate_keys = 7;
 }
 
 message org_create_roamer_req_v1 {
@@ -149,6 +150,7 @@ message org_create_roamer_req_v1 {
   uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
+  repeated bytes delegate_keys = 7;
 }
 
 message org_res_v1 {
@@ -166,6 +168,16 @@ message org_disable_req_v1 {
 }
 
 message org_disable_res_v1 { uint64 oui = 1; }
+
+message org_enable_req_v1 {
+  uint64 oui = 1;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message org_enable_res_v1 { uint64 oui = 1; }
 
 message route_list_req_v1 {
   uint64 oui = 1;
@@ -366,9 +378,12 @@ service org {
   rpc create_helium(org_create_helium_req_v1) returns (org_res_v1);
   // Create Org on any network (auth admin only)
   rpc create_roamer(org_create_roamer_req_v1) returns (org_res_v1);
-  // Disable an org, this should send a route/stream delete to HPR (auth admin
-  // only)
+  // Disable an org, this sends a stream route delete update to HPR
+  // for all associated routes (auth admin only)
   rpc disable(org_disable_req_v1) returns (org_disable_res_v1);
+  // Enable an org, this sends a stream route create update to HPR
+  // for all associated routes (auth admin only)
+  rpc enable(org_enable_req_v1) returns (org_enable_res_v1);
 }
 
 service route {
