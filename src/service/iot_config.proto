@@ -56,7 +56,7 @@ message devaddr_range_v1 {
 }
 
 // Device App EUI and Dev EUI
-message euis_v1 {
+message eui_pair_v1 {
   string route_id = 1;
   uint64 app_eui = 2;
   uint64 dev_eui = 3;
@@ -219,7 +219,7 @@ message route_update_euis_req_v1 {
     remove_euis = 1;
   }
   route_update_euis_action_v1 action = 1;
-  euis_v1 euis = 2;
+  eui_pair_v1 euis = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
   bytes signer = 4;
@@ -282,7 +282,7 @@ message route_stream_res_v1 {
   route_stream_res_action_v1 action = 1;
   oneof data {
     route_v1 route = 2;
-    euis_v1 euis = 3;
+    eui_pair_v1 euis = 3;
     devaddr_range_v1 devaddr_range = 4;
   }
 }
@@ -406,7 +406,7 @@ service route {
   rpc delete (route_delete_req_v1) returns (route_v1);
 
   // Get EUIs for a Route (auth delegate_keys/owner/admin)
-  rpc get_euis(route_get_euis_req_v1) returns (stream euis_v1);
+  rpc get_euis(route_get_euis_req_v1) returns (stream eui_pair_v1);
   // Update (single add or remove) EUIs for a Route (auth
   // delegate_keys/owner/admin)
   rpc update_euis(stream route_update_euis_req_v1) returns (route_euis_res_v1);
@@ -415,7 +415,7 @@ service route {
 
   // Get DevAddr Ranges for a Route (auth delegate_keys/owner/admin)
   rpc get_devaddr_ranges(route_get_devaddr_ranges_req_v1)
-      returns (stream euis_v1);
+      returns (stream eui_pair_v1);
   // Update (single add or remove) DevAddr Ranges for a Route (auth
   // delegate_keys/owner/admin)
   rpc update_devaddr_ranges(stream route_update_devaddr_ranges_req_v1)
