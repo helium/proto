@@ -32,9 +32,8 @@ import "region.proto";
 //    `devaddr_range` of the owning org.
 
 enum action_v1 {
-  create = 0;
-  update = 1;
-  delete = 2;
+  add = 0;
+  remove = 1;
 }
 
 // Define an organisation
@@ -214,11 +213,7 @@ message route_get_euis_req_v1 {
 }
 
 message route_update_euis_req_v1 {
-  enum route_update_euis_action_v1 {
-    add_euis = 0;
-    remove_euis = 1;
-  }
-  route_update_euis_action_v1 action = 1;
+  action_v1 action = 1;
   eui_pair_v1 euis = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
@@ -245,11 +240,7 @@ message route_get_devaddr_ranges_req_v1 {
 }
 
 message route_update_devaddr_ranges_req_v1 {
-  enum route_update_devaddr_ranges_action_v1 {
-    add_devaddr_range = 0;
-    remove_devaddr_range = 1;
-  }
-  route_update_devaddr_ranges_action_v1 action = 1;
+  action_v1 action = 1;
   devaddr_range_v1 devaddr_range = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
@@ -275,11 +266,7 @@ message route_stream_req_v1 {
 }
 
 message route_stream_res_v1 {
-  enum route_stream_res_action_v1 {
-    add = 0;
-    remove = 1;
-  }
-  route_stream_res_action_v1 action = 1;
+  action_v1 action = 1;
   oneof data {
     route_v1 route = 2;
     eui_pair_v1 euis = 3;
