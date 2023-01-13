@@ -415,7 +415,7 @@ service route {
   rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
 }
 
-// This service will be update soon (APIs not accurate as of 2023/01/13)
+// This service will be updated soon, APIs are not accurate (2023/01/13)
 service session_key_filter {
   // List Filters for an Org (auth delegate_keys/owner/admin)
   rpc list(session_key_filter_list_req_v1)
