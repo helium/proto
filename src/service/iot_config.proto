@@ -149,7 +149,7 @@ message org_create_roamer_req_v1 {
 message org_res_v1 {
   org_v1 org = 1;
   uint64 net_id = 2;
-  repeated devaddr_range_v1 devaddr_range = 3;
+  repeated devaddr_range_v1 devaddr_ranges = 3;
 }
 
 message org_disable_req_v1 {
@@ -215,11 +215,11 @@ message route_get_euis_req_v1 {
 
 message route_update_euis_req_v1 {
   enum route_update_euis_action_v1 {
-    add_eui = 0;
-    remove_eui = 1;
+    add_euis = 0;
+    remove_euis = 1;
   }
   route_update_euis_action_v1 action = 1;
-  euis_v1 eui = 2;
+  euis_v1 euis = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
   bytes signer = 4;
@@ -246,8 +246,8 @@ message route_get_devaddr_ranges_req_v1 {
 
 message route_update_devaddr_ranges_req_v1 {
   enum route_update_devaddr_ranges_action_v1 {
-    add_devaddr_ranges = 0;
-    remove_devaddr_ranges = 1;
+    add_devaddr_range = 0;
+    remove_devaddr_range = 1;
   }
   route_update_devaddr_ranges_action_v1 action = 1;
   devaddr_range_v1 devaddr_range = 2;
@@ -280,7 +280,7 @@ message route_stream_res_v1 {
     remove = 1;
   }
   route_stream_res_action_v1 action = 1;
-  oneof protocol {
+  oneof data {
     route_v1 route = 2;
     euis_v1 euis = 3;
     devaddr_range_v1 devaddr_range = 4;
