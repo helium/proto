@@ -22,14 +22,15 @@ import "region.proto";
 //
 // == DevAddrs ==
 //
-// - `devaddr_range` are inclusive on both sides, `start_addr` and `end_addr`.
+// - `devaddr_range` and `devaddr_constraints` are inclusive on both sides,
+// - `start_addr` and `end_addr`.
 //
-// - `org_res_v1.devaddr_range` provides the ranges of DevAddrs available to
+// - `org_res_v1.devaddr_constraints` provides the ranges of DevAddrs available to
 //    any `route_v1` under an Org.
 //
-// - `route_v1.devaddr_range` provides the ranges of DevAddrs that should go to
+// - `devaddr_range_v1` provides the ranges of DevAddrs that should go to
 //    this specific Route. This ranges must always fall within the
-//    `devaddr_range` of the owning org.
+//    `devaddr_constraints` of the owning org.
 
 enum action_v1 {
   add = 0;
@@ -52,6 +53,11 @@ message devaddr_range_v1 {
   string route_id = 1;
   uint32 start_addr = 2;
   uint32 end_addr = 3;
+}
+
+message devaddr_constraint_v1 {
+  uint32 start_addr = 1;
+  uint32 end_addr = 2;
 }
 
 // Device App EUI and Dev EUI
@@ -148,7 +154,7 @@ message org_create_roamer_req_v1 {
 message org_res_v1 {
   org_v1 org = 1;
   uint64 net_id = 2;
-  repeated devaddr_range_v1 devaddr_ranges = 3;
+  repeated devaddr_constraint_v1 devaddr_constraints = 3;
 }
 
 message org_disable_req_v1 {
