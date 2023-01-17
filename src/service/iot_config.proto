@@ -402,7 +402,7 @@ service route {
 
   // Get DevAddr Ranges for a Route (auth delegate_keys/owner/admin)
   rpc get_devaddr_ranges(route_get_devaddr_ranges_req_v1)
-      returns (stream eui_pair_v1);
+      returns (stream devaddr_range_v1);
   // Update (single add or remove) DevAddr Ranges for a Route (auth
   // delegate_keys/owner/admin)
   rpc update_devaddr_ranges(stream route_update_devaddr_ranges_req_v1)
