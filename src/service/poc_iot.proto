@@ -40,6 +40,8 @@ message iot_beacon_report_req_v1 {
   uint64 frequency = 6;
   int32 channel = 7;
   data_rate datarate = 8;
+  // The Conducted transmit power in ddbm. This is _not_ adjusted with the
+  // asserted gain of the gateway
   int32 tx_power = 9;
   // Timestamp of beacon transmit in nanos since unix epoch
   uint64 timestamp = 10;
