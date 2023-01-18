@@ -275,7 +275,7 @@ message route_stream_res_v1 {
   action_v1 action = 1;
   oneof data {
     route_v1 route = 2;
-    eui_pair_v1 euis = 3;
+    eui_pair_v1 eui_pair = 3;
     devaddr_range_v1 devaddr_range = 4;
   }
 }
