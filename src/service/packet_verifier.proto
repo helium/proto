@@ -2,10 +2,14 @@ syntax = "proto3";
 
 package helium.packet_verifier;
 
-message verified_packet {
+message valid_packet {
   uint32 payload_size = 1;
   bytes gateway = 2;
   bytes payload_hash = 3;
-  bool is_valid = 4;
 }
 
+message invalid_packet {
+  uint32 payload_size = 1;
+  bytes gateway = 2;
+  bytes payload_hash = 3;
+}
