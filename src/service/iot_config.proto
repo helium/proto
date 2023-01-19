@@ -25,7 +25,8 @@ import "region.proto";
 // - `devaddr_range` and `devaddr_constraints` are inclusive on both sides,
 // - `start_addr` and `end_addr`.
 //
-// - `org_res_v1.devaddr_constraints` provides the ranges of DevAddrs available to
+// - `org_res_v1.devaddr_constraints` provides the ranges of DevAddrs available
+// to
 //    any `route_v1` under an Org.
 //
 // - `devaddr_range_v1` provides the ranges of DevAddrs that should go to
@@ -139,6 +140,7 @@ message org_create_helium_req_v1 {
   uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
+  repeated bytes delegate_keys = 7;
 }
 
 message org_create_roamer_req_v1 {
@@ -149,6 +151,7 @@ message org_create_roamer_req_v1 {
   uint64 timestamp = 4;
   bytes signer = 5;
   bytes signature = 6;
+  repeated bytes delegate_keys = 7;
 }
 
 message org_res_v1 {
