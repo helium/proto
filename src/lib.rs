@@ -9,7 +9,7 @@ pub use prost::{DecodeError, EncodeError, Message};
 #[cfg(feature = "services")]
 pub mod services {
     use crate::{
-        BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, DataRate,
+        BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, DataRate, EntropyReportV1,
         GatewayStakingMode, MapperAttach, Region, RoutingAddress,
     };
 
@@ -56,6 +56,12 @@ pub mod services {
         include!(concat!(env!("OUT_DIR"), "/helium.poc_lora.rs"));
         pub use poc_lora_client::PocLoraClient as Client;
         pub use poc_lora_server::{PocLora, PocLoraServer as Server};
+    }
+
+    pub mod poc_entropy {
+        include!(concat!(env!("OUT_DIR"), "/helium.poc_entropy.rs"));
+        pub use poc_entropy_client::PocEntropyClient as Client;
+        pub use poc_entropy_server::{PocEntropy, PocEntropyServer as Server};
     }
 
     pub mod follower {
