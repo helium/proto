@@ -4,30 +4,37 @@ package helium.poc_lora;
 
 import "data_rate.proto";
 
+enum verification_status {
+  valid = 0;
+  invalid = 1;
+}
+
 enum invalid_participant_side {
-  beaconer = 0;
-  witness = 1;
+  side_none = 0;
+  beaconer = 2;
+  witness = 3;
 }
 
 enum invalid_reason {
-  bad_signature = 0;
-  not_asserted = 1;
-  entropy_expired = 2;
-  bad_entropy = 3;
-  invalid_capability = 4;
-  invalid_pubkey = 5;
-  irregular_interval = 6;
-  gateway_not_found = 7;
-  denied = 8;
-  invalid_packet = 9;
-  bad_rssi = 10;
-  invalid_region = 11;
-  max_distance_exceeded = 12;
-  invalid_frequency = 13;
-  self_witness = 14;
-  stale = 15;
-  scaling_factor_not_found = 16;
-  unknown_error = 17;
+  reason_none = 0;
+  bad_signature = 1;
+  not_asserted = 2;
+  entropy_expired = 3;
+  bad_entropy = 4;
+  invalid_capability = 5;
+  invalid_pubkey = 6;
+  irregular_interval = 7;
+  gateway_not_found = 8;
+  denied = 9;
+  invalid_packet = 10;
+  bad_rssi = 11;
+  invalid_region = 12;
+  max_distance_exceeded = 13;
+  invalid_frequency = 14;
+  self_witness = 15;
+  stale = 16;
+  scaling_factor_not_found = 17;
+  unknown_error = 18;
 }
 
 // beacon report as submitted by gateway to ingestor
@@ -132,12 +139,30 @@ message lora_invalid_witness_report_v1 {
   invalid_participant_side participant_side = 4;
 }
 
-// valid POC report produced by the verifier
-// includes the valid beacon and any valid witnesses
-message lora_valid_poc_v1 {
+// tagged verified witness report produced by the verifier
+message lora_verified_witness_report_v1 {
+  // Timestamp at ingest in millis since unix epoch
+  uint64 received_timestamp = 1;
+  verification_status status = 2;
+  lora_witness_report_req_v1 report = 3;
+  string location = 4;
+  uint32 hex_scale = 5;
+  // integer representation of a 4-point precision decimal multiplier
+  // based on the number of witnesses to a poc event
+  uint32 reward_unit = 6;
+  invalid_reason invalid_reason = 7;
+  // the participant to which the reason applies,
+  // which rendered the report as invalid
+  invalid_participant_side participant_side = 8;
+}
+
+// POC report produced by the verifier
+// includes a valid beacon and both valid & invalid witness reports
+message lora_poc_v1 {
   bytes poc_id = 1;
   lora_valid_beacon_report_v1 beacon_report = 2;
-  repeated lora_valid_witness_report_v1 witness_reports = 3;
+  repeated lora_verified_witness_report_v1 selected_witnesses = 3;
+  repeated lora_verified_witness_report_v1 unselected_witnesses = 4;
 }
 
 // iot per-gateway reward share for a given reward period
