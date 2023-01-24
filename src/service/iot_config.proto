@@ -223,7 +223,7 @@ message route_get_euis_req_v1 {
 
 message route_update_euis_req_v1 {
   action_v1 action = 1;
-  eui_pair_v1 euis = 2;
+  eui_pair_v1 eui_pair = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
   bytes signer = 4;
@@ -284,8 +284,9 @@ message route_stream_res_v1 {
 }
 
 message session_key_filter_v1 {
-  uint32 devaddr = 1;
-  repeated bytes session_keys = 2;
+  uint64 oui = 1;
+  uint32 devaddr = 2;
+  bytes session_key = 3;
 }
 
 message session_key_filter_list_req_v1 {
@@ -294,10 +295,6 @@ message session_key_filter_list_req_v1 {
   uint64 timestamp = 2;
   bytes signer = 3;
   bytes signature = 4;
-}
-
-message session_key_filter_list_res_v1 {
-  repeated session_key_filter_v1 filters = 1;
 }
 
 message session_key_filter_get_req_v1 {
@@ -309,8 +306,8 @@ message session_key_filter_get_req_v1 {
   bytes signature = 5;
 }
 
-message session_key_filter_create_req_v1 {
-  uint64 oui = 1;
+message session_key_filter_update_req_v1 {
+  action_v1 action = 1;
   session_key_filter_v1 filter = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
@@ -318,32 +315,7 @@ message session_key_filter_create_req_v1 {
   bytes signature = 5;
 }
 
-message session_key_filter_update_req_v1 {
-  enum skf_action_v1 {
-    // Replace all the session_keys for that devaddr
-    update = 0;
-    // Add the session_keys for that devaddr
-    add = 1;
-    // Delete the session_keys for that devaddr
-    delete = 2;
-  }
-  uint64 oui = 1;
-  skf_action_v1 action = 2;
-  session_key_filter_v1 filter = 3;
-  // in milliseconds since unix epoch
-  uint64 timestamp = 4;
-  bytes signer = 5;
-  bytes signature = 6;
-}
-
-message session_key_filter_delete_req_v1 {
-  uint64 oui = 1;
-  uint32 devaddr = 2;
-  // in milliseconds since unix epoch
-  uint64 timestamp = 3;
-  bytes signer = 4;
-  bytes signature = 5;
-}
+message session_key_filter_update_res_v1 {}
 
 message session_key_filter_stream_req_v1 {
   // in milliseconds since unix epoch
@@ -424,19 +396,14 @@ service route {
   rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
 }
 
-// This service will be updated soon, APIs are not accurate (2023/01/13)
 service session_key_filter {
   // List Filters for an Org (auth delegate_keys/owner/admin)
-  rpc list(session_key_filter_list_req_v1)
-      returns (session_key_filter_list_res_v1);
-  // List Filters for an Org (auth delegate_keys/owner/admin
-  rpc get(session_key_filter_get_req_v1) returns (session_key_filter_v1);
-  // Get Filter for an Org (auth delegate_keys/owner/admin)
-  rpc create(session_key_filter_create_req_v1) returns (session_key_filter_v1);
+  rpc list(session_key_filter_list_req_v1) returns (stream session_key_filter_v1);
+  // List Filters for a DevAddr (auth delegate_keys/owner/admin
+  rpc get(session_key_filter_get_req_v1) returns (stream session_key_filter_v1);
   // Update Filters for an Org (auth delegate_keys/owner/admin)
-  rpc update(session_key_filter_update_req_v1) returns (session_key_filter_v1);
-  // Delete Filters for an Org (auth delegate_keys/owner/admin)
-  rpc delete (session_key_filter_delete_req_v1) returns (session_key_filter_v1);
+  rpc update(stream session_key_filter_update_req_v1) 
+      returns (session_key_filter_update_res_v1);
   // Stream Filter update (auth admin only)
   rpc stream(session_key_filter_stream_req_v1)
       returns (stream session_key_filter_stream_res_v1);
