@@ -370,7 +370,7 @@ message load_region_req_v1 {
   blockchain_region_params_v1 params = 2;
   // Gzip-compressed file content from converting region geojson to a list of h3
   // indexes
-  bytes hex_indexes = 3;
+  optional bytes hex_indexes = 3;
   bytes signature = 4;
 }
 
