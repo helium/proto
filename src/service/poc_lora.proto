@@ -7,7 +7,6 @@ import "data_rate.proto";
 enum verification_status {
   valid = 0;
   invalid = 1;
-  failed = 2;
 }
 
 enum invalid_participant_side {
