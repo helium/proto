@@ -9,12 +9,13 @@ pub use prost::{DecodeError, EncodeError, Message};
 #[cfg(feature = "services")]
 pub mod services {
     use crate::{
-        BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, DataRate,
+        BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, DataRate, EntropyReportV1,
         GatewayStakingMode, MapperAttach, Region, RoutingAddress,
     };
 
     pub mod iot_config {
         include!(concat!(env!("OUT_DIR"), "/helium.iot_config.rs"));
+        pub use gateway_client::GatewayClient;
         pub use gateway_server::{Gateway, GatewayServer};
         pub use org_client as config_org_client;
         pub use org_server::{Org, OrgServer};
@@ -31,7 +32,6 @@ pub mod services {
 
     pub mod router {
         pub use crate::router_client::RouterClient;
-        pub use crate::state_channel_client::StateChannelClient;
 
         include!(concat!(env!("OUT_DIR"), "/helium.packet_router.rs"));
         pub use packet_client::PacketClient as PacketRouterClient;
@@ -44,16 +44,6 @@ pub mod services {
         include!(concat!(env!("OUT_DIR"), "/helium.local.rs"));
         pub use api_client::ApiClient as Client;
         pub use api_server::{Api, ApiServer as Server};
-
-        impl From<crate::BlockchainVarV1> for ConfigValue {
-            fn from(v: crate::BlockchainVarV1) -> Self {
-                Self {
-                    name: v.name,
-                    r#type: v.r#type,
-                    value: v.value,
-                }
-            }
-        }
     }
 
     pub mod packet_verifier {
@@ -70,6 +60,12 @@ pub mod services {
         include!(concat!(env!("OUT_DIR"), "/helium.poc_lora.rs"));
         pub use poc_lora_client::PocLoraClient as Client;
         pub use poc_lora_server::{PocLora, PocLoraServer as Server};
+    }
+
+    pub mod poc_entropy {
+        include!(concat!(env!("OUT_DIR"), "/helium.poc_entropy.rs"));
+        pub use poc_entropy_client::PocEntropyClient as Client;
+        pub use poc_entropy_server::{PocEntropy, PocEntropyServer as Server};
     }
 
     pub mod follower {

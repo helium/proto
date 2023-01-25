@@ -10,6 +10,7 @@ const SERVICES: &[&str] = &[
     "src/service/follower.proto",
     "src/service/poc_mobile.proto",
     "src/service/poc_lora.proto",
+    "src/service/poc_entropy.proto",
     "src/service/packet_router.proto",
     "src/service/iot_config.proto",
     "src/service/downlink.proto",
