@@ -158,7 +158,7 @@ message data_transfer_session_req_v1 {
   data_transfer_radio_access_technology radio_access_technology = 4;
   string session_id = 5;
   bytes oui = 6;
-  uint64 imsi = 7;
+  bytes imsi = 7;
 
   // Timestamp in seconds since the epoch
   uint64 timestamp = 8;
