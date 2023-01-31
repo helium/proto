@@ -365,6 +365,17 @@ message gateway_region_params_res_v1 {
   bytes signature = 4;
 }
 
+message load_region_req_v1 {
+  region region = 1;
+  blockchain_region_params_v1 params = 2;
+  // Gzip-compressed file content from converting region geojson to a list of h3
+  // indexes
+  optional bytes hex_indexes = 3;
+  bytes signature = 4;
+}
+
+message load_region_res_v1 {}
+
 // ------------------------------------------------------------------
 // Service Definitions
 // ------------------------------------------------------------------
@@ -425,7 +436,10 @@ service session_key_filter {
 
 service gateway {
   // Return the region params for the asserted location of the signed gateway
-  // address
+  // address (no auth, but signature validated)
   rpc region_params(gateway_region_params_req_v1)
       returns (gateway_region_params_res_v1);
+  // Load params and cell indexes for a region into the config service (auth
+  // admin only)
+  rpc load_region(load_region_req_v1) returns (load_region_res_v1);
 }
