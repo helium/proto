@@ -22,45 +22,50 @@ import "region.proto";
 //
 // == DevAddrs ==
 //
-// - `devaddr_ranges` are inclusive on both sides, `start_addr` and `end_addr`.
+// - `devaddr_range` and `devaddr_constraints` are inclusive on both sides,
+// - `start_addr` and `end_addr`.
 //
-// - `org_res_v1.devaddr_ranges` provides the ranges of DevAddrs available to
+// - `org_res_v1.devaddr_constraints` provides the ranges of DevAddrs available
+// to
 //    any `route_v1` under an Org.
 //
-// - `route_v1.devaddr_ranges` provides the ranges of DevAddrs that should go to
+// - `devaddr_range_v1` provides the ranges of DevAddrs that should go to
 //    this specific Route. This ranges must always fall within the
-//    `devaddr_ranges` of the owning org.
+//    `devaddr_constraints` of the owning org.
 
 enum action_v1 {
-  create = 0;
-  update = 1;
-  delete = 2;
+  add = 0;
+  remove = 1;
 }
 
 // Define an organisation
 message org_v1 {
   uint64 oui = 1;
-
   // Org admin key
   bytes owner = 2;
   // Key only used for DC payments
   bytes payer = 3;
   // List of keys allowed some specific actions, see services.
   repeated bytes delegate_keys = 4;
-  // Use req timestamps to validate order/avoid replay
-  uint64 nonce = 5 [ deprecated = true ];
 }
 
 // Device address range, ex: 16#00000001 to 16#0000000A
 message devaddr_range_v1 {
+  string route_id = 1;
+  uint32 start_addr = 2;
+  uint32 end_addr = 3;
+}
+
+message devaddr_constraint_v1 {
   uint32 start_addr = 1;
   uint32 end_addr = 2;
 }
 
 // Device App EUI and Dev EUI
-message eui_v1 {
-  uint64 app_eui = 1;
-  uint64 dev_eui = 2;
+message eui_pair_v1 {
+  string route_id = 1;
+  uint64 app_eui = 2;
+  uint64 dev_eui = 3;
 }
 
 // Packet Router protocol options (empty for now)
@@ -109,15 +114,11 @@ message route_v1 {
   string id = 1;
   // LoraWan Network ID
   uint64 net_id = 2;
-  repeated devaddr_range_v1 devaddr_ranges = 3;
-  repeated eui_v1 euis = 4;
   // Organization Unique ID
-  uint64 oui = 5;
-  server_v1 server = 6;
+  uint64 oui = 3;
+  server_v1 server = 4;
   // Number of packet copies bought by this route
-  uint32 max_copies = 7;
-  // Use req timestamps to validate order/avoid replay
-  uint64 nonce = 8 [ deprecated = true ];
+  uint32 max_copies = 5;
 }
 
 // ------------------------------------------------------------------
@@ -156,7 +157,7 @@ message org_create_roamer_req_v1 {
 message org_res_v1 {
   org_v1 org = 1;
   uint64 net_id = 2;
-  repeated devaddr_range_v1 devaddr_ranges = 3;
+  repeated devaddr_constraint_v1 devaddr_constraints = 3;
 }
 
 message org_disable_req_v1 {
@@ -222,49 +223,59 @@ message route_delete_req_v1 {
   bytes signature = 4;
 }
 
-enum route_euis_action_v1 {
-  add_euis = 0;
-  remove_euis = 1;
-  update_euis = 2;
-}
-
-message route_euis_req_v1 {
-  string id = 1;
-  route_euis_action_v1 action = 2;
-  repeated eui_v1 euis = 3;
+message route_get_euis_req_v1 {
+  string route_id = 1;
   // in milliseconds since unix epoch
-  uint64 timestamp = 4;
-  bytes signer = 5;
-  bytes signature = 6;
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
 }
 
-message route_euis_res_v1 {
-  string id = 1;
-  route_euis_action_v1 action = 2;
-  repeated eui_v1 euis = 3;
-}
-
-enum route_devaddrs_action_v1 {
-  add_devaddrs = 0;
-  remove_devaddrs = 1;
-  update_devaddrs = 2;
-}
-
-message route_devaddrs_req_v1 {
-  string id = 1;
-  route_devaddrs_action_v1 action = 2;
-  repeated devaddr_range_v1 devaddr_ranges = 3;
+message route_update_euis_req_v1 {
+  action_v1 action = 1;
+  eui_pair_v1 eui_pair = 2;
   // in milliseconds since unix epoch
-  uint64 timestamp = 4;
-  bytes signer = 5;
-  bytes signature = 6;
+  uint64 timestamp = 3;
+  bytes signer = 4;
+  bytes signature = 5;
 }
 
-message route_devaddrs_res_v1 {
-  string id = 1;
-  route_devaddrs_action_v1 action = 2;
-  repeated devaddr_range_v1 devaddr_ranges = 3;
+message route_delete_euis_req_v1 {
+  string route_id = 1;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
 }
+
+message route_euis_res_v1 {}
+
+message route_get_devaddr_ranges_req_v1 {
+  string route_id = 1;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message route_update_devaddr_ranges_req_v1 {
+  action_v1 action = 1;
+  devaddr_range_v1 devaddr_range = 2;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 3;
+  bytes signer = 4;
+  bytes signature = 5;
+}
+
+message route_delete_devaddr_ranges_req_v1 {
+  string route_id = 1;
+  // in milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message route_devaddr_ranges_res_v1 {}
 
 message route_stream_req_v1 {
   // in milliseconds since unix epoch
@@ -275,12 +286,17 @@ message route_stream_req_v1 {
 
 message route_stream_res_v1 {
   action_v1 action = 1;
-  route_v1 route = 2;
+  oneof data {
+    route_v1 route = 2;
+    eui_pair_v1 eui_pair = 3;
+    devaddr_range_v1 devaddr_range = 4;
+  }
 }
 
 message session_key_filter_v1 {
-  uint32 devaddr = 1;
-  repeated bytes session_keys = 2;
+  uint64 oui = 1;
+  uint32 devaddr = 2;
+  bytes session_key = 3;
 }
 
 message session_key_filter_list_req_v1 {
@@ -289,10 +305,6 @@ message session_key_filter_list_req_v1 {
   uint64 timestamp = 2;
   bytes signer = 3;
   bytes signature = 4;
-}
-
-message session_key_filter_list_res_v1 {
-  repeated session_key_filter_v1 filters = 1;
 }
 
 message session_key_filter_get_req_v1 {
@@ -304,8 +316,8 @@ message session_key_filter_get_req_v1 {
   bytes signature = 5;
 }
 
-message session_key_filter_create_req_v1 {
-  uint64 oui = 1;
+message session_key_filter_update_req_v1 {
+  action_v1 action = 1;
   session_key_filter_v1 filter = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
@@ -313,32 +325,7 @@ message session_key_filter_create_req_v1 {
   bytes signature = 5;
 }
 
-message session_key_filter_update_req_v1 {
-  enum skf_action_v1 {
-    // Replace all the session_keys for that devaddr
-    update = 0;
-    // Add the session_keys for that devaddr
-    add = 1;
-    // Delete the session_keys for that devaddr
-    delete = 2;
-  }
-  uint64 oui = 1;
-  skf_action_v1 action = 2;
-  session_key_filter_v1 filter = 3;
-  // in milliseconds since unix epoch
-  uint64 timestamp = 4;
-  bytes signer = 5;
-  bytes signature = 6;
-}
-
-message session_key_filter_delete_req_v1 {
-  uint64 oui = 1;
-  uint32 devaddr = 2;
-  // in milliseconds since unix epoch
-  uint64 timestamp = 3;
-  bytes signer = 4;
-  bytes signature = 5;
-}
+message session_key_filter_update_res_v1 {}
 
 message session_key_filter_stream_req_v1 {
   // in milliseconds since unix epoch
@@ -404,15 +391,31 @@ service route {
   rpc get(route_get_req_v1) returns (route_v1);
   // Create Route for an Org (auth delegate_keys/owner/admin)
   rpc create(route_create_req_v1) returns (route_v1);
+
   // Update Route for an Org (auth delegate_keys/owner/admin)
   rpc update(route_update_req_v1) returns (route_v1);
   // Delete Route for an Org (auth delegate_keys/owner/admin)
   rpc delete (route_delete_req_v1) returns (route_v1);
-  // Add / Remove / Update EUIs from a Route (auth delegate_keys/owner/admin)
-  rpc euis(route_euis_req_v1) returns (route_euis_res_v1);
-  // Add / Remove/ Update Devaddr Ranges from a Route (auth
+
+  // Get EUIs for a Route (auth delegate_keys/owner/admin)
+  rpc get_euis(route_get_euis_req_v1) returns (stream eui_pair_v1);
+  // Update (single add or remove) EUIs for a Route (auth
   // delegate_keys/owner/admin)
-  rpc devaddrs(route_devaddrs_req_v1) returns (route_devaddrs_res_v1);
+  rpc update_euis(stream route_update_euis_req_v1) returns (route_euis_res_v1);
+  // Delete all EUIs for a Route (auth delegate_keys/owner/admin)
+  rpc delete_euis(route_delete_euis_req_v1) returns (route_euis_res_v1);
+
+  // Get DevAddr Ranges for a Route (auth delegate_keys/owner/admin)
+  rpc get_devaddr_ranges(route_get_devaddr_ranges_req_v1)
+      returns (stream devaddr_range_v1);
+  // Update (single add or remove) DevAddr Ranges for a Route (auth
+  // delegate_keys/owner/admin)
+  rpc update_devaddr_ranges(stream route_update_devaddr_ranges_req_v1)
+      returns (route_devaddr_ranges_res_v1);
+  // Delete all DevAddr Ranges for a Route (auth delegate_keys/owner/admin)
+  rpc delete_devaddr_ranges(route_delete_devaddr_ranges_req_v1)
+      returns (route_devaddr_ranges_res_v1);
+
   // Stream Routes update (auth admin only)
   rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
 }
@@ -420,15 +423,12 @@ service route {
 service session_key_filter {
   // List Filters for an Org (auth delegate_keys/owner/admin)
   rpc list(session_key_filter_list_req_v1)
-      returns (session_key_filter_list_res_v1);
-  // List Filters for an Org (auth delegate_keys/owner/admin
-  rpc get(session_key_filter_get_req_v1) returns (session_key_filter_v1);
-  // Get Filter for an Org (auth delegate_keys/owner/admin)
-  rpc create(session_key_filter_create_req_v1) returns (session_key_filter_v1);
+      returns (stream session_key_filter_v1);
+  // List Filters for a DevAddr (auth delegate_keys/owner/admin
+  rpc get(session_key_filter_get_req_v1) returns (stream session_key_filter_v1);
   // Update Filters for an Org (auth delegate_keys/owner/admin)
-  rpc update(session_key_filter_update_req_v1) returns (session_key_filter_v1);
-  // Delete Filters for an Org (auth delegate_keys/owner/admin)
-  rpc delete (session_key_filter_delete_req_v1) returns (session_key_filter_v1);
+  rpc update(stream session_key_filter_update_req_v1)
+      returns (session_key_filter_update_res_v1);
   // Stream Filter update (auth admin only)
   rpc stream(session_key_filter_stream_req_v1)
       returns (stream session_key_filter_stream_res_v1);
