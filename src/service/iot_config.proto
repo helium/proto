@@ -138,9 +138,8 @@ message org_create_helium_req_v1 {
   uint64 devaddrs = 3;
   // in milliseconds since unix epoch
   uint64 timestamp = 4;
-  bytes signer = 5;
-  bytes signature = 6;
-  repeated bytes delegate_keys = 7;
+  bytes signature = 5;
+  repeated bytes delegate_keys = 6;
 }
 
 message org_create_roamer_req_v1 {
@@ -149,9 +148,8 @@ message org_create_roamer_req_v1 {
   uint64 net_id = 3;
   // in milliseconds since unix epoch
   uint64 timestamp = 4;
-  bytes signer = 5;
-  bytes signature = 6;
-  repeated bytes delegate_keys = 7;
+  bytes signature = 5;
+  repeated bytes delegate_keys = 6;
 }
 
 message org_res_v1 {
@@ -164,8 +162,7 @@ message org_disable_req_v1 {
   uint64 oui = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message org_disable_res_v1 { uint64 oui = 1; }
@@ -174,8 +171,7 @@ message org_enable_req_v1 {
   uint64 oui = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message org_enable_res_v1 { uint64 oui = 1; }
@@ -184,8 +180,7 @@ message route_list_req_v1 {
   uint64 oui = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message route_list_res_v1 { repeated route_v1 routes = 1; }
@@ -194,8 +189,7 @@ message route_get_req_v1 {
   string id = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message route_create_req_v1 {
@@ -203,32 +197,28 @@ message route_create_req_v1 {
   route_v1 route = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
-  bytes signer = 4;
-  bytes signature = 5;
+  bytes signature = 4;
 }
 
 message route_update_req_v1 {
   route_v1 route = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message route_delete_req_v1 {
   string id = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message route_get_euis_req_v1 {
   string route_id = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message route_update_euis_req_v1 {
@@ -236,16 +226,14 @@ message route_update_euis_req_v1 {
   eui_pair_v1 eui_pair = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
-  bytes signer = 4;
-  bytes signature = 5;
+  bytes signature = 4;
 }
 
 message route_delete_euis_req_v1 {
   string route_id = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message route_euis_res_v1 {}
@@ -254,8 +242,7 @@ message route_get_devaddr_ranges_req_v1 {
   string route_id = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message route_update_devaddr_ranges_req_v1 {
@@ -263,16 +250,14 @@ message route_update_devaddr_ranges_req_v1 {
   devaddr_range_v1 devaddr_range = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
-  bytes signer = 4;
-  bytes signature = 5;
+  bytes signature = 4;
 }
 
 message route_delete_devaddr_ranges_req_v1 {
   string route_id = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message route_devaddr_ranges_res_v1 {}
@@ -280,8 +265,7 @@ message route_devaddr_ranges_res_v1 {}
 message route_stream_req_v1 {
   // in milliseconds since unix epoch
   uint64 timestamp = 1;
-  bytes signer = 2;
-  bytes signature = 3;
+  bytes signature = 2;
 }
 
 message route_stream_res_v1 {
@@ -303,8 +287,7 @@ message session_key_filter_list_req_v1 {
   uint64 oui = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message session_key_filter_get_req_v1 {
@@ -312,8 +295,7 @@ message session_key_filter_get_req_v1 {
   uint32 devaddr = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
-  bytes signer = 4;
-  bytes signature = 5;
+  bytes signature = 4;
 }
 
 message session_key_filter_update_req_v1 {
@@ -321,8 +303,7 @@ message session_key_filter_update_req_v1 {
   session_key_filter_v1 filter = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
-  bytes signer = 4;
-  bytes signature = 5;
+  bytes signature = 4;
 }
 
 message session_key_filter_update_res_v1 {}
@@ -330,8 +311,7 @@ message session_key_filter_update_res_v1 {}
 message session_key_filter_stream_req_v1 {
   // in milliseconds since unix epoch
   uint64 timestamp = 1;
-  bytes signer = 2;
-  bytes signature = 3;
+  bytes signature = 2;
 }
 
 message session_key_filter_stream_res_v1 {
