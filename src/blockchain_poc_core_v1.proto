@@ -1,6 +1,8 @@
 syntax = "proto3";
 package helium;
 
+import "invalid_reason.proto";
+
 enum origin {
   p2p = 0;
   radio = 1;

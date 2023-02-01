@@ -3,6 +3,7 @@ syntax = "proto3";
 package helium.poc_lora;
 
 import "data_rate.proto";
+import "invalid_reason.proto";
 
 enum verification_status {
   valid = 0;
@@ -13,29 +14,6 @@ enum invalid_participant_side {
   side_none = 0;
   beaconer = 2;
   witness = 3;
-}
-
-enum invalid_reason {
-  reason_none = 0;
-  bad_signature = 1;
-  not_asserted = 2;
-  entropy_expired = 3;
-  bad_entropy = 4;
-  invalid_capability = 5;
-  invalid_pubkey = 6;
-  irregular_interval = 7;
-  gateway_not_found = 8;
-  denied = 9;
-  invalid_packet = 10;
-  bad_rssi = 11;
-  invalid_region = 12;
-  max_distance_exceeded = 13;
-  invalid_frequency = 14;
-  self_witness = 15;
-  stale = 16;
-  scaling_factor_not_found = 17;
-  unknown_error = 18;
-  below_min_distance = 19;
 }
 
 // beacon report as submitted by gateway to ingestor
