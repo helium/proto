@@ -221,3 +221,33 @@ impl std::fmt::Display for Region {
         }
     }
 }
+
+impl std::str::FromStr for RegionSpreading {
+    type Err = prost::DecodeError;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.to_ascii_uppercase().as_str() {
+            "SF_INVALID" => Ok(RegionSpreading::SfInvalid),
+            "SF7" => Ok(RegionSpreading::Sf7),
+            "SF8" => Ok(RegionSpreading::Sf8),
+            "SF9" => Ok(RegionSpreading::Sf9),
+            "SF10" => Ok(RegionSpreading::Sf10),
+            "SF11" => Ok(RegionSpreading::Sf11),
+            "SF12" => Ok(RegionSpreading::Sf12),
+            _ => Ok(RegionSpreading::SfInvalid),
+        }
+    }
+}
+
+impl std::fmt::Display for RegionSpreading {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            RegionSpreading::SfInvalid => f.write_str("SF_INVALID"),
+            RegionSpreading::Sf7 => f.write_str("SF7"),
+            RegionSpreading::Sf8 => f.write_str("SF8"),
+            RegionSpreading::Sf9 => f.write_str("SF9"),
+            RegionSpreading::Sf10 => f.write_str("SF10"),
+            RegionSpreading::Sf11 => f.write_str("SF11"),
+            RegionSpreading::Sf12 => f.write_str("SF12"),
+        }
+    }
+}
