@@ -113,12 +113,15 @@ message route_v1 {
   // UUID
   string id = 1;
   // LoraWan Network ID
-  uint64 net_id = 2;
+  uint32 net_id = 2;
   // Organization Unique ID
   uint64 oui = 3;
   server_v1 server = 4;
   // Number of packet copies bought by this route
   uint32 max_copies = 5;
+  bool active = 6;
+  // Is route locked because of no payment
+  bool locked = 7;
 }
 
 // ------------------------------------------------------------------
@@ -145,7 +148,7 @@ message org_create_helium_req_v1 {
 message org_create_roamer_req_v1 {
   bytes owner = 1;
   bytes payer = 2;
-  uint64 net_id = 3;
+  uint32 net_id = 3;
   // in milliseconds since unix epoch
   uint64 timestamp = 4;
   bytes signature = 5;
@@ -154,7 +157,7 @@ message org_create_roamer_req_v1 {
 
 message org_res_v1 {
   org_v1 org = 1;
-  uint64 net_id = 2;
+  uint32 net_id = 2;
   repeated devaddr_constraint_v1 devaddr_constraints = 3;
 }
 
