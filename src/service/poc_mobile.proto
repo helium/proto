@@ -157,7 +157,7 @@ message data_transfer_session_req_v1 {
   uint64 download_bytes = 3;
   data_transfer_radio_access_technology radio_access_technology = 4;
   string session_id = 5;
-  bytes oui = 6;
+  bytes payer = 6;
   bytes imsi_hash = 7;
 
   // Timestamp in seconds since the epoch
