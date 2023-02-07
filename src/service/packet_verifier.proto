@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package helium.packet_verifier;
+
+message valid_packet {
+  uint32 payload_size = 1;
+  bytes gateway = 2;
+  bytes payload_hash = 3;
+}
+
+message invalid_packet {
+  uint32 payload_size = 1;
+  bytes gateway = 2;
+  bytes payload_hash = 3;
+  invalid_packet_reason reason = 4;
+}
+
+enum invalid_packet_reason {
+  invalid_packet_reason_insufficient_balance = 0;
+}

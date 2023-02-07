@@ -20,5 +20,5 @@ jobs:
       - name: Run clang-format for protobuf files
         uses: madninja/clang-format-action@madninja/protobuf
         with:
-          clang-format-version: '13'
+          clang-format-version: '15'
           check-path: 'src'
