@@ -162,7 +162,6 @@ message data_transfer_session_req_v1 {
 
   // Timestamp in seconds since the epoch
   uint64 timestamp = 8;
-
   bytes signature = 9;
 }
 
