@@ -8,8 +8,7 @@ message http_roaming_register_v1 {
   region region = 1;
   // milliseconds since unix epoch
   uint64 timestamp = 2;
-  bytes signer = 3;
-  bytes signature = 4;
+  bytes signature = 3;
 }
 
 message http_roaming_downlink_v1 { bytes data = 1; }
