@@ -38,6 +38,10 @@ fn main() -> Result<()> {
             ".",
             "#[derive(serde_derive::Serialize, serde_derive::Deserialize)]",
         )
+        .field_attribute(
+            ".helium.tagged_spreading.region_spreading",
+            "#[serde(with = \"serde_region_spreading\" )]",
+        )
         .compile(
             &MESSAGES
                 .iter()
@@ -56,6 +60,10 @@ fn main() -> Result<()> {
         .type_attribute(
             ".",
             "#[derive(serde_derive::Serialize, serde_derive::Deserialize)]",
+        )
+        .field_attribute(
+            ".helium.tagged_spreading.region_spreading",
+            "#[serde(with = \"serde_region_spreading\" )]",
         )
         .compile_protos(MESSAGES, &["src"])?;
     Ok(())

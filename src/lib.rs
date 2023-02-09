@@ -255,3 +255,47 @@ impl std::fmt::Display for RegionSpreading {
         }
     }
 }
+
+macro_rules! serde_enum {
+    ($type:ident, $name:ident) => {
+        mod $name {
+            use super::$type;
+            use std::str::FromStr;
+
+            pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+            where
+                S: serde::ser::Serializer,
+            {
+                let v = $type::from_i32(*v)
+                    .ok_or_else(|| serde::ser::Error::custom(format!("invalid enum value: {v}")))?;
+                serializer.serialize_str(&v.to_string())
+            }
+
+            pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+            where
+                D: serde::de::Deserializer<'de>,
+            {
+                struct _Visitor;
+
+                impl<'de> serde::de::Visitor<'de> for _Visitor {
+                    type Value = i32;
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                        formatter.write_str("string value")
+                    }
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<Self::Value, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        $type::from_str(value).map(|v| v as i32).map_err(|_| {
+                            serde::de::Error::custom(format!("invalid string value \"{value}\""))
+                        })
+                    }
+                }
+
+                deserializer.deserialize_str(_Visitor)
+            }
+        }
+    };
+}
+
+serde_enum!(RegionSpreading, serde_region_spreading);
