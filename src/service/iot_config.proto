@@ -348,6 +348,14 @@ message gateway_load_region_req_v1 {
 
 message gateway_load_region_res_v1 {}
 
+message gateway_location_req_v1 {
+  bytes gateway = 1;
+  uint64 timestamp = 2;
+  bytes signature = 3;
+}
+
+message gateway_location_res_v1 { string location = 1; }
+
 // ------------------------------------------------------------------
 // Service Definitions
 // ------------------------------------------------------------------
@@ -428,4 +436,6 @@ service gateway {
   // admin only)
   rpc load_region(gateway_load_region_req_v1)
       returns (gateway_load_region_res_v1);
+  // Get H3 Location for a gateway (auth admin only)
+  rpc location(gateway_location_req_v1) returns (gateway_location_res_v1);
 }
