@@ -27,17 +27,24 @@ const MESSAGES: &[&str] = &[
     "src/blockchain_region_param_v1.proto",
 ];
 
+macro_rules! config {
+    ($config:expr) => {
+        $config
+            .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
+            .field_attribute(
+                ".helium.tagged_spreading.region_spreading",
+                "#[serde(with = \"serde_region_spreading\" )]",
+            )
+    };
+}
+
 #[cfg(feature = "services")]
 fn main() -> Result<()> {
     std::env::set_var("PROTOC", protoc_bin_vendored::protoc_bin_path().unwrap());
 
-    tonic_build::configure()
+    config!(tonic_build::configure())
         .build_server(true)
         .build_client(true)
-        .type_attribute(
-            ".",
-            "#[derive(serde_derive::Serialize, serde_derive::Deserialize)]",
-        )
         .compile(
             &MESSAGES
                 .iter()
@@ -52,11 +59,6 @@ fn main() -> Result<()> {
 #[cfg(not(feature = "services"))]
 fn main() -> Result<()> {
     std::env::set_var("PROTOC", protoc_bin_vendored::protoc_bin_path().unwrap());
-    prost_build::Config::new()
-        .type_attribute(
-            ".",
-            "#[derive(serde_derive::Serialize, serde_derive::Deserialize)]",
-        )
-        .compile_protos(MESSAGES, &["src"])?;
+    config!(prost_build::Config::new()).compile_protos(MESSAGES, &["src"])?;
     Ok(())
 }
