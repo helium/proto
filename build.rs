@@ -40,8 +40,6 @@ macro_rules! config {
 
 #[cfg(feature = "services")]
 fn main() -> Result<()> {
-    std::env::set_var("PROTOC", protoc_bin_vendored::protoc_bin_path().unwrap());
-
     config!(tonic_build::configure())
         .build_server(true)
         .build_client(true)
@@ -58,7 +56,6 @@ fn main() -> Result<()> {
 
 #[cfg(not(feature = "services"))]
 fn main() -> Result<()> {
-    std::env::set_var("PROTOC", protoc_bin_vendored::protoc_bin_path().unwrap());
     config!(prost_build::Config::new()).compile_protos(MESSAGES, &["src"])?;
     Ok(())
 }
