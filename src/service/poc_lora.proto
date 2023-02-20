@@ -36,6 +36,7 @@ enum invalid_reason {
   scaling_factor_not_found = 17;
   unknown_error = 18;
   below_min_distance = 19;
+  duplicate = 20;
 }
 
 // beacon report as submitted by gateway to ingestor
