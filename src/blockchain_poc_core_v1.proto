@@ -24,6 +24,13 @@ message blockchain_poc_receipt_v1 {
   // fixed point reward shares added by off-chain poc verifier,
   // propose 2 decimal places
   uint32 reward_shares = 13;
+  // NOTE: reward_unit and hex_scale are ignored when signing the receipt txn
+  // integer representation of a 4-point precision decimal multiplier
+  // based on the number of witnesses to a poc event
+  uint32 reward_unit = 14;
+  // integer representation of a 4-point precision decimal multiplier
+  // ex: 5015 == 0.5015
+  uint32 hex_scale = 15;
 }
 
 message blockchain_poc_witness_v1 {
@@ -39,6 +46,13 @@ message blockchain_poc_witness_v1 {
   // fixed point reward shares added by off-chain poc verifier,
   // propose 2 decimal places
   uint32 reward_shares = 10;
+  // NOTE: reward_unit and hex_scale are ignored when signing the receipt txn
+  // integer representation of a 4-point precision decimal multiplier
+  // based on the number of witnesses to a poc event
+  uint32 reward_unit = 11;
+  // integer representation of a 4-point precision decimal multiplier
+  // ex: 5015 == 0.5015
+  uint32 hex_scale = 12;
 }
 
 message blockchain_poc_response_v1 {
