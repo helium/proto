@@ -16,7 +16,7 @@ import "region.proto";
 //
 // - Every `timestamp` is in milliseconds since unix epoch
 //
-// - Every key called `owner`, `payer`, `signer` and `delegate_keys` are binary
+// - Every key called `owner`, `payer` and `delegate_keys` are binary
 //    encoded public keys, Rust encoding example here:
 //    https://github.com/helium/helium-crypto-rs/blob/main/src/public_key.rs#L347-L354
 //
@@ -348,6 +348,13 @@ message gateway_load_region_req_v1 {
 
 message gateway_load_region_res_v1 {}
 
+message gateway_location_req_v1 {
+  bytes gateway = 1;
+  bytes signature = 2;
+}
+
+message gateway_location_res_v1 { string location = 1; }
+
 // ------------------------------------------------------------------
 // Service Definitions
 // ------------------------------------------------------------------
@@ -428,4 +435,6 @@ service gateway {
   // admin only)
   rpc load_region(gateway_load_region_req_v1)
       returns (gateway_load_region_res_v1);
+  // Get H3 Location for a gateway (auth admin only)
+  rpc location(gateway_location_req_v1) returns (gateway_location_res_v1);
 }
