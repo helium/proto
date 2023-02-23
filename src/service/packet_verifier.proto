@@ -18,3 +18,9 @@ message invalid_packet {
 enum invalid_packet_reason {
   invalid_packet_reason_insufficient_balance = 0;
 }
+
+message valid_data_transfer_session {
+  bytes pub_key = 1;
+  uint64 upload_bytes = 2;
+  uint64 download_bytes = 3;
+}
