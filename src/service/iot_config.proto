@@ -337,7 +337,14 @@ message gateway_region_params_res_v1 {
   bytes signature = 4;
 }
 
-message gateway_load_region_req_v1 {
+message gateway_location_req_v1 {
+  bytes gateway = 1;
+  bytes signature = 2;
+}
+
+message gateway_location_res_v1 { string location = 1; }
+
+message admin_load_region_req_v1 {
   region region = 1;
   blockchain_region_params_v1 params = 2;
   // Gzip-compressed file content from converting region geojson to a list of h3
@@ -346,14 +353,31 @@ message gateway_load_region_req_v1 {
   bytes signature = 4;
 }
 
-message gateway_load_region_res_v1 {}
+message admin_load_region_res_v1 {}
 
-message gateway_location_req_v1 {
-  bytes gateway = 1;
+message admin_add_key_req_v1 {
+  enum key_type_v1 {
+    // administrator key
+    operator = 0;
+    // packet routing infrastructure key for routing streams
+    packet_router = 1;
+  }
+
+  bytes pubkey = 1;
+  key_type_v1 key_type = 2;
+  // Signature of the request message signed by an admin key
+  // already registered to the config service
+  bytes signature = 3;
+}
+
+message admin_remove_key_req_v1 {
+  bytes pubkey = 1;
+  // Signature of the request message signed by an admin key
+  // already registered to the config service
   bytes signature = 2;
 }
 
-message gateway_location_res_v1 { string location = 1; }
+message admin_key_res_v1 {}
 
 // ------------------------------------------------------------------
 // Service Definitions
@@ -431,10 +455,16 @@ service gateway {
   // address (no auth, but signature validated)
   rpc region_params(gateway_region_params_req_v1)
       returns (gateway_region_params_res_v1);
-  // Load params and cell indexes for a region into the config service (auth
-  // admin only)
-  rpc load_region(gateway_load_region_req_v1)
-      returns (gateway_load_region_res_v1);
   // Get H3 Location for a gateway (auth admin only)
   rpc location(gateway_location_req_v1) returns (gateway_location_res_v1);
+}
+
+service admin {
+  // Authorize a public key for validating trusted rpcs
+  rpc add_key(admin_add_key_req_v1) returns (admin_key_res_v1);
+  // Deauthorize a public key for validating trusted rpcs
+  rpc remove_key(admin_remove_key_req_v1) returns (admin_key_res_v1);
+  // Load params and cell indexes for a region into the config service (auth
+  // admin only)
+  rpc load_region(admin_load_region_req_v1) returns (admin_load_region_res_v1);
 }
