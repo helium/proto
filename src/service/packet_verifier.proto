@@ -24,4 +24,8 @@ message valid_data_transfer_session {
   uint64 upload_bytes = 2;
   uint64 download_bytes = 3;
   bytes payer = 4;
+  // Timestamp in millis of the first file we found a data transfer session in 
+  uint64 first_timestamp = 5;
+  // Timestamp in millis of the last file we found a data transfer session in 
+  uint64 last_timestamp = 6;
 }
