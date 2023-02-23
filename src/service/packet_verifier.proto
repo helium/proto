@@ -18,3 +18,16 @@ message invalid_packet {
 enum invalid_packet_reason {
   invalid_packet_reason_insufficient_balance = 0;
 }
+
+message valid_data_transfer_session {
+  bytes pub_key = 1;
+  uint64 upload_bytes = 2;
+  uint64 download_bytes = 3;
+  bytes payer = 4;
+  // Timestamp in millis of the first ingest file we found a data transfer
+  // session in
+  uint64 first_timestamp = 5;
+  // Timestamp in millis of the last ingest file we found a data transfer
+  // session in
+  uint64 last_timestamp = 6;
+}
