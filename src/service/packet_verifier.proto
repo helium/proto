@@ -23,4 +23,5 @@ message valid_data_transfer_session {
   bytes pub_key = 1;
   uint64 upload_bytes = 2;
   uint64 download_bytes = 3;
+  bytes payer = 4;
 }
