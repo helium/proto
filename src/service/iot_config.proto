@@ -357,8 +357,8 @@ message admin_load_region_res_v1 {}
 
 message admin_add_key_req_v1 {
   enum key_type_v1 {
-    // administrator key
-    operator = 0;
+    // administrative operator key
+    administrator = 0;
     // packet routing infrastructure key for routing streams
     packet_router = 1;
   }
