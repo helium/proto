@@ -55,6 +55,7 @@ message window_v1 {
   // Frequency in hz
   uint32 frequency = 2;
   data_rate datarate = 3;
+  bool immediate = 4;
 }
 
 message packet_router_packet_down_v1 {
