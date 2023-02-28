@@ -370,6 +370,45 @@ message admin_remove_key_req_v1 {
 
 message admin_key_res_v1 {}
 
+message gateway_info {
+  /// The asserted h3 (string) location of the gateway.
+  // Empty string if the gateway is not found
+  string location = 1;
+  bytes address = 2;
+  bytes owner = 3;
+  bool is_full_hotspot = 4;
+  /// the transmit gain value of the gateway in dbi x 10
+  // For example 1 dbi = 10, 15 dbi = 150
+  int32 gain = 5;
+  region region = 6;
+  blockchain_region_params_v1 region_params = 7;
+}
+
+/// Look up the details of a given hotspot public key
+message gateway_info_req_v1 {
+  /// The pubkey_bin address of the gateway to look up
+  bytes address = 1;
+  bytes signature = 2;
+}
+
+message gateway_info_res_v1 {
+  /// Timestamp of response
+  uint64 timestamp = 1;
+  gateway_info info = 2;
+  bytes signature = 3;
+}
+
+/// Request a stream of all active gateways
+message gateway_info_stream_req_v1 {
+  uint32 batch_size = 1;
+  bytes signature = 2;
+}
+
+/// Active gateway info streaming response containing a batch of gateways
+message gateway_info_stream_res_v1 {
+  repeated gateway_info_res_v1 gateways = 1;
+}
+
 // ------------------------------------------------------------------
 // Service Definitions
 // ------------------------------------------------------------------
@@ -443,6 +482,11 @@ service gateway {
       returns (gateway_region_params_res_v1);
   // Get H3 Location for a gateway (auth admin only)
   rpc location(gateway_location_req_v1) returns (gateway_location_res_v1);
+  // Get info for the specified gateway
+  rpc info(gateway_info_req_v1) returns (gateway_info_res_v1);
+  // Get a stream of gateway info
+  rpc info_stream(gateway_info_stream_req_v1)
+      returns (stream gateway_info_stream_res_v1);
 }
 
 service admin {
