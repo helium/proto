@@ -25,6 +25,7 @@ const MESSAGES: &[&str] = &[
     "src/mapper.proto",
     "src/reward_manifest.proto",
     "src/blockchain_region_param_v1.proto",
+    "src/price_report.proto",
 ];
 
 macro_rules! config {
