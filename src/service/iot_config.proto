@@ -234,13 +234,6 @@ message route_update_euis_req_v1 {
   bytes signature = 4;
 }
 
-message route_delete_euis_req_v1 {
-  string route_id = 1;
-  // in milliseconds since unix epoch
-  uint64 timestamp = 2;
-  bytes signature = 3;
-}
-
 message route_euis_res_v1 {}
 
 message route_get_devaddr_ranges_req_v1 {
@@ -256,13 +249,6 @@ message route_update_devaddr_ranges_req_v1 {
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
   bytes signature = 4;
-}
-
-message route_delete_devaddr_ranges_req_v1 {
-  string route_id = 1;
-  // in milliseconds since unix epoch
-  uint64 timestamp = 2;
-  bytes signature = 3;
 }
 
 message route_devaddr_ranges_res_v1 {}
@@ -418,8 +404,6 @@ service route {
   // Update (single add or remove) EUIs for a Route (auth
   // delegate_keys/owner/admin)
   rpc update_euis(stream route_update_euis_req_v1) returns (route_euis_res_v1);
-  // Delete all EUIs for a Route (auth delegate_keys/owner/admin)
-  rpc delete_euis(route_delete_euis_req_v1) returns (route_euis_res_v1);
 
   // Get DevAddr Ranges for a Route (auth delegate_keys/owner/admin)
   rpc get_devaddr_ranges(route_get_devaddr_ranges_req_v1)
@@ -427,9 +411,6 @@ service route {
   // Update (single add or remove) DevAddr Ranges for a Route (auth
   // delegate_keys/owner/admin)
   rpc update_devaddr_ranges(stream route_update_devaddr_ranges_req_v1)
-      returns (route_devaddr_ranges_res_v1);
-  // Delete all DevAddr Ranges for a Route (auth delegate_keys/owner/admin)
-  rpc delete_devaddr_ranges(route_delete_devaddr_ranges_req_v1)
       returns (route_devaddr_ranges_res_v1);
 
   // Stream Routes update (auth admin only)
