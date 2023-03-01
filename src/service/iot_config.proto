@@ -1,6 +1,9 @@
 syntax = "proto3";
 
 package helium.iot_config;
+option java_package = "xyz.nova.grpc";
+option java_outer_classname = "IotConfig";
+option java_multiple_files = true;
 
 import "blockchain_region_param_v1.proto";
 import "region.proto";
