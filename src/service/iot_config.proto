@@ -157,6 +157,16 @@ message org_create_roamer_req_v1 {
   repeated bytes delegate_keys = 6;
 }
 
+message org_update_req_v1 {
+  uint64 oui = 1;
+  oneof update {
+    bytes payer = 2;
+    repeated bytes delegate_keys = 3;
+  }
+  uint64 timestamp = 4;
+  bytes signature = 5;
+}
+
 message org_res_v1 {
   org_v1 org = 1;
   uint32 net_id = 2;
@@ -368,6 +378,8 @@ service org {
   rpc create_helium(org_create_helium_req_v1) returns (org_res_v1);
   // Create Org on any network (auth admin only)
   rpc create_roamer(org_create_roamer_req_v1) returns (org_res_v1);
+  // Update Org (auth delegate_keys/owner/admin)
+  rpc update(org_update_req_v1) returns (org_v1);
   // Disable an org, this sends a stream route delete update to HPR
   // for all associated routes (auth admin only)
   rpc disable(org_disable_req_v1) returns (org_disable_res_v1);
