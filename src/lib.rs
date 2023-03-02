@@ -15,6 +15,8 @@ pub mod services {
 
     pub mod iot_config {
         include!(concat!(env!("OUT_DIR"), "/helium.iot_config.rs"));
+        pub use admin_client as config_admin_client;
+        pub use admin_server::{Admin, AdminServer};
         pub use gateway_client::GatewayClient;
         pub use gateway_server::{Gateway, GatewayServer};
         pub use org_client as config_org_client;
