@@ -1,6 +1,22 @@
 syntax = "proto3";
 package helium;
 
+service ScanUpload {
+  rpc Upload (mapper) returns (scan_upload_reply) {}
+}
+
+message scan_upload_reply {
+  scan_upload_status status = 1;
+}
+enum scan_upload_status {
+  SUCCESS = 0;
+  NO_MESSAGE = 1;
+  UNSUPPORTED_MESSAGE = 2;
+  INVALID_PUBKEY = 3;
+  INVALID_SIGNATURE = 4;
+  INTERNAL_ERROR = 5;
+}
+
 message mapper {
   oneof message {
     mapper_gps gps = 1;
