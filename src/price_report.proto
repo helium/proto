@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package helium;
+
+import "blockchain_token_type_v1.proto";
+
+message price_report_v1 {
+  /// The price, specified in 1/1000000ths of a cent, i.e. 1$ = 1000000.
+  /// NOTE: Helium blockchain specifies $1 = 10^8, whereas on solana only 10^6
+  /// is supported.
+  uint64 price = 1;
+  /// The timestamp for this report (unix epoch)
+  uint64 timestamp = 2;
+  /// The token type for this report
+  blockchain_token_type_v1 token_type = 3;
+}
