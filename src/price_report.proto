@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package helium.price;
+package helium;
 
 import "blockchain_token_type_v1.proto";
 
