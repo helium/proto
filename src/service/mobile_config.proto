@@ -33,11 +33,13 @@ message hotspot_metadata_req_v1 {
 
 message hotspot_metadata_res_v1 {
   hotspot_metadata metadata = 1;
+  // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   bytes signature = 3;
 }
 
 message hotspot_metadata_stream_req_v1 {
+  // max number of hotspot metadata in each message of the response stream
   uint32 batch_size = 1;
   bytes signature = 2;
 }
@@ -45,6 +47,7 @@ message hotspot_metadata_stream_req_v1 {
 message hotspot_metadata_stream_res_v1 {
   // a list of hotspot metadata numbering up to the request batch size
   repeated hotspot_metadata hotspots = 1;
+  // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   bytes signature = 3;
 }
@@ -59,6 +62,7 @@ message router_get_req_v1 {
 message router_get_res_v1 {
   // Pubkey binary of the requested router, confirming registration
   bytes pubkey = 1;
+  // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // Signature over the response by the config service
   bytes signature = 3;
@@ -72,6 +76,7 @@ message router_list_req_v1 {
 message router_list_res_v1 {
   // List of public key binaries of all registered routers
   repeated bytes routers = 1;
+  // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // Signature over the response by the config service
   bytes signature = 3;
