@@ -9,9 +9,10 @@ package helium.mobile_config;
 // == Field Notes ==
 //
 // - Every message including a `signature` field will need to be signed over the
-//   complete message, with the `signature` field set to an empty value.
-//
-// - Every `timestamp` is in milliseconds since unix epoch
+//   complete message, with the `signature` field set to an empty value. Requests
+//   are expected to be signed by the client to validate authorization to make
+//   the request and responses are signed by the mobile_config server to ensure
+//   validity of the data returned
 //
 // - Keypair fields are binary encoded public keys, Rust encoding example here:
 //    https://github.com/helium/helium-crypto-rs/blob/main/src/public_key.rs#L347-L354
