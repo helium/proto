@@ -27,6 +27,15 @@ pub mod services {
         pub use session_key_filter_server::{SessionKeyFilter, SessionKeyFilterServer};
     }
 
+    pub mod mobile_config {
+        include!(concat!(env!("OUT_DIR"), "/helium.mobile_config.rs"));
+        pub use admin_server::{Admin, AdminServer};
+        pub use hotspot_client::HotspotClient;
+        pub use hotspot_server::{Hotspot, HotspotServer};
+        pub use router_client::RouterClient;
+        pub use router_server::{Router, RouterServer};
+    }
+
     pub mod downlink {
         include!(concat!(env!("OUT_DIR"), "/helium.downlink.rs"));
         pub use http_roaming_server::{HttpRoaming, HttpRoamingServer as Server};
