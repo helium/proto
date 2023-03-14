@@ -11,8 +11,12 @@ import "region.proto";
 
 // == Field Notes ==
 //
-// - Every message including `signature` will need to be signed over the all
-//    message, with the `signature` field set to an empty value.
+// - Every message including `signature` will need to be signed over the
+//   entire message, with the `signature` field set to an empty value.
+//   Request messages are signed by the caller to allow the config service
+//   to authenticate them against known public keys and response messages
+//   are signed by the config service to allow the recipient to validate
+//   the authenticity of the data returned.
 //
 // - Every `timestamp` is in milliseconds since unix epoch
 //
@@ -271,7 +275,8 @@ message route_stream_res_v1 {
 message session_key_filter_v1 {
   uint64 oui = 1;
   uint32 devaddr = 2;
-  bytes session_key = 3;
+  // the hex-encoded string of the binary session key
+  string session_key = 3;
 }
 
 message session_key_filter_list_req_v1 {
