@@ -180,6 +180,8 @@ message gateway_reward_share {
   uint64 start_period = 4;
   /// Unix timestamp in seconds of the end of the reward period
   uint64 end_period = 5;
+  /// Amount credited to the hotspot for data transfer
+  uint64 dc_transfer_amount = 6;
 }
 
 service poc_lora {
