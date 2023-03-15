@@ -158,7 +158,7 @@ message data_transfer_session_req_v1 {
     // this decision is done by OCS like system
     bool reward_cancelled = 2;
     // Online Charging System is part of teleco stack which is able to make a decision about data transfer and reward
-    bytes ocs_pub_key = 3;
+    bytes pub_key = 3;
     bytes signature  = 4;
 }
 
