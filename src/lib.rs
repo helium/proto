@@ -10,7 +10,7 @@ pub use prost::{DecodeError, EncodeError, Message};
 pub mod services {
     use crate::{
         BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, DataRate, EntropyReportV1,
-        GatewayStakingMode, MapperAttach, PriceReportV1, Region, RoutingAddress,
+        GatewayStakingMode, MapperAttach, Region, RoutingAddress,
     };
 
     pub mod iot_config {
