@@ -1,6 +1,9 @@
 syntax = "proto3";
 
 package helium.poc_lora;
+option java_package = "com.helium.grpc";
+option java_outer_classname = "PocLoRa";
+option java_multiple_files = true;
 
 import "data_rate.proto";
 

@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package helium;
-option java_package = "xyz.nova.grpc";
+option java_package = "com.helium.grpc";
 option java_outer_classname = "IotRegion";
 option java_multiple_files = true;
 
