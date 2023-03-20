@@ -152,17 +152,29 @@ enum cell_type {
 }
 
 message data_transfer_session_req_v1 {
+  /// data_transfer_event represents traffic usage happening on a hotspot
+  /// it is traffic quota or timer based
+  /// it is securely created and signed by hotspot
+  data_transfer_event data_transfer_usage = 1;
+  /// this decision is done by OCS like system
+  bool reward_cancelled = 2;
+  /// Online Charging System is part of teleco stack which is able
+  /// to make a decision about data transfer and reward
+  bytes pub_key = 3;
+  bytes signature = 4;
+}
+
+message data_transfer_event {
   bytes pub_key = 1;
   uint64 upload_bytes = 2;
   uint64 download_bytes = 3;
   data_transfer_radio_access_technology radio_access_technology = 4;
-  string session_id = 5;
+  string event_id = 5;
   bytes payer = 6;
-  bytes imsi_hash = 7;
 
   // Timestamp in seconds since the epoch
-  uint64 timestamp = 8;
-  bytes signature = 9;
+  uint64 timestamp = 7;
+  bytes signature = 8;
 }
 
 enum data_transfer_radio_access_technology {

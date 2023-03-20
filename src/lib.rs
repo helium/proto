@@ -15,6 +15,8 @@ pub mod services {
 
     pub mod iot_config {
         include!(concat!(env!("OUT_DIR"), "/helium.iot_config.rs"));
+        pub use admin_client as config_admin_client;
+        pub use admin_server::{Admin, AdminServer};
         pub use gateway_client::GatewayClient;
         pub use gateway_server::{Gateway, GatewayServer};
         pub use org_client as config_org_client;
@@ -23,6 +25,15 @@ pub mod services {
         pub use route_server::{Route, RouteServer};
         pub use session_key_filter_client as config_session_key_filter_client;
         pub use session_key_filter_server::{SessionKeyFilter, SessionKeyFilterServer};
+    }
+
+    pub mod mobile_config {
+        include!(concat!(env!("OUT_DIR"), "/helium.mobile_config.rs"));
+        pub use admin_server::{Admin, AdminServer};
+        pub use hotspot_client::HotspotClient;
+        pub use hotspot_server::{Hotspot, HotspotServer};
+        pub use router_client::RouterClient;
+        pub use router_server::{Router, RouterServer};
     }
 
     pub mod downlink {

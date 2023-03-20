@@ -14,8 +14,12 @@ import "region.proto";
 
 // == Field Notes ==
 //
-// - Every message including `signature` will need to be signed over the all
-//    message, with the `signature` field set to an empty value.
+// - Every message including `signature` will need to be signed over the
+//   entire message, with the `signature` field set to an empty value.
+//   Request messages are signed by the caller to allow the config service
+//   to authenticate them against known public keys and response messages
+//   are signed by the config service to allow the recipient to validate
+//   the authenticity of the data returned.
 //
 // - Every `timestamp` is in milliseconds since unix epoch
 //
@@ -237,13 +241,6 @@ message route_update_euis_req_v1 {
   bytes signature = 4;
 }
 
-message route_delete_euis_req_v1 {
-  string route_id = 1;
-  // in milliseconds since unix epoch
-  uint64 timestamp = 2;
-  bytes signature = 3;
-}
-
 message route_euis_res_v1 {}
 
 message route_get_devaddr_ranges_req_v1 {
@@ -259,13 +256,6 @@ message route_update_devaddr_ranges_req_v1 {
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
   bytes signature = 4;
-}
-
-message route_delete_devaddr_ranges_req_v1 {
-  string route_id = 1;
-  // in milliseconds since unix epoch
-  uint64 timestamp = 2;
-  bytes signature = 3;
 }
 
 message route_devaddr_ranges_res_v1 {}
@@ -288,7 +278,8 @@ message route_stream_res_v1 {
 message session_key_filter_v1 {
   uint64 oui = 1;
   uint32 devaddr = 2;
-  bytes session_key = 3;
+  // the hex-encoded string of the binary session key
+  string session_key = 3;
 }
 
 message session_key_filter_list_req_v1 {
@@ -340,7 +331,14 @@ message gateway_region_params_res_v1 {
   bytes signature = 4;
 }
 
-message gateway_load_region_req_v1 {
+message gateway_location_req_v1 {
+  bytes gateway = 1;
+  bytes signature = 2;
+}
+
+message gateway_location_res_v1 { string location = 1; }
+
+message admin_load_region_req_v1 {
   region region = 1;
   blockchain_region_params_v1 params = 2;
   // Gzip-compressed file content from converting region geojson to a list of h3
@@ -349,14 +347,31 @@ message gateway_load_region_req_v1 {
   bytes signature = 4;
 }
 
-message gateway_load_region_res_v1 {}
+message admin_load_region_res_v1 {}
 
-message gateway_location_req_v1 {
-  bytes gateway = 1;
+message admin_add_key_req_v1 {
+  enum key_type_v1 {
+    // administrative operator key
+    administrator = 0;
+    // packet routing infrastructure key for routing streams
+    packet_router = 1;
+  }
+
+  bytes pubkey = 1;
+  key_type_v1 key_type = 2;
+  // Signature of the request message signed by an admin key
+  // already registered to the config service
+  bytes signature = 3;
+}
+
+message admin_remove_key_req_v1 {
+  bytes pubkey = 1;
+  // Signature of the request message signed by an admin key
+  // already registered to the config service
   bytes signature = 2;
 }
 
-message gateway_location_res_v1 { string location = 1; }
+message admin_key_res_v1 {}
 
 // ------------------------------------------------------------------
 // Service Definitions
@@ -397,8 +412,6 @@ service route {
   // Update (single add or remove) EUIs for a Route (auth
   // delegate_keys/owner/admin)
   rpc update_euis(stream route_update_euis_req_v1) returns (route_euis_res_v1);
-  // Delete all EUIs for a Route (auth delegate_keys/owner/admin)
-  rpc delete_euis(route_delete_euis_req_v1) returns (route_euis_res_v1);
 
   // Get DevAddr Ranges for a Route (auth delegate_keys/owner/admin)
   rpc get_devaddr_ranges(route_get_devaddr_ranges_req_v1)
@@ -406,9 +419,6 @@ service route {
   // Update (single add or remove) DevAddr Ranges for a Route (auth
   // delegate_keys/owner/admin)
   rpc update_devaddr_ranges(stream route_update_devaddr_ranges_req_v1)
-      returns (route_devaddr_ranges_res_v1);
-  // Delete all DevAddr Ranges for a Route (auth delegate_keys/owner/admin)
-  rpc delete_devaddr_ranges(route_delete_devaddr_ranges_req_v1)
       returns (route_devaddr_ranges_res_v1);
 
   // Stream Routes update (auth admin only)
@@ -434,10 +444,16 @@ service gateway {
   // address (no auth, but signature validated)
   rpc region_params(gateway_region_params_req_v1)
       returns (gateway_region_params_res_v1);
-  // Load params and cell indexes for a region into the config service (auth
-  // admin only)
-  rpc load_region(gateway_load_region_req_v1)
-      returns (gateway_load_region_res_v1);
   // Get H3 Location for a gateway (auth admin only)
   rpc location(gateway_location_req_v1) returns (gateway_location_res_v1);
+}
+
+service admin {
+  // Authorize a public key for validating trusted rpcs
+  rpc add_key(admin_add_key_req_v1) returns (admin_key_res_v1);
+  // Deauthorize a public key for validating trusted rpcs
+  rpc remove_key(admin_remove_key_req_v1) returns (admin_key_res_v1);
+  // Load params and cell indexes for a region into the config service (auth
+  // admin only)
+  rpc load_region(admin_load_region_req_v1) returns (admin_load_region_res_v1);
 }

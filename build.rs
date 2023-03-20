@@ -13,6 +13,7 @@ const SERVICES: &[&str] = &[
     "src/service/poc_entropy.proto",
     "src/service/packet_router.proto",
     "src/service/iot_config.proto",
+    "src/service/mobile_config.proto",
     "src/service/downlink.proto",
     "src/service/packet_verifier.proto",
 ];
@@ -25,6 +26,7 @@ const MESSAGES: &[&str] = &[
     "src/mapper.proto",
     "src/reward_manifest.proto",
     "src/blockchain_region_param_v1.proto",
+    "src/price_report.proto",
 ];
 
 macro_rules! config {

@@ -10,9 +10,6 @@ message pubkey_res {
 }
 message pubkey_req {}
 
-message sign_req { bytes data = 1; }
-message sign_res { bytes signature = 1; }
-
 message keyed_uri {
   bytes address = 1;
   string uri = 2;
@@ -20,6 +17,12 @@ message keyed_uri {
 
 message region_req {}
 message region_res { int32 region = 1; }
+
+message router_req {}
+message router_res {
+  string uri = 1;
+  bool connected = 2;
+}
 
 message add_gateway_req {
   bytes owner = 1;
@@ -31,7 +34,7 @@ message add_gateway_res { bytes add_gateway_txn = 1; }
 
 service api {
   rpc pubkey(pubkey_req) returns (pubkey_res);
-  rpc sign(sign_req) returns (sign_res);
   rpc region(region_req) returns (region_res);
+  rpc router(router_req) returns (router_res);
   rpc add_gateway(add_gateway_req) returns (add_gateway_res);
 }
