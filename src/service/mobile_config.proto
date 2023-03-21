@@ -88,6 +88,8 @@ message admin_add_key_req_v1 {
     administrator = 0;
     // packet routing infrastructure key for routing streams
     packet_router = 1;
+    // keys for verifying requests from other oracles
+    oracle = 2;
   }
 
   bytes pubkey = 1;
