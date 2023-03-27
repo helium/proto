@@ -23,11 +23,12 @@ message valid_data_transfer_session {
   bytes pub_key = 1;
   uint64 upload_bytes = 2;
   uint64 download_bytes = 3;
-  bytes payer = 4;
+  uint64 burned_dc = 4;
+  bytes payer = 5;
   // Timestamp in millis of the first ingest file we found a data transfer
   // session in
-  uint64 first_timestamp = 5;
+  uint64 first_timestamp = 6;
   // Timestamp in millis of the last ingest file we found a data transfer
   // session in
-  uint64 last_timestamp = 6;
+  uint64 last_timestamp = 7;
 }
