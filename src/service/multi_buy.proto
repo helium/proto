@@ -6,4 +6,4 @@ message multi_buy_get_req_v1 { bytes key = 1; }
 
 message multi_buy_get_res_v1 { uint32 count = 1; }
 
-service multi_buy { rpc get(multi_buy_get_v1) returns (multi_buy_get_res_v1); }
+service multi_buy { rpc get(multi_buy_get_req_v1) returns (multi_buy_get_res_v1); }
