@@ -15,6 +15,7 @@ const SERVICES: &[&str] = &[
     "src/service/iot_config.proto",
     "src/service/mobile_config.proto",
     "src/service/downlink.proto",
+    "src/service/multi_buy.proto",
     "src/service/packet_verifier.proto",
 ];
 
