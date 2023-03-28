@@ -6,6 +6,8 @@ message valid_packet {
   uint32 payload_size = 1;
   bytes gateway = 2;
   bytes payload_hash = 3;
+  uint32 num_dcs = 4;
+  uint64 packet_timestamp = 5;
 }
 
 message invalid_packet {

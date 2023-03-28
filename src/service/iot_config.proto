@@ -370,6 +370,64 @@ message admin_remove_key_req_v1 {
 
 message admin_key_res_v1 {}
 
+message gateway_info {
+  /// The asserted h3 location of the gateway.
+  string location = 1;
+  bytes address = 2;
+  bool is_full_hotspot = 3;
+  /// the transmit gain value of the gateway in dbi x 10
+  // For example 1 dbi = 10, 15 dbi = 150
+  int32 gain = 4;
+  region region = 5;
+  int32 elevation = 6;
+}
+
+/// Look up the details of a given hotspot public key
+message gateway_info_req_v1 {
+  /// The pubkey_bin address of the gateway to look up
+  bytes address = 1;
+  /// sig from a key known to the config service
+  bytes signature = 2;
+}
+
+message gateway_info_res_v1 {
+  /// Timestamp of response
+  uint64 timestamp = 1;
+  gateway_info info = 2;
+  /// sig from the config service
+  bytes signature = 3;
+}
+
+/// Request a stream of all active gateways
+message gateway_info_stream_req_v1 {
+  uint32 batch_size = 1;
+  /// sig from a key known to the config service
+  bytes signature = 2;
+}
+
+/// Active gateway info streaming response containing a batch of gateways
+message gateway_info_stream_res_v1 {
+  /// Timestamp of response
+  uint64 timestamp = 1;
+  /// batch of gateways
+  repeated gateway_info gateways = 2;
+  /// sig from the config service
+  bytes signature = 3;
+}
+
+message region_params_req_v1 {
+  region region = 1;
+  /// sig from a key known to the config service
+  bytes signature = 2;
+}
+
+message region_params_res_v1 {
+  region region = 1;
+  blockchain_region_params_v1 params = 2;
+  /// sig from the config service
+  bytes signature = 3;
+}
+
 // ------------------------------------------------------------------
 // Service Definitions
 // ------------------------------------------------------------------
@@ -443,6 +501,11 @@ service gateway {
       returns (gateway_region_params_res_v1);
   // Get H3 Location for a gateway (auth admin only)
   rpc location(gateway_location_req_v1) returns (gateway_location_res_v1);
+  // Get info for the specified gateway
+  rpc info(gateway_info_req_v1) returns (gateway_info_res_v1);
+  // Get a stream of gateway info
+  rpc info_stream(gateway_info_stream_req_v1)
+      returns (stream gateway_info_stream_res_v1);
 }
 
 service admin {
@@ -453,4 +516,6 @@ service admin {
   // Load params and cell indexes for a region into the config service (auth
   // admin only)
   rpc load_region(admin_load_region_req_v1) returns (admin_load_region_res_v1);
+  // Return the region params for the specified region
+  rpc region_params(region_params_req_v1) returns (region_params_res_v1);
 }
