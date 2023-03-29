@@ -20,6 +20,7 @@ message packet_router_packet_report_v1 {
   // Hash of `payload` within `message packet`
   bytes payload_hash = 10;
   uint32 payload_size = 11;
+  bool free = 12;
 }
 
 message packet_router_packet_up_v1 {
