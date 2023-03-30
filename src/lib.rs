@@ -41,6 +41,11 @@ pub mod services {
         pub use http_roaming_server::{HttpRoaming, HttpRoamingServer as Server};
     }
 
+    pub mod multi_buy {
+        include!(concat!(env!("OUT_DIR"), "/helium.multi_buy.rs"));
+        pub use multi_buy_server::{MultiBuy, MultiBuyServer as Server};
+    }
+
     pub mod router {
         pub use crate::router_client::RouterClient;
 
