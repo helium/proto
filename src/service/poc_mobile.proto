@@ -122,12 +122,14 @@ message radio_reward_share {
   bytes hotspot_key = 2;
   /// cbsd Id of the radio
   string cbsd_id = 3;
-  /// Amount rewarded to the owner of the radio
-  uint64 amount = 4;
+  /// Amount rewarded to the owner of the radio for proof of coverage in bones
+  uint64 poc_rewards = 4;
+  /// Amount rewarded to the owner of the radio for data transfer in bones
+  uint64 data_transfer_rewards = 5;
   /// Unix timestamp in seconds of the start of the reward period
-  uint64 start_epoch = 5;
+  uint64 start_epoch = 6;
   /// Unix timestamp in seconds of the end of the reward period
-  uint64 end_epoch = 6;
+  uint64 end_epoch = 7;
 }
 
 enum speedtest_avg_validity {
