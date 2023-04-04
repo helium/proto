@@ -167,21 +167,32 @@ message lora_poc_v1 {
   repeated lora_verified_witness_report_v1 unselected_witnesses = 4;
 }
 
-// iot per-gateway reward share for a given reward period
-// for PoC coverage events provided between the start and end timestamps
-message gateway_reward_share {
+message gateway_reward {
   /// Public key of the hotspot
   bytes hotspot_key = 1;
   /// Amount credited to the hotspot for beaconing
   uint64 beacon_amount = 2;
   /// Amount credited to the hotspot for witnessing
   uint64 witness_amount = 3;
-  /// Unix timestamp in seconds of the start of the reward period
-  uint64 start_period = 4;
-  /// Unix timestamp in seconds of the end of the reward period
-  uint64 end_period = 5;
   /// Amount credited to the hotspot for data transfer
-  uint64 dc_transfer_amount = 6;
+  uint64 dc_transfer_amount = 4;
+}
+
+message operational_reward {
+  /// Amount credited to the operational fund wallet
+  uint64 amount = 1;
+}
+
+message iot_reward_share {
+  /// Unix timestamp in seconds of the start of the reward period
+  uint64 start_period = 1;
+  /// Unix timestamp in seconds of the end of the reward period
+  uint64 end_period = 2;
+  /// the reward allocations for this share
+  oneof reward {
+    gateway_reward gateway_reward = 3;
+    operational_reward operational_reward = 4;
+  }
 }
 
 service poc_lora {
