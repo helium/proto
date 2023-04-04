@@ -131,7 +131,7 @@ message radio_reward_share {
   /// Amount rewarded to the owner of the radio for proof of coverage in bones
   uint64 poc_rewards = 7;
   /// Amount rewarded to the owner of the radio for data transfer in bones
-  uint64 data_transfer_rewards = 8;
+  uint64 dc_transfer_rewards = 8;
 }
 
 enum speedtest_avg_validity {
