@@ -115,6 +115,8 @@ message speedtest {
   uint64 timestamp = 4;
 }
 
+/// Deprecated reward message for mobile. See mobile_reward_share and
+/// radio_reward
 message radio_reward_share {
   /// Public key of the owner of the radio
   bytes owner_key = 1;
@@ -128,6 +130,48 @@ message radio_reward_share {
   uint64 start_epoch = 5;
   /// Unix timestamp in seconds of the end of the reward period
   uint64 end_epoch = 6;
+}
+
+message radio_reward {
+  /// Public key of the owner of the radio
+  bytes owner_key = 1;
+  /// Public key of the hotspot of the radio
+  bytes hotspot_key = 2;
+  /// cbsd Id of the radio
+  string cbsd_id = 3;
+  /// Amount credited to the hotspot for data transfer in bones
+  uint64 dc_transfer_reward = 4;
+  /// Amount credited to the hotspot for poc
+  uint64 poc_reward = 5;
+}
+
+message operational_reward {
+  /// Amount credited to the operational fund wallet
+  uint64 amount = 1;
+}
+
+message oracle_reward {
+  /// Amount credited to the oracle wallet
+  uint64 amount = 1;
+}
+
+message staker_reward {
+  /// Amount credited to the staker wallet
+  uint64 amount = 1;
+}
+
+message mobile_reward_share {
+  /// Unix timestamp in seconds of the start of the reward period
+  uint64 start_period = 1;
+  /// Unix timestamp in seconds of the end of the reward period
+  uint64 end_period = 2;
+  /// Reward allocation for this share
+  oneof reward {
+    radio_reward radio_reward = 3;
+    operational_reward operational_reward = 4;
+    oracle_reward oracle_reward = 5;
+    staker_reward staker_reward = 6;
+  }
 }
 
 enum speedtest_avg_validity {
