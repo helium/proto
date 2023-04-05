@@ -17,24 +17,29 @@ package helium.mobile_config;
 // - Keypair fields are binary encoded public keys, Rust encoding example here:
 //    https://github.com/helium/helium-crypto-rs/blob/main/src/public_key.rs#L347-L354
 
-message hotspot_metadata {
-  // The public key binary address and on-chain identity of the hotspot
-  bytes address = 1;
-  // The res12 h3 index asserted address of the hotspot as a string
-  // where an unasserted hotspot returns an empty string
+message gateway_metadata {
+  // The res12 h3 index asserted address of the gateway as a string
+  // where an unasserted gateway returns an empty string
   string location = 2;
 }
 
-message hotspot_metadata_req_v1 {
-  // The public key address of the hotspot to look up
+message gateway_info {
+  // The public key binary address and on-chain identity of the gateway
+  bytes address = 1;
+  // The gateway metadata as recorded on the blockchain
+  gateway_metadata metadata = 2;
+}
+
+message gateway_info_req_v1 {
+  // The public key address of the gateway to look up
   bytes address = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
   bytes signature = 3;
 }
 
-message hotspot_metadata_res_v1 {
-  hotspot_metadata metadata = 1;
+message gateway_info_res_v1 {
+  gateway_info info = 1;
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
@@ -42,17 +47,17 @@ message hotspot_metadata_res_v1 {
   bytes signature = 4;
 }
 
-message hotspot_metadata_stream_req_v1 {
-  // max number of hotspot metadata in each message of the response stream
+message gateway_info_stream_req_v1 {
+  // max number of gateway info records in each message of the response stream
   uint32 batch_size = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
   bytes signature = 3;
 }
 
-message hotspot_metadata_stream_res_v1 {
-  // a list of hotspot metadata numbering up to the request batch size
-  repeated hotspot_metadata hotspots = 1;
+message gateway_info_stream_res_v1 {
+  // a list of gateway info numbering up to the request batch size
+  repeated gateway_info gateways = 1;
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
@@ -143,12 +148,12 @@ message admin_key_res_v1 {
 // Service Definitions
 // ------------------------------------------------------------------
 
-service hotspot {
-  // Get metadata info for the specified hotspot
-  rpc metadata(hotspot_metadata_req_v1) returns (hotspot_metadata_res_v1);
-  // Get a stream of hotspot metadata
-  rpc metadata_stream(hotspot_metadata_stream_req_v1)
-      returns (stream hotspot_metadata_stream_res_v1);
+service gateway {
+  // Get info for the specified gateway
+  rpc info(gateway_info_req_v1) returns (gateway_info_res_v1);
+  // Get a stream of gateway info
+  rpc info_stream(gateway_info_stream_req_v1)
+      returns (stream gateway_info_stream_res_v1);
 }
 
 service router {

@@ -537,8 +537,11 @@ message gateway_metadata {
 }
 
 message gateway_info {
+  // The public key binary address and on-chain identity of the gateway
   bytes address = 1;
+  // Whether or not the hotspot participates in PoC or only transfers data
   bool is_full_hotspot = 2;
+  // The gateway's metadata as recorded on the blockchain
   gateway_metadata metadata = 3;
 }
 
