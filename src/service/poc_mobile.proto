@@ -144,21 +144,6 @@ message radio_reward {
   uint64 poc_reward = 5;
 }
 
-message operational_reward {
-  /// Amount credited to the operational fund wallet
-  uint64 amount = 1;
-}
-
-message oracle_reward {
-  /// Amount credited to the oracle wallet
-  uint64 amount = 1;
-}
-
-message staker_reward {
-  /// Amount credited to the staker wallet
-  uint64 amount = 1;
-}
-
 message mobile_reward_share {
   /// Unix timestamp in seconds of the start of the reward period
   uint64 start_period = 1;
@@ -167,9 +152,6 @@ message mobile_reward_share {
   /// Reward allocation for this share
   oneof reward {
     radio_reward radio_reward = 3;
-    operational_reward operational_reward = 4;
-    oracle_reward oracle_reward = 5;
-    staker_reward staker_reward = 6;
   }
 }
 
