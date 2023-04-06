@@ -115,9 +115,8 @@ message speedtest {
   uint64 timestamp = 4;
 }
 
-/// Deprecated reward message for mobile. See mobile_reward_share and
-/// radio_reward
 message radio_reward_share {
+  option deprecated = true;
   /// Public key of the owner of the radio
   bytes owner_key = 1;
   /// Public key of the hotspot of the radio
