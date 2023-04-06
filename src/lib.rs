@@ -237,6 +237,7 @@ impl std::fmt::Display for Region {
             Region::In865 => f.write_str("IN865"),
             Region::Cd9001a => f.write_str("CD900_1A"),
             Region::Ru864 => f.write_str("RU864"),
+            Region::Unknown => f.write_str("UNKNOWN"),
         }
     }
 }

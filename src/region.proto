@@ -31,4 +31,6 @@ enum region {
   AS923_1D = 25;
   AS923_1E = 26;
   AS923_1F = 27;
+
+  UNKNOWN = 99;
 }
