@@ -116,6 +116,7 @@ message speedtest {
 }
 
 message radio_reward_share {
+  option deprecated = true;
   /// Public key of the owner of the radio
   bytes owner_key = 1;
   /// Public key of the hotspot of the radio
@@ -128,6 +129,26 @@ message radio_reward_share {
   uint64 start_epoch = 5;
   /// Unix timestamp in seconds of the end of the reward period
   uint64 end_epoch = 6;
+}
+
+message radio_reward {
+  /// Public key of the hotspot of the radio
+  bytes hotspot_key = 1;
+  /// cbsd Id of the radio
+  string cbsd_id = 2;
+  /// Amount credited to the hotspot for data transfer in bones
+  uint64 dc_transfer_reward = 3;
+  /// Amount credited to the hotspot for poc
+  uint64 poc_reward = 4;
+}
+
+message mobile_reward_share {
+  /// Unix timestamp in seconds of the start of the reward period
+  uint64 start_period = 1;
+  /// Unix timestamp in seconds of the end of the reward period
+  uint64 end_period = 2;
+  /// Reward allocation for this share
+  oneof reward { radio_reward radio_reward = 3; }
 }
 
 enum speedtest_avg_validity {
