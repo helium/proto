@@ -148,9 +148,7 @@ message mobile_reward_share {
   /// Unix timestamp in seconds of the end of the reward period
   uint64 end_period = 2;
   /// Reward allocation for this share
-  oneof reward {
-    radio_reward radio_reward = 3;
-  }
+  oneof reward { radio_reward radio_reward = 3; }
 }
 
 enum speedtest_avg_validity {
