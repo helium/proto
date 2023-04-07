@@ -132,16 +132,14 @@ message radio_reward_share {
 }
 
 message radio_reward {
-  /// Public key of the owner of the radio
-  bytes owner_key = 1;
   /// Public key of the hotspot of the radio
-  bytes hotspot_key = 2;
+  bytes hotspot_key = 1;
   /// cbsd Id of the radio
-  string cbsd_id = 3;
+  string cbsd_id = 2;
   /// Amount credited to the hotspot for data transfer in bones
-  uint64 dc_transfer_reward = 4;
+  uint64 dc_transfer_reward = 3;
   /// Amount credited to the hotspot for poc
-  uint64 poc_reward = 5;
+  uint64 poc_reward = 4;
 }
 
 message mobile_reward_share {
