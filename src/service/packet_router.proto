@@ -71,6 +71,7 @@ message packet_router_packet_down_v1 {
   bytes payload = 1;
   window_v1 rx1 = 2;
   window_v1 rx2 = 3;
+  bytes gateway = 4;
 }
 
 message envelope_down_v1 {
