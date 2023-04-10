@@ -30,8 +30,8 @@ pub mod services {
     pub mod mobile_config {
         include!(concat!(env!("OUT_DIR"), "/helium.mobile_config.rs"));
         pub use admin_server::{Admin, AdminServer};
-        pub use hotspot_client::HotspotClient;
-        pub use hotspot_server::{Hotspot, HotspotServer};
+        pub use gateway_client::GatewayClient;
+        pub use gateway_server::{Gateway, GatewayServer};
         pub use router_client::RouterClient;
         pub use router_server::{Router, RouterServer};
     }
