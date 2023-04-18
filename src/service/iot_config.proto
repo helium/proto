@@ -396,8 +396,16 @@ message route_skf_get_req_v1 {
 }
 
 message route_skf_update_req_v1 {
-  action_v1 action = 1;
-  skf_v1 filter = 2;
+  message route_skf_update_v1 {
+    uint32 devaddr = 1;
+    // the hex-encoded string of the binary session key
+    string session_key = 2;
+    action_v1 action = 3;
+  }
+
+  string route_id = 1;
+  // WARNING: this will limited to 100 updates per req
+  repeated route_skf_update_v1 updates = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
   bytes signature = 4;
@@ -648,8 +656,7 @@ service route {
   // List Filters for a DevAddr (auth delegate_keys/owner/admin
   rpc get_skfs(route_skf_get_req_v1) returns (stream skf_v1);
   // Update Filters for an Org (auth delegate_keys/owner/admin)
-  rpc update_skfs(stream route_skf_update_req_v1)
-      returns (route_skf_update_res_v1);
+  rpc update_skfs(route_skf_update_req_v1) returns (route_skf_update_res_v1);
 }
 
 service gateway {
