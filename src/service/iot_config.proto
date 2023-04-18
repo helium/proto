@@ -368,15 +368,15 @@ message route_stream_res_v1 {
   bytes signature = 7;
 }
 
-message session_key_filter_v1 {
-  uint64 oui = 1;
+message skf_v1 {
+  string route_id = 1;
   uint32 devaddr = 2;
   // the hex-encoded string of the binary session key
   string session_key = 3;
 }
 
-message session_key_filter_list_req_v1 {
-  uint64 oui = 1;
+message route_skf_list_req_v1 {
+  string route_id = 1;
   // in milliseconds since unix epoch
   uint64 timestamp = 2;
   bytes signature = 3;
@@ -384,8 +384,8 @@ message session_key_filter_list_req_v1 {
   bytes signer = 4;
 }
 
-message session_key_filter_get_req_v1 {
-  uint64 oui = 1;
+message route_skf_get_req_v1 {
+  string route_id = 1;
   uint32 devaddr = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
@@ -394,9 +394,9 @@ message session_key_filter_get_req_v1 {
   bytes signer = 5;
 }
 
-message session_key_filter_update_req_v1 {
+message route_skf_update_req_v1 {
   action_v1 action = 1;
-  session_key_filter_v1 filter = 2;
+  skf_v1 filter = 2;
   // in milliseconds since unix epoch
   uint64 timestamp = 3;
   bytes signature = 4;
@@ -404,7 +404,7 @@ message session_key_filter_update_req_v1 {
   bytes signer = 5;
 }
 
-message session_key_filter_update_res_v1 {
+message route_skf_update_res_v1 {
   // unix epoch timestamp in seconds
   uint64 timestamp = 1;
   // pubkey binary of the signing keypair
@@ -413,7 +413,7 @@ message session_key_filter_update_res_v1 {
   bytes signature = 3;
 }
 
-message session_key_filter_stream_req_v1 {
+message route_skf_stream_req_v1 {
   // in milliseconds since unix epoch
   uint64 timestamp = 1;
   bytes signature = 2;
@@ -421,9 +421,9 @@ message session_key_filter_stream_req_v1 {
   bytes signer = 3;
 }
 
-message session_key_filter_stream_res_v1 {
+message route_skf_stream_res_v1 {
   action_v1 action = 1;
-  session_key_filter_v1 filter = 2;
+  skf_v1 filter = 2;
   // unix epoch timestamp in seconds
   uint64 timestamp = 3;
   // pubkey binary of the signing keypair
@@ -633,17 +633,23 @@ service route {
   rpc get(route_get_req_v1) returns (route_res_v1);
   // Create Route for an Org (auth delegate_keys/owner/admin)
   rpc create(route_create_req_v1) returns (route_res_v1);
-
   // Update Route for an Org (auth delegate_keys/owner/admin)
   rpc update(route_update_req_v1) returns (route_res_v1);
   // Delete Route for an Org (auth delegate_keys/owner/admin)
   rpc delete (route_delete_req_v1) returns (route_res_v1);
+
+  // Stream Routes update (auth admin only)
+  rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
+
+  // EUIs
 
   // Get EUIs for a Route (auth delegate_keys/owner/admin)
   rpc get_euis(route_get_euis_req_v1) returns (stream eui_pair_v1);
   // Update (single add or remove) EUIs for a Route (auth
   // delegate_keys/owner/admin)
   rpc update_euis(stream route_update_euis_req_v1) returns (route_euis_res_v1);
+
+  // DevAddr Ranges
 
   // Get DevAddr Ranges for a Route (auth delegate_keys/owner/admin)
   rpc get_devaddr_ranges(route_get_devaddr_ranges_req_v1)
@@ -653,22 +659,18 @@ service route {
   rpc update_devaddr_ranges(stream route_update_devaddr_ranges_req_v1)
       returns (route_devaddr_ranges_res_v1);
 
-  // Stream Routes update (auth admin only)
-  rpc stream(route_stream_req_v1) returns (stream route_stream_res_v1);
-}
+  // Session Key Filters (aka SKFs)
 
-service session_key_filter {
-  // List Filters for an Org (auth delegate_keys/owner/admin)
-  rpc list(session_key_filter_list_req_v1)
-      returns (stream session_key_filter_v1);
+  // List Filters for a Route (auth delegate_keys/owner/admin)
+  rpc list_skfs(route_skf_list_req_v1) returns (stream skf_v1);
   // List Filters for a DevAddr (auth delegate_keys/owner/admin
-  rpc get(session_key_filter_get_req_v1) returns (stream session_key_filter_v1);
+  rpc get_skfs(route_skf_get_req_v1) returns (stream skf_v1);
   // Update Filters for an Org (auth delegate_keys/owner/admin)
-  rpc update(stream session_key_filter_update_req_v1)
-      returns (session_key_filter_update_res_v1);
+  rpc update_skfs(stream route_skf_update_req_v1)
+      returns (route_skf_update_res_v1);
   // Stream Filter update (auth admin only)
-  rpc stream(session_key_filter_stream_req_v1)
-      returns (stream session_key_filter_stream_res_v1);
+  rpc stream_skfs(route_skf_stream_req_v1)
+      returns (stream route_skf_stream_res_v1);
 }
 
 service gateway {
