@@ -30,8 +30,8 @@ pub mod services {
     pub mod mobile_config {
         include!(concat!(env!("OUT_DIR"), "/helium.mobile_config.rs"));
         pub use admin_server::{Admin, AdminServer};
-        pub use hotspot_client::HotspotClient;
-        pub use hotspot_server::{Hotspot, HotspotServer};
+        pub use gateway_client::GatewayClient;
+        pub use gateway_server::{Gateway, GatewayServer};
         pub use router_client::RouterClient;
         pub use router_server::{Router, RouterServer};
     }
@@ -39,6 +39,11 @@ pub mod services {
     pub mod downlink {
         include!(concat!(env!("OUT_DIR"), "/helium.downlink.rs"));
         pub use http_roaming_server::{HttpRoaming, HttpRoamingServer as Server};
+    }
+
+    pub mod multi_buy {
+        include!(concat!(env!("OUT_DIR"), "/helium.multi_buy.rs"));
+        pub use multi_buy_server::{MultiBuy, MultiBuyServer as Server};
     }
 
     pub mod router {
@@ -90,7 +95,6 @@ pub mod services {
         pub use transaction_client::TransactionClient as Client;
         pub use transaction_server::TransactionServer as Server;
     }
-
     pub use tonic::transport::*;
 }
 
@@ -233,6 +237,7 @@ impl std::fmt::Display for Region {
             Region::In865 => f.write_str("IN865"),
             Region::Cd9001a => f.write_str("CD900_1A"),
             Region::Ru864 => f.write_str("RU864"),
+            Region::Unknown => f.write_str("UNKNOWN"),
         }
     }
 }

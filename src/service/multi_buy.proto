@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package helium.multi_buy;
+
+message multi_buy_inc_req_v1 { string key = 1; }
+
+message multi_buy_inc_res_v1 { uint32 count = 1; }
+
+service multi_buy {
+  rpc inc(multi_buy_inc_req_v1) returns (multi_buy_inc_res_v1);
+}
