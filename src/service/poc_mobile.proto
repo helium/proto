@@ -88,10 +88,12 @@ message heartbeat {
 
 enum heartbeat_validity {
   heartbeat_validity_valid = 0;
-  heartbeat_validity_gateway_owner_not_found = 1;
+  heartbeat_validity_gateway_owner_not_found = 1 [ deprecated = true ];
   heartbeat_validity_heartbeat_outside_range = 2;
   heartbeat_validity_bad_cbsd_id = 3;
   heartbeat_validity_not_operational = 4;
+  /// Gateway not found on the blockchain
+  heartbeat_validity_gateway_not_found = 5;
 }
 
 message speedtest_avg {
