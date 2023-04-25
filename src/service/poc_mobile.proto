@@ -138,7 +138,7 @@ message radio_reward {
   string cbsd_id = 2;
   /// Amount credited to the hotspot for data transfer in bones
   /// This value will always be zero
-  uint64 dc_transfer_reward = 3 [deprecated = true];
+  uint64 dc_transfer_reward = 3 [ deprecated = true ];
   /// Amount credited to the hotspot for poc
   uint64 poc_reward = 4;
 }
