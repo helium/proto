@@ -137,9 +137,17 @@ message radio_reward {
   /// cbsd Id of the radio
   string cbsd_id = 2;
   /// Amount credited to the hotspot for data transfer in bones
-  uint64 dc_transfer_reward = 3;
+  /// This value will always be zero
+  uint64 dc_transfer_reward = 3 [deprecated = true];
   /// Amount credited to the hotspot for poc
   uint64 poc_reward = 4;
+}
+
+message data_transfer_reward {
+  /// Public key of the hotspot
+  bytes hotspot_key = 1;
+  /// Amount awarded for dc transfer
+  uint64 dc_transfer_reward = 2;
 }
 
 message mobile_reward_share {
@@ -148,7 +156,10 @@ message mobile_reward_share {
   /// Unix timestamp in seconds of the end of the reward period
   uint64 end_period = 2;
   /// Reward allocation for this share
-  oneof reward { radio_reward radio_reward = 3; }
+  oneof reward {
+    radio_reward radio_reward = 3;
+    data_transfer_reward data_transfer_reward = 4;
+  }
 }
 
 enum speedtest_avg_validity {
