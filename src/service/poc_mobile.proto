@@ -145,7 +145,7 @@ message radio_reward {
   uint64 poc_reward = 4;
 }
 
-message data_transfer_reward {
+message gateway_reward {
   /// Public key of the hotspot
   bytes hotspot_key = 1;
   /// Amount awarded for dc transfer
@@ -160,7 +160,7 @@ message mobile_reward_share {
   /// Reward allocation for this share
   oneof reward {
     radio_reward radio_reward = 3;
-    data_transfer_reward data_transfer_reward = 4;
+    gateway_reward gateway_reward = 4;
   }
 }
 
