@@ -23,8 +23,6 @@ pub mod services {
         pub use org_server::{Org, OrgServer};
         pub use route_client as config_route_client;
         pub use route_server::{Route, RouteServer};
-        pub use session_key_filter_client as config_session_key_filter_client;
-        pub use session_key_filter_server::{SessionKeyFilter, SessionKeyFilterServer};
     }
 
     pub mod mobile_config {
