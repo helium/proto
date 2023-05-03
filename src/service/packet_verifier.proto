@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package helium.packet_verifier;
+
+message valid_packet {
+  uint32 payload_size = 1;
+  bytes gateway = 2;
+  bytes payload_hash = 3;
+  uint32 num_dcs = 4;
+  uint64 packet_timestamp = 5;
+}
+
+message invalid_packet {
+  uint32 payload_size = 1;
+  bytes gateway = 2;
+  bytes payload_hash = 3;
+  invalid_packet_reason reason = 4;
+}
+
+enum invalid_packet_reason {
+  invalid_packet_reason_insufficient_balance = 0;
+}
+
+message valid_data_transfer_session {
+  bytes pub_key = 1;
+  uint64 upload_bytes = 2;
+  uint64 download_bytes = 3;
+  uint64 num_dcs = 4;
+  bytes payer = 5;
+  // Timestamp in millis of the first ingest file we found a data transfer
+  // session in
+  uint64 first_timestamp = 6;
+  // Timestamp in millis of the last ingest file we found a data transfer
+  // session in
+  uint64 last_timestamp = 7;
+}

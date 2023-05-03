@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package helium.poc_entropy;
+
+import "entropy.proto";
+
+// request entropy
+message entropy_req_v1 {}
+
+service poc_entropy { rpc entropy(entropy_req_v1) returns (entropy_report_v1); }

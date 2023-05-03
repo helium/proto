@@ -1,0 +1,173 @@
+syntax = "proto3";
+
+package helium.mobile_config;
+
+// ------------------------------------------------------------------
+// Message Definitions
+// ------------------------------------------------------------------
+
+// == Field Notes ==
+//
+// - Every message including a `signature` field will need to be signed over the
+//   complete message, with the `signature` field set to an empty value.
+//   Requests are expected to be signed by the client to validate authorization
+//   to make the request and responses are signed by the mobile_config server to
+//   ensure validity of the data returned
+//
+// - Keypair fields are binary encoded public keys, Rust encoding example here:
+//    https://github.com/helium/helium-crypto-rs/blob/main/src/public_key.rs#L347-L354
+
+message gateway_metadata {
+  // The res12 h3 index asserted address of the gateway as a string
+  // where an unasserted gateway returns an empty string
+  string location = 2;
+}
+
+message gateway_info {
+  // The public key binary address and on-chain identity of the gateway
+  bytes address = 1;
+  // The gateway metadata as recorded on the blockchain
+  gateway_metadata metadata = 2;
+}
+
+message gateway_info_req_v1 {
+  // The public key address of the gateway to look up
+  bytes address = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
+message gateway_info_res_v1 {
+  gateway_info info = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message gateway_info_stream_req_v1 {
+  // max number of gateway info records in each message of the response stream
+  uint32 batch_size = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
+message gateway_info_stream_res_v1 {
+  // a list of gateway info numbering up to the request batch size
+  repeated gateway_info gateways = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message router_get_req_v1 {
+  // Pubkey binary of the requested router
+  bytes pubkey = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  // Signature over the request by the requesting oracle
+  bytes signature = 3;
+}
+
+message router_get_res_v1 {
+  // Pubkey binary of the requested router, confirming registration
+  bytes pubkey = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  // Signature over the response by the config service
+  bytes signature = 4;
+}
+
+message router_list_req_v1 {
+  // pubkey binary of the signing keypair
+  bytes signer = 1;
+  // Signature over the request by the requesting oracle
+  bytes signature = 2;
+}
+
+message router_list_res_v1 {
+  // List of public key binaries of all registered routers
+  repeated bytes routers = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  // Signature over the response by the config service
+  bytes signature = 4;
+}
+
+message admin_add_key_req_v1 {
+  enum key_type_v1 {
+    // administrative operator key
+    administrator = 0;
+    // packet routing infrastructure key for routing streams
+    packet_router = 1;
+    // keys for verifying requests from other oracles
+    oracle = 2;
+  }
+
+  bytes pubkey = 1;
+  key_type_v1 key_type = 2;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 3;
+  // pubkey binary of the signing keypair
+  bytes signer = 4;
+  // Signature of the request message signed by an admin key
+  // already registered to the config service
+  bytes signature = 5;
+}
+
+message admin_remove_key_req_v1 {
+  bytes pubkey = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  // Signature of the request message signed by an admin key
+  // already registered to the config service
+  bytes signature = 4;
+}
+
+message admin_key_res_v1 {
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  // Signature over the response by the config service
+  bytes signature = 3;
+}
+
+// ------------------------------------------------------------------
+// Service Definitions
+// ------------------------------------------------------------------
+
+service gateway {
+  // Get info for the specified gateway
+  rpc info(gateway_info_req_v1) returns (gateway_info_res_v1);
+  // Get a stream of gateway info
+  rpc info_stream(gateway_info_stream_req_v1)
+      returns (stream gateway_info_stream_res_v1);
+}
+
+service router {
+  // Verify a given router key with data transfer burn authority is registered
+  // returning the requested pubkey binary if present
+  rpc get(router_get_req_v1) returns (router_get_res_v1);
+  // Retrieve a list of all registered router pubkey binaries with burn
+  // authority registered to the config service
+  rpc list(router_list_req_v1) returns (router_list_res_v1);
+}
+
+service admin {
+  // Authorize a public key for validating trusted rpcs
+  rpc add_key(admin_add_key_req_v1) returns (admin_key_res_v1);
+  // Deauthorize a public key for validating trusted rpcs
+  rpc remove_key(admin_remove_key_req_v1) returns (admin_key_res_v1);
+}

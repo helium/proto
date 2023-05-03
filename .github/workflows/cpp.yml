@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Cpp CI
 
 on:
   push:
@@ -12,18 +12,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Install protoc
+        run: sudo apt-get install -y protobuf-compiler
 
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
 
-      - name: Use Node.js 13
-        uses: actions/setup-node@v2
-        with:
-          node-version: 13
-          cache: 'npm'
-      - run: yarn install
-      - run: yarn build
-      - run: yarn test
+      - uses: actions/checkout@v3
+
+      - name: Build pr files
+        run: bash build-cpp.sh

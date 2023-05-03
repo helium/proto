@@ -9,12 +9,43 @@ pub use prost::{DecodeError, EncodeError, Message};
 #[cfg(feature = "services")]
 pub mod services {
     use crate::{
-        BlockchainTokenTypeV1, BlockchainTxn, DataRate, GatewayStakingMode, Region, RoutingAddress,
+        BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, DataRate, EntropyReportV1,
+        GatewayStakingMode, MapperAttach, Region, RoutingAddress,
     };
+
+    pub mod iot_config {
+        include!(concat!(env!("OUT_DIR"), "/helium.iot_config.rs"));
+        pub use admin_client as config_admin_client;
+        pub use admin_server::{Admin, AdminServer};
+        pub use gateway_client::GatewayClient;
+        pub use gateway_server::{Gateway, GatewayServer};
+        pub use org_client as config_org_client;
+        pub use org_server::{Org, OrgServer};
+        pub use route_client as config_route_client;
+        pub use route_server::{Route, RouteServer};
+    }
+
+    pub mod mobile_config {
+        include!(concat!(env!("OUT_DIR"), "/helium.mobile_config.rs"));
+        pub use admin_server::{Admin, AdminServer};
+        pub use gateway_client::GatewayClient;
+        pub use gateway_server::{Gateway, GatewayServer};
+        pub use router_client::RouterClient;
+        pub use router_server::{Router, RouterServer};
+    }
+
+    pub mod downlink {
+        include!(concat!(env!("OUT_DIR"), "/helium.downlink.rs"));
+        pub use http_roaming_server::{HttpRoaming, HttpRoamingServer as Server};
+    }
+
+    pub mod multi_buy {
+        include!(concat!(env!("OUT_DIR"), "/helium.multi_buy.rs"));
+        pub use multi_buy_server::{MultiBuy, MultiBuyServer as Server};
+    }
 
     pub mod router {
         pub use crate::router_client::RouterClient;
-        pub use crate::state_channel_client::StateChannelClient;
 
         include!(concat!(env!("OUT_DIR"), "/helium.packet_router.rs"));
         pub use packet_client::PacketClient as PacketRouterClient;
@@ -27,16 +58,10 @@ pub mod services {
         include!(concat!(env!("OUT_DIR"), "/helium.local.rs"));
         pub use api_client::ApiClient as Client;
         pub use api_server::{Api, ApiServer as Server};
+    }
 
-        impl From<crate::BlockchainVarV1> for ConfigValue {
-            fn from(v: crate::BlockchainVarV1) -> Self {
-                Self {
-                    name: v.name,
-                    r#type: v.r#type,
-                    value: v.value,
-                }
-            }
-        }
+    pub mod packet_verifier {
+        include!(concat!(env!("OUT_DIR"), "/helium.packet_verifier.rs"));
     }
 
     pub mod poc_mobile {
@@ -51,6 +76,12 @@ pub mod services {
         pub use poc_lora_server::{PocLora, PocLoraServer as Server};
     }
 
+    pub mod poc_entropy {
+        include!(concat!(env!("OUT_DIR"), "/helium.poc_entropy.rs"));
+        pub use poc_entropy_client::PocEntropyClient as Client;
+        pub use poc_entropy_server::{PocEntropy, PocEntropyServer as Server};
+    }
+
     pub mod follower {
         include!(concat!(env!("OUT_DIR"), "/helium.follower.rs"));
         pub use follower_client::FollowerClient as Client;
@@ -62,7 +93,6 @@ pub mod services {
         pub use transaction_client::TransactionClient as Client;
         pub use transaction_server::TransactionServer as Server;
     }
-
     pub use tonic::transport::*;
 }
 
@@ -141,18 +171,32 @@ impl std::str::FromStr for Region {
         match s.to_ascii_uppercase().as_str() {
             "US915" => Ok(Region::Us915),
             "EU868" => Ok(Region::Eu868),
+            "EU868_A" => Ok(Region::Eu868A),
+            "EU868_B" => Ok(Region::Eu868B),
+            "EU868_C" => Ok(Region::Eu868C),
+            "EU868_D" => Ok(Region::Eu868D),
+            "EU868_E" => Ok(Region::Eu868E),
+            "EU868_F" => Ok(Region::Eu868F),
             "EU433" => Ok(Region::Eu433),
             "CN470" => Ok(Region::Cn470),
             "CN779" => Ok(Region::Cn779),
             "AU915" => Ok(Region::Au915),
+            "AU915_SB1" => Ok(Region::Au915Sb1),
+            "AU915_SB2" => Ok(Region::Au915Sb2),
             "AS923_1" => Ok(Region::As9231),
+            "AS923_1A" => Ok(Region::As9231a),
             "AS923_1B" => Ok(Region::As9231b),
+            "AS923_1C" => Ok(Region::As9231c),
+            "AS923_1D" => Ok(Region::As9231d),
+            "AS923_1E" => Ok(Region::As9231e),
+            "AS923_1F" => Ok(Region::As9231f),
             "AS923_2" => Ok(Region::As9232),
             "AS923_3" => Ok(Region::As9233),
             "AS923_4" => Ok(Region::As9234),
             "KR920" => Ok(Region::Kr920),
             "IN865" => Ok(Region::In865),
             "CD900_1A" => Ok(Region::Cd9001a),
+            "RU864" => Ok(Region::Ru864),
             unsupported => Err(prost::DecodeError::new(format!(
                 "unknown region: {unsupported}"
             ))),
@@ -165,18 +209,107 @@ impl std::fmt::Display for Region {
         match self {
             Region::Us915 => f.write_str("US915"),
             Region::Eu868 => f.write_str("EU868"),
+            Region::Eu868A => f.write_str("EU868_A"),
+            Region::Eu868B => f.write_str("EU868_B"),
+            Region::Eu868C => f.write_str("EU868_C"),
+            Region::Eu868D => f.write_str("EU868_D"),
+            Region::Eu868E => f.write_str("EU868_E"),
+            Region::Eu868F => f.write_str("EU868_F"),
             Region::Eu433 => f.write_str("EU433"),
             Region::Cn470 => f.write_str("CN470"),
             Region::Cn779 => f.write_str("CN779"),
             Region::Au915 => f.write_str("AU915"),
+            Region::Au915Sb1 => f.write_str("AU915_SB1"),
+            Region::Au915Sb2 => f.write_str("AU915_SB2"),
             Region::As9231 => f.write_str("AS923_1"),
+            Region::As9231a => f.write_str("AS923_1A"),
             Region::As9231b => f.write_str("AS923_1B"),
+            Region::As9231c => f.write_str("AS923_1C"),
+            Region::As9231d => f.write_str("AS923_1D"),
+            Region::As9231e => f.write_str("AS923_1E"),
+            Region::As9231f => f.write_str("AS923_1F"),
             Region::As9232 => f.write_str("AS923_2"),
             Region::As9233 => f.write_str("AS923_3"),
             Region::As9234 => f.write_str("AS923_4"),
             Region::Kr920 => f.write_str("KR920"),
             Region::In865 => f.write_str("IN865"),
             Region::Cd9001a => f.write_str("CD900_1A"),
+            Region::Ru864 => f.write_str("RU864"),
+            Region::Unknown => f.write_str("UNKNOWN"),
         }
     }
 }
+
+impl std::str::FromStr for RegionSpreading {
+    type Err = prost::DecodeError;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.to_ascii_uppercase().as_str() {
+            "SF_INVALID" => Ok(RegionSpreading::SfInvalid),
+            "SF7" => Ok(RegionSpreading::Sf7),
+            "SF8" => Ok(RegionSpreading::Sf8),
+            "SF9" => Ok(RegionSpreading::Sf9),
+            "SF10" => Ok(RegionSpreading::Sf10),
+            "SF11" => Ok(RegionSpreading::Sf11),
+            "SF12" => Ok(RegionSpreading::Sf12),
+            _ => Ok(RegionSpreading::SfInvalid),
+        }
+    }
+}
+
+impl std::fmt::Display for RegionSpreading {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            RegionSpreading::SfInvalid => f.write_str("SF_INVALID"),
+            RegionSpreading::Sf7 => f.write_str("SF7"),
+            RegionSpreading::Sf8 => f.write_str("SF8"),
+            RegionSpreading::Sf9 => f.write_str("SF9"),
+            RegionSpreading::Sf10 => f.write_str("SF10"),
+            RegionSpreading::Sf11 => f.write_str("SF11"),
+            RegionSpreading::Sf12 => f.write_str("SF12"),
+        }
+    }
+}
+
+macro_rules! serde_enum {
+    ($type:ident, $name:ident) => {
+        mod $name {
+            use super::$type;
+            use std::str::FromStr;
+
+            pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+            where
+                S: serde::ser::Serializer,
+            {
+                let v = $type::from_i32(*v)
+                    .ok_or_else(|| serde::ser::Error::custom(format!("invalid enum value: {v}")))?;
+                serializer.serialize_str(&v.to_string())
+            }
+
+            pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+            where
+                D: serde::de::Deserializer<'de>,
+            {
+                struct _Visitor;
+
+                impl<'de> serde::de::Visitor<'de> for _Visitor {
+                    type Value = i32;
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                        formatter.write_str("string value")
+                    }
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<Self::Value, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        $type::from_str(value).map(|v| v as i32).map_err(|_| {
+                            serde::de::Error::custom(format!("invalid string value \"{value}\""))
+                        })
+                    }
+                }
+
+                deserializer.deserialize_str(_Visitor)
+            }
+        }
+    };
+}
+
+serde_enum!(RegionSpreading, serde_region_spreading);

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package helium.downlink;
+
+import "region.proto";
+
+message http_roaming_register_v1 {
+  region region = 1;
+  // milliseconds since unix epoch
+  uint64 timestamp = 2;
+  bytes signature = 3;
+}
+
+message http_roaming_downlink_v1 { bytes data = 1; }
+
+service http_roaming {
+  rpc stream(http_roaming_register_v1)
+      returns (stream http_roaming_downlink_v1);
+}

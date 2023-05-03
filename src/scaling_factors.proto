@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package helium;
+
+// map of string h3 res 12 hex address to reward scaling factor
+// as an integer representation of the 4-point precision decimal multiplier
+// Ex: 5015 = 0.5015
+message scaling_factors { map<string, uint32> hex_to_sf = 1; }

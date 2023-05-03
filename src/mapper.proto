@@ -1,0 +1,106 @@
+syntax = "proto3";
+package helium;
+
+message mapper {
+  oneof message {
+    mapper_gps gps = 1;
+    mapper_scan scan = 2;
+    mapper_attach attach = 3;
+  }
+  // the pubkey signs over the message above
+  // which does not contain the pubkey itself
+  bytes signature = 4;
+  bytes pub_key = 5;
+
+  // below is optional metadata which depending
+  // on the message above, may or may not be populated.
+  // it is included here because it cannot be signed
+
+  // hotspots that received the mapper message if it
+  // was received over lorawan
+  repeated bytes hotspots = 6;
+}
+
+message mapper_attach {
+  oneof version { mapper_attach_v1 attach_v1 = 1; }
+}
+
+message mapper_attach_v1 {
+  enum mapper_attach_result {
+    NONE = 0;
+    CONNECT = 1;
+    LIMSERV = 2;
+    NOCONN = 3;
+    SEARCH = 4;
+    NO_NETWORK_SERVICE = 5;
+  }
+  message mapper_attach_candidate {
+    enum cell_tech {
+      lte = 0;
+      nr = 1;
+    }
+    cell_tech type = 1;
+    // Corresponds "scan_response_counter" in the scan_response_counter which we
+    // selected attach candidates from
+    uint32 from_scan_response = 2;
+    // delay in seconds between locking to the cell and evaluating connectivity
+    uint32 delay = 3;
+    uint32 plmn = 4;
+    uint32 fcn = 5;
+    // 28-bit (UMTS, LTE) or 36-bit (5G NR)
+    uint64 cid = 6;
+    // RSRQ in units of 0.1 dB
+    int32 rsrp = 7;
+    // RSRP in units of 0.1 dBm
+    int32 rsrq = 8;
+  }
+  // This allows us to detect censorship efforts. It can roll over.
+  uint32 attach_counter = 1;
+  mapper_gps_v1 gps = 2;
+  mapper_attach_candidate candidate = 3;
+  mapper_attach_result result = 4;
+}
+
+message mapper_gps {
+  oneof version { mapper_gps_v1 gps_v1 = 1; }
+}
+
+message mapper_gps_v1 {
+  // Unix time in seconds
+  uint32 unix_time = 1;
+  // Latitude of the current base station in units of 0.25 sec.
+  int32 lat = 2;
+  // Longitude of the current base station in units of 0.25 sec.
+  int32 lon = 3;
+  // Horizontal dilution of position in units of 0.01 HDOP.
+  uint32 hdop = 4;
+  // Altitude in units of 0.25m above the WGS 84 reference ellipsoid.
+  int64 altitude = 5;
+  int32 num_sats = 6;
+  // Speed in speed in 0.25m/s per second.
+  uint32 speed = 7;
+}
+
+message mapper_scan {
+  oneof version { mapper_scan_v1 scan_v1 = 1; }
+}
+
+message mapper_scan_v1 {
+  uint32 scan_counter = 1;
+  mapper_gps_v1 gps = 2;
+  repeated mapper_scan_result results = 3;
+}
+
+message mapper_scan_result {
+  // 28-bit (UMTS, LTE) or 36-bit (5G NR)
+  uint64 cid = 1;
+  // PLMN = (MCC << 16) | MNC
+  uint32 plmn = 2;
+  // EARFCN or UARFCN
+  uint32 fcn = 3;
+  uint32 pci = 4;
+  // RSRQ in units of 0.1 dB
+  int32 rsrp = 5;
+  // RSRP in units of 0.1 dBm
+  int32 rsrq = 6;
+}

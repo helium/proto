@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package helium.poc_mobile;
 
+import "mapper.proto";
+
 message speedtest_req_v1 {
   bytes pub_key = 1;
   string serial = 2;
@@ -19,7 +21,7 @@ message speedtest_req_v1 {
 
 message speedtest_resp_v1 { string id = 1; }
 
-// speedtest report outputted by ingestor, tagged with received_timestamp
+// speedtest report output by ingestor, tagged with received_timestamp
 message speedtest_ingest_report_v1 {
   // timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
@@ -44,17 +46,26 @@ message cell_heartbeat_req_v1 {
 
 message cell_heartbeat_resp_v1 { string id = 1; }
 
-// cell heartbeat report outputted by ingestor, tagged with received_timestamp
+// cell heartbeat report output by ingestor, tagged with received_timestamp
 message cell_heartbeat_ingest_report_v1 {
   // timestamp in millisconds since unix epoch
   uint64 received_timestamp = 1;
   cell_heartbeat_req_v1 report = 2;
 }
 
+// mapper attach report output by ingestor, tagged with received_timestamp
+message mapper_attach_ingest_report_v1 {
+  // timestamp in millisconds since unix epoch
+  uint64 received_timestamp = 1;
+  mapper_attach report = 2;
+}
+
 service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
       returns (cell_heartbeat_resp_v1);
+  rpc submit_data_transfer_session(data_transfer_session_req_v1)
+      returns (data_transfer_session_resp_v1);
 }
 
 message file_info {
@@ -69,7 +80,7 @@ message processed_files { repeated file_info files = 1; }
 message heartbeat {
   string cbsd_id = 1;
   bytes pub_key = 2;
-  uint64 weight = 3;
+  float reward_multiplier = 3;
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
@@ -77,10 +88,12 @@ message heartbeat {
 
 enum heartbeat_validity {
   heartbeat_validity_valid = 0;
-  heartbeat_validity_gateway_owner_not_found = 1;
+  heartbeat_validity_gateway_owner_not_found = 1 [ deprecated = true ];
   heartbeat_validity_heartbeat_outside_range = 2;
   heartbeat_validity_bad_cbsd_id = 3;
   heartbeat_validity_not_operational = 4;
+  /// Gateway not found on the blockchain
+  heartbeat_validity_gateway_not_found = 5;
 }
 
 message speedtest_avg {
@@ -94,6 +107,7 @@ message speedtest_avg {
   repeated speedtest speedtests = 6;
   /// Unix timestamp (seconds since 1970) of when the average was calculated
   uint64 timestamp = 7;
+  float reward_multiplier = 8;
 }
 
 message speedtest {
@@ -103,6 +117,53 @@ message speedtest {
   uint64 timestamp = 4;
 }
 
+message radio_reward_share {
+  option deprecated = true;
+  /// Public key of the owner of the radio
+  bytes owner_key = 1;
+  /// Public key of the hotspot of the radio
+  bytes hotspot_key = 2;
+  /// cbsd Id of the radio
+  string cbsd_id = 3;
+  /// Amount rewarded to the owner of the radio
+  uint64 amount = 4;
+  /// Unix timestamp in seconds of the start of the reward period
+  uint64 start_epoch = 5;
+  /// Unix timestamp in seconds of the end of the reward period
+  uint64 end_epoch = 6;
+}
+
+message radio_reward {
+  /// Public key of the hotspot of the radio
+  bytes hotspot_key = 1;
+  /// cbsd Id of the radio
+  string cbsd_id = 2;
+  /// Amount credited to the hotspot for data transfer in bones
+  /// This value will always be zero
+  uint64 dc_transfer_reward = 3 [ deprecated = true ];
+  /// Amount credited to the hotspot for poc
+  uint64 poc_reward = 4;
+}
+
+message gateway_reward {
+  /// Public key of the hotspot
+  bytes hotspot_key = 1;
+  /// Amount awarded for dc transfer
+  uint64 dc_transfer_reward = 2;
+}
+
+message mobile_reward_share {
+  /// Unix timestamp in seconds of the start of the reward period
+  uint64 start_period = 1;
+  /// Unix timestamp in seconds of the end of the reward period
+  uint64 end_period = 2;
+  /// Reward allocation for this share
+  oneof reward {
+    radio_reward radio_reward = 3;
+    gateway_reward gateway_reward = 4;
+  }
+}
+
 enum speedtest_avg_validity {
   speedtest_avg_validity_valid = 0;
   speedtest_avg_validity_too_few_samples = 1;
@@ -110,28 +171,6 @@ enum speedtest_avg_validity {
   speedtest_avg_validity_slow_upload_speed = 3;
   speedtest_avg_validity_high_latency = 4;
 }
-
-message cell_share {
-  cell_type cell_type = 1;
-  /// weight will be x10, i.e. 40 = 4.0
-  uint64 weight = 2;
-}
-
-message cell_shares { repeated cell_share shares = 1; }
-
-message hotspot_share {
-  bytes pub_key = 1;
-  uint64 weight = 2;
-}
-
-message hotspot_shares { repeated hotspot_share shares = 1; }
-
-message owner_share {
-  bytes pub_key = 1;
-  uint64 weight = 2;
-}
-
-message owner_shares { repeated owner_share shares = 1; }
 
 enum file_type {
   file_type_heartbeat = 0;
@@ -144,4 +183,47 @@ enum cell_type {
   neutrino430 = 2;
   sercomm_indoor = 3;
   sercomm_outdoor = 4;
+}
+
+message data_transfer_session_req_v1 {
+  /// data_transfer_event represents traffic usage happening on a hotspot
+  /// it is traffic quota or timer based
+  /// it is securely created and signed by hotspot
+  data_transfer_event data_transfer_usage = 1;
+  /// this decision is done by OCS like system
+  bool reward_cancelled = 2;
+  /// Online Charging System is part of teleco stack which is able
+  /// to make a decision about data transfer and reward
+  bytes pub_key = 3;
+  bytes signature = 4;
+}
+
+message data_transfer_event {
+  bytes pub_key = 1;
+  uint64 upload_bytes = 2;
+  uint64 download_bytes = 3;
+  data_transfer_radio_access_technology radio_access_technology = 4;
+  string event_id = 5;
+  bytes payer = 6;
+
+  // Timestamp in seconds since the epoch
+  uint64 timestamp = 7;
+  bytes signature = 8;
+}
+
+enum data_transfer_radio_access_technology {
+  UTRAN = 0;
+  GERAN = 1;
+  WLAN = 2;
+  GAN = 3;
+  HSPA_Evolution = 4;
+  EUTRAN = 5;
+}
+
+message data_transfer_session_resp_v1 { string id = 1; }
+
+message data_transfer_session_ingest_report_v1 {
+  // timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  data_transfer_session_req_v1 report = 2;
 }

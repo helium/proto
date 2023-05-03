@@ -3,15 +3,11 @@ syntax = "proto3";
 package helium;
 
 import "blockchain_routing_address.proto";
-import "blockchain_state_channel_v1.proto";
 import "blockchain_txn_state_channel_close_v1.proto";
 import "blockchain_txn_vars_v1.proto";
 import "blockchain_poc_core_v1.proto";
-import "blockchain_txn_poc_receipts_v1.proto";
-import "blockchain_txn_poc_receipts_v2.proto";
 import "blockchain_region_param_v1.proto";
 import "region.proto";
-import "blockchain_txn.proto";
 
 // defines the various close states of an SC
 enum close_state {

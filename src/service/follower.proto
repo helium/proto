@@ -6,6 +6,7 @@ import "blockchain_token_type_v1.proto";
 import "blockchain_txn.proto";
 import "gateway_staking_mode.proto";
 import "region.proto";
+import "blockchain_region_param_v1.proto";
 
 message gateway_not_found { bytes address = 1; }
 
@@ -42,6 +43,8 @@ message gateway_info {
   int32 gain = 5;
   /// The region of the gateway's corresponding location
   region region = 6;
+  /// The region params of the gateway's corresponding region
+  blockchain_region_params_v1 region_params = 7;
 }
 
 /// Look up the owner of a given hotspot public key

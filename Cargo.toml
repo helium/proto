@@ -2,7 +2,7 @@
 name = "helium-proto"
 version = "0.1.0"
 authors = ["Helium <info@helium.com>"]
-edition = "2018"
+edition = "2021"
 
 [features]
 default= []
@@ -12,12 +12,9 @@ services=["tonic-build", "tonic"]
 tonic = {version = "0", optional = true}
 bytes = "1"
 prost = "0"
-serde = "1"
-serde_derive = "1"
+serde = {version = "1", features = ["derive"]}
 serde_json = "1"
 
 [build-dependencies]
-# simplify builds (including for cross builds) by using a vendored protoc
-protoc-bin-vendored = "3"
 tonic-build = {version = "0", optional = true}
 prost-build = "0"

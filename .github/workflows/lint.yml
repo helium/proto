@@ -12,13 +12,13 @@ jobs:
     name: Formatting Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.5.0
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
       - name: Run clang-format for protobuf files
         uses: madninja/clang-format-action@madninja/protobuf
         with:
-          clang-format-version: '13'
+          clang-format-version: '15'
           check-path: 'src'
