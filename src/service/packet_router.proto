@@ -11,7 +11,7 @@ message packet_router_packet_report_v1 {
     uplink = 1;
   }
 
-  uint64 gateway_timestamp_ms = 1;
+  uint64 gateway_tmst = 1;
   uint64 oui = 2;
   uint32 net_id = 3;
   // signal strength in dBm
@@ -27,7 +27,7 @@ message packet_router_packet_report_v1 {
   uint32 payload_size = 11;
   bool free = 12;
   packet_type type = 13;
-  uint64 hpr_timestamp_ms = 14;
+  uint64 received_timestamp_ms = 14;
 }
 
 message packet_router_packet_up_v1 {
