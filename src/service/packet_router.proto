@@ -27,7 +27,8 @@ message packet_router_packet_report_v1 {
   uint32 payload_size = 11;
   bool free = 12;
   packet_type type = 13;
-  uint64 received_timestamp_ms = 14;
+  // Timestamp in ms
+  uint64 received_timestamp = 14;
 }
 
 message packet_router_packet_up_v1 {
