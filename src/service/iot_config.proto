@@ -99,6 +99,8 @@ message protocol_http_roaming_v1 {
   string path = 3;
   // Authorization Header
   string auth_header = 4;
+  // Receiver NSID
+  string receiver_nsid = 5;
 }
 
 // Server Route definition
