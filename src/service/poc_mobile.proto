@@ -4,6 +4,21 @@ package helium.poc_mobile;
 
 import "mapper.proto";
 
+message subscriber_event_req_v1 {
+  // Pub key for the subscriber's NFT
+  bytes subscriber = 1;
+  // Timestamp of the subscriber location sharing event in seconds from the unix epoch
+  uint64 timestamp = 2;
+
+  bytes signature = 3;
+}
+
+message subscriber_event_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  subscriber_event_req_v1 report = 2;
+}
+
 message speedtest_req_v1 {
   bytes pub_key = 1;
   string serial = 2;
