@@ -106,10 +106,18 @@ message lora_valid_beacon_report_v1 {
   // integer representation of a 4-point precision decimal multiplier
   // based on the number of witnesses to a poc event
   uint32 reward_unit = 5;
+  /// the transmit gain value of the gateway in dbi x 10
+  /// For example 1 dbi = 10, 15 dbi = 150
+  /// derived from gateway metadata
+  int32 gain = 6;
+  /// The asserted elevation of the gateway in AGL ( above ground level)
+  /// derived from gateway metadata
+  int32 elevation = 7;
 }
 
 // tagged valid witness report produced by the verifier
 message lora_valid_witness_report_v1 {
+  option deprecated = true;
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   string location = 2;
@@ -156,6 +164,13 @@ message lora_verified_witness_report_v1 {
   // the participant to which the reason applies,
   // which rendered the report as invalid
   invalid_participant_side participant_side = 8;
+  /// the transmit gain value of the gateway in dbi x 10
+  /// For example 1 dbi = 10, 15 dbi = 150
+  /// derived from gateway metadata
+  int32 gain = 9;
+  /// The asserted elevation of the gateway in AGL ( above ground level)
+  /// derived from gateway metadata
+  int32 elevation = 10;
 }
 
 // POC report produced by the verifier
