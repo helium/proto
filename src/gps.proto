@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package helium;
+
+message wgs84_position {
+  // (deg) 1e-7 scale
+  sint32 latitude = 1;
+
+  // (deg) 1e-7 scale
+  sint32 longitude = 2;
+
+  // Height above ellipsoid (mm)
+  int32 height = 3;
+
+  // Horizontal accuracy estimate (mm)
+  uint32 hacc = 4;
+
+  // Vertical accuracy estimate (mm)
+  optional uint32 vacc = 5;
+}
+
+// Duration since the GPS epoc (0h 6-Jan-1980)
+message gps_time {
+  uint64 sec = 2;
+  uint32 nano = 3;
+}

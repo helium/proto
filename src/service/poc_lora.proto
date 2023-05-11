@@ -3,6 +3,7 @@ syntax = "proto3";
 package helium.poc_lora;
 
 import "data_rate.proto";
+import "gps.proto";
 
 enum verification_status {
   valid = 0;
@@ -40,53 +41,17 @@ enum invalid_reason {
 }
 
 message secure_packet_v1 {
-  // frequency in Hz
-  uint64 freq = 1;
-
-  data_rate datarate = 2;
-
-  // Signal to Noise radio (0.01dB)
-  int32 snr = 3;
-
-  // Received Signal Strength Indicator (1 dBm)
-  int32 rssi = 4;
-
-  // Internal timestamp of "RX finished" event
-  uint32 tmst = 5;
 
   // Globally Unique identifier of Concentrator Card
-  bytes card_id = 6;
-
-  optional wgs84_position pos = 7;
+  bytes card_id = 1;
 
   // time of beacon was received by concentrator (can be used for TDOA)
-  optional gps_time time = 8;
+  optional gps_time time = 2;
+
+  optional wgs84_position pos = 3;
 
   // signature of the RX pkt signed by Secure Concentrator Card
-  bytes signature = 9;
-}
-
-message wgs84_position {
-  // (deg) 1e-7 scale
-  int32 latitude = 1;
-
-  // (deg) 1e-7 scale
-  int32 longitude = 2;
-
-  // Height above ellipsoid (mm)
-  int32 height = 3;
-
-  // Horizontal accuracy estimate (mm)
-  uint32 hacc = 4;
-
-  // Vertical accuracy estimate (mm)
-  optional uint32 vacc = 5;
-}
-
-// Duration since the GPS epoc (0h 6-Jan-1980)
-message gps_time {
-  uint64 sec = 2;
-  uint32 nano = 3;
+  bytes sc_signature = 4;
 }
 
 // beacon report as submitted by gateway to ingestor

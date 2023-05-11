@@ -2,6 +2,9 @@ syntax = "proto3";
 
 package helium;
 
+import "data_rate.proto";
+import "gps.proto";
+
 message eui {
   uint64 deveui = 1;
   uint64 appeui = 2;
@@ -35,4 +38,34 @@ message packet {
   float snr = 8;
   routing_information routing = 9;
   window rx2_window = 10;
+}
+
+message secure_packet_v1 {
+  // frequency in Hz
+  uint64 freq = 1;
+
+  data_rate datarate = 2;
+
+  // Signal to Noise radio (0.01dB)
+  int32 snr = 3;
+
+  // Received Signal Strength Indicator (1 dBm)
+  sint32 rssi = 4;
+
+  // Internal timestamp of "RX finished" event
+  uint32 tmst = 5;
+
+  // Globally Unique identifier of Concentrator Card
+  bytes card_id = 6;
+
+  // time of beacon was received by concentrator (can be used for TDOA)
+  optional gps_time time = 7;
+
+  optional wgs84_position pos = 8;
+
+  // packet payload
+  bytes data = 9;
+
+  // signature of the RX pkt signed by Secure Concentrator Card
+  bytes sc_signature = 10;
 }
