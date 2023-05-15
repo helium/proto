@@ -152,6 +152,13 @@ message gateway_reward {
   uint64 dc_transfer_reward = 2;
 }
 
+message subscriber_reward {
+  /// Public key of the subscriber
+  bytes subscriber_key = 1;
+  /// Amount in bones credited to the subscriber for location sharing
+  uint64 discovery_location_amount = 2;
+}
+
 message mobile_reward_share {
   /// Unix timestamp in seconds of the start of the reward period
   uint64 start_period = 1;
@@ -161,6 +168,7 @@ message mobile_reward_share {
   oneof reward {
     radio_reward radio_reward = 3;
     gateway_reward gateway_reward = 4;
+    subscriber_reward = 5;
   }
 }
 
