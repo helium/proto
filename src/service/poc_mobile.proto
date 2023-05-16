@@ -60,12 +60,34 @@ message mapper_attach_ingest_report_v1 {
   mapper_attach report = 2;
 }
 
+message subscriber_location_req_v1 {
+  // id of the subscriber which submitted the location report
+  bytes subscriber_id = 1;
+  // Timestamp of the subscriber location sharing event in seconds from the unix
+  // epoch
+  uint64 timestamp = 2;
+  // pubkey of the carrier identity service
+  bytes carrier_pub_key = 3;
+  // signed payload of the carrier identity service
+  bytes signature = 4;
+}
+
+message subscriber_location_resp_v1 { string id = 1; }
+
+message subscriber_location_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  subscriber_location_req_v1 report = 2;
+}
+
 service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
       returns (cell_heartbeat_resp_v1);
   rpc submit_data_transfer_session(data_transfer_session_req_v1)
       returns (data_transfer_session_resp_v1);
+  rpc submit_subscriber_location(subscriber_location_req_v1)
+      returns (subscriber_location_resp_v1);
 }
 
 message file_info {
@@ -153,8 +175,8 @@ message gateway_reward {
 }
 
 message subscriber_reward {
-  /// Public key of the subscriber
-  bytes subscriber_key = 1;
+  // id of the subscriber to which the reward will be credited
+  bytes subscriber_id = 1;
   /// Amount in bones credited to the subscriber for location sharing
   uint64 discovery_location_amount = 2;
 }
@@ -168,7 +190,7 @@ message mobile_reward_share {
   oneof reward {
     radio_reward radio_reward = 3;
     gateway_reward gateway_reward = 4;
-    subscriber_reward = 5;
+    subscriber_reward subscriber_reward = 5;
   }
 }
 
