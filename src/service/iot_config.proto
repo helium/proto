@@ -152,9 +152,9 @@ message org_get_req_v1 { uint64 oui = 1; }
 
 message org_create_helium_req_v1 {
   enum helium_net_id {
-    0x00003c = 0;
-    0x60002d = 1;
-    0xc00053 = 2;
+    type0_0x00003c = 0;
+    type3_0x60002d = 1;
+    type6_0xc00053 = 2;
   }
 
   bytes owner = 1;
