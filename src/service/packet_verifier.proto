@@ -21,18 +21,6 @@ enum invalid_packet_reason {
   invalid_packet_reason_insufficient_balance = 0;
 }
 
-enum non_rewardable_packet_reason {
-  gateway_not_found = 0;
-  duplicate = 1;
-}
-
-message non_rewardable_packet {
-  valid_packet packet = 1;
-  non_rewardable_packet_reason reason = 2;
-  // timestamp in millis of when the packet was determined non rewardable
-  uint64 timestamp = 3;
-}
-
 message valid_data_transfer_session {
   bytes pub_key = 1;
   uint64 upload_bytes = 2;
