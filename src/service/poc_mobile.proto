@@ -239,6 +239,9 @@ message data_transfer_event {
   // Timestamp in seconds since the epoch
   uint64 timestamp = 7;
   bytes signature = 8;
+  // below is optional subscriber id which will be populated
+  // if the data transfer event originates from a mobile subscriber
+  bytes subscriber_id = 9;
 }
 
 enum data_transfer_radio_access_technology {
