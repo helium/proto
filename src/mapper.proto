@@ -2,7 +2,7 @@ syntax = "proto3";
 package helium;
 
 service ScanUpload {
-  rpc Upload(mapper) returns (scan_upload_reply) {}
+  rpc Upload(mapper_msg) returns (scan_upload_reply) {}
 }
 
 message scan_upload_reply { scan_upload_status status = 1; }
@@ -15,16 +15,12 @@ enum scan_upload_status {
   INTERNAL_ERROR = 5;
 }
 
-message mapper {
-  oneof message {
-    mapper_gps gps = 1;
-    mapper_scan scan = 2;
-    mapper_attach attach = 3;
-  }
+message mapper_msg {
+  payload payload = 1;
   // the pubkey signs over the message above
   // which does not contain the pubkey itself
-  bytes signature = 4;
-  bytes pub_key = 5;
+  bytes signature = 2;
+  bytes pub_key = 3;
 
   // below is optional metadata which depending
   // on the message above, may or may not be populated.
@@ -32,7 +28,15 @@ message mapper {
 
   // hotspots that received the mapper message if it
   // was received over lorawan
-  repeated bytes hotspots = 6;
+  repeated bytes hotspots = 4;
+}
+
+message payload {
+  oneof message {
+    mapper_gps gps = 1;
+    mapper_scan scan = 2;
+    mapper_attach attach = 3;
+  }
 }
 
 message mapper_attach {
