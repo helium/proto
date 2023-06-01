@@ -1,9 +1,15 @@
-use crate::types::{entropy::Entropy, region::RegionParams, Error, Result};
 use crate::{services::poc_lora, DataRate};
 use byteorder::{ByteOrder, LittleEndian};
 use rand::{Rng, SeedableRng};
 use sha2::{Digest, Sha256};
 use std::time::{SystemTime, UNIX_EPOCH};
+
+mod entropy;
+mod error;
+mod region;
+
+pub use error::{Error, Result};
+pub use {entropy::Entropy, region::RegionParams};
 
 pub const BEACON_PAYLOAD_SIZE: usize = 51;
 
@@ -105,8 +111,8 @@ impl Beacon {
 }
 
 fn rand_payload<R>(rng: &mut R, size: usize) -> Vec<u8>
-where
-    R: Rng + ?Sized,
+    where
+        R: Rng + ?Sized,
 {
     rng.sample_iter(rand::distributions::Standard)
         .take(size)

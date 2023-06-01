@@ -7,7 +7,8 @@ edition = "2021"
 [features]
 default= []
 services=["tonic-build", "tonic"]
-types = ["services", "rand", "sha2", "base64", "byteorder", "rand_chacha", "rust_decimal", "thiserror" ]
+beacon-type = ["types"]
+types = ["services", "rand", "sha2", "base64", "byteorder", "rand_chacha", "rust_decimal", "thiserror"]
 
 [dependencies]
 tonic = {version = "0", optional = true}

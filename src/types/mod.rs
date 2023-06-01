@@ -1,6 +1,2 @@
+#[cfg(any(feature = "types", feature = "beacon-type"))]
 pub mod beacon;
-pub mod entropy;
-pub mod error;
-pub mod region;
-
-pub use error::{Error, Result};
