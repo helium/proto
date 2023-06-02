@@ -8,12 +8,12 @@ service scan_upload {
 message scan_upload_reply { scan_upload_status status = 1; }
 
 enum scan_upload_status {
-  SUCCESS = 0;
-  NO_MESSAGE = 1;
-  UNSUPPORTED_MESSAGE = 2;
-  INVALID_PUBKEY = 3;
-  INVALID_SIGNATURE = 4;
-  INTERNAL_ERROR = 5;
+  success = 0;
+  no_message = 1;
+  unsupported_message = 2;
+  invalid_pubkey = 3;
+  invalid_signature = 4;
+  internal_error = 5;
 }
 
 message mapper_msg {
@@ -46,12 +46,12 @@ message mapper_attach {
 
 message mapper_attach_v1 {
   enum mapper_attach_result {
-    NONE = 0;
-    CONNECT = 1;
-    LIMSERV = 2;
-    NOCONN = 3;
-    SEARCH = 4;
-    NO_NETWORK_SERVICE = 5;
+    none = 0;
+    connect = 1;
+    limited_service = 2;
+    no_connection = 3;
+    search = 4;
+    no_network_service = 5;
   }
   message mapper_attach_candidate {
     enum cell_tech {
