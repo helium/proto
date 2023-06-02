@@ -1,11 +1,12 @@
 syntax = "proto3";
 package helium;
 
-service ScanUpload {
-  rpc Upload(mapper_msg) returns (scan_upload_reply) {}
+service scan_upload {
+  rpc upload(mapper_msg) returns (scan_upload_reply) {}
 }
 
 message scan_upload_reply { scan_upload_status status = 1; }
+
 enum scan_upload_status {
   SUCCESS = 0;
   NO_MESSAGE = 1;
