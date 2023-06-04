@@ -3,6 +3,7 @@ syntax = "proto3";
 package helium.poc_lora;
 
 import "data_rate.proto";
+import "gps.proto";
 
 enum verification_status {
   valid = 0;
@@ -37,6 +38,19 @@ enum invalid_reason {
   unknown_error = 18;
   below_min_distance = 19;
   duplicate = 20;
+}
+
+message secure_packet_v1 {
+
+  // Globally Unique identifier of Concentrator Card
+  bytes card_id = 1;
+
+  gps_time gps_time = 2;
+
+  wgs84_position pos = 3;
+
+  // signature of the RX pkt signed by Secure Concentrator Card
+  bytes sc_signature = 4;
 }
 
 // beacon report as submitted by gateway to ingestor
@@ -75,6 +89,9 @@ message lora_witness_report_req_v1 {
   uint64 frequency = 8;
   data_rate datarate = 10;
   bytes signature = 11;
+
+  // optional extra info used for secure concentrators
+  secure_packet_v1 secure_pkt = 12;
 }
 
 // response returned to gateway submitting witness report to ingestor
