@@ -45,8 +45,7 @@ message secure_packet_v1 {
   // Globally Unique identifier of Concentrator Card
   bytes card_id = 1;
 
-  // time of beacon was received by concentrator (can be used for TDOA)
-  gps_time time = 2;
+  gps_time gps_time = 2;
 
   wgs84_position pos = 3;
 

@@ -19,8 +19,7 @@ message wgs84_position {
   optional uint32 vacc = 5;
 }
 
-// Duration since the GPS epoc (0h 6-Jan-1980)
 message gps_time {
-  uint64 sec = 2;
-  uint32 nano = 3;
+    // time of beacon was received by concentrator (nanoseconds since GPS Epoch) (can be used for TDOA)
+    uint64 gps_time = 1;
 }

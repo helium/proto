@@ -58,10 +58,10 @@ message secure_packet_v1 {
   // Globally Unique identifier of Concentrator Card
   bytes card_id = 6;
 
-  // time of beacon was received by concentrator (can be used for TDOA)
-  optional gps_time time = 7;
+  // time of beacon was received by concentrator (nanoseconds since GPS Epoch) (can be used for TDOA)
+  gps_time gps_time = 7;
 
-  optional wgs84_position pos = 8;
+  wgs84_position pos = 8;
 
   // packet payload
   bytes data = 9;
