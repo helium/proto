@@ -1,4 +1,4 @@
-use crate::types::{Error, Result};
+use super::{Error, Result};
 use crate::{
     services::iot_config::GatewayRegionParamsResV1, BlockchainRegionParamV1,
     BlockchainRegionParamsV1, DataRate, GatewayRegionParamsRespV1,

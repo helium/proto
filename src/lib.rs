@@ -3,7 +3,6 @@
 
 include!(concat!(env!("OUT_DIR"), "/helium.rs"));
 
-#[cfg(feature = "types")]
 pub mod types;
 
 pub use blockchain_txn::Txn;

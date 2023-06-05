@@ -1,4 +1,4 @@
-use crate::types::{Error, Result};
+use super::{Error, Result};
 use crate::EntropyReportV1;
 use base64::{engine::general_purpose::STANDARD, Engine};
 use rand::{rngs::OsRng, RngCore};
