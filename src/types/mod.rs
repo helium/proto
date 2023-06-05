@@ -1,2 +1,2 @@
-#[cfg(any(feature = "types", feature = "beacon-type"))]
+#[cfg(feature = "services")]
 pub mod beacon;

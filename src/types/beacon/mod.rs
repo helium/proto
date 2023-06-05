@@ -111,8 +111,8 @@ impl Beacon {
 }
 
 fn rand_payload<R>(rng: &mut R, size: usize) -> Vec<u8>
-    where
-        R: Rng + ?Sized,
+where
+    R: Rng + ?Sized,
 {
     rng.sample_iter(rand::distributions::Standard)
         .take(size)
