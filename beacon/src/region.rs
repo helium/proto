@@ -1,5 +1,5 @@
 use super::{Error, Result};
-use crate::{
+use helium_proto::{
     services::iot_config::GatewayRegionParamsResV1, BlockchainRegionParamV1,
     BlockchainRegionParamsV1, DataRate, GatewayRegionParamsRespV1,
     GatewayRegionParamsStreamedRespV1, Message, Region as ProtoRegion, RegionSpreading,

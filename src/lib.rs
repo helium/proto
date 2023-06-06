@@ -3,8 +3,6 @@
 
 include!(concat!(env!("OUT_DIR"), "/helium.rs"));
 
-pub mod types;
-
 pub use blockchain_txn::Txn;
 pub use prost::{DecodeError, EncodeError, Message};
 

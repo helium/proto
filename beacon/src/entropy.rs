@@ -1,6 +1,6 @@
 use super::{Error, Result};
-use crate::EntropyReportV1;
 use base64::{engine::general_purpose::STANDARD, Engine};
+use helium_proto::EntropyReportV1;
 use rand::{rngs::OsRng, RngCore};
 use serde::{Deserialize, Serialize};
 use sha2::Digest;

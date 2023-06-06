@@ -1,0 +1,19 @@
+[package]
+name = "beacon"
+version = "0.1.0"
+authors = ["Helium <info@helium.com>"]
+edition = "2021"
+license = "Apache-2.0"
+
+[dependencies]
+base64 = ">=0.21"
+byteorder = "1"
+helium-proto = { path = "../", features = ["services"] }
+prost = {  workspace = true }
+rand = ">=0.8"
+rand_chacha = ">=0.3"
+serde = { workspace = true }
+sha2 = "0"
+rust_decimal = { version =  "1", features = ["serde-with-float"] }
+thiserror = "1"
+

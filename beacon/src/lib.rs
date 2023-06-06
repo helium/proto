@@ -1,5 +1,5 @@
-use crate::{services::poc_lora, DataRate};
 use byteorder::{ByteOrder, LittleEndian};
+use helium_proto::{services::poc_lora, DataRate};
 use rand::{Rng, SeedableRng};
 use sha2::{Digest, Sha256};
 use std::time::{SystemTime, UNIX_EPOCH};

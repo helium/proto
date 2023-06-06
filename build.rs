@@ -50,7 +50,7 @@ fn main() -> Result<()> {
             &MESSAGES
                 .iter()
                 .chain(SERVICES)
-                .map(|str| *str)
+                .copied()
                 .collect::<Vec<&str>>(),
             &["src"],
         )?;
