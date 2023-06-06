@@ -3,18 +3,35 @@ name = "helium-proto"
 version = "0.1.0"
 authors = ["Helium <info@helium.com>"]
 edition = "2021"
+license = "Apache-2.0"
+
+[lib]
+name = "helium_proto"
+path = "src/lib.rs"
+
+[workspace]
+members = ["beacon"]
+
+[workspace.dependencies]
+tonic = { version = "0" }
+bytes = "1"
+prost = "0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tonic-build = { version = "0" }
+prost-build = "0"
 
 [features]
 default= []
 services=["tonic-build", "tonic"]
 
 [dependencies]
-tonic = {version = "0", optional = true}
-bytes = "1"
-prost = "0"
-serde = {version = "1", features = ["derive"]}
-serde_json = "1"
+tonic = { workspace = true, optional = true}
+bytes = { workspace = true }
+prost = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
 
 [build-dependencies]
-tonic-build = {version = "0", optional = true}
-prost-build = "0"
+tonic-build = { workspace = true, optional = true }
+prost-build = { workspace = true }

@@ -32,4 +32,7 @@ jobs:
         run: cargo clippy -- -Dclippy::all -A clippy::large_enum_variant
 
       - name: Build Library
-        run: cargo build --all --release
+        run: cargo build --workspace --all-features
+
+      - name: Run tests
+        run: cargo test --workspace --all-features
