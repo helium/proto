@@ -9,7 +9,10 @@ mod error;
 mod region;
 
 pub use error::{Error, Result};
-pub use {entropy::Entropy, region::RegionParams};
+pub use {
+    entropy::Entropy,
+    region::{Region, RegionParams},
+};
 
 pub const BEACON_PAYLOAD_SIZE: usize = 51;
 
