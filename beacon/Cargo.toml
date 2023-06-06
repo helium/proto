@@ -17,3 +17,7 @@ sha2 = "0"
 rust_decimal = { version =  "1", features = ["serde-with-float"] }
 thiserror = "1"
 
+[dev-dependencies]
+serde_json = { workspace = true }
+
+
