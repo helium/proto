@@ -3,6 +3,7 @@ syntax = "proto3";
 package helium.poc_lora;
 
 import "data_rate.proto";
+import "service/packet_verifier.proto";
 
 enum verification_status {
   valid = 0;
@@ -37,6 +38,17 @@ enum invalid_reason {
   unknown_error = 18;
   below_min_distance = 19;
   duplicate = 20;
+}
+
+enum non_rewardable_packet_reason {
+  gateway_not_found_for_packet = 0;
+}
+
+message non_rewardable_packet {
+  packet_verifier.valid_packet packet = 1;
+  non_rewardable_packet_reason reason = 2;
+  // timestamp in millis of when the packet was determined non rewardable
+  uint64 timestamp = 3;
 }
 
 // beacon report as submitted by gateway to ingestor
