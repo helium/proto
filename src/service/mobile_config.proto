@@ -144,6 +144,30 @@ message admin_key_res_v1 {
   bytes signature = 3;
 }
 
+enum carrier_key_role {
+  carrier = 0;
+  router = 1;
+}
+
+message carrier_list_keys_req_v1 {
+  // the role of the keys being requested
+  carrier_key_role role = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  // Signature over the request by the requesting oracle
+  bytes signature = 3;
+}
+
+message carrier_list_keys_res_v1 {
+  // A list of public key binary addresses representing valid keys for the
+  // specified role
+  repeated bytes pubkey = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  // Signature over the response by the config service
+  bytes signature = 3;
+}
+
 // ------------------------------------------------------------------
 // Service Definitions
 // ------------------------------------------------------------------
@@ -170,4 +194,10 @@ service admin {
   rpc add_key(admin_add_key_req_v1) returns (admin_key_res_v1);
   // Deauthorize a public key for validating trusted rpcs
   rpc remove_key(admin_remove_key_req_v1) returns (admin_key_res_v1);
+}
+
+service carrier_keys {
+  // List the carrier keys for the specified role
+  rpc list_carrier_keys(carrier_list_keys_req_v1)
+      returns (carrier_list_keys_res_v1);
 }
