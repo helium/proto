@@ -442,6 +442,7 @@ message route_skf_update_req_v1 {
     // the hex-encoded string of the binary session key
     string session_key = 2;
     action_v1 action = 3;
+    uint32 max_copies = 4;
   }
 
   string route_id = 1;
