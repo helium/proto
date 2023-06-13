@@ -10,7 +10,7 @@ pub use prost::{DecodeError, EncodeError, Message};
 pub mod services {
     use crate::{
         BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, DataRate, EntropyReportV1,
-        GatewayStakingMode, MapperAttach, Region, RoutingAddress,
+        GatewayStakingMode, MapperAttach, MapperMsg, Region, RoutingAddress,
     };
 
     pub mod iot_config {
@@ -41,7 +41,6 @@ pub mod services {
 
     pub mod mapper {
         include!(concat!(env!("OUT_DIR"), "/helium.mapper.rs"));
-        pub use multi_buy_server::{MultiBuy, MultiBuyServer as Server};
     }
 
     pub mod multi_buy {
