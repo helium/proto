@@ -1,6 +1,6 @@
 {
   "name": "@helium/proto",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Helium protobuf definitions compiled to JS with TypeScript types",
   "main": "build/index.js",
   "repository": "git@github.com:helium/proto.git",
@@ -17,15 +17,16 @@
   "scripts": {
     "clean": "rimraf build",
     "setup": "mkdirp build",
-    "compile": "pbjs -w commonjs -t static-module -o build/index.js src/*.proto src/service/*.proto",
+    "compile": "proto-loader-gen-types --keepCase --longs=String --enums=String --defaults --oneofs --includeDirs=./src --includeDirs=./src/service --outDir=build/ --grpcLib=@grpc/grpc-js src/service/poc_mobile.proto",
     "types": "pbts -o build/index.d.ts build/index.js",
     "build": "yarn clean && yarn setup && yarn compile && yarn types",
     "test": "jest"
   },
   "dependencies": {
-    "protobufjs": "^6.11.3"
+    "@grpc/grpc-js": "^1.8.15"
   },
   "devDependencies": {
+    "@grpc/proto-loader": "^0.7.7",
     "jest": "^25.4.0",
     "mkdirp": "^1.0.4",
     "node-notifier": "^10.0.1",
