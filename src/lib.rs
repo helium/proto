@@ -30,8 +30,8 @@ pub mod services {
         pub use admin_server::{Admin, AdminServer};
         pub use gateway_client::GatewayClient;
         pub use gateway_server::{Gateway, GatewayServer};
-        pub use router_client::RouterClient;
-        pub use router_server::{Router, RouterServer};
+        pub use authorization_client::AuthorizationClient;
+        pub use authorization_server::{Authorization, AuthorizationServer};
     }
 
     pub mod downlink {
