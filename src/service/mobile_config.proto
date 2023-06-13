@@ -92,7 +92,7 @@ message authorization_list_req_v1 {
 
 message authorization_list_res_v1 {
   // List of public key binaries of all registered entities by requested role
-  repeated bytes entity = 1;
+  repeated bytes pubkeys = 1;
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
