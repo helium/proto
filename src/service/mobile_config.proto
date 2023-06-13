@@ -65,43 +65,34 @@ message gateway_info_stream_res_v1 {
   bytes signature = 4;
 }
 
-message carrier_get_req_v1 {
-  // Pubkey binary of the requested carrier/router
-  bytes pubkey = 1;
-  // pubkey binary of the signing keypair
-  bytes signer = 2;
-  // Signature over the request by the requesting oracle
-  bytes signature = 3;
+enum admin_key_role {
+  // administrative operator key
+  administrator = 0;
+  // routing infrastructure key for routing streams
+  router = 1;
+  // keys for verifying requests from other oracles
+  oracle = 2;
+  // carrier authorizing keys for signing mobile subscriber activity
+  carrier = 3;
 }
 
-message carrier_get_res_v1 {
-  // Pubkey binary of the requested carrier/router, confirming registration
-  bytes pubkey = 1;
-  // unix epoch timestamp in seconds
-  uint64 timestamp = 2;
-  // pubkey binary of the signing keypair
-  bytes signer = 3;
-  // Signature over the response by the config service
-  bytes signature = 4;
-}
-
-enum carrier_key_role {
+enum network_key_role {
   carrier = 0;
   router = 1;
 }
 
-message carrier_list_req_v1 {
+message authorization_list_req_v1 {
   // role of the keys being requested
-  carrier_key_role role = 1;
+  network_key_role role = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
   // Signature over the request by the requesting oracle
   bytes signature = 3;
 }
 
-message carrier_list_res_v1 {
-  // List of public key binaries of all registered carriers/routers by requested role
-  repeated bytes carrier = 1;
+message authorization_list_res_v1 {
+  // List of public key binaries of all registered entities by requested role
+  repeated bytes entity = 1;
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
@@ -111,19 +102,8 @@ message carrier_list_res_v1 {
 }
 
 message admin_add_key_req_v1 {
-  enum key_role_v1 {
-    // administrative operator key
-    administrator = 0;
-    // routing infrastructure key for routing streams
-    router = 1;
-    // keys for verifying requests from other oracles
-    oracle = 2;
-    // carrier authorizing keys for signing mobile subscriber activity
-    carrier = 3;
-  }
-
   bytes pubkey = 1;
-  key_role_v1 key_role = 2;
+  admin_key_role role = 2;
   // unix epoch timestamp in seconds
   uint64 timestamp = 3;
   // pubkey binary of the signing keypair
@@ -142,6 +122,7 @@ message admin_remove_key_req_v1 {
   // Signature of the request message signed by an admin key
   // already registered to the config service
   bytes signature = 4;
+  admin_key_role role = 5;
 }
 
 message admin_key_res_v1 {
@@ -165,14 +146,12 @@ service gateway {
       returns (stream gateway_info_stream_res_v1);
 }
 
-service carrier {
-  // Verify a given carrier/router key is registered. router keys have data transfer burn authority
-  // while carrier keys have subscriber activity report signing authority.
-  // returning the requested pubkey binary if present
-  rpc get(carrier_get_req_v1) returns (carrier_get_res_v1);
-  // Retrieve a list of all registered router pubkey binaries with burn
-  // authority registered to the config service
-  rpc list(carrier_list_req_v1) returns (carrier_list_res_v1);
+service authorization {
+  // Retrieve a list of all registered pubkey binaries registered to the config
+  // service with the requested role: router keys have data transfer burn
+  // authority while carrier keys have subscriber activity report signing
+  // authority
+  rpc list(authorization_list_req_v1) returns (authorization_list_res_v1);
 }
 
 service admin {
