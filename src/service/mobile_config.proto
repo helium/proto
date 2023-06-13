@@ -65,8 +65,8 @@ message gateway_info_stream_res_v1 {
   bytes signature = 4;
 }
 
-message router_get_req_v1 {
-  // Pubkey binary of the requested router
+message carrier_get_req_v1 {
+  // Pubkey binary of the requested carrier/router
   bytes pubkey = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
@@ -74,8 +74,8 @@ message router_get_req_v1 {
   bytes signature = 3;
 }
 
-message router_get_res_v1 {
-  // Pubkey binary of the requested router, confirming registration
+message carrier_get_res_v1 {
+  // Pubkey binary of the requested carrier/router, confirming registration
   bytes pubkey = 1;
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
@@ -85,16 +85,23 @@ message router_get_res_v1 {
   bytes signature = 4;
 }
 
-message router_list_req_v1 {
-  // pubkey binary of the signing keypair
-  bytes signer = 1;
-  // Signature over the request by the requesting oracle
-  bytes signature = 2;
+enum carrier_key_role {
+  carrier = 0;
+  router = 1;
 }
 
-message router_list_res_v1 {
-  // List of public key binaries of all registered routers
-  repeated bytes routers = 1;
+message carrier_list_req_v1 {
+  // role of the keys being requested
+  carrier_key_role role = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  // Signature over the request by the requesting oracle
+  bytes signature = 3;
+}
+
+message carrier_list_res_v1 {
+  // List of public key binaries of all registered carriers/routers by requested role
+  repeated bytes carrier = 1;
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
@@ -104,17 +111,19 @@ message router_list_res_v1 {
 }
 
 message admin_add_key_req_v1 {
-  enum key_type_v1 {
+  enum key_role_v1 {
     // administrative operator key
     administrator = 0;
-    // packet routing infrastructure key for routing streams
-    packet_router = 1;
+    // routing infrastructure key for routing streams
+    router = 1;
     // keys for verifying requests from other oracles
     oracle = 2;
+    // carrier authorizing keys for signing mobile subscriber activity
+    carrier = 3;
   }
 
   bytes pubkey = 1;
-  key_type_v1 key_type = 2;
+  key_role_v1 key_role = 2;
   // unix epoch timestamp in seconds
   uint64 timestamp = 3;
   // pubkey binary of the signing keypair
@@ -144,30 +153,6 @@ message admin_key_res_v1 {
   bytes signature = 3;
 }
 
-enum carrier_key_role {
-  carrier = 0;
-  router = 1;
-}
-
-message carrier_list_keys_req_v1 {
-  // the role of the keys being requested
-  carrier_key_role role = 1;
-  // pubkey binary of the signing keypair
-  bytes signer = 2;
-  // Signature over the request by the requesting oracle
-  bytes signature = 3;
-}
-
-message carrier_list_keys_res_v1 {
-  // A list of public key binary addresses representing valid keys for the
-  // specified role
-  repeated bytes pubkey = 1;
-  // pubkey binary of the signing keypair
-  bytes signer = 2;
-  // Signature over the response by the config service
-  bytes signature = 3;
-}
-
 // ------------------------------------------------------------------
 // Service Definitions
 // ------------------------------------------------------------------
@@ -180,13 +165,14 @@ service gateway {
       returns (stream gateway_info_stream_res_v1);
 }
 
-service router {
-  // Verify a given router key with data transfer burn authority is registered
+service carrier {
+  // Verify a given carrier/router key is registered. router keys have data transfer burn authority
+  // while carrier keys have subscriber activity report signing authority.
   // returning the requested pubkey binary if present
-  rpc get(router_get_req_v1) returns (router_get_res_v1);
+  rpc get(carrier_get_req_v1) returns (carrier_get_res_v1);
   // Retrieve a list of all registered router pubkey binaries with burn
   // authority registered to the config service
-  rpc list(router_list_req_v1) returns (router_list_res_v1);
+  rpc list(carrier_list_req_v1) returns (carrier_list_res_v1);
 }
 
 service admin {
@@ -194,10 +180,4 @@ service admin {
   rpc add_key(admin_add_key_req_v1) returns (admin_key_res_v1);
   // Deauthorize a public key for validating trusted rpcs
   rpc remove_key(admin_remove_key_req_v1) returns (admin_key_res_v1);
-}
-
-service carrier_keys {
-  // List the carrier keys for the specified role
-  rpc list_carrier_keys(carrier_list_keys_req_v1)
-      returns (carrier_list_keys_res_v1);
 }
