@@ -76,12 +76,11 @@ enum admin_key_role {
   carrier = 3;
 }
 
-enum network_key_role {
-  carrier = 0;
-  router = 1;
-}
-
 message authorization_list_req_v1 {
+  enum network_key_role {
+    carrier = 0;
+    router = 1;
+  }
   // role of the keys being requested
   network_key_role role = 1;
   // pubkey binary of the signing keypair
