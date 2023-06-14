@@ -32,6 +32,8 @@ pub mod services {
         pub use authorization_server::{Authorization, AuthorizationServer};
         pub use gateway_client::GatewayClient;
         pub use gateway_server::{Gateway, GatewayServer};
+        pub use subscriber_client::SubscriberClient;
+        pub use subscriber_server::{Subscriber, SubscriberServer};
     }
 
     pub mod downlink {

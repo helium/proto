@@ -30,6 +30,11 @@ message gateway_info {
   gateway_metadata metadata = 2;
 }
 
+message subscriber_info {
+  // The binary identifier of the mobile subscriber on-chain
+  bytes subscriber_id = 1;
+}
+
 message gateway_info_req_v1 {
   // The public key address of the gateway to look up
   bytes address = 1;
@@ -61,6 +66,23 @@ message gateway_info_stream_res_v1 {
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message subscriber_info_req_v1 {
+  // binary identifier of the subscriber
+  bytes subscriber_id = 1;
+  // pubkey binary of the requestor signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
+message subscriber_info_res_v1 {
+  subscriber_info info = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the requestor signing keypair
   bytes signer = 3;
   bytes signature = 4;
 }
@@ -143,6 +165,11 @@ service gateway {
   // Get a stream of gateway info
   rpc info_stream(gateway_info_stream_req_v1)
       returns (stream gateway_info_stream_res_v1);
+}
+
+service subscriber {
+  // Get info for the mobile subscriber from the chain
+  rpc info(subscriber_info_req_v1) returns (subscriber_info_res_v1);
 }
 
 service authorization {
