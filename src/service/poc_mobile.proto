@@ -60,6 +60,14 @@ message mapper_attach_ingest_report_v1 {
   mapper_attach report = 2;
 }
 
+message last_data_usage {
+  // timestamp in milliseconds since unix epoch
+  uint64 period_start = 1;
+  // timestamp in milliseconds since unix epoch
+  uint64 period_end= 2;
+  uint64 data_amount = 3;
+}
+
 message subscriber_location_req_v1 {
   // id of the subscriber which submitted the location report
   bytes subscriber_id = 1;
@@ -70,6 +78,7 @@ message subscriber_location_req_v1 {
   bytes carrier_pub_key = 3;
   // signed payload of the carrier identity service
   bytes signature = 4;
+  last_data_usage last_data_usage = 5;
 }
 
 message subscriber_location_resp_v1 { string id = 1; }
