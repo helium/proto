@@ -64,7 +64,7 @@ message last_data_usage {
   // timestamp in milliseconds since unix epoch
   uint64 period_start = 1;
   // timestamp in milliseconds since unix epoch
-  uint64 period_end= 2;
+  uint64 period_end = 2;
   uint64 data_amount = 3;
 }
 
