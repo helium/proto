@@ -33,7 +33,4 @@ message valid_data_transfer_session {
   // Timestamp in millis of the last ingest file we found a data transfer
   // session in
   uint64 last_timestamp = 7;
-  // below is optional subscriber id which will be populated
-  // if the data transfer req originates from a mobile subscriber
-  bytes subscriber_id = 8;
 }
