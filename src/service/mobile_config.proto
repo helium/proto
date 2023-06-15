@@ -92,11 +92,32 @@ enum admin_key_role {
   carrier = 3;
 }
 
+enum network_key_role {
+  mobile_carrier = 0;
+  mobile_router = 1;
+}
+
+message authorization_verify_req_v1 {
+  // the pubkey binary of the authorized entity being verified
+  bytes pubkey = 1;
+  // the associated role being verified for the key
+  network_key_role role = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  // Signature over the request by the requesting oracle
+  bytes signature = 4;
+}
+
+message authorization_verify_res_v1 {
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  // Signature over the response by the config service
+  bytes signature = 3;
+}
+
 message authorization_list_req_v1 {
-  enum network_key_role {
-    carrier = 0;
-    router = 1;
-  }
   // role of the keys being requested
   network_key_role role = 1;
   // pubkey binary of the signing keypair
@@ -167,10 +188,13 @@ service entity {
 }
 
 service authorization {
+  // Submit a pubkey binary and network key role for an authorized entity on the
+  // mobile network to verify if it is registered with the given role.
+  // `mobile_router` keys have data transfer burn authority while
+  // `mobile_carrier` keys have subscriber activity report signing authority
+  rpc verify(authorization_verify_req_v1) returns (authorization_verify_res_v1);
   // Retrieve a list of all registered pubkey binaries registered to the config
-  // service with the requested role: router keys have data transfer burn
-  // authority while carrier keys have subscriber activity report signing
-  // authority
+  // service with the requested role
   rpc list(authorization_list_req_v1) returns (authorization_list_res_v1);
 }
 
