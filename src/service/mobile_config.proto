@@ -65,36 +65,70 @@ message gateway_info_stream_res_v1 {
   bytes signature = 4;
 }
 
-message router_get_req_v1 {
-  // Pubkey binary of the requested router
+message entity_verify_req_v1 {
+  // binary identifier of the entity
+  bytes entity_id = 1;
+  // pubkey binary of the requestor signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
+message entity_verify_res_v1 {
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the requestor signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+enum admin_key_role {
+  // administrative operator key
+  administrator = 0;
+  // routing infrastructure key for routing streams
+  router = 1;
+  // keys for verifying requests from other oracles
+  oracle = 2;
+  // carrier authorizing keys for signing mobile subscriber activity
+  carrier = 3;
+}
+
+enum network_key_role {
+  mobile_carrier = 0;
+  mobile_router = 1;
+}
+
+message authorization_verify_req_v1 {
+  // the pubkey binary of the authorized entity being verified
   bytes pubkey = 1;
+  // the associated role being verified for the key
+  network_key_role role = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  // Signature over the request by the requesting oracle
+  bytes signature = 4;
+}
+
+message authorization_verify_res_v1 {
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  // Signature over the response by the config service
+  bytes signature = 3;
+}
+
+message authorization_list_req_v1 {
+  // role of the keys being requested
+  network_key_role role = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
   // Signature over the request by the requesting oracle
   bytes signature = 3;
 }
 
-message router_get_res_v1 {
-  // Pubkey binary of the requested router, confirming registration
-  bytes pubkey = 1;
-  // unix epoch timestamp in seconds
-  uint64 timestamp = 2;
-  // pubkey binary of the signing keypair
-  bytes signer = 3;
-  // Signature over the response by the config service
-  bytes signature = 4;
-}
-
-message router_list_req_v1 {
-  // pubkey binary of the signing keypair
-  bytes signer = 1;
-  // Signature over the request by the requesting oracle
-  bytes signature = 2;
-}
-
-message router_list_res_v1 {
-  // List of public key binaries of all registered routers
-  repeated bytes routers = 1;
+message authorization_list_res_v1 {
+  // List of public key binaries of all registered entities by requested role
+  repeated bytes pubkeys = 1;
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
@@ -104,17 +138,8 @@ message router_list_res_v1 {
 }
 
 message admin_add_key_req_v1 {
-  enum key_type_v1 {
-    // administrative operator key
-    administrator = 0;
-    // packet routing infrastructure key for routing streams
-    packet_router = 1;
-    // keys for verifying requests from other oracles
-    oracle = 2;
-  }
-
   bytes pubkey = 1;
-  key_type_v1 key_type = 2;
+  admin_key_role role = 2;
   // unix epoch timestamp in seconds
   uint64 timestamp = 3;
   // pubkey binary of the signing keypair
@@ -133,6 +158,7 @@ message admin_remove_key_req_v1 {
   // Signature of the request message signed by an admin key
   // already registered to the config service
   bytes signature = 4;
+  admin_key_role role = 5;
 }
 
 message admin_key_res_v1 {
@@ -156,13 +182,20 @@ service gateway {
       returns (stream gateway_info_stream_res_v1);
 }
 
-service router {
-  // Verify a given router key with data transfer burn authority is registered
-  // returning the requested pubkey binary if present
-  rpc get(router_get_req_v1) returns (router_get_res_v1);
-  // Retrieve a list of all registered router pubkey binaries with burn
-  // authority registered to the config service
-  rpc list(router_list_req_v1) returns (router_list_res_v1);
+service entity {
+  // Verify the rewardable entity (mobile subscriber) is registered to the chain
+  rpc verify(entity_verify_req_v1) returns (entity_verify_res_v1);
+}
+
+service authorization {
+  // Submit a pubkey binary and network key role for an authorized entity on the
+  // mobile network to verify if it is registered with the given role.
+  // `mobile_router` keys have data transfer burn authority while
+  // `mobile_carrier` keys have subscriber activity report signing authority
+  rpc verify(authorization_verify_req_v1) returns (authorization_verify_res_v1);
+  // Retrieve a list of all registered pubkey binaries registered to the config
+  // service with the requested role
+  rpc list(authorization_list_req_v1) returns (authorization_list_res_v1);
 }
 
 service admin {
