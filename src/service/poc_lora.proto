@@ -6,6 +6,7 @@ option java_outer_classname = "PocLoRa";
 option java_multiple_files = true;
 
 import "data_rate.proto";
+import "service/packet_verifier.proto";
 
 enum verification_status {
   valid = 0;
@@ -40,6 +41,17 @@ enum invalid_reason {
   unknown_error = 18;
   below_min_distance = 19;
   duplicate = 20;
+}
+
+enum non_rewardable_packet_reason {
+  gateway_not_found_for_packet = 0;
+}
+
+message non_rewardable_packet {
+  packet_verifier.valid_packet packet = 1;
+  non_rewardable_packet_reason reason = 2;
+  // timestamp in millis of when the packet was determined non rewardable
+  uint64 timestamp = 3;
 }
 
 // beacon report as submitted by gateway to ingestor
@@ -109,10 +121,18 @@ message lora_valid_beacon_report_v1 {
   // integer representation of a 4-point precision decimal multiplier
   // based on the number of witnesses to a poc event
   uint32 reward_unit = 5;
+  /// the transmit gain value of the gateway in dbi x 10
+  /// For example 1 dbi = 10, 15 dbi = 150
+  /// derived from gateway metadata
+  int32 gain = 6;
+  /// The asserted elevation of the gateway in AGL ( above ground level)
+  /// derived from gateway metadata
+  int32 elevation = 7;
 }
 
 // tagged valid witness report produced by the verifier
 message lora_valid_witness_report_v1 {
+  option deprecated = true;
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
   string location = 2;
@@ -159,6 +179,13 @@ message lora_verified_witness_report_v1 {
   // the participant to which the reason applies,
   // which rendered the report as invalid
   invalid_participant_side participant_side = 8;
+  /// the transmit gain value of the gateway in dbi x 10
+  /// For example 1 dbi = 10, 15 dbi = 150
+  /// derived from gateway metadata
+  int32 gain = 9;
+  /// The asserted elevation of the gateway in AGL ( above ground level)
+  /// derived from gateway metadata
+  int32 elevation = 10;
 }
 
 // POC report produced by the verifier

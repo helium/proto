@@ -154,9 +154,16 @@ message org_list_res_v1 {
 message org_get_req_v1 { uint64 oui = 1; }
 
 message org_create_helium_req_v1 {
+  enum helium_net_id {
+    type0_0x00003c = 0;
+    type3_0x60002d = 1;
+    type6_0xc00053 = 2;
+  }
+
   bytes owner = 1;
   bytes payer = 2;
   // Number of device address needed
+  // Even number required, minimum of 8
   uint64 devaddrs = 3;
   // in milliseconds since unix epoch
   uint64 timestamp = 4;
@@ -164,6 +171,7 @@ message org_create_helium_req_v1 {
   repeated bytes delegate_keys = 6;
   // pubkey binary of the signing keypair
   bytes signer = 7;
+  helium_net_id net_id = 8;
 }
 
 message org_create_roamer_req_v1 {
@@ -176,6 +184,36 @@ message org_create_roamer_req_v1 {
   repeated bytes delegate_keys = 6;
   // pubkey binary of the signing keypair
   bytes signer = 7;
+}
+
+message org_update_req_v1 {
+  message delegate_key_update_v1 {
+    bytes delegate_key = 1;
+    action_v1 action = 2;
+  }
+
+  message devaddr_constraint_update_v1 {
+    devaddr_constraint_v1 constraint = 1;
+    action_v1 action = 2;
+  }
+
+  message update_v1 {
+    oneof update {
+      bytes owner = 1;
+      bytes payer = 2;
+      delegate_key_update_v1 delegate_key = 3;
+      // count of devaddrs to add, in even numbers
+      uint64 devaddrs = 4;
+      // devaddr constraints to explicitly add or remove
+      devaddr_constraint_update_v1 constraint = 5;
+    }
+  }
+
+  uint64 oui = 1;
+  repeated update_v1 updates = 2;
+  uint64 timestamp = 3;
+  bytes signer = 4;
+  bytes signature = 5;
 }
 
 message org_res_v1 {
@@ -379,6 +417,7 @@ message skf_v1 {
   uint32 devaddr = 2;
   // the hex-encoded string of the binary session key
   string session_key = 3;
+  uint32 max_copies = 4;
 }
 
 message route_skf_list_req_v1 {
@@ -406,6 +445,7 @@ message route_skf_update_req_v1 {
     // the hex-encoded string of the binary session key
     string session_key = 2;
     action_v1 action = 3;
+    uint32 max_copies = 4;
   }
 
   string route_id = 1;
@@ -613,6 +653,10 @@ service org {
   rpc create_helium(org_create_helium_req_v1) returns (org_res_v1);
   // Create Org on any network (auth admin only)
   rpc create_roamer(org_create_roamer_req_v1) returns (org_res_v1);
+  // Update any Org (Helium or Roaming)
+  // Modify payer and add/remove delegate keys (owner/admin)
+  // Modify owner and add/remove devaddr constraints (auth admin only)
+  rpc update(org_update_req_v1) returns (org_res_v1);
   // Disable an org, this sends a stream route delete update to HPR
   // for all associated routes (auth admin only)
   rpc disable(org_disable_req_v1) returns (org_disable_res_v1);

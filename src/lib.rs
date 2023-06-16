@@ -27,11 +27,14 @@ pub mod services {
 
     pub mod mobile_config {
         include!(concat!(env!("OUT_DIR"), "/helium.mobile_config.rs"));
+        pub use admin_client as config_admin_client;
         pub use admin_server::{Admin, AdminServer};
+        pub use authorization_client::AuthorizationClient;
+        pub use authorization_server::{Authorization, AuthorizationServer};
+        pub use entity_client::EntityClient;
+        pub use entity_server::{Entity, EntityServer};
         pub use gateway_client::GatewayClient;
         pub use gateway_server::{Gateway, GatewayServer};
-        pub use router_client::RouterClient;
-        pub use router_server::{Router, RouterServer};
     }
 
     pub mod downlink {
