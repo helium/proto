@@ -146,7 +146,7 @@ message heartbeat {
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
-  bytes coverage_object_uuid;
+  bytes coverage_object_uuid = 7;
 }
 
 enum heartbeat_validity {
