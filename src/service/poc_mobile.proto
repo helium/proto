@@ -44,7 +44,7 @@ message cell_heartbeat_req_v1 {
   bytes signature = 10;
 
   // Last known coverage object UUID
-  bytes coverage_object_uuid = 11;
+  bytes coverage_object = 11;
 }
 
 message cell_heartbeat_resp_v1 { string id = 1; }
@@ -92,7 +92,8 @@ enum signal_level {
 
 // Radio signal level and power in the h3 hex.
 message radio_hex_signal_level {
-  uint64 hex_id = 1;
+  // H3 hex of the location of the radio
+  string location = 1;
   signal_level signal_level = 2;
   double signal_power = 3;
 }
@@ -146,7 +147,8 @@ message heartbeat {
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
-  bytes coverage_object_uuid = 7;
+  // UUID of the coverage object associated with this heartbeat
+  bytes coverage_object = 7;
 }
 
 enum heartbeat_validity {
