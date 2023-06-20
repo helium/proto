@@ -40,8 +40,11 @@ message cell_heartbeat_req_v1 {
   bool operation_mode = 7;
   string cbsd_category = 8;
   string cbsd_id = 9;
-
+ 
   bytes signature = 10;
+  
+  // Last known coverage object UUID
+  bytes coverage_object_uuid = 11;
 }
 
 message cell_heartbeat_resp_v1 { string id = 1; }
@@ -80,6 +83,43 @@ message subscriber_location_ingest_report_v1 {
   subscriber_location_req_v1 report = 2;
 }
 
+enum signal_level {
+  NO = 0;
+  LOW = 1;
+  MIDDLE = 2;
+  HIGH = 3;
+}
+
+// Radio signal level and power in the h3 hex.
+message radio_hex_signal_level {
+  uint64 hex_id = 1;
+  signal_level signal_level = 2;
+  double signal_power = 3;
+}
+
+// Array of radio_hex_signal_level messages
+message signal_levels {
+  repeated radio_hex_signal_level value = 1;
+}
+
+message coverage_object_req_v1 {
+  bytes uuid = 1;
+  string cbsd_id = 2;
+  uint64 coverage_claim_time = 3;
+  signal_levels coverage = 4;
+  bool indoor = 5;
+  bytes signature = 6;
+}
+
+message coverage_object_resp_v1 { string id = 1; }
+
+// Coverage object report output by ingestor, tagged with received_timestamp
+message coverage_object_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  coverage_object_req_v1 report = 2;
+}
+
 service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
@@ -88,6 +128,8 @@ service poc_mobile {
       returns (data_transfer_session_resp_v1);
   rpc submit_subscriber_location(subscriber_location_req_v1)
       returns (subscriber_location_resp_v1);
+  rpc submit_coverage_object(coverage_object_req_v1)
+      returns (coverage_object_resp_v1);
 }
 
 message file_info {
@@ -106,6 +148,7 @@ message heartbeat {
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
+  bytes coverage_object_uuid;
 }
 
 enum heartbeat_validity {
