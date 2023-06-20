@@ -40,9 +40,9 @@ message cell_heartbeat_req_v1 {
   bool operation_mode = 7;
   string cbsd_category = 8;
   string cbsd_id = 9;
- 
+
   bytes signature = 10;
-  
+
   // Last known coverage object UUID
   bytes coverage_object_uuid = 11;
 }
@@ -98,9 +98,7 @@ message radio_hex_signal_level {
 }
 
 // Array of radio_hex_signal_level messages
-message signal_levels {
-  repeated radio_hex_signal_level value = 1;
-}
+message signal_levels { repeated radio_hex_signal_level value = 1; }
 
 message coverage_object_req_v1 {
   bytes uuid = 1;
