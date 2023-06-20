@@ -80,6 +80,22 @@ message subscriber_location_ingest_report_v1 {
   subscriber_location_req_v1 report = 2;
 }
 
+enum subscriber_report_verification_status {
+  valid = 0;
+  invalid_subscriber_id = 1;
+  invalid_carrier_key = 2;
+}
+
+message verified_subscriber_location_ingest_report_v1 {
+  // the verified report
+  subscriber_location_ingest_report_v1 report = 1;
+  // the status determined by the verification
+  subscriber_report_verification_status status = 2;
+  // Timestamp at which verification was determined, in milliseconds since unix
+  // epoch
+  uint64 timestamp = 3;
+}
+
 service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
