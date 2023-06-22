@@ -103,12 +103,13 @@ message radio_hex_signal_level {
 message signal_levels { repeated radio_hex_signal_level value = 1; }
 
 message coverage_object_req_v1 {
-  bytes uuid = 1;
-  string cbsd_id = 2;
-  uint64 coverage_claim_time = 3;
-  signal_levels coverage = 4;
-  bool indoor = 5;
-  bytes signature = 6;
+  bytes pub_key = 1;
+  bytes uuid = 2;
+  string cbsd_id = 3;
+  uint64 coverage_claim_time = 4;
+  signal_levels coverage = 5;
+  bool indoor = 6;
+  bytes signature = 7;
 }
 
 message coverage_object_resp_v1 { string id = 1; }
