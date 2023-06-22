@@ -82,6 +82,7 @@ message lora_witness_report_req_v1 {
   uint32 tmst = 5;
   // Signal in ddbm
   sint32 signal = 6;
+  // SNR in ddbm
   int32 snr = 7;
   // Frequency in Hz
   uint64 frequency = 8;
