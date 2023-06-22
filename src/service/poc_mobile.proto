@@ -99,15 +99,12 @@ message radio_hex_signal_level {
   double signal_power = 3;
 }
 
-// Array of radio_hex_signal_level messages
-message signal_levels { repeated radio_hex_signal_level value = 1; }
-
 message coverage_object_req_v1 {
   bytes pub_key = 1;
   bytes uuid = 2;
   string cbsd_id = 3;
   uint64 coverage_claim_time = 4;
-  signal_levels coverage = 5;
+  repeated radio_hex_signal_level coverage = 5;
   bool indoor = 6;
   bytes signature = 7;
 }
