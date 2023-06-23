@@ -103,6 +103,7 @@ message coverage_object_req_v1 {
   bytes pub_key = 1;
   bytes uuid = 2;
   string cbsd_id = 3;
+  // Timestamp in seconds since the unix epoch indicating the start of coverage
   uint64 coverage_claim_time = 4;
   repeated radio_hex_signal_level coverage = 5;
   bool indoor = 6;
