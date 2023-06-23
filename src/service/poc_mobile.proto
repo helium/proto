@@ -257,3 +257,19 @@ message data_transfer_session_ingest_report_v1 {
   uint64 received_timestamp = 1;
   data_transfer_session_req_v1 report = 2;
 }
+
+enum data_transfer_ingest_report_status {
+  valid = 0;
+  invalid_gateway_key = 1;
+  invalid_routing_key = 2;
+}
+
+message invalid_data_transfer_ingest_report_v1 {
+  // the invalid ingest report
+  data_transfer_session_ingest_report_v1 report = 1;
+  // the invalid reason as determined by the verifications
+  data_transfer_ingest_report_status reason = 2;
+  // Timestamp at which verification was determined, in milliseconds since unix
+  // epoch
+  uint64 timestamp = 3;
+}
