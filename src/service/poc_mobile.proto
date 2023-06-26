@@ -174,10 +174,12 @@ enum heartbeat_validity {
   heartbeat_validity_not_operational = 4;
   // Gateway not found on the blockchain
   heartbeat_validity_gateway_not_found = 5;
-  // Invalid coverage object UUID
-  heartbeat_validity_bad_coverage_object = 6;
+  // No such coverage object with that UUID
+  heartbeat_validity_no_such_coverage_object = 6;
+  // Invalid coverage object UUID (cbsd_id did not match)
+  heartbeat_validity_bad_coverage_object = 7;
   // Heartbeat is too distant from the coverage object's hex coverage
-  heartbeat_validity_too_far_from_coverage = 7;
+  heartbeat_validity_too_far_from_coverage = 8;
 }
 
 message speedtest_avg {
