@@ -80,6 +80,22 @@ message subscriber_location_ingest_report_v1 {
   subscriber_location_req_v1 report = 2;
 }
 
+enum subscriber_report_verification_status {
+  valid = 0;
+  invalid_subscriber_id = 1;
+  invalid_carrier_key = 2;
+}
+
+message verified_subscriber_location_ingest_report_v1 {
+  // the verified report
+  subscriber_location_ingest_report_v1 report = 1;
+  // the status determined by the verification
+  subscriber_report_verification_status status = 2;
+  // Timestamp at which verification was determined, in milliseconds since unix
+  // epoch
+  uint64 timestamp = 3;
+}
+
 service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
@@ -256,4 +272,20 @@ message data_transfer_session_ingest_report_v1 {
   // timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
   data_transfer_session_req_v1 report = 2;
+}
+
+message invalid_data_transfer_ingest_report_v1 {
+  enum data_transfer_ingest_report_status {
+    valid = 0;
+    cancelled = 1;
+    invalid_gateway_key = 2;
+    invalid_routing_key = 3;
+  }
+  // the invalid ingest report
+  data_transfer_session_ingest_report_v1 report = 1;
+  // the invalid reason as determined by the verifications
+  data_transfer_ingest_report_status reason = 2;
+  // Timestamp at which verification was determined, in milliseconds since unix
+  // epoch
+  uint64 timestamp = 3;
 }
