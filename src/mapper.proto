@@ -70,18 +70,23 @@ message mapper_gps {
 }
 
 message mapper_gps_v1 {
-  // Unix time in seconds
-  uint32 unix_time = 1;
-  // Latitude of the current base station in units of 0.25 sec.
-  int32 lat = 2;
-  // Longitude of the current base station in units of 0.25 sec.
-  int32 lon = 3;
-  // Horizontal dilution of position in units of 0.01 HDOP.
+  // we take seconds from 2023-01-01 00:00:00 UTC
+  uint32 timestamp = 1;
+  // lat ranges from -90 to 90 w/ 5 decimal places (1.11 m accuracy)
+  // shifted to a uint
+  uint32 lat = 2;
+  // lon ranges from -180 to 180 w/ 5 decimal places (1.11 m accuracy)
+  // shifted to a uint
+  uint32 lon = 3;
+  // given in 0.01m increments
   uint32 hdop = 4;
-  // Altitude in units of 0.25m above the WGS 84 reference ellipsoid.
-  int64 altitude = 5;
-  int32 num_sats = 6;
-  // Speed in speed in 0.25m/s per second.
+  // WGS-84 on the surface of earth ranges from +85m (Iceland) to -106m (India)
+  // (https://en.wikipedia.org/wiki/Geoid)
+  // We will represent this in 0.25m steps shifted to a uint by 110m
+  uint32 altitude = 5;
+  // number of satellites used for fix
+  uint32 num_sats = 6;
+  // Speed 0.25m/s increments
   uint32 speed = 7;
 }
 
