@@ -1,3 +1,5 @@
+use chrono::{prelude::*, DateTime, NaiveDateTime};
+pub use helium_proto::Message;
 use serde::{Deserialize, Serialize};
 
 mod attach;
@@ -25,5 +27,6 @@ pub enum Error {
     UnexpectedAttachResultStr(String),
     #[error("h3o: {0}")]
     H3o(#[from] h3o::error::InvalidLatLng),
+    #[error("invalid attach result value: {value}")]
+    InvalidAttachResultInt { value: i32 },
 }
-

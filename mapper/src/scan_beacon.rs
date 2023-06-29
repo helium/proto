@@ -1,4 +1,4 @@
-use super::gps::{hdop, latlon, time, altitude, speed};
+use super::gps::{altitude, hdop, latlon, speed, time};
 use crate::GpsData;
 use modular_bitfield_msb::{bitfield, specifiers::*};
 
@@ -32,13 +32,13 @@ impl From<LoraPayload> for ScanBeacon {
         use latlon::Unit;
         Self {
             gps: GpsData {
-                timestamp: time::from_units(lora_payload.time()),
-                lat: latlon::from_units(Unit::Lat(lora_payload.lat())),
-                lon: latlon::from_units(Unit::Lon(lora_payload.lon())),
+                timestamp: time::from_lora_units(lora_payload.time()),
+                lat: latlon::from_lora_units(Unit::Lat(lora_payload.lat())),
+                lon: latlon::from_lora_units(Unit::Lon(lora_payload.lon())),
                 hdop: hdop::from_units(lora_payload.hdop().into()),
-                altitude: altitude::from_units(lora_payload.alt().into()),
+                altitude: altitude::from_lora_units(lora_payload.alt().into()),
                 num_sats: lora_payload.num_sats(),
-                speed: speed::from_units(lora_payload.speed().into()),
+                speed: speed::from_lora_units(lora_payload.speed().into()),
             },
             hash: lora_payload.hash().to_be_bytes().to_vec(),
         }
@@ -49,12 +49,12 @@ impl From<ScanBeacon> for LoraPayload {
     fn from(p: ScanBeacon) -> Self {
         use latlon::Degrees;
         LoraPayload::new()
-            .with_time(time::to_units(p.gps.timestamp))
-            .with_lat(latlon::to_units(Degrees::Lat(p.gps.lat)))
-            .with_lon(latlon::to_units(Degrees::Lon(p.gps.lon)))
+            .with_time(time::to_lora_units(p.gps.timestamp))
+            .with_lat(latlon::to_lora_units(Degrees::Lat(p.gps.lat)))
+            .with_lon(latlon::to_lora_units(Degrees::Lon(p.gps.lon)))
             .with_hdop(hdop::to_units(p.gps.hdop) as u16)
-            .with_alt(altitude::to_units(p.gps.altitude) as u16)
-            .with_speed(speed::to_units(p.gps.speed) as u16)
+            .with_alt(altitude::to_lora_units(p.gps.altitude) as u16)
+            .with_speed(speed::to_lora_units(p.gps.speed) as u16)
             .with_num_sats(p.gps.num_sats)
             .with_hash(u16::from_be_bytes([p.hash[0], p.hash[1]]))
     }
@@ -92,9 +92,11 @@ struct LoraPayload {
 #[cfg(test)]
 mod test {
     use super::*;
+    use chrono::Utc;
+    use rust_decimal::Decimal;
 
     #[test]
-    fn payload_roundtrip() {
+    fn payload_roundtrip_lora() {
         use chrono::TimeZone;
         let timestamp = Utc.with_ymd_and_hms(2023, 1, 1, 0, 0, 5).unwrap();
 
@@ -116,5 +118,3 @@ mod test {
         assert_eq!(payload, payload_returned);
     }
 }
-
-
