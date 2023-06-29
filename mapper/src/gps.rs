@@ -4,7 +4,7 @@ use rust_decimal::Decimal;
 pub const ZERO_DECIMAL: Decimal = Decimal::from_parts(0, 0, 0, false, 0);
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
-pub struct GpsData {
+pub struct Gps {
     /// UTC of position fix
     pub timestamp: DateTime<Utc>,
     /// Latitude in degrees
@@ -21,7 +21,7 @@ pub struct GpsData {
     pub speed: Decimal,
 }
 
-impl GpsData {
+impl Gps {
     pub fn is_locked(&self) -> bool {
         self.num_sats >= 3 && self.hdop > ZERO_DECIMAL
     }
@@ -39,7 +39,7 @@ impl GpsData {
         use rand::Rng;
         let mut rng = rand::thread_rng();
         let timestamp = Utc.with_ymd_and_hms(2023, 1, 1, 0, 0, 5).unwrap();
-        let value = GpsData {
+        let value = Gps {
             timestamp,
             lat: Decimal::new(rng.gen_range(-90_00000..90_00000), 5),
             lon: Decimal::new(rng.gen_range(-180_00000..180_00000), 5),
@@ -56,7 +56,7 @@ impl GpsData {
     /// provides a rounded GPS value for easy roundtrip testing to lorawan payloads
     pub fn rounded() -> Self {
         let timestamp = Utc.with_ymd_and_hms(2023, 1, 1, 0, 0, 5).unwrap();
-        GpsData {
+        Gps {
             timestamp,
             lat: Decimal::new(-50_12345, 5),
             lon: Decimal::new(120_12345, 5),
@@ -68,8 +68,8 @@ impl GpsData {
     }
 }
 
-impl From<GpsData> for helium_proto::MapperGpsV1 {
-    fn from(gps_data: GpsData) -> helium_proto::MapperGpsV1 {
+impl From<Gps> for helium_proto::MapperGpsV1 {
+    fn from(gps_data: Gps) -> helium_proto::MapperGpsV1 {
         helium_proto::MapperGpsV1 {
             timestamp: time::to_proto_units(gps_data.timestamp),
             lat: latlon::to_proto_units(gps_data.lat),
@@ -82,9 +82,9 @@ impl From<GpsData> for helium_proto::MapperGpsV1 {
     }
 }
 
-impl From<helium_proto::MapperGpsV1> for GpsData {
-    fn from(gps_proto: helium_proto::MapperGpsV1) -> GpsData {
-        GpsData {
+impl From<helium_proto::MapperGpsV1> for Gps {
+    fn from(gps_proto: helium_proto::MapperGpsV1) -> Gps {
+        Gps {
             timestamp: time::from_proto_units(gps_proto.timestamp),
             lat: latlon::from_proto_units(gps_proto.lat),
             lon: latlon::from_proto_units(gps_proto.lon),
@@ -407,7 +407,7 @@ mod test {
 
     #[test]
     fn gps_roundtrip_proto() {
-        let gps = GpsData::rounded();
+        let gps = Gps::rounded();
         let proto: helium_proto::MapperGpsV1 = gps.clone().into();
         let mut proto_bytes = Vec::new();
         proto.encode(&mut proto_bytes).unwrap();

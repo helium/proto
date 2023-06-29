@@ -1,6 +1,6 @@
 use super::Result;
 
-use crate::GpsData;
+use crate::Gps;
 use serde::Serialize;
 
 pub const CBRS_MCC: u16 = 315;
@@ -9,7 +9,7 @@ pub const CBRS_MNC: u16 = 10;
 #[derive(Debug, Serialize, Clone, PartialEq)]
 pub struct CellScanResults {
     pub scan_counter: u32,
-    pub gps: GpsData,
+    pub gps: Gps,
     pub results: Vec<CellScanResult>,
 }
 
@@ -127,7 +127,7 @@ mod test {
         }
         let scan_results = CellScanResults {
             scan_counter: 24,
-            gps: GpsData::rounded(),
+            gps: Gps::rounded(),
             results,
         };
         let proto: helium_proto::MapperCellScanV1 = scan_results.clone().into();

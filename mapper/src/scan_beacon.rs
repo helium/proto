@@ -1,15 +1,15 @@
 use super::gps::{altitude, hdop, latlon, speed, time};
-use crate::GpsData;
+use crate::Gps;
 use modular_bitfield_msb::{bitfield, specifiers::*};
 
 #[derive(PartialEq, Debug, Clone)]
 pub struct ScanBeacon {
-    gps: GpsData,
+    gps: Gps,
     hash: Vec<u8>,
 }
 
 impl ScanBeacon {
-    pub fn new(gps: GpsData, signature: Vec<u8>) -> Self {
+    pub fn new(gps: Gps, signature: Vec<u8>) -> Self {
         Self {
             gps,
             hash: signature,
@@ -31,7 +31,7 @@ impl From<LoraPayload> for ScanBeacon {
     fn from(lora_payload: LoraPayload) -> Self {
         use latlon::Unit;
         Self {
-            gps: GpsData {
+            gps: Gps {
                 timestamp: time::from_lora_units(lora_payload.time()),
                 lat: latlon::from_lora_units(Unit::Lat(lora_payload.lat())),
                 lon: latlon::from_lora_units(Unit::Lon(lora_payload.lon())),
@@ -101,7 +101,7 @@ mod test {
         let timestamp = Utc.with_ymd_and_hms(2023, 1, 1, 0, 0, 5).unwrap();
 
         let payload = ScanBeacon {
-            gps: GpsData {
+            gps: Gps {
                 timestamp,
                 lat: Decimal::new(-50_12345, 5),
                 lon: Decimal::new(120_12345, 5),

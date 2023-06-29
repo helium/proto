@@ -5,7 +5,7 @@ use super::*;
 pub struct CellAttach {
     // This allows us to detect censorship efforts. It can roll over.
     pub attach_counter: u32,
-    pub gps: GpsData,
+    pub gps: Gps,
     pub candidate: AttachCandidate,
     // did the attach succeed?
     pub result: AttachResult,
@@ -49,7 +49,7 @@ impl From<LoraPayload> for CellAttach {
     fn from(p: LoraPayload) -> Self {
         use latlon::Unit;
         CellAttach {
-            gps: GpsData {
+            gps: Gps {
                 timestamp: time::from_lora_units(p.time()),
                 lat: latlon::from_lora_units(Unit::Lat(p.lat())),
                 lon: latlon::from_lora_units(Unit::Lon(p.lon())),
@@ -266,7 +266,7 @@ mod test {
     fn payload_roundtrip_lora() {
         let payload = CellAttach {
             attach_counter: 5,
-            gps: GpsData::rounded(),
+            gps: Gps::rounded(),
             candidate: AttachCandidate::from(CellScanResult::random()),
             result: AttachResult::Connected,
         };
@@ -281,7 +281,7 @@ mod test {
     fn payload_roundtrip_proto() {
         let attach = CellAttach {
             attach_counter: 5,
-            gps: GpsData::rounded(),
+            gps: Gps::rounded(),
             candidate: AttachCandidate::from(CellScanResult::random()),
             result: AttachResult::Connected,
         };
