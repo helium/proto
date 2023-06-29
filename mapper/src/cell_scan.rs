@@ -7,14 +7,14 @@ pub const CBRS_MCC: u16 = 315;
 pub const CBRS_MNC: u16 = 10;
 
 #[derive(Debug, Serialize, Clone, PartialEq)]
-pub struct ScanResults {
+pub struct CellScanResults {
     pub scan_counter: u32,
     pub gps: GpsData,
-    pub results: Vec<ScanResult>,
+    pub results: Vec<CellScanResult>,
 }
 
-impl From<ScanResults> for helium_proto::MapperScanV1 {
-    fn from(scan_response: ScanResults) -> Self {
+impl From<CellScanResults> for helium_proto::MapperCellScanV1 {
+    fn from(scan_response: CellScanResults) -> Self {
         Self {
             scan_counter: scan_response.scan_counter,
             gps: Some(scan_response.gps.into()),
@@ -27,12 +27,12 @@ impl From<ScanResults> for helium_proto::MapperScanV1 {
     }
 }
 
-impl From<helium_proto::MapperScanV1> for ScanResults {
-    fn from(scan_response: helium_proto::MapperScanV1) -> Self {
+impl From<helium_proto::MapperCellScanV1> for CellScanResults {
+    fn from(proto: helium_proto::MapperCellScanV1) -> Self {
         Self {
-            scan_counter: scan_response.scan_counter,
-            gps: scan_response.gps.unwrap().into(),
-            results: scan_response
+            scan_counter: proto.scan_counter,
+            gps: proto.gps.unwrap().into(),
+            results: proto
                 .results
                 .into_iter()
                 .map(|r| r.into())
@@ -42,7 +42,7 @@ impl From<helium_proto::MapperScanV1> for ScanResults {
 }
 
 #[derive(Debug, Serialize, Clone, PartialEq)]
-pub struct ScanResult {
+pub struct CellScanResult {
     pub mcc: u16,
     pub mnc: u16,
     pub earfcn: u32,
@@ -54,7 +54,7 @@ pub struct ScanResult {
     pub lte: bool,
 }
 
-impl ScanResult {
+impl CellScanResult {
     pub fn is_our_network(&self) -> Result<bool> {
         if self.mcc == CBRS_MCC && self.mnc == CBRS_MNC {
             let top_20_bits = self.cell_id >> 8;
@@ -83,8 +83,8 @@ impl ScanResult {
     }
 }
 
-impl From<ScanResult> for helium_proto::MapperScanResult {
-    fn from(scan_result: ScanResult) -> Self {
+impl From<CellScanResult> for helium_proto::MapperCellScanResult {
+    fn from(scan_result: CellScanResult) -> Self {
         Self {
             lte: scan_result.lte,
             cid: scan_result.cell_id,
@@ -98,8 +98,8 @@ impl From<ScanResult> for helium_proto::MapperScanResult {
     }
 }
 
-impl From<helium_proto::MapperScanResult> for ScanResult {
-    fn from(scan_result: helium_proto::MapperScanResult) -> Self {
+impl From<helium_proto::MapperCellScanResult> for CellScanResult {
+    fn from(scan_result: helium_proto::MapperCellScanResult) -> Self {
         Self {
             lte: scan_result.lte,
             cell_id: scan_result.cid,
@@ -123,18 +123,18 @@ mod test {
     fn scan_roundtrip_proto() {
         let mut results = Vec::new();
         for _ in 0..40 {
-            results.push(ScanResult::random());
+            results.push(CellScanResult::random());
         }
-        let scan_results = ScanResults {
+        let scan_results = CellScanResults {
             scan_counter: 24,
             gps: GpsData::rounded(),
             results,
         };
-        let proto: helium_proto::MapperScanV1 = scan_results.clone().into();
+        let proto: helium_proto::MapperCellScanV1 = scan_results.clone().into();
 
         let mut proto_bytes = Vec::new();
         proto.encode(&mut proto_bytes).unwrap();
-        let scan_results_returned = helium_proto::MapperScanV1::decode(proto_bytes.as_slice())
+        let scan_results_returned = helium_proto::MapperCellScanV1::decode(proto_bytes.as_slice())
             .unwrap()
             .into();
         assert_eq!(scan_results, scan_results_returned);

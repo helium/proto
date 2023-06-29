@@ -2,7 +2,7 @@ use super::gps::{altitude, hdop, latlon, speed, time};
 use super::*;
 
 #[derive(Serialize, Debug, Clone, PartialEq)]
-pub struct Attach {
+pub struct CellAttach {
     // This allows us to detect censorship efforts. It can roll over.
     pub attach_counter: u32,
     pub gps: GpsData,
@@ -11,7 +11,7 @@ pub struct Attach {
     pub result: AttachResult,
 }
 
-impl Attach {
+impl CellAttach {
     pub fn into_bytes(self) -> [u8; 32] {
         let lora_payload: LoraPayload = self.into();
         lora_payload.into_bytes()
@@ -23,11 +23,9 @@ impl Attach {
     }
 }
 
-// roundtrip LoraPayload <-> MapperAttach
-impl From<Attach> for LoraPayload {
-    fn from(mapper_attach: Attach) -> Self {
+impl From<CellAttach> for LoraPayload {
+    fn from(mapper_attach: CellAttach) -> Self {
         use latlon::Degrees;
-
         LoraPayload::new()
             .with_time(time::to_lora_units(mapper_attach.gps.timestamp))
             .with_lat(latlon::to_lora_units(Degrees::Lat(mapper_attach.gps.lat)))
@@ -44,14 +42,13 @@ impl From<Attach> for LoraPayload {
             .with_rsrq((mapper_attach.candidate.rsrq + RSRQ_OFFSET) as u8)
             .with_fcn(mapper_attach.candidate.fcn)
             .with_result(mapper_attach.result.into())
-        // candidate type default to 0
     }
 }
 
-impl From<LoraPayload> for Attach {
+impl From<LoraPayload> for CellAttach {
     fn from(p: LoraPayload) -> Self {
         use latlon::Unit;
-        Attach {
+        CellAttach {
             gps: GpsData {
                 timestamp: time::from_lora_units(p.time()),
                 lat: latlon::from_lora_units(Unit::Lat(p.lat())),
@@ -76,12 +73,11 @@ impl From<LoraPayload> for Attach {
     }
 }
 
-// roundtrip helium_proto::MapperAttachV1 <-> MapperAttach
-impl From<Attach> for helium_proto::MapperAttachV1 {
-    fn from(attach_candidate_result: Attach) -> helium_proto::MapperAttachV1 {
-        use helium_proto::mapper_attach_v1::MapperAttachResult as Result;
+impl From<CellAttach> for helium_proto::MapperCbrsAttachV1 {
+    fn from(attach_candidate_result: CellAttach) -> helium_proto::MapperCbrsAttachV1 {
+        use helium_proto::mapper_cbrs_attach_v1::MapperAttachResult as Result;
 
-        helium_proto::MapperAttachV1 {
+        helium_proto::MapperCbrsAttachV1 {
             attach_counter: attach_candidate_result.attach_counter,
             gps: Some(attach_candidate_result.gps.into()),
             candidate: Some(attach_candidate_result.candidate.into()),
@@ -98,9 +94,9 @@ impl From<Attach> for helium_proto::MapperAttachV1 {
     }
 }
 
-impl TryFrom<helium_proto::MapperAttachV1> for Attach {
+impl TryFrom<helium_proto::MapperCbrsAttachV1> for CellAttach {
     type Error = Error;
-    fn try_from(attach: helium_proto::MapperAttachV1) -> Result<Self> {
+    fn try_from(attach: helium_proto::MapperCbrsAttachV1) -> Result<Self> {
         let result = match attach.result {
             0 => Ok(AttachResult::NoAttach),
             1 => Ok(AttachResult::Connected),
@@ -131,8 +127,8 @@ pub struct AttachCandidate {
     pub rsrq: i32,
 }
 
-impl From<ScanResult> for AttachCandidate {
-    fn from(scan_result: ScanResult) -> Self {
+impl From<CellScanResult> for AttachCandidate {
+    fn from(scan_result: CellScanResult) -> Self {
         Self {
             from_scan: 0,
             delay: 0,
@@ -144,7 +140,7 @@ impl From<ScanResult> for AttachCandidate {
     }
 }
 
-impl From<AttachCandidate> for helium_proto::mapper_attach_v1::MapperAttachCandidate {
+impl From<AttachCandidate> for helium_proto::mapper_cbrs_attach_v1::MapperCbrsAttachCandidate {
     fn from(attach_candidate: AttachCandidate) -> Self {
         Self {
             from_scan: attach_candidate.from_scan,
@@ -157,8 +153,8 @@ impl From<AttachCandidate> for helium_proto::mapper_attach_v1::MapperAttachCandi
     }
 }
 
-impl From<helium_proto::mapper_attach_v1::MapperAttachCandidate> for AttachCandidate {
-    fn from(attach_candidate: helium_proto::mapper_attach_v1::MapperAttachCandidate) -> Self {
+impl From<helium_proto::mapper_cbrs_attach_v1::MapperCbrsAttachCandidate> for AttachCandidate {
+    fn from(attach_candidate: helium_proto::mapper_cbrs_attach_v1::MapperCbrsAttachCandidate) -> Self {
         Self {
             from_scan: attach_candidate.from_scan,
             delay: attach_candidate.delay,
@@ -219,11 +215,11 @@ struct LoraPayload {
 pub const RSRP_OFFSET: i32 = 150;
 pub const RSRQ_OFFSET: i32 = 30;
 
-impl Attach {
+impl CellAttach {
     pub fn to_proto_serialization(
         &self,
     ) -> std::result::Result<Vec<u8>, helium_proto::EncodeError> {
-        let proto = helium_proto::MapperAttachV1::from(self.clone());
+        let proto = helium_proto::MapperCbrsAttachV1::from(self.clone());
         let mut buffer = vec![];
         proto.encode(&mut buffer)?;
         Ok(buffer)
@@ -268,32 +264,32 @@ mod test {
 
     #[test]
     fn payload_roundtrip_lora() {
-        let payload = Attach {
+        let payload = CellAttach {
             attach_counter: 5,
             gps: GpsData::rounded(),
-            candidate: AttachCandidate::from(ScanResult::random()),
+            candidate: AttachCandidate::from(CellScanResult::random()),
             result: AttachResult::Connected,
         };
 
         let lora_payload = LoraPayload::from(payload.clone());
         let bytes = lora_payload.into_bytes();
-        let payload_returned = Attach::from_bytes(bytes);
+        let payload_returned = CellAttach::from_bytes(bytes);
         assert_eq!(payload, payload_returned);
     }
 
     #[test]
     fn payload_roundtrip_proto() {
-        let attach = Attach {
+        let attach = CellAttach {
             attach_counter: 5,
             gps: GpsData::rounded(),
-            candidate: AttachCandidate::from(ScanResult::random()),
+            candidate: AttachCandidate::from(CellScanResult::random()),
             result: AttachResult::Connected,
         };
-        let proto: helium_proto::MapperAttachV1 = attach.clone().into();
+        let proto: helium_proto::MapperCbrsAttachV1 = attach.clone().into();
 
         let mut proto_bytes = Vec::new();
         proto.encode(&mut proto_bytes).unwrap();
-        let attach_returned = helium_proto::MapperAttachV1::decode(proto_bytes.as_slice())
+        let attach_returned = helium_proto::MapperCbrsAttachV1::decode(proto_bytes.as_slice())
             .unwrap()
             .try_into()
             .unwrap();

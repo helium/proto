@@ -21,8 +21,6 @@ pub struct GpsData {
     pub speed: Decimal,
 }
 
-use nmea_parser::gnss::{GgaData, VtgData};
-
 impl GpsData {
     pub fn is_locked(&self) -> bool {
         self.num_sats >= 3 && self.hdop > ZERO_DECIMAL

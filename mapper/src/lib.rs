@@ -2,14 +2,14 @@ use chrono::{prelude::*, DateTime, NaiveDateTime};
 pub use helium_proto::Message;
 use serde::{Deserialize, Serialize};
 
-mod attach;
-pub use attach::*;
+mod cell_attach;
+pub use cell_attach::*;
 
 mod gps;
 pub use gps::*;
 
-mod scan;
-pub use scan::*;
+mod cell_scan;
+pub use cell_scan::*;
 
 mod ports;
 pub use ports::*;
