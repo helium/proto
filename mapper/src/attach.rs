@@ -11,6 +11,74 @@ pub struct MapperAttach {
     pub result: AttachResult,
 }
 
+impl MapperAttach {
+    pub fn into_bytes(self) -> [u8; 32] {
+        let lora_payload: LoraPayload = self.into();
+        lora_payload.into_bytes()
+    }
+
+    pub fn from_bytes(bytes: [u8; 32]) -> Self {
+        let lora_payload = LoraPayload::from_bytes(bytes);
+        lora_payload.into()
+    }
+}
+
+// roundtrip LoraPayload <-> MapperAttach
+impl From<MapperAttach> for LoraPayload {
+    fn from(mapper_attach: MapperAttach) -> Self {
+        use latlon::Degrees;
+
+        LoraPayload::new()
+            .with_time(time::to_units(mapper_attach.gps.timestamp))
+            .with_lat(latlon::to_units(Degrees::Lat(mapper_attach.gps.lat)))
+            .with_lon(latlon::to_units(Degrees::Lon(mapper_attach.gps.lon)))
+            .with_hdop(hdop::to_units(mapper_attach.gps.hdop) as u16)
+            .with_alt(altitude::to_units(mapper_attach.gps.altitude) as u16)
+            .with_speed(speed::to_units(mapper_attach.gps.speed) as u16)
+            .with_num_sats(mapper_attach.gps.num_sats)
+            .with_delay(mapper_attach.candidate.delay as u16)
+            .with_attach_counter(mapper_attach.attach_counter)
+            .with_scan_response(mapper_attach.candidate.from_scan)
+            .with_cid(mapper_attach.candidate.cell_id)
+            .with_rsrp((mapper_attach.candidate.rsrp + RSRP_OFFSET) as u8)
+            .with_rsrq((mapper_attach.candidate.rsrq + RSRQ_OFFSET) as u8)
+            .with_fcn(mapper_attach.candidate.fcn)
+        // candidate type default to 0
+    }
+}
+
+impl From<LoraPayload> for MapperAttach {
+    fn from(p: LoraPayload) -> Self {
+        use latlon::Unit;
+        MapperAttach {
+            gps: GpsData {
+                timestamp: time::from_units(p.time()),
+                lat: latlon::from_units(Unit::Lat(p.lat())),
+                lon: latlon::from_units(Unit::Lon(p.lon())),
+                hdop: hdop::from_units(p.hdop().into()),
+                altitude: altitude::from_units(p.alt().into()),
+                num_sats: p.num_sats(),
+                speed: speed::from_units(p.speed().into()),
+            },
+            attach_counter: p.attach_counter(),
+            candidate: AttachCandidate {
+                delay: p.delay() as u32,
+                from_scan: p.scan_response(),
+                rsrp: (p.rsrp() as isize) - RSRP_OFFSET,
+                rsrq: (p.rsrq() as isize) - RSRQ_OFFSET,
+                fcn: p.fcn() as u16,
+                cell_id: p.cid() as u32,
+
+
+            },
+
+            result: p.result().into(),
+        }
+
+    }
+}
+
+// roundtrip helium_proto::MapperAttachV1 <-> MapperAttach
 impl From<MapperAttach> for helium_proto::MapperAttachV1 {
     fn from(attach_candidate_result: MapperAttach) -> helium_proto::MapperAttachV1 {
         use helium_proto::mapper_attach_v1::MapperAttachResult as Result;
@@ -35,11 +103,9 @@ impl From<MapperAttach> for helium_proto::MapperAttachV1 {
 impl From<AttachCandidate> for helium_proto::mapper_attach_v1::MapperAttachCandidate {
     fn from(attach_candidate: AttachCandidate) -> Self {
         Self {
-            r#type: 0,
             from_scan_response: attach_candidate.from_scan,
             delay: attach_candidate.delay,
-            plmn: ((attach_candidate.mcc as u32) << 16) | attach_candidate.mnc as u32,
-            fcn: attach_candidate.earfcn,
+            fcn: attach_candidate.fcn as u32,
             cid: attach_candidate.cell_id,
             rsrp: (attach_candidate.rsrp * 100) as i32,
             rsrq: (attach_candidate.rsrq * 100) as i32,
@@ -84,73 +150,23 @@ struct LoraPayload {
     // 1024 seconds should be enough for anyone?
     delay: B10,
     // UMTS cell id (28 bits)
-    cid: B36,
+    cid: B32,
+    // E-UTRA absolute radio frequency channel number of the cell
+    fcn: B16,
+    // rsrp ranges from -140 to -44 dBm
     rsrp: B8,
+    // rsrq ranges from -20 to -3 dBm
     rsrq: B8,
-    cell_type: CellTech,
     #[bits = 3]
     #[allow(dead_code)]
     result: AttachResult,
     // padding for the struct is necessary to make it byte aligned
     #[allow(unused)]
-    padding: B6,
+    padding: B1,
 }
 
 pub const RSRP_OFFSET: isize = 150;
 pub const RSRQ_OFFSET: isize = 30;
-
-impl From<MapperAttach> for LoraPayload {
-    fn from(mapper_attach: MapperAttach) -> Self {
-        use latlon::Degrees;
-
-        LoraPayload::new()
-            .with_time(time::to_units(mapper_attach.gps.timestamp))
-            .with_lat(latlon::to_units(Degrees::Lat(mapper_attach.gps.lat)))
-            .with_lon(latlon::to_units(Degrees::Lon(mapper_attach.gps.lon)))
-            .with_hdop(hdop::to_units(mapper_attach.gps.hdop) as u16)
-            .with_alt(altitude::to_units(mapper_attach.gps.altitude) as u16)
-            .with_speed(speed::to_units(mapper_attach.gps.speed) as u16)
-            .with_num_sats(mapper_attach.gps.num_sats)
-            .with_delay(mapper_attach.candidate.delay as u16)
-            .with_attach_counter(mapper_attach.attach_counter)
-            .with_scan_response(mapper_attach.candidate.from_scan)
-            .with_mcc(mapper_attach.candidate.mcc)
-            .with_mnc(mapper_attach.candidate.mnc)
-            .with_cid(mapper_attach.candidate.cell_id)
-            .with_rsrp((mapper_attach.candidate.rsrp + RSRP_OFFSET) as u8)
-            .with_rsrq((mapper_attach.candidate.rsrq + RSRQ_OFFSET) as u8)
-            .with_fcn(mapper_attach.candidate.earfcn)
-        // candidate type default to 0
-    }
-}
-
-impl From<LoraPayload> for MapperAttach {
-    fn from(p: LoraPayload) -> Self {
-        use latlon::Unit;
-        MapperAttach {
-            gps: GpsData {
-                timestamp: time::from_units(p.time()),
-                lat: latlon::from_units(Unit::Lat(p.lat())),
-                lon: latlon::from_units(Unit::Lon(p.lon())),
-                hdop: hdop::from_units(p.hdop().into()),
-                altitude: altitude::from_units(p.alt().into()),
-                num_sats: p.num_sats(),
-                speed: speed::from_units(p.speed().into()),
-            },
-            attach_counter: p.attach_counter(),
-            candidate: AttachCandidate {
-                delay: p.delay() as u32,
-                from_scan: p.scan_response(),
-                rsrp: (p.rsrp() as isize) - RSRP_OFFSET,
-                rsrq: (p.rsrq() as isize) - RSRQ_OFFSET,
-                cell_type: p.cell_type.into(),
-            },
-
-            result: p.result.into(),
-        }
-
-    }
-}
 
 impl MapperAttach {
     pub fn to_proto_serialization(&self) -> std::result::Result<Vec<u8>, helium_proto::EncodeError> {

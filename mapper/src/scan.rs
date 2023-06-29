@@ -25,30 +25,26 @@ pub struct ScanResult {
 pub struct AttachCandidate {
     pub from_scan: u32,
     pub delay: u32,
-    pub mcc: u16,
-    pub mnc: u16,
-    pub earfcn: u32,
-    pub physical_cell_id: u64,
+    pub cell_id: u32,
+    pub fcn: u16,
     pub rsrp: isize,
     pub rsrq: isize,
-    pub cell_id: u64,
+}
+
+impl From<ScanResult> for AttachCandidate {
+    fn from(scan_result: ScanResult) -> Self {
+        Self {
+            from_scan: 0,
+            delay: 0,
+            cell_id: scan_result.cell_id as u32,
+            fcn: scan_result.earfcn as u16,
+            rsrp: scan_result.rsrp,
+            rsrq: scan_result.rsrq,
+        }
+    }
 }
 
 impl ScanResult {
-    pub fn to_attach_candidate(&self, from_scan_response: u32, delay: u32) -> AttachCandidate {
-        AttachCandidate {
-            from_scan: from_scan_response,
-            delay,
-            mcc: self.mcc,
-            mnc: self.mnc,
-            earfcn: self.earfcn,
-            physical_cell_id: self.physical_cell_id,
-            rsrp: self.rsrp,
-            rsrq: self.rsrq,
-            cell_id: self.cell_id,
-        }
-    }
-
     pub fn is_our_network(&self) -> Result<bool> {
         if self.mcc == CBRS_MCC && self.mnc == CBRS_MNC {
             let top_20_bits = self.cell_id >> 8;
