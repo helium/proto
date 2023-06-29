@@ -178,8 +178,10 @@ enum heartbeat_validity {
   heartbeat_validity_no_such_coverage_object = 6;
   // Invalid coverage object UUID (cbsd_id did not match)
   heartbeat_validity_bad_coverage_object = 7;
+  // Invalid latitude and/or longitude
+  heartbeat_validity_invalid_lat_lon = 8;
   // Heartbeat is too distant from the coverage object's hex coverage
-  heartbeat_validity_too_far_from_coverage = 8;
+  heartbeat_validity_too_far_from_coverage = 9;
 }
 
 message speedtest_avg {
