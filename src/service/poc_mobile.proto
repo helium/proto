@@ -140,14 +140,9 @@ message file_info {
 
 message processed_files { repeated file_info files = 1; }
 
-message coverage_object {
-  bytes pub_key = 1;
-  bytes uuid = 2;
-  string cbsd_id = 3;
-  uint64 coverage_claim_time = 4;
-  repeated radio_hex_signal_level coverage = 5;
-  bool indoor = 6;
-  coverage_object_validity validity = 7;
+message coverage_object_v1 {
+  coverage_object_req_v1 coverage_object = 1;
+  coverage_object_validity validity = 2;
 }
 
 enum coverage_object_validity {
@@ -222,15 +217,19 @@ message radio_reward_share {
 }
 
 message radio_reward {
-  /// Public key of the hotspot of the radio
+  // Public key of the hotspot of the radio
   bytes hotspot_key = 1;
-  /// cbsd Id of the radio
+  // cbsd Id of the radio
   string cbsd_id = 2;
-  /// Amount credited to the hotspot for data transfer in bones
-  /// This value will always be zero
+  // Amount credited to the hotspot for data transfer in bones
+  // This value will always be zero
   uint64 dc_transfer_reward = 3 [ deprecated = true ];
-  /// Amount credited to the hotspot for poc
+  // Amount credited to the hotspot for poc
   uint64 poc_reward = 4;
+  // Accumulated coverage points for the radio
+  uint64 coverage_points = 5;
+  // Coverage objects claimed to make this calculation
+  repeated bytes coverage_objects = 6;
 }
 
 message gateway_reward {
