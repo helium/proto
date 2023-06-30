@@ -28,6 +28,7 @@ message payload {
     mapper_gps gps = 1;
     mapper_scan scan = 2;
     mapper_attach attach = 3;
+    mapper_beacon beacon = 4;
   }
 }
 
@@ -111,4 +112,14 @@ message mapper_cell_scan_result {
   int32 rsrq = 7;
   // bandwidth in MHz
   uint32 bandwidth = 8;
+}
+
+
+message mapper_beacon {
+  oneof version { mapper_beacon_v1 beacon_v1 = 1; }
+}
+
+message mapper_beacon_v1 {
+  mapper_gps_v1 gps = 1;
+  bytes signature = 2;
 }

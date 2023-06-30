@@ -10,7 +10,7 @@ name = "helium_proto"
 path = "src/lib.rs"
 
 [workspace]
-members = ["beacon", "mapper"]
+members = ["beacon"]
 
 [workspace.dependencies]
 tonic = { version = "0" }
