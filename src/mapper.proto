@@ -8,7 +8,7 @@ message mapper_msg {
 }
 
 message mapper_msg_v1 {
-  payload payload = 1;
+  mapper_payload payload = 1;
   // the pubkey signs over the message above
   // which does not contain the pubkey itself
   bytes signature = 2;
@@ -23,7 +23,7 @@ message mapper_msg_v1 {
   repeated bytes hotspots = 4;
 }
 
-message payload {
+message mapper_payload {
   oneof message {
     mapper_gps gps = 1;
     mapper_scan scan = 2;
