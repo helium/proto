@@ -2,6 +2,12 @@ syntax = "proto3";
 package helium;
 
 message mapper_msg {
+  oneof version {
+    mapper_msg_v1 msg_v1 = 1;
+  }
+}
+
+message mapper_msg_v1 {
   payload payload = 1;
   // the pubkey signs over the message above
   // which does not contain the pubkey itself
@@ -22,14 +28,15 @@ message payload {
     mapper_gps gps = 1;
     mapper_scan scan = 2;
     mapper_attach attach = 3;
+    mapper_beacon beacon = 4;
   }
 }
 
 message mapper_attach {
-  oneof version { mapper_attach_v1 attach_v1 = 1; }
+  oneof version { mapper_cbrs_attach_v1 attach_v1 = 1; }
 }
 
-message mapper_attach_v1 {
+message mapper_cbrs_attach_v1 {
   enum mapper_attach_result {
     none = 0;
     connect = 1;
@@ -38,30 +45,24 @@ message mapper_attach_v1 {
     search = 4;
     no_network_service = 5;
   }
-  message mapper_attach_candidate {
-    enum cell_tech {
-      lte = 0;
-      nr = 1;
-    }
-    cell_tech type = 1;
+  message mapper_cbrs_attach_candidate {
     // Corresponds "scan_response_counter" in the scan_response_counter which we
     // selected attach candidates from
-    uint32 from_scan_response = 2;
+    uint32 from_scan = 2;
     // delay in seconds between locking to the cell and evaluating connectivity
     uint32 delay = 3;
-    uint32 plmn = 4;
-    uint32 fcn = 5;
-    // 28-bit (UMTS, LTE) or 36-bit (5G NR)
-    uint64 cid = 6;
+    uint32 fcn = 4;
+    // 28-bit (UMTS, LTE)
+    uint32 cid = 5;
     // RSRQ in units of 0.1 dB
-    int32 rsrp = 7;
+    int32 rsrp = 6;
     // RSRP in units of 0.1 dBm
-    int32 rsrq = 8;
+    int32 rsrq = 7;
   }
   // This allows us to detect censorship efforts. It can roll over.
   uint32 attach_counter = 1;
   mapper_gps_v1 gps = 2;
-  mapper_attach_candidate candidate = 3;
+  mapper_cbrs_attach_candidate candidate = 3;
   mapper_attach_result result = 4;
 }
 
@@ -70,41 +71,55 @@ message mapper_gps {
 }
 
 message mapper_gps_v1 {
-  // Unix time in seconds
-  uint32 unix_time = 1;
-  // Latitude of the current base station in units of 0.25 sec.
+  // epoch UTC time in seconds
+  uint64 timestamp = 1;
+  // given in 0.00001 degrees
   int32 lat = 2;
-  // Longitude of the current base station in units of 0.25 sec.
+  // given in 0.00001 degrees
   int32 lon = 3;
-  // Horizontal dilution of position in units of 0.01 HDOP.
+  // given in 0.01m
   uint32 hdop = 4;
-  // Altitude in units of 0.25m above the WGS 84 reference ellipsoid.
-  int64 altitude = 5;
-  int32 num_sats = 6;
-  // Speed in speed in 0.25m/s per second.
+  // given in 0.01m
+  int32 altitude = 5;
+  // number of satellites used for fix
+  uint32 num_sats = 6;
+  // given in 0.01m
   uint32 speed = 7;
 }
 
 message mapper_scan {
-  oneof version { mapper_scan_v1 scan_v1 = 1; }
+  oneof version { mapper_cell_scan_v1 scan_v1 = 1; }
 }
 
-message mapper_scan_v1 {
+message mapper_cell_scan_v1 {
   uint32 scan_counter = 1;
   mapper_gps_v1 gps = 2;
-  repeated mapper_scan_result results = 3;
+  repeated mapper_cell_scan_result results = 3;
 }
 
-message mapper_scan_result {
+message mapper_cell_scan_result {
+  bool lte = 1;
   // 28-bit (UMTS, LTE) or 36-bit (5G NR)
-  uint64 cid = 1;
+  uint64 cid = 2;
   // PLMN = (MCC << 16) | MNC
-  uint32 plmn = 2;
+  uint32 plmn = 3;
   // EARFCN or UARFCN
-  uint32 fcn = 3;
-  uint32 pci = 4;
+  uint32 fcn = 4;
+  uint32 pci = 5;
   // RSRQ in units of 0.1 dB
-  int32 rsrp = 5;
+  int32 rsrp = 6;
   // RSRP in units of 0.1 dBm
-  int32 rsrq = 6;
+  int32 rsrq = 7;
+  // bandwidth in MHz
+  uint32 bandwidth = 8;
+}
+
+
+message mapper_beacon {
+  oneof version { mapper_beacon_v1 beacon_v1 = 1; }
+}
+
+message mapper_beacon_v1 {
+  mapper_gps_v1 gps = 1;
+  bytes signature = 2;
 }
