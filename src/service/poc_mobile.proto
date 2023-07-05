@@ -84,7 +84,7 @@ message subscriber_location_ingest_report_v1 {
 }
 
 enum signal_level {
-  NO = 0;
+  NONE = 0;
   LOW = 1;
   MEDIUM = 2;
   HIGH = 3;
