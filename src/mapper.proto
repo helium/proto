@@ -2,9 +2,7 @@ syntax = "proto3";
 package helium;
 
 message mapper_msg {
-  oneof version {
-    mapper_msg_v1 msg_v1 = 1;
-  }
+  oneof version { mapper_msg_v1 msg_v1 = 1; }
 }
 
 message mapper_msg_v1 {
@@ -12,7 +10,7 @@ message mapper_msg_v1 {
   // the pubkey signs over the message above
   // which does not contain the pubkey itself
   bytes signature = 2;
-  bytes pub_key = 3;
+  bytes pubkey = 3;
 
   // below is optional metadata which depending
   // on the message above, may or may not be populated.
@@ -25,10 +23,9 @@ message mapper_msg_v1 {
 
 message mapper_payload {
   oneof message {
-    mapper_gps gps = 1;
-    mapper_scan scan = 2;
-    mapper_attach attach = 3;
-    mapper_beacon beacon = 4;
+    mapper_scan scan = 1;
+    mapper_attach attach = 2;
+    mapper_beacon beacon = 3;
   }
 }
 
@@ -113,7 +110,6 @@ message mapper_cell_scan_result {
   // bandwidth in MHz
   uint32 bandwidth = 8;
 }
-
 
 message mapper_beacon {
   oneof version { mapper_beacon_v1 beacon_v1 = 1; }
