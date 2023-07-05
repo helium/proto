@@ -130,6 +130,8 @@ message route_v1 {
   bool active = 6;
   // Is route locked because of no payment
   bool locked = 7;
+  // If true, routes are blocked whose devaddrs have empty session key filters
+  bool ignore_empty_skf = 8;
 }
 
 // ------------------------------------------------------------------
