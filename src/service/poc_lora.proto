@@ -80,8 +80,9 @@ message lora_witness_report_req_v1 {
   // Timestamp of witness received in nanos since unix epoch
   uint64 timestamp = 4;
   uint32 tmst = 5;
-  // Signal in ddbm
+  // Signal in ddBm
   sint32 signal = 6;
+  // SNR in ddB
   int32 snr = 7;
   // Frequency in Hz
   uint64 frequency = 8;
