@@ -96,7 +96,7 @@ message radio_hex_signal_level {
   string location = 1;
   signal_level signal_level = 2;
   // Signal power of the radio in ddBm
-  sint32 signal_power = 3;
+  uint32 signal_power = 3;
 }
 
 message coverage_object_req_v1 {
