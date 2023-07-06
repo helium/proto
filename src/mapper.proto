@@ -23,9 +23,10 @@ message mapper_msg_v1 {
 
 message mapper_payload {
   oneof message {
-    mapper_scan scan = 1;
-    mapper_attach attach = 2;
-    mapper_beacon beacon = 3;
+    mapper_gps gps = 1;
+    mapper_scan scan = 2;
+    mapper_attach attach = 3;
+    mapper_beacon beacon = 4;
   }
 }
 
