@@ -42,6 +42,9 @@ message cell_heartbeat_req_v1 {
   string cbsd_id = 9;
 
   bytes signature = 10;
+
+  // Last known coverage object UUID
+  bytes coverage_object = 11;
 }
 
 message cell_heartbeat_resp_v1 { string id = 1; }
@@ -80,6 +83,42 @@ message subscriber_location_ingest_report_v1 {
   subscriber_location_req_v1 report = 2;
 }
 
+enum signal_level {
+  NONE = 0;
+  LOW = 1;
+  MEDIUM = 2;
+  HIGH = 3;
+}
+
+// Radio signal level and power in the h3 hex.
+message radio_hex_signal_level {
+  // H3 resolution 12 hex tile covered by the radio
+  string location = 1;
+  signal_level signal_level = 2;
+  // Signal power of the radio in ddBm
+  sint32 signal_power = 3;
+}
+
+message coverage_object_req_v1 {
+  bytes pub_key = 1;
+  bytes uuid = 2;
+  string cbsd_id = 3;
+  // Timestamp in seconds since the unix epoch indicating the start of coverage
+  uint64 coverage_claim_time = 4;
+  repeated radio_hex_signal_level coverage = 5;
+  bool indoor = 6;
+  bytes signature = 7;
+}
+
+message coverage_object_resp_v1 { string id = 1; }
+
+// Coverage object report output by ingestor, tagged with received_timestamp
+message coverage_object_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  coverage_object_req_v1 report = 2;
+}
+
 enum subscriber_report_verification_status {
   valid = 0;
   invalid_subscriber_id = 1;
@@ -104,6 +143,8 @@ service poc_mobile {
       returns (data_transfer_session_resp_v1);
   rpc submit_subscriber_location(subscriber_location_req_v1)
       returns (subscriber_location_resp_v1);
+  rpc submit_coverage_object(coverage_object_req_v1)
+      returns (coverage_object_resp_v1);
 }
 
 message file_info {
@@ -115,6 +156,16 @@ message file_info {
 
 message processed_files { repeated file_info files = 1; }
 
+message coverage_object_v1 {
+  coverage_object_req_v1 coverage_object = 1;
+  coverage_object_validity validity = 2;
+}
+
+enum coverage_object_validity {
+  coverage_object_validity_valid = 0;
+  coverage_object_validity_invalid_pub_key = 1;
+}
+
 message heartbeat {
   string cbsd_id = 1;
   bytes pub_key = 2;
@@ -122,6 +173,8 @@ message heartbeat {
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
+  // UUID of the coverage object associated with this heartbeat
+  bytes coverage_object = 7;
 }
 
 enum heartbeat_validity {
@@ -130,8 +183,16 @@ enum heartbeat_validity {
   heartbeat_validity_heartbeat_outside_range = 2;
   heartbeat_validity_bad_cbsd_id = 3;
   heartbeat_validity_not_operational = 4;
-  /// Gateway not found on the blockchain
+  // Gateway not found on the blockchain
   heartbeat_validity_gateway_not_found = 5;
+  // No such coverage object with that UUID
+  heartbeat_validity_no_such_coverage_object = 6;
+  // Invalid coverage object UUID (cbsd_id did not match)
+  heartbeat_validity_bad_coverage_object = 7;
+  // Invalid latitude and/or longitude
+  heartbeat_validity_invalid_lat_lon = 8;
+  // Heartbeat is too distant from the coverage object's hex coverage
+  heartbeat_validity_too_far_from_coverage = 9;
 }
 
 message speedtest_avg {
@@ -172,15 +233,19 @@ message radio_reward_share {
 }
 
 message radio_reward {
-  /// Public key of the hotspot of the radio
+  // Public key of the hotspot of the radio
   bytes hotspot_key = 1;
-  /// cbsd Id of the radio
+  // cbsd Id of the radio
   string cbsd_id = 2;
-  /// Amount credited to the hotspot for data transfer in bones
-  /// This value will always be zero
+  // Amount credited to the hotspot for data transfer in bones
+  // This value will always be zero
   uint64 dc_transfer_reward = 3 [ deprecated = true ];
-  /// Amount credited to the hotspot for poc
+  // Amount credited to the hotspot for poc
   uint64 poc_reward = 4;
+  // Accumulated coverage points for the radio
+  uint64 coverage_points = 5;
+  // Coverage objects claimed to make this calculation
+  repeated bytes coverage_objects = 6;
 }
 
 message gateway_reward {
