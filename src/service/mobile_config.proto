@@ -90,6 +90,8 @@ enum admin_key_role {
   oracle = 2;
   // carrier authorizing keys for signing mobile subscriber activity
   carrier = 3;
+  // propagation calculation service of a mobile carrier
+  pcs = 4;
 }
 
 enum network_key_role {
