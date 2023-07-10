@@ -173,8 +173,10 @@ message heartbeat {
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
+  double lat = 6;
+  double lon = 7;
   // UUID of the coverage object associated with this heartbeat
-  bytes coverage_object = 7;
+  bytes coverage_object = 8;
 }
 
 enum heartbeat_validity {
