@@ -1,6 +1,8 @@
 syntax = "proto3";
 package helium;
 
+import "data_rate.proto";
+
 message mapper_msg {
   oneof version { mapper_msg_v1 msg_v1 = 1; }
 }
@@ -18,7 +20,19 @@ message mapper_msg_v1 {
 
   // hotspots that received the mapper message if it
   // was received over lorawan
-  repeated bytes hotspots = 4;
+  repeated lora_gw lora_gws = 4;
+}
+
+message lora_gw {
+  bytes pubkey = 1;
+  uint64 h3_cell = 2;
+  // snr in 0.1 dB
+  uint32 snr = 3;
+  // rssi in 0.1 dBm
+  int32 rssi = 4;
+  // frequency in mHz
+  uint32 frequency = 5;
+  data_rate data_rate = 6;
 }
 
 message mapper_payload {
