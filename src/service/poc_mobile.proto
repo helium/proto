@@ -175,6 +175,8 @@ message heartbeat {
   heartbeat_validity validity = 6;
   // UUID of the coverage object associated with this heartbeat
   bytes coverage_object = 7;
+  // Timestamp of the seniority of the coverage object, possibly adjusted
+  uint64 seniority_ts = 8;
 }
 
 enum heartbeat_validity {
