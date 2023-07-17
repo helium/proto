@@ -27,7 +27,7 @@ message lora_gw {
   bytes pubkey = 1;
   uint64 h3_cell = 2;
   // snr in 0.1 dB
-  uint32 snr = 3;
+  int32 snr = 3;
   // rssi in 0.1 dBm
   int32 rssi = 4;
   // frequency in mHz
