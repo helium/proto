@@ -195,6 +195,20 @@ enum heartbeat_validity {
   heartbeat_validity_too_far_from_coverage = 9;
 }
 
+message seniority_update {
+  string cbsd_id = 1;
+  // Timestamp of the new seniority for the radio
+  uint64 new_seniority_timestamp = 2;
+  seniority_update_reason reason = 3;
+}
+
+enum seniority_update_reason {
+  // We haven't seen a heartbeat for 72 hours
+  seniority_update_reason_heartbeat_not_seen = 1;
+  // A new coverage object replaces the old seniority
+  seniority_update_reason_new_coverage_claim_time = 2;
+}
+
 message speedtest_avg {
   bytes pub_key = 1;
   /// bytes/sec
