@@ -42,7 +42,7 @@ message packet_router_packet_up_v1 {
   float snr = 6;
   region region = 7;
   uint64 hold_time = 8;
-  bytes session_key = 9;
+  bytes gateway = 9;
   bytes signature = 10;
 }
 
