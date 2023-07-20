@@ -52,21 +52,29 @@ message packet_router_register_v1 {
   bytes signature = 3;
 }
 
-message packet_router_session_init_req_v1 {
-  // TODO
-  bytes data = 1;
-}
+// Session offer from the packe router to the gateway. If the gateway wants to
+// initiate a session key it should send a packet_router_session_init_v1 message
+// to the packet router using data in this offer to propose a session key.
+message packet_router_session_offer_v1 { bytes data = 1; }
 
-message packet_router_session_init_res_v1 {
-  // TODO
-  bytes data = 1;
+// Initializes a session key with the packet router. The data in this init
+// message has to be from the latest session offer the gateway has received, the
+// session key is the public key that is to be used to verify packets by packet
+// router, and this message is to be signed by the private key of the gateway.
+// Once accepted the session key replaces the current (default is gateway) key
+// as the verifier used by the packet router for upilnk packets.
+message packet_router_session_init_v1 {
+  bytes gateway = 1;
+  bytes data = 2;
+  bytes session_key = 3;
+  bytes signature = 4;
 }
 
 message envelope_up_v1 {
   oneof data {
     packet_router_register_v1 register = 1;
     packet_router_packet_up_v1 packet = 2;
-    packet_router_session_init_res_v1 session_init_res = 3;
+    packet_router_session_init_v1 session_init = 3;
   }
 }
 
@@ -87,7 +95,7 @@ message packet_router_packet_down_v1 {
 message envelope_down_v1 {
   oneof data {
     packet_router_packet_down_v1 packet = 1;
-    packet_router_session_init_req_v1 session_init_req = 2;
+    packet_router_session_offer_v1 session_offer = 2;
   }
 }
 
