@@ -52,7 +52,7 @@ message packet_router_register_v1 {
   bytes signature = 3;
 }
 
-// Session offer from the packe router to the gateway. If the gateway wants to
+// Session offer from the packet router to the gateway. If the gateway wants to
 // initiate a session key it should send a packet_router_session_init_v1 message
 // to the packet router using data in this offer to propose a session key.
 //
