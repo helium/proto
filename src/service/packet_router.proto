@@ -58,7 +58,7 @@ message packet_router_register_v1 {
 //
 // This message is sent by packet router after the register command is sent by
 // the gateway.
-message packet_router_session_offer_v1 { bytes data = 1; }
+message packet_router_session_offer_v1 { bytes nonce = 1; }
 
 // Initializes a session key with the packet router. The data in this init
 // message has to be from the latest session offer the gateway has received, the
@@ -74,7 +74,7 @@ message packet_router_session_offer_v1 { bytes data = 1; }
 // not pass verification with the active verifier key are dropped.
 message packet_router_session_init_v1 {
   bytes gateway = 1;
-  bytes data = 2;
+  bytes nonce = 2;
   bytes session_key = 3;
   bytes signature = 4;
 }
