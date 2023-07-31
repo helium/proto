@@ -50,6 +50,7 @@ message packet_router_register_v1 {
   uint64 timestamp = 1;
   bytes gateway = 2;
   bytes signature = 3;
+  bool session_capable = 4;
 }
 
 // Session offer from the packet router to the gateway. If the gateway wants to
