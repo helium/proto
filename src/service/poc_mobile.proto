@@ -361,6 +361,7 @@ message invalid_data_transfer_ingest_report_v1 {
     cancelled = 1;
     invalid_gateway_key = 2;
     invalid_routing_key = 3;
+    duplicate = 4;
   }
   // the invalid ingest report
   data_transfer_session_ingest_report_v1 report = 1;
