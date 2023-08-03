@@ -142,7 +142,7 @@ message org_list_req_v1 {}
 
 message org_list_res_v1 {
   repeated org_v1 orgs = 1;
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
   bytes signer = 3;
@@ -219,7 +219,7 @@ message org_res_v1 {
   org_v1 org = 1;
   uint32 net_id = 2;
   repeated devaddr_constraint_v1 devaddr_constraints = 3;
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 4;
   // pubkey binary of the signing keypair
   bytes signer = 5;
@@ -238,7 +238,7 @@ message org_disable_req_v1 {
 
 message org_disable_res_v1 {
   uint64 oui = 1;
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
   bytes signer = 3;
@@ -257,7 +257,7 @@ message org_enable_req_v1 {
 
 message org_enable_res_v1 {
   uint64 oui = 1;
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
   bytes signer = 3;
@@ -276,7 +276,7 @@ message route_list_req_v1 {
 
 message route_list_res_v1 {
   repeated route_v1 routes = 1;
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
   bytes signer = 3;
@@ -323,7 +323,7 @@ message route_delete_req_v1 {
 
 message route_res_v1 {
   route_v1 route = 1;
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
   bytes signer = 3;
@@ -351,7 +351,7 @@ message route_update_euis_req_v1 {
 }
 
 message route_euis_res_v1 {
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
@@ -379,7 +379,7 @@ message route_update_devaddr_ranges_req_v1 {
 }
 
 message route_devaddr_ranges_res_v1 {
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
@@ -396,7 +396,7 @@ message route_stream_req_v1 {
 }
 
 message route_stream_res_v1 {
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
@@ -458,7 +458,7 @@ message route_skf_update_req_v1 {
 }
 
 message route_skf_update_res_v1 {
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
@@ -478,7 +478,7 @@ message gateway_region_params_res_v1 {
   uint64 gain = 3;
   // Signature over the response by the config service
   bytes signature = 4;
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 5;
   // pubkey binary of the signing keypair
   bytes signer = 6;
@@ -493,7 +493,7 @@ message gateway_location_req_v1 {
 
 message gateway_location_res_v1 {
   string location = 1;
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
   bytes signer = 3;
@@ -513,7 +513,7 @@ message admin_load_region_req_v1 {
 }
 
 message admin_load_region_res_v1 {
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
@@ -550,7 +550,7 @@ message admin_remove_key_req_v1 {
 }
 
 message admin_key_res_v1 {
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
@@ -635,7 +635,7 @@ message region_params_res_v1 {
   bytes signature = 3;
   // pubkey binary of the signing keypair
   bytes signer = 4;
-  // unix epoch timestamp in seconds
+  // in milliseconds since unix epoch
   uint64 timestamp = 5;
 }
 

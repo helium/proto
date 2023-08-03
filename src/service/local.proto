@@ -22,6 +22,7 @@ message router_req {}
 message router_res {
   string uri = 1;
   bool connected = 2;
+  bytes session_key = 3;
 }
 
 message add_gateway_req {
