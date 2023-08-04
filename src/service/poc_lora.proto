@@ -111,6 +111,7 @@ message lora_witness_ingest_report_v1 {
 message lora_valid_beacon_report_v1 {
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
+  // string representation of the gateways u64 hex location
   string location = 2;
   // integer representation of a 4-point precision decimal multiplier
   // ex: 5015 == 0.5015
@@ -133,6 +134,7 @@ message lora_valid_witness_report_v1 {
   option deprecated = true;
   // Timestamp at ingest in millis since unix epoch
   uint64 received_timestamp = 1;
+  // string representation of the gateways u64 hex location
   string location = 2;
   // integer representation of a 4-point precision decimal multiplier
   // ex: 5015 == 0.5015
@@ -149,6 +151,15 @@ message lora_invalid_beacon_report_v1 {
   uint64 received_timestamp = 1;
   invalid_reason reason = 2;
   lora_beacon_report_req_v1 report = 3;
+  // string representation of the gateways u64 hex location
+  string location = 4;
+  /// the transmit gain value of the gateway in dbi x 10
+  /// For example 1 dbi = 10, 15 dbi = 150
+  /// derived from gateway metadata
+  int32 gain = 5;
+  /// The asserted elevation of the gateway in AGL ( above ground level)
+  /// derived from gateway metadata
+  int32 elevation = 6;
 }
 
 // tagged invalid witness report produced by the verifier
@@ -168,6 +179,7 @@ message lora_verified_witness_report_v1 {
   uint64 received_timestamp = 1;
   verification_status status = 2;
   lora_witness_report_req_v1 report = 3;
+  // string representation of the gateways u64 hex location
   string location = 4;
   uint32 hex_scale = 5;
   // integer representation of a 4-point precision decimal multiplier
