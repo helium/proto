@@ -260,8 +260,9 @@ message radio_reward {
   uint64 poc_reward = 4;
   // Accumulated coverage points for the radio
   uint64 coverage_points = 5;
-  // Coverage objects claimed to make this calculation
-  repeated bytes coverage_objects = 6;
+  // Coverage objects claimed to make this calculation.
+  // This will always be empty
+  repeated bytes coverage_objects = 6 [ deprecated = true ];
 }
 
 message gateway_reward {
