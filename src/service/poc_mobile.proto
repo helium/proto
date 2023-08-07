@@ -68,6 +68,28 @@ message cell_heartbeat_ingest_report_v1 {
   cell_heartbeat_req_v1 report = 2;
 }
 
+message wifi_heartbeat_req_v1 {
+  // Public key of the hotspot
+  bytes pub_key = 1;
+  // Timestamp of heartbeat in seconds from unix epoch
+  uint64 timestamp = 2;
+  double lat = 3;
+  double lon = 4;
+  // Timestamp of location validation in seconds from unix epoch
+  uint64 location_validation_timestamp = 5;
+  bool operation_mode = 6;
+  bytes coverage_object = 7;
+  bytes signature = 8;
+}
+
+message wifi_heartbeat_resp_v1 { string id = 1; }
+
+message wifi_heartbeat_ingest_report_v1 {
+  // timestamp in millisconds since unix epoch
+  uint64 received_timestamp = 1;
+  wifi_heartbeat_req_v1 report = 2;
+}
+
 // mapper attach report output by ingestor, tagged with received_timestamp
 message mapper_attach_ingest_report_v1 {
   // timestamp in millisconds since unix epoch
