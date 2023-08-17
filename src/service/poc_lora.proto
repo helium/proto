@@ -160,6 +160,9 @@ message lora_invalid_beacon_report_v1 {
   /// The asserted elevation of the gateway in AGL ( above ground level)
   /// derived from gateway metadata
   int32 elevation = 6;
+  // provides any additional context for invalid reason
+  // for example the deny list version used as part of the deny list check
+  string invalid_details = 7;
 }
 
 // tagged invalid witness report produced by the verifier
@@ -171,6 +174,9 @@ message lora_invalid_witness_report_v1 {
   // the participant to which the reason applies,
   // which rendered the report as invalid
   invalid_participant_side participant_side = 4;
+  // provides any additional context for invalid reason
+  // for example the deny list version used as part of the deny list check
+  string invalid_details = 5;
 }
 
 // tagged verified witness report produced by the verifier
@@ -196,6 +202,9 @@ message lora_verified_witness_report_v1 {
   /// The asserted elevation of the gateway in AGL ( above ground level)
   /// derived from gateway metadata
   int32 elevation = 10;
+  // provides any additional context for invalid reason
+  // for example the deny list version used as part of the deny list check
+  string invalid_details = 11;
 }
 
 // POC report produced by the verifier
