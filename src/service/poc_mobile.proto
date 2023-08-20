@@ -173,8 +173,10 @@ message heartbeat {
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
+  double lat = 7;
+  double lon = 8;
   // UUID of the coverage object associated with this heartbeat
-  bytes coverage_object = 7;
+  bytes coverage_object = 9;
 }
 
 enum heartbeat_validity {
@@ -193,6 +195,20 @@ enum heartbeat_validity {
   heartbeat_validity_invalid_lat_lon = 8;
   // Heartbeat is too distant from the coverage object's hex coverage
   heartbeat_validity_too_far_from_coverage = 9;
+}
+
+message seniority_update {
+  string cbsd_id = 1;
+  // Timestamp of the new seniority for the radio
+  uint64 new_seniority_timestamp = 2;
+  seniority_update_reason reason = 3;
+}
+
+enum seniority_update_reason {
+  // We haven't seen a heartbeat for 72 hours
+  seniority_update_reason_heartbeat_not_seen = 0;
+  // A new coverage object replaces the old seniority
+  seniority_update_reason_new_coverage_claim_time = 1;
 }
 
 message speedtest_avg {
@@ -244,8 +260,6 @@ message radio_reward {
   uint64 poc_reward = 4;
   // Accumulated coverage points for the radio
   uint64 coverage_points = 5;
-  // Coverage objects claimed to make this calculation
-  repeated bytes coverage_objects = 6;
 }
 
 message gateway_reward {
@@ -345,6 +359,7 @@ message invalid_data_transfer_ingest_report_v1 {
     cancelled = 1;
     invalid_gateway_key = 2;
     invalid_routing_key = 3;
+    duplicate = 4;
   }
   // the invalid ingest report
   data_transfer_session_ingest_report_v1 report = 1;
