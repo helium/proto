@@ -260,6 +260,10 @@ message radio_reward {
   uint64 poc_reward = 4;
   // Accumulated coverage points for the radio
   uint64 coverage_points = 5;
+  // Seniority timestamp for this radio
+  uint64 seniority_timestamp = 6;
+  // Coverage object used to reward this radio
+  bytes coverage_object = 7;
 }
 
 message gateway_reward {
