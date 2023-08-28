@@ -173,6 +173,8 @@ service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
       returns (cell_heartbeat_resp_v1);
+  rpc submit_wifi_heartbeat(wifi_heartbeat_req_v1)
+      returns (wifi_heartbeat_resp_v1);
   rpc submit_data_transfer_session(data_transfer_session_req_v1)
       returns (data_transfer_session_resp_v1);
   rpc submit_subscriber_location(subscriber_location_req_v1)
