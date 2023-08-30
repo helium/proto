@@ -90,6 +90,11 @@ message wifi_heartbeat_ingest_report_v1 {
   wifi_heartbeat_req_v1 report = 2;
 }
 
+enum wifi_type {
+  generic_outdoor = 0;
+  generic_indoor = 1;
+}
+
 // mapper attach report output by ingestor, tagged with received_timestamp
 message mapper_attach_ingest_report_v1 {
   // timestamp in millisconds since unix epoch
@@ -203,6 +208,7 @@ enum coverage_object_validity {
 }
 
 message heartbeat {
+  // applicable to cell heartbeats only
   string cbsd_id = 1;
   bytes pub_key = 2;
   float reward_multiplier = 3;
@@ -213,6 +219,9 @@ message heartbeat {
   double lon = 8;
   // UUID of the coverage object associated with this heartbeat
   bytes coverage_object = 9;
+  // Timestamp of location validation in seconds from unix epoch
+  // applicable to wifi heartbeats only
+  uint64 location_validation_timestamp = 10;
 }
 
 enum heartbeat_validity {
@@ -348,6 +357,9 @@ enum cell_type {
   neutrino430 = 2;
   sercomm_indoor = 3;
   sercomm_outdoor = 4;
+  cell_type_none = 5;
+  nova_generic_wifi_indoor = 6;
+  nova_generic_wifi_outdoor = 7;
 }
 
 message data_transfer_session_req_v1 {
