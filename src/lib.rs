@@ -283,8 +283,8 @@ macro_rules! serde_enum {
             where
                 S: serde::ser::Serializer,
             {
-                let v = $type::from_i32(*v)
-                    .ok_or_else(|| serde::ser::Error::custom(format!("invalid enum value: {v}")))?;
+                let v = $type::try_from(*v)
+                    .map_err(|_| serde::ser::Error::custom(format!("invalid enum value: {v}")))?;
                 serializer.serialize_str(&v.to_string())
             }
 
