@@ -1,8 +1,7 @@
 use super::{Error, Result};
 use helium_proto::{
     services::iot_config::GatewayRegionParamsResV1, BlockchainRegionParamV1,
-    BlockchainRegionParamsV1, DataRate, GatewayRegionParamsRespV1,
-    GatewayRegionParamsStreamedRespV1, Message, Region as ProtoRegion, RegionSpreading,
+    BlockchainRegionParamsV1, DataRate, Message, Region as ProtoRegion, RegionSpreading,
 };
 use rust_decimal::prelude::{Decimal, ToPrimitive};
 use serde::{de, Deserialize, Deserializer};
@@ -92,6 +91,8 @@ pub struct RegionParams {
     pub gain: Decimal,
     pub region: Region,
     pub params: Vec<BlockchainRegionParamV1>,
+    // Timestamp the region params were attested by the config service
+    pub timestamp: u64,
 }
 
 impl AsRef<[BlockchainRegionParamV1]> for RegionParams {
@@ -106,38 +107,6 @@ impl PartialEq for RegionParams {
     }
 }
 
-impl TryFrom<GatewayRegionParamsStreamedRespV1> for RegionParams {
-    type Error = Error;
-    fn try_from(value: GatewayRegionParamsStreamedRespV1) -> Result<Self> {
-        let region = Region::from_i32(value.region)?;
-        let params = value
-            .params
-            .ok_or_else(Error::no_region_params)?
-            .region_params;
-        Ok(Self {
-            gain: Decimal::new(value.gain as i64, 1),
-            params,
-            region,
-        })
-    }
-}
-
-impl TryFrom<GatewayRegionParamsRespV1> for RegionParams {
-    type Error = Error;
-    fn try_from(value: GatewayRegionParamsRespV1) -> Result<Self> {
-        let region = Region::from_i32(value.region)?;
-        let params = value
-            .params
-            .ok_or_else(Error::no_region_params)?
-            .region_params;
-        Ok(Self {
-            gain: Decimal::new(value.gain as i64, 1),
-            params,
-            region,
-        })
-    }
-}
-
 impl TryFrom<GatewayRegionParamsResV1> for RegionParams {
     type Error = Error;
     fn try_from(value: GatewayRegionParamsResV1) -> Result<Self> {
@@ -146,10 +115,12 @@ impl TryFrom<GatewayRegionParamsResV1> for RegionParams {
             .params
             .ok_or_else(Error::no_region_params)?
             .region_params;
+        let timestamp = value.timestamp;
         Ok(Self {
             gain: Decimal::new(value.gain as i64, 1),
             params,
             region,
+            timestamp,
         })
     }
 }
@@ -160,18 +131,20 @@ impl From<Region> for RegionParams {
             region,
             gain: 0.into(),
             params: vec![],
+            timestamp: 0,
         }
     }
 }
 
 impl RegionParams {
-    pub fn from_bytes(region: Region, gain: u64, data: &[u8]) -> Result<Self> {
+    pub fn from_bytes(region: Region, gain: u64, data: &[u8], timestamp: u64) -> Result<Self> {
         let params = BlockchainRegionParamsV1::decode(data)?.region_params;
         let gain = Decimal::new(gain as i64, 1);
         Ok(Self {
             region,
             gain,
             params,
+            timestamp,
         })
     }
 
@@ -295,7 +268,7 @@ mod test {
     #[test]
     fn test_select_datarate() {
         let region = ProtoRegion::Eu868.into();
-        let params = RegionParams::from_bytes(region, 12, EU868_PARAMS).expect("region params");
+        let params = RegionParams::from_bytes(region, 12, EU868_PARAMS, 0).expect("region params");
         assert_eq!(
             DataRate::Sf12bw125,
             params.select_datarate(30).expect("datarate")
