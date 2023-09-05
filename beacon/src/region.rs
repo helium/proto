@@ -91,7 +91,8 @@ pub struct RegionParams {
     pub gain: Decimal,
     pub region: Region,
     pub params: Vec<BlockchainRegionParamV1>,
-    // Timestamp the region params were attested by the config service
+    // Timestamp the region params were attested by the config service, in
+    // seconds since unix epoch
     pub timestamp: u64,
 }
 
