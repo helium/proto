@@ -5,7 +5,6 @@ const SERVICES: &[&str] = &[
     "src/service/router.proto",
     "src/service/state_channel.proto",
     "src/service/local.proto",
-    "src/service/gateway.proto",
     "src/service/transaction.proto",
     "src/service/follower.proto",
     "src/service/poc_mobile.proto",

@@ -53,9 +53,6 @@ pub mod services {
         include!(concat!(env!("OUT_DIR"), "/helium.packet_router.rs"));
         pub use packet_client::PacketClient as PacketRouterClient;
     }
-    pub mod gateway {
-        pub use crate::gateway_client::GatewayClient as Client;
-    }
 
     pub mod local {
         include!(concat!(env!("OUT_DIR"), "/helium.local.rs"));
