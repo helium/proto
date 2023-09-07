@@ -248,9 +248,38 @@ message iot_reward_share {
   }
 }
 
+message lora_stream_register_v1 {
+  uint64 timestamp = 1;
+  bytes pub_key = 2;
+  bytes signature = 3;
+  bool session_capable = 4;
+}
+
+message lora_stream_session_offer_v1 {
+  bytes nonce = 1;
+}
+
+message lora_stream_session_init_v1 {
+  bytes pub_key = 1;
+  bytes nonce = 2;
+  bytes session_key = 3;
+  bytes signature = 4;
+}
+
+message lora_stream_request_v1 {
+  oneof request {
+    lora_stream_register_v1 register = 1;
+    lora_beacon_report_req_v1 beacon_report = 2;
+    lora_witness_report_req_v1 witness_report = 3;
+    lora_stream_session_init_v1  session_init = 4;
+  }
+}
+
 service poc_lora {
   rpc submit_lora_beacon(lora_beacon_report_req_v1)
       returns (lora_beacon_report_resp_v1);
   rpc submit_lora_witness(lora_witness_report_req_v1)
       returns (lora_witness_report_resp_v1);
+  rpc stream_requests(stream lora_stream_request_v1)
+      returns (stream lora_stream_session_offer_v1);
 }
