@@ -255,9 +255,7 @@ message lora_stream_register_v1 {
   bool session_capable = 4;
 }
 
-message lora_stream_session_offer_v1 {
-  bytes nonce = 1;
-}
+message lora_stream_session_offer_v1 { bytes nonce = 1; }
 
 message lora_stream_session_init_v1 {
   bytes pub_key = 1;
@@ -271,7 +269,7 @@ message lora_stream_request_v1 {
     lora_stream_register_v1 register = 1;
     lora_beacon_report_req_v1 beacon_report = 2;
     lora_witness_report_req_v1 witness_report = 3;
-    lora_stream_session_init_v1  session_init = 4;
+    lora_stream_session_init_v1 session_init = 4;
   }
 }
 
