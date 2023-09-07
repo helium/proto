@@ -266,9 +266,7 @@ message lora_stream_request_v1 {
 }
 
 message lora_stream_response_v1 {
-  oneof response {
-    lora_stream_session_offer_v1 offer = 1;
-  }
+  oneof response { lora_stream_session_offer_v1 offer = 1; }
 }
 
 service poc_lora {
