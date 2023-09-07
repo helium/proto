@@ -259,9 +259,9 @@ message lora_stream_session_init_v1 {
 
 message lora_stream_request_v1 {
   oneof request {
-    lora_beacon_report_req_v1 beacon_report = 2;
-    lora_witness_report_req_v1 witness_report = 3;
-    lora_stream_session_init_v1 session_init = 4;
+    lora_beacon_report_req_v1 beacon_report = 1;
+    lora_witness_report_req_v1 witness_report = 2;
+    lora_stream_session_init_v1 session_init = 3;
   }
 }
 
