@@ -235,6 +235,10 @@ enum heartbeat_validity {
   heartbeat_validity_invalid_lat_lon = 8;
   // Heartbeat is too distant from the coverage object's hex coverage
   heartbeat_validity_too_far_from_coverage = 9;
+  // Heartbeat is too distant from the asserted location
+  heartbeat_validity_too_far_from_asserted = 10;
+  // Gateway is not asserted
+  heartbeat_validity_gateway_not_asserted = 11;
 }
 
 message seniority_update {
