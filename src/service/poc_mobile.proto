@@ -217,6 +217,9 @@ message heartbeat {
   // Timestamp of location validation in seconds from unix epoch
   // applicable to wifi heartbeats only
   uint64 location_validation_timestamp = 10;
+  // Distance in meters to the asserted location of the gateway_reward
+  // at the time of heartbeat verification
+  uint64 distance_to_asserted = 11;
 }
 
 enum heartbeat_validity {
