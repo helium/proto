@@ -28,6 +28,18 @@ message speedtest_ingest_report_v1 {
   speedtest_req_v1 report = 2;
 }
 
+enum speedtest_verification_result {
+  speedtest_valid = 0;
+  speedtest_gateway_not_found = 1;
+}
+
+message verified_speedtest {
+  speedtest_ingest_report_v1 report = 1;
+  speedtest_verification_result result = 2;
+  // timestamp in millis of when the packet was verified
+  uint64 timestamp = 3;
+}
+
 message cell_heartbeat_req_v1 {
   // Public key of the hotspot
   bytes pub_key = 1;
