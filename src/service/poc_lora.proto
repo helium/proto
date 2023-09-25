@@ -38,6 +38,7 @@ enum invalid_reason {
   unknown_error = 18;
   below_min_distance = 19;
   duplicate = 20;
+  denied_edge = 21;
 }
 
 enum non_rewardable_packet_reason {
