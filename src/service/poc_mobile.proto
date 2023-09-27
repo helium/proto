@@ -247,6 +247,8 @@ enum heartbeat_validity {
   heartbeat_validity_too_far_from_coverage = 9;
   // Gateway is not asserted
   heartbeat_validity_gateway_not_asserted = 10;
+  // Heartbeat cell type does not match asserted cell type
+  heartbeat_validity_bad_cell_type = 10;
 }
 
 message seniority_update {
