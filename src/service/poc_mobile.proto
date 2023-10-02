@@ -68,6 +68,28 @@ message cell_heartbeat_ingest_report_v1 {
   cell_heartbeat_req_v1 report = 2;
 }
 
+message wifi_heartbeat_req_v1 {
+  // Public key of the hotspot
+  bytes pub_key = 1;
+  // Timestamp of heartbeat in seconds from unix epoch
+  uint64 timestamp = 2;
+  double lat = 3;
+  double lon = 4;
+  // Timestamp of location validation in seconds from unix epoch
+  uint64 location_validation_timestamp = 5;
+  bool operation_mode = 6;
+  bytes coverage_object = 7;
+  bytes signature = 8;
+}
+
+message wifi_heartbeat_resp_v1 { string id = 1; }
+
+message wifi_heartbeat_ingest_report_v1 {
+  // timestamp in millisconds since unix epoch
+  uint64 received_timestamp = 1;
+  wifi_heartbeat_req_v1 report = 2;
+}
+
 // mapper attach report output by ingestor, tagged with received_timestamp
 message mapper_attach_ingest_report_v1 {
   // timestamp in millisconds since unix epoch
@@ -151,6 +173,8 @@ service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
       returns (cell_heartbeat_resp_v1);
+  rpc submit_wifi_heartbeat(wifi_heartbeat_req_v1)
+      returns (wifi_heartbeat_resp_v1);
   rpc submit_data_transfer_session(data_transfer_session_req_v1)
       returns (data_transfer_session_resp_v1);
   rpc submit_subscriber_location(subscriber_location_req_v1)
@@ -179,6 +203,7 @@ enum coverage_object_validity {
 }
 
 message heartbeat {
+  // applicable to cell heartbeats only
   string cbsd_id = 1;
   bytes pub_key = 2;
   float reward_multiplier = 3;
@@ -189,6 +214,12 @@ message heartbeat {
   double lon = 8;
   // UUID of the coverage object associated with this heartbeat
   bytes coverage_object = 9;
+  // Timestamp of location validation in seconds from unix epoch
+  // applicable to wifi heartbeats only
+  uint64 location_validation_timestamp = 10;
+  // Distance in meters to the asserted location of the gateway_reward
+  // at the time of heartbeat verification
+  uint64 distance_to_asserted = 11;
 }
 
 enum heartbeat_validity {
@@ -207,6 +238,8 @@ enum heartbeat_validity {
   heartbeat_validity_invalid_lat_lon = 8;
   // Heartbeat is too distant from the coverage object's hex coverage
   heartbeat_validity_too_far_from_coverage = 9;
+  // Gateway is not asserted
+  heartbeat_validity_gateway_not_asserted = 10;
 }
 
 message seniority_update {
@@ -324,6 +357,8 @@ enum cell_type {
   neutrino430 = 2;
   sercomm_indoor = 3;
   sercomm_outdoor = 4;
+  cell_type_none = 5;
+  nova_generic_wifi_indoor = 6;
 }
 
 message data_transfer_session_req_v1 {
