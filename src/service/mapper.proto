@@ -1,0 +1,19 @@
+syntax = "proto3";
+package helium.mapper;
+
+import "mapper.proto";
+
+service scan_upload {
+  rpc upload(mapper_msg) returns (scan_upload_reply) {}
+}
+
+message scan_upload_reply { scan_upload_status status = 1; }
+
+enum scan_upload_status {
+  success = 0;
+  no_message = 1;
+  unsupported_message = 2;
+  invalid_pubkey = 3;
+  invalid_signature = 4;
+  internal_error = 5;
+}
