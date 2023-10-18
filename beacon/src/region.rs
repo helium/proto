@@ -86,7 +86,7 @@ impl Region {
     }
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, PartialEq)]
 pub struct RegionParams {
     pub gain: Decimal,
     pub region: Region,
@@ -99,12 +99,6 @@ pub struct RegionParams {
 impl AsRef<[BlockchainRegionParamV1]> for RegionParams {
     fn as_ref(&self) -> &[BlockchainRegionParamV1] {
         self.params.as_ref()
-    }
-}
-
-impl PartialEq for RegionParams {
-    fn eq(&self, other: &Self) -> bool {
-        self.gain.eq(&other.gain) && self.region.eq(&other.region) && self.params.eq(&other.params)
     }
 }
 
@@ -155,6 +149,10 @@ impl RegionParams {
 }
 
 impl RegionParams {
+    pub fn eq_params(&self, other: &Self) -> bool {
+        self.gain.eq(&other.gain) && self.region.eq(&other.region) && self.params.eq(&other.params)
+    }
+
     pub fn check_valid(&self) -> Result {
         if self.is_unknown() || self.params.is_empty() {
             return Err(Error::no_region_params());
