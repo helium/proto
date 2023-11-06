@@ -367,11 +367,12 @@ message data_transfer_session_req_v1 {
   /// it is securely created and signed by hotspot
   data_transfer_event data_transfer_usage = 1;
   /// this decision is done by OCS like system
-  bool reward_cancelled = 2;
+  bool reward_cancelled = 2 [ deprecated = true ];
   /// Online Charging System is part of teleco stack which is able
   /// to make a decision about data transfer and reward
   bytes pub_key = 3;
   bytes signature = 4;
+  uint64 rewardable_bytes = 5;
 }
 
 message data_transfer_event {

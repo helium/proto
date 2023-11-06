@@ -33,4 +33,5 @@ message valid_data_transfer_session {
   // Timestamp in millis of the last ingest file we found a data transfer
   // session in
   uint64 last_timestamp = 7;
+  uint64 rewardable_bytes = 8;
 }
