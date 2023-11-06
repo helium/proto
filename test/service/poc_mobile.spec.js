@@ -29,6 +29,6 @@ describe('seniority_update', () => {
           .seniority_update_reason_heartbeat_not_seen,
     })
     const serializedTxn = PocMobile.seniority_update.encode(txn).finish()
-    expect(serializedTxn.toString('base64')).toBe('Cgdzb21lX2lkEJWa7zoYAA==')
+    expect(serializedTxn.toString('base64')).toBe('Cgdzb21lX2lkGJWa7zogAA==')
   })
 })

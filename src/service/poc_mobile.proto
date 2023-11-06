@@ -136,12 +136,19 @@ message radio_hex_signal_level {
 message coverage_object_req_v1 {
   bytes pub_key = 1;
   bytes uuid = 2;
-  string cbsd_id = 3;
+  oneof key_type {
+    // For CBRS radio
+    string cbsd_id = 3;
+    // For WiFi radio
+    bytes hotspot_key = 4;
+  }
   // Timestamp in seconds since the unix epoch indicating the start of coverage
-  uint64 coverage_claim_time = 4;
-  repeated radio_hex_signal_level coverage = 5;
-  bool indoor = 6;
-  bytes signature = 7;
+  uint64 coverage_claim_time = 5;
+  repeated radio_hex_signal_level coverage = 6;
+  bool indoor = 7;
+  // Trust score (0.0 - 1.0) multiplied by 1000
+  uint32 trust_score = 8;
+  bytes signature = 9;
 }
 
 message coverage_object_resp_v1 { string id = 1; }
@@ -243,10 +250,15 @@ enum heartbeat_validity {
 }
 
 message seniority_update {
-  string cbsd_id = 1;
+  oneof key_type {
+    // For CBRS radio
+    string cbsd_id = 1;
+    // For WiFi radio
+    bytes hotspot_key = 2;
+  }
   // Timestamp of the new seniority for the radio
-  uint64 new_seniority_timestamp = 2;
-  seniority_update_reason reason = 3;
+  uint64 new_seniority_timestamp = 3;
+  seniority_update_reason reason = 4;
 }
 
 enum seniority_update_reason {
