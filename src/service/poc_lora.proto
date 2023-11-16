@@ -237,6 +237,21 @@ message operational_reward {
   uint64 amount = 1;
 }
 
+enum unallocated_reward_type {
+  unallocated_reward_type_poc = 0;
+  unallocated_reward_type_mapper = 1;
+  unallocated_reward_type_oracle = 2;
+  unallocated_reward_type_data = 3;
+}
+
+message unallocated_reward {
+  // the reward type representing a reward category to which an unallocated
+  // amount exists
+  unallocated_reward_type reward_type = 1;
+  /// Amount in bones unallocated
+  uint64 amount = 2;
+}
+
 message iot_reward_share {
   /// Unix timestamp in seconds of the start of the reward period
   uint64 start_period = 1;
@@ -246,6 +261,7 @@ message iot_reward_share {
   oneof reward {
     gateway_reward gateway_reward = 3;
     operational_reward operational_reward = 4;
+    unallocated_reward unallocated_reward = 5;
   }
 }
 
