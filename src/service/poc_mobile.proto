@@ -330,7 +330,8 @@ message radio_reward {
   float heartbeat_multiplier = 8;
   // only used for wifi indoor radios, all others should have a value of 1.0
   float location_trust_score_multiplier = 9;
-  // based on speedtest averages of speedtests during 48 hour period from end of rewardable period
+  // based on speedtest averages of speedtests during 48 hour period from end of
+  // rewardable period
   float speedtest_multiplier = 10;
 }
 
@@ -339,7 +340,7 @@ message gateway_reward {
   bytes hotspot_key = 1;
   /// Amount awarded for dc transfer
   uint64 dc_transfer_reward = 2;
-  /// count of rewardable bytes transfered 
+  /// count of rewardable bytes transfered
   uint64 rewardable_bytes = 3;
   /// Price of MOBILE used when calculating rewards
   uint64 price = 4;
