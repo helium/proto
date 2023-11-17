@@ -21,7 +21,7 @@ message gateway_metadata {
   // The res12 h3 index asserted address of the gateway as a string
   // where an unasserted gateway returns an empty string
   string location = 2;
-  //
+  // the asserted device type of the gateway
   string device_type = 3;
 }
 
