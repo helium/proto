@@ -214,7 +214,7 @@ message heartbeat {
   string cbsd_id = 1;
   bytes pub_key = 2;
   // this value is the heartbeat_multiplier * location_trust_score_multiplier
-  float reward_multiplier = 3;
+  float reward_multiplier = 3 [ deprecated = true ];
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
@@ -228,8 +228,6 @@ message heartbeat {
   // Distance in meters to the asserted location of the gateway_reward
   // at the time of heartbeat verification
   uint64 distance_to_asserted = 11;
-  // based on cell_type of radio
-  float heartbeat_multiplier = 12;
   // only used for wifi indoor radios, all others should have a value of 1.0
   float location_trust_score_multiplier = 13;
 }
@@ -326,8 +324,6 @@ message radio_reward {
   uint64 seniority_timestamp = 6;
   // UUID of the coverage object used to reward this radio
   bytes coverage_object = 7;
-  // based on number of heartbeats received and cell_type
-  float heartbeat_multiplier = 8;
   // only used for wifi indoor radios, all others should have a value of 1.0
   float location_trust_score_multiplier = 9;
   // based on speedtest averages of speedtests during 48 hour period from end of
