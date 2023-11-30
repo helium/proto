@@ -40,6 +40,14 @@ message gateway_info_req_v1 {
   bytes signature = 3;
 }
 
+message gateway_info_batch_req_v1 {
+  // List of public key addresses of gateways to look up
+  repeated bytes addresses = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
 message gateway_info_res_v1 {
   gateway_info info = 1;
   // unix epoch timestamp in seconds
@@ -189,6 +197,9 @@ message admin_key_res_v1 {
 service gateway {
   // Get info for the specified gateway
   rpc info(gateway_info_req_v1) returns (gateway_info_res_v1);
+  // Get info for a batch of gateways specified by public key
+  rpc info_batch(gateway_info_batch_req_v1)
+      returns (stream gateway_info_stream_res_v1);
   // Get a stream of gateway info
   rpc info_stream(gateway_info_stream_req_v1)
       returns (stream gateway_info_stream_res_v1);
