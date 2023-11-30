@@ -43,9 +43,11 @@ message gateway_info_req_v1 {
 message gateway_info_batch_req_v1 {
   // List of public key addresses of gateways to look up
   repeated bytes addresses = 1;
+  // max number of gateway info records in each message of the response stream
+  uint32 batch_size = 2;
   // pubkey binary of the signing keypair
-  bytes signer = 2;
-  bytes signature = 3;
+  bytes signer = 3;
+  bytes signature = 4;
 }
 
 message gateway_info_res_v1 {
