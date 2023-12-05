@@ -51,6 +51,7 @@ message packet_router_register_v1 {
   bytes gateway = 2;
   bytes signature = 3;
   bool session_capable = 4;
+  uint32 packet_ack_interval = 5;
 }
 
 // Session offer from the packet router to the gateway. If the gateway wants to
@@ -102,10 +103,13 @@ message packet_router_packet_down_v1 {
   window_v1 rx2 = 3;
 }
 
+message packet_router_packet_ack_v1 { bytes payload_hash = 1; }
+
 message envelope_down_v1 {
   oneof data {
     packet_router_packet_down_v1 packet = 1;
     packet_router_session_offer_v1 session_offer = 2;
+    packet_router_packet_ack_v1 packet_ack = 3;
   }
 }
 
