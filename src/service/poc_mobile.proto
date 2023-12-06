@@ -229,7 +229,8 @@ message heartbeat {
   // at the time of heartbeat verification
   uint64 distance_to_asserted = 11;
   // only used for wifi indoor radios, all others should have a value of 1.0
-  float location_trust_score_multiplier = 13;
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint32 location_trust_score_multiplier = 12;
 }
 
 enum heartbeat_validity {
@@ -325,10 +326,12 @@ message radio_reward {
   // UUID of the coverage object used to reward this radio
   bytes coverage_object = 7;
   // only used for wifi indoor radios, all others should have a value of 1.0
-  float location_trust_score_multiplier = 9;
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint32 location_trust_score_multiplier = 8;
   // based on speedtest averages of speedtests during 48 hour period from end of
   // rewardable period
-  float speedtest_multiplier = 10;
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint32 speedtest_multiplier = 9;
 }
 
 message gateway_reward {
