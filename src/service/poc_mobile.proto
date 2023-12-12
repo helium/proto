@@ -371,6 +371,7 @@ enum cell_type {
   sercomm_outdoor = 4;
   cell_type_none = 5;
   nova_generic_wifi_indoor = 6;
+  nova_generic_wifi_outdoor = 7;
 }
 
 message data_transfer_session_req_v1 {
