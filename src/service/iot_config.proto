@@ -391,6 +391,9 @@ message route_stream_req_v1 {
   bytes signature = 2;
   // pubkey binary of the signing keypair
   bytes signer = 3;
+  // timestamp in milliseconds, only changes since this timestamp are
+  // streamed back to caller
+  uint64 since = 4;
 }
 
 message route_stream_res_v1 {
