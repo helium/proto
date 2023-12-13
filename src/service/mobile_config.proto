@@ -21,6 +21,8 @@ message gateway_metadata {
   // The res12 h3 index asserted address of the gateway as a string
   // where an unasserted gateway returns an empty string
   string location = 2;
+  // the asserted device type of the gateway
+  device_type device_type = 3;
 }
 
 message gateway_info {
@@ -28,8 +30,6 @@ message gateway_info {
   bytes address = 1;
   // The gateway metadata as recorded on the blockchain
   gateway_metadata metadata = 2;
-  // the asserted device type of the gateway
-  device_type device_type = 3;
 }
 
 message gateway_info_req_v1 {
@@ -106,6 +106,7 @@ enum network_key_role {
 enum device_type {
   cbrs = 0;
   wifi_indoor = 1;
+  wifi_outdoor = 2;
 }
 
 message authorization_verify_req_v1 {
