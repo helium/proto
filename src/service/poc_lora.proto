@@ -39,6 +39,7 @@ enum invalid_reason {
   below_min_distance = 19;
   duplicate = 20;
   denied_edge = 21;
+  too_late = 22;
 }
 
 enum non_rewardable_packet_reason {
