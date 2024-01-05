@@ -239,7 +239,7 @@ message operational_reward {
 
 enum unallocated_reward_type {
   unallocated_reward_type_poc = 0;
-  unallocated_reward_type_mapper = 1;
+  unallocated_reward_type_operation = 1;
   unallocated_reward_type_oracle = 2;
   unallocated_reward_type_data = 3;
 }
