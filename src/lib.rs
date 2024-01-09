@@ -10,7 +10,7 @@ pub use prost::{DecodeError, EncodeError, Message};
 pub mod services {
     use crate::{
         BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, DataRate, EntropyReportV1,
-        GatewayStakingMode, MapperAttach, Region, RoutingAddress,
+        GatewayStakingMode, MapperAttach, Region, RoutingAddress, ServiceProvider,
     };
 
     pub mod iot_config {
@@ -96,6 +96,27 @@ pub mod services {
         pub use transaction_server::TransactionServer as Server;
     }
     pub use tonic::transport::*;
+}
+
+impl std::str::FromStr for ServiceProvider {
+    type Err = prost::DecodeError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "Helium Mobile" => Ok(ServiceProvider::HeliumMobile),
+            unknown => Err(prost::DecodeError::new(format!(
+                "unknown service provider: {unknown}"
+            ))),
+        }
+    }
+}
+
+impl std::fmt::Display for ServiceProvider {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            ServiceProvider::HeliumMobile => f.write_str("Helium Mobile"),
+        }
+    }
 }
 
 impl std::str::FromStr for DataRate {
