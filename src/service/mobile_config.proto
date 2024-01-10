@@ -93,6 +93,24 @@ message entity_verify_res_v1 {
   bytes signature = 4;
 }
 
+message carrier_key_to_entity_req_v1 {
+  // string representation of the helium pubkey of the carrier
+  string pubkey = 1;
+  // pubkey binary of the requestor signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
+message carrier_key_to_entity_res_v1 {
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 1;
+  // string representing the entity key
+  string entity_key = 2;
+  // pubkey binary of the requestor signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
 enum admin_key_role {
   // administrative operator key
   administrator = 0;
@@ -210,6 +228,12 @@ service gateway {
 service entity {
   // Verify the rewardable entity (mobile subscriber) is registered to the chain
   rpc verify(entity_verify_req_v1) returns (entity_verify_res_v1);
+}
+
+service carrier_service {
+  // Retrieve an entity key for the specified helium pubkey
+  rpc key_to_entity(carrier_key_to_entity_req_v1)
+      returns (carrier_key_to_entity_res_v1);
 }
 
 service authorization {

@@ -31,6 +31,8 @@ pub mod services {
         pub use admin_server::{Admin, AdminServer};
         pub use authorization_client::AuthorizationClient;
         pub use authorization_server::{Authorization, AuthorizationServer};
+        pub use carrier_service_client::CarrierServiceClient;
+        pub use carrier_service_server::{CarrierService, CarrierServiceServer};
         pub use entity_client::EntityClient;
         pub use entity_server::{Entity, EntityServer};
         pub use gateway_client::GatewayClient;
