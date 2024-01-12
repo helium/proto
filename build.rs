@@ -21,6 +21,7 @@ const SERVICES: &[&str] = &[
 const MESSAGES: &[&str] = &[
     "src/blockchain_txn.proto",
     "src/entropy.proto",
+    "src/service_provider.proto",
     "src/data_rate.proto",
     "src/region.proto",
     "src/mapper.proto",
