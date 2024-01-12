@@ -18,27 +18,56 @@ enum invalid_participant_side {
 
 enum invalid_reason {
   reason_none = 0;
+  // report has an invalid signature - beacon or witness
   bad_signature = 1;
+  // report's gateway is not asserted - beacon or witness
   not_asserted = 2;
+  // report's entropy has expired - beacon or witness
   entropy_expired = 3;
+  // report's entropy is invalid - beacon or witness
   bad_entropy = 4;
+  // report's gateway has a type not permitted to participate in POC - beacon or
+  // witness
   invalid_capability = 5;
+  // currently unused
   invalid_pubkey = 6;
+  // beacon report is not within the expected & permitted interval - beacon only
   irregular_interval = 7;
+  // report's gateway is unknown - beacon or witness
   gateway_not_found = 8;
+  // report's gateway is on the denylist - beacon or witness
   denied = 9;
+  // report's beacon payload is invalid - beacon or witness
   invalid_packet = 10;
+  // report's rssi value is invalid - witness only
   bad_rssi = 11;
+  // report's gateway differs to that of the beaconer's region - witness only
   invalid_region = 12;
+  // reports gateway location has a distance to the beaconer that exceeds the
+  // maximum permitted - witness only
   max_distance_exceeded = 13;
+  // reports frequency is not within the permitted range of the beacon frequency
+  // - witness only
   invalid_frequency = 14;
+  // witness report originates from the same gateway as the beaconer - witness
+  // only
   self_witness = 15;
+  // report has not been processed within the max permitted time - beacon or
+  // witness
   stale = 16;
+  // currently unused
   scaling_factor_not_found = 17;
+  // An unexpected error occurred during verification - beacon or witness
   unknown_error = 18;
+  // report's gateway location has a distance to the beaconer that is below the
+  // minimum permitted - witness only
   below_min_distance = 19;
+  // report is a duplicate of a previously submitted report - witness only
   duplicate = 20;
+  // report is for a gateway that has been denied - witness only
   denied_edge = 21;
+  // time from the first received POC event to the report's received time
+  // exceeds max permitted - witness only
   too_late = 22;
 }
 
