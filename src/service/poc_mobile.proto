@@ -3,6 +3,7 @@ syntax = "proto3";
 package helium.poc_mobile;
 
 import "mapper.proto";
+import "service_provider.proto";
 
 message speedtest_req_v1 {
   bytes pub_key = 1;
@@ -335,10 +336,6 @@ message subscriber_reward {
   bytes subscriber_id = 1;
   /// Amount in bones credited to the subscriber for location sharing
   uint64 discovery_location_amount = 2;
-}
-
-enum service_provider {
-  helium_mobile = 0;
 }
 
 message service_provider_reward {

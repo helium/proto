@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package helium;
+
+enum service_provider {
+  helium_mobile = 0;
+}
