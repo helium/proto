@@ -40,6 +40,8 @@ enum invalid_reason {
   duplicate = 20;
   denied_edge = 21;
   too_late = 22;
+  gateway_no_valid_beacons = 23;
+  gateway_no_valid_witnesses = 24;
 }
 
 enum non_rewardable_packet_reason {
