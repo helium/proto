@@ -214,7 +214,8 @@ message heartbeat {
   // applicable to cell heartbeats only
   string cbsd_id = 1;
   bytes pub_key = 2;
-  float reward_multiplier = 3;
+  // this value is the heartbeat_multiplier * location_trust_score_multiplier
+  float reward_multiplier = 3 [ deprecated = true ];
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
@@ -228,6 +229,9 @@ message heartbeat {
   // Distance in meters to the asserted location of the gateway_reward
   // at the time of heartbeat verification
   uint64 distance_to_asserted = 11;
+  // only used for wifi indoor radios, all others should have a value of 1.0
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint32 location_trust_score_multiplier = 12;
 }
 
 enum heartbeat_validity {
@@ -322,6 +326,13 @@ message radio_reward {
   uint64 seniority_timestamp = 6;
   // UUID of the coverage object used to reward this radio
   bytes coverage_object = 7;
+  // only used for wifi indoor radios, all others should have a value of 1.0
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint32 location_trust_score_multiplier = 8;
+  // based on speedtest averages of speedtests during 48 hour period from end of
+  // rewardable period
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint32 speedtest_multiplier = 9;
 }
 
 message gateway_reward {
@@ -329,6 +340,10 @@ message gateway_reward {
   bytes hotspot_key = 1;
   /// Amount awarded for dc transfer
   uint64 dc_transfer_reward = 2;
+  /// count of rewardable bytes transfered
+  uint64 rewardable_bytes = 3;
+  /// Price of MOBILE @ 10^6 used when calculating rewards
+  uint64 price = 4;
 }
 
 message subscriber_reward {
