@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package helium;
+
+message boosted_hex_info_v1 {
+  // The res12 h3 index of the boosted hex
+  uint64 location = 1;
+  // Unix timestamp in seconds of the start of the boost period
+  // 0 if the boosting has not yet started
+  uint64 start_ts = 2;
+  // Unix timestamp in seconds of the end of the boost period
+  // 0 if the boosting has not yet started
+  uint64 end_ts = 3;
+  // The length of the boost period in months expressed as seconds
+  // where one month = 30 days
+  uint32 period_length = 4;
+  // the multipliers valid for this hex
+  // for each period
+  repeated uint32 multipliers = 5;
+  // the onchain address of the boosted hex account
+  bytes boosted_hex_pubkey = 6;
+  // the onchain address of the boost config account
+  bytes boost_config_pubkey = 7;
+}
+
+message boosted_hex_update_v1 {
+  // Unix timestamp in seconds the hex was updated
+  uint64 timestamp = 1;
+  // Details of the updated hex
+  boosted_hex_info_v1 update = 2;
+}
