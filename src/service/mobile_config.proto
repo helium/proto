@@ -28,6 +28,8 @@ message gateway_info {
   bytes address = 1;
   // The gateway metadata as recorded on the blockchain
   gateway_metadata metadata = 2;
+  // the asserted device type of the gateway
+  device_type device_type = 3;
 }
 
 message gateway_info_req_v1 {
@@ -36,6 +38,16 @@ message gateway_info_req_v1 {
   // pubkey binary of the signing keypair
   bytes signer = 2;
   bytes signature = 3;
+}
+
+message gateway_info_batch_req_v1 {
+  // List of public key addresses of gateways to look up
+  repeated bytes addresses = 1;
+  // max number of gateway info records in each message of the response stream
+  uint32 batch_size = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
 }
 
 message gateway_info_res_v1 {
@@ -81,6 +93,24 @@ message entity_verify_res_v1 {
   bytes signature = 4;
 }
 
+message carrier_key_to_entity_req_v1 {
+  // string representation of the helium pubkey of the carrier
+  string pubkey = 1;
+  // pubkey binary of the requestor signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
+message carrier_key_to_entity_res_v1 {
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 1;
+  // string representing the entity key
+  string entity_key = 2;
+  // pubkey binary of the requestor signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
 enum admin_key_role {
   // administrative operator key
   administrator = 0;
@@ -99,6 +129,12 @@ enum network_key_role {
   mobile_router = 1;
   // Keys from the Propagation Calculation Service
   mobile_pcs = 2;
+}
+
+enum device_type {
+  cbrs = 0;
+  wifi_indoor = 1;
+  wifi_outdoor = 2;
 }
 
 message authorization_verify_req_v1 {
@@ -181,6 +217,9 @@ message admin_key_res_v1 {
 service gateway {
   // Get info for the specified gateway
   rpc info(gateway_info_req_v1) returns (gateway_info_res_v1);
+  // Get info for a batch of gateways specified by public key
+  rpc info_batch(gateway_info_batch_req_v1)
+      returns (stream gateway_info_stream_res_v1);
   // Get a stream of gateway info
   rpc info_stream(gateway_info_stream_req_v1)
       returns (stream gateway_info_stream_res_v1);
@@ -189,6 +228,12 @@ service gateway {
 service entity {
   // Verify the rewardable entity (mobile subscriber) is registered to the chain
   rpc verify(entity_verify_req_v1) returns (entity_verify_res_v1);
+}
+
+service carrier_service {
+  // Retrieve an entity key for the specified helium pubkey
+  rpc key_to_entity(carrier_key_to_entity_req_v1)
+      returns (carrier_key_to_entity_res_v1);
 }
 
 service authorization {

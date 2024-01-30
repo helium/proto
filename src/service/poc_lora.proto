@@ -41,6 +41,8 @@ enum invalid_reason {
   unknown_error = 18;
   below_min_distance = 19;
   duplicate = 20;
+  denied_edge = 21;
+  too_late = 22;
 }
 
 enum non_rewardable_packet_reason {
@@ -239,6 +241,21 @@ message operational_reward {
   uint64 amount = 1;
 }
 
+enum unallocated_reward_type {
+  unallocated_reward_type_poc = 0;
+  unallocated_reward_type_operation = 1;
+  unallocated_reward_type_oracle = 2;
+  unallocated_reward_type_data = 3;
+}
+
+message unallocated_reward {
+  // the reward type representing a reward category to which an unallocated
+  // amount exists
+  unallocated_reward_type reward_type = 1;
+  /// Amount in iot bones credited to unallocated
+  uint64 amount = 2;
+}
+
 message iot_reward_share {
   /// Unix timestamp in seconds of the start of the reward period
   uint64 start_period = 1;
@@ -248,7 +265,29 @@ message iot_reward_share {
   oneof reward {
     gateway_reward gateway_reward = 3;
     operational_reward operational_reward = 4;
+    unallocated_reward unallocated_reward = 5;
   }
+}
+
+message lora_stream_session_offer_v1 { bytes nonce = 1; }
+
+message lora_stream_session_init_v1 {
+  bytes pub_key = 1;
+  bytes nonce = 2;
+  bytes session_key = 3;
+  bytes signature = 4;
+}
+
+message lora_stream_request_v1 {
+  oneof request {
+    lora_beacon_report_req_v1 beacon_report = 1;
+    lora_witness_report_req_v1 witness_report = 2;
+    lora_stream_session_init_v1 session_init = 3;
+  }
+}
+
+message lora_stream_response_v1 {
+  oneof response { lora_stream_session_offer_v1 offer = 1; }
 }
 
 service poc_lora {
@@ -256,4 +295,6 @@ service poc_lora {
       returns (lora_beacon_report_resp_v1);
   rpc submit_lora_witness(lora_witness_report_req_v1)
       returns (lora_witness_report_resp_v1);
+  rpc stream_requests(stream lora_stream_request_v1)
+      returns (stream lora_stream_response_v1);
 }

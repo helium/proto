@@ -3,6 +3,7 @@ syntax = "proto3";
 package helium.poc_mobile;
 
 import "mapper.proto";
+import "service_provider.proto";
 
 message speedtest_req_v1 {
   bytes pub_key = 1;
@@ -26,6 +27,18 @@ message speedtest_ingest_report_v1 {
   // timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
   speedtest_req_v1 report = 2;
+}
+
+enum speedtest_verification_result {
+  speedtest_valid = 0;
+  speedtest_gateway_not_found = 1;
+}
+
+message verified_speedtest {
+  speedtest_ingest_report_v1 report = 1;
+  speedtest_verification_result result = 2;
+  // timestamp in millis of when the packet was verified
+  uint64 timestamp = 3;
 }
 
 message cell_heartbeat_req_v1 {
@@ -54,6 +67,28 @@ message cell_heartbeat_ingest_report_v1 {
   // timestamp in millisconds since unix epoch
   uint64 received_timestamp = 1;
   cell_heartbeat_req_v1 report = 2;
+}
+
+message wifi_heartbeat_req_v1 {
+  // Public key of the hotspot
+  bytes pub_key = 1;
+  // Timestamp of heartbeat in seconds from unix epoch
+  uint64 timestamp = 2;
+  double lat = 3;
+  double lon = 4;
+  // Timestamp of location validation in seconds from unix epoch
+  uint64 location_validation_timestamp = 5;
+  bool operation_mode = 6;
+  bytes coverage_object = 7;
+  bytes signature = 8;
+}
+
+message wifi_heartbeat_resp_v1 { string id = 1; }
+
+message wifi_heartbeat_ingest_report_v1 {
+  // timestamp in millisconds since unix epoch
+  uint64 received_timestamp = 1;
+  wifi_heartbeat_req_v1 report = 2;
 }
 
 // mapper attach report output by ingestor, tagged with received_timestamp
@@ -102,12 +137,19 @@ message radio_hex_signal_level {
 message coverage_object_req_v1 {
   bytes pub_key = 1;
   bytes uuid = 2;
-  string cbsd_id = 3;
+  oneof key_type {
+    // For CBRS radio
+    string cbsd_id = 3;
+    // For WiFi radio
+    bytes hotspot_key = 4;
+  }
   // Timestamp in seconds since the unix epoch indicating the start of coverage
-  uint64 coverage_claim_time = 4;
-  repeated radio_hex_signal_level coverage = 5;
-  bool indoor = 6;
-  bytes signature = 7;
+  uint64 coverage_claim_time = 5;
+  repeated radio_hex_signal_level coverage = 6;
+  bool indoor = 7;
+  // Trust score (0.0 - 1.0) multiplied by 1000
+  uint32 trust_score = 8;
+  bytes signature = 9;
 }
 
 message coverage_object_resp_v1 { string id = 1; }
@@ -139,6 +181,8 @@ service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
       returns (cell_heartbeat_resp_v1);
+  rpc submit_wifi_heartbeat(wifi_heartbeat_req_v1)
+      returns (wifi_heartbeat_resp_v1);
   rpc submit_data_transfer_session(data_transfer_session_req_v1)
       returns (data_transfer_session_resp_v1);
   rpc submit_subscriber_location(subscriber_location_req_v1)
@@ -167,9 +211,11 @@ enum coverage_object_validity {
 }
 
 message heartbeat {
+  // applicable to cell heartbeats only
   string cbsd_id = 1;
   bytes pub_key = 2;
-  float reward_multiplier = 3;
+  // this value is the heartbeat_multiplier * location_trust_score_multiplier
+  float reward_multiplier = 3 [ deprecated = true ];
   uint64 timestamp = 4;
   cell_type cell_type = 5;
   heartbeat_validity validity = 6;
@@ -177,6 +223,15 @@ message heartbeat {
   double lon = 8;
   // UUID of the coverage object associated with this heartbeat
   bytes coverage_object = 9;
+  // Timestamp of location validation in seconds from unix epoch
+  // applicable to wifi heartbeats only
+  uint64 location_validation_timestamp = 10;
+  // Distance in meters to the asserted location of the gateway_reward
+  // at the time of heartbeat verification
+  uint64 distance_to_asserted = 11;
+  // only used for wifi indoor radios, all others should have a value of 1.0
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint32 location_trust_score_multiplier = 12;
 }
 
 enum heartbeat_validity {
@@ -195,13 +250,22 @@ enum heartbeat_validity {
   heartbeat_validity_invalid_lat_lon = 8;
   // Heartbeat is too distant from the coverage object's hex coverage
   heartbeat_validity_too_far_from_coverage = 9;
+  // Gateway is not asserted
+  heartbeat_validity_gateway_not_asserted = 10;
+  // heartbeat location is outside supported locations
+  heartbeat_validity_unsupported_location = 11;
 }
 
 message seniority_update {
-  string cbsd_id = 1;
+  oneof key_type {
+    // For CBRS radio
+    string cbsd_id = 1;
+    // For WiFi radio
+    bytes hotspot_key = 2;
+  }
   // Timestamp of the new seniority for the radio
-  uint64 new_seniority_timestamp = 2;
-  seniority_update_reason reason = 3;
+  uint64 new_seniority_timestamp = 3;
+  seniority_update_reason reason = 4;
 }
 
 enum seniority_update_reason {
@@ -264,6 +328,13 @@ message radio_reward {
   uint64 seniority_timestamp = 6;
   // UUID of the coverage object used to reward this radio
   bytes coverage_object = 7;
+  // only used for wifi indoor radios, all others should have a value of 1.0
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint32 location_trust_score_multiplier = 8;
+  // based on speedtest averages of speedtests during 48 hour period from end of
+  // rewardable period
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint32 speedtest_multiplier = 9;
 }
 
 message gateway_reward {
@@ -271,6 +342,10 @@ message gateway_reward {
   bytes hotspot_key = 1;
   /// Amount awarded for dc transfer
   uint64 dc_transfer_reward = 2;
+  /// count of rewardable bytes transfered
+  uint64 rewardable_bytes = 3;
+  /// Price of MOBILE @ 10^6 used when calculating rewards
+  uint64 price = 4;
 }
 
 message subscriber_reward {
@@ -278,6 +353,31 @@ message subscriber_reward {
   bytes subscriber_id = 1;
   /// Amount in bones credited to the subscriber for location sharing
   uint64 discovery_location_amount = 2;
+}
+
+message service_provider_reward {
+  // rewardable entity id of the service provider to which the reward will be
+  // credited
+  service_provider service_provider_id = 1;
+  /// Amount in bones rewarded
+  uint64 amount = 2;
+}
+
+enum unallocated_reward_type {
+  unallocated_reward_type_poc = 0;
+  unallocated_reward_type_discovery_location = 1;
+  unallocated_reward_type_mapper = 2;
+  unallocated_reward_type_service_provider = 3;
+  unallocated_reward_type_oracle = 4;
+  unallocated_reward_type_data = 5;
+}
+
+message unallocated_reward {
+  // the reward type representing a reward category to which an unallocated
+  // amount exists
+  unallocated_reward_type reward_type = 1;
+  /// Amount in bones unallocated
+  uint64 amount = 2;
 }
 
 message mobile_reward_share {
@@ -290,6 +390,8 @@ message mobile_reward_share {
     radio_reward radio_reward = 3;
     gateway_reward gateway_reward = 4;
     subscriber_reward subscriber_reward = 5;
+    service_provider_reward service_provider_reward = 6;
+    unallocated_reward unallocated_reward = 7;
   }
 }
 
@@ -312,6 +414,9 @@ enum cell_type {
   neutrino430 = 2;
   sercomm_indoor = 3;
   sercomm_outdoor = 4;
+  cell_type_none = 5;
+  nova_generic_wifi_indoor = 6;
+  nova_generic_wifi_outdoor = 7;
 }
 
 message data_transfer_session_req_v1 {
@@ -325,6 +430,7 @@ message data_transfer_session_req_v1 {
   /// to make a decision about data transfer and reward
   bytes pub_key = 3;
   bytes signature = 4;
+  uint64 rewardable_bytes = 5;
 }
 
 message data_transfer_event {
