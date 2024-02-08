@@ -21,6 +21,8 @@ message boosted_hex_info_v1 {
   bytes boosted_hex_pubkey = 6;
   // the onchain address of the boost config account
   bytes boost_config_pubkey = 7;
+
+  uint32 version = 8;
 }
 
 message boosted_hex_update_v1 {
