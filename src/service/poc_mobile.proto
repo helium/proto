@@ -3,6 +3,7 @@ syntax = "proto3";
 package helium.poc_mobile;
 
 import "mapper.proto";
+import "hex_boosting.proto";
 import "service_provider.proto";
 
 message speedtest_req_v1 {
@@ -335,6 +336,15 @@ message radio_reward {
   // rewardable period
   // value is 0.0 to 1.0 multiplied by 1000
   uint32 speedtest_multiplier = 9;
+  // list of all boosted hexes covered by this radio
+  repeated boosted_hex boosted_hexes = 10;
+}
+
+message boosted_hex {
+  // The res12 h3 index of the boosted hex
+  uint64 location = 1;
+  // the multiplier applied to this hex
+  uint32 multiplier = 2;
 }
 
 message gateway_reward {
