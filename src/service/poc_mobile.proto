@@ -329,15 +329,18 @@ message radio_reward {
   uint64 seniority_timestamp = 6;
   // UUID of the coverage object used to reward this radio
   bytes coverage_object = 7;
-  // only used for wifi indoor radios, all others should have a value of 1.0
+  // Only used for wifi indoor radios, all others should have a value of 1.0
   // value is 0.0 to 1.0 multiplied by 1000
   uint32 location_trust_score_multiplier = 8;
-  // based on speedtest averages of speedtests during 48 hour period from end of
+  // Based on speedtest averages of speedtests during 48 hour period from end of
   // rewardable period
   // value is 0.0 to 1.0 multiplied by 1000
   uint32 speedtest_multiplier = 9;
-  // list of all boosted hexes covered by this radio
+  // List of all boosted hexes covered by this radio
   repeated boosted_hex boosted_hexes = 10;
+  // Multiplier for oracle calculation done as a result of HIP 103:
+  // Value is 0.0 to 1.0 multiplied by 1000
+  uint32 oracle_multiplier = 11;
 }
 
 message boosted_hex {
