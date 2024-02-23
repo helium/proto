@@ -119,6 +119,54 @@ message subscriber_location_ingest_report_v1 {
   subscriber_location_req_v1 report = 2;
 }
 
+message radio_threshold_report_req_v1 {
+  // the id of the radio which has met the coverage threshold requirements
+  // CBRS radios only
+  string cbsd_id = 1;
+  // The onchain address of the gateway which has met the coverage
+  // threshold requirements
+  bytes hotspot_pubkey = 2;
+  // the threshold value representing the amount of transferred bytes the
+  // minimum number of subscribers as defined by subscriber_threshold have
+  // exceeded
+  uint64 bytes_threshold = 3;
+  // the threshold value representing the minimum number of subscribers
+  // that have exceeded the bytes_threshold for the hotspot
+  uint32 subscriber_threshold = 4;
+  // Unix timestamp in seconds when the thresholds were exceeded
+  uint64 threshold_timestamp = 5;
+  // pubkey of the carrier identity service
+  bytes carrier_pub_key = 6;
+  // signed payload of the carrier identity service
+  bytes signature = 7;
+}
+
+message radio_threshold_report_resp_v1 { string id = 1; }
+
+message radio_threshold_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  radio_threshold_report_req_v1 report = 2;
+}
+
+enum radio_threshold_report_verification_status {
+  threshold_report_status_valid = 0;
+  // used to grandfather in hotspots that have received boosting
+  // prior to the data component of hip84 going live
+  threshold_report_status_legacy_valid = 1;
+  threshold_report_status_invalid_carrier_key = 2;
+}
+
+message verified_radio_threshold_ingest_report_v1 {
+  // the verified report
+  radio_threshold_ingest_report_v1 report = 1;
+  // the status determined by the verification
+  radio_threshold_report_verification_status status = 2;
+  // Timestamp at which verification was determined, in milliseconds since unix
+  // epoch
+  uint64 timestamp = 3;
+}
+
 enum signal_level {
   NONE = 0;
   LOW = 1;
@@ -190,6 +238,8 @@ service poc_mobile {
       returns (subscriber_location_resp_v1);
   rpc submit_coverage_object(coverage_object_req_v1)
       returns (coverage_object_resp_v1);
+  rpc submit_radio_threshold(radio_threshold_report_req_v1)
+      returns (radio_threshold_report_resp_v1);
 }
 
 message file_info {
