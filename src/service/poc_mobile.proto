@@ -489,3 +489,12 @@ message invalid_data_transfer_ingest_report_v1 {
   // epoch
   uint64 timestamp = 3;
 }
+
+message oracle_boosting_report_v1 {
+  // UUID of the coverage object for the given hex
+  bytes uuid = 1;
+  // H3 resolution 12 hex tile
+  string location = 2;
+  // Whether or not the hex tile is classified as urbanized
+  bool urbanized = 3;
+}
