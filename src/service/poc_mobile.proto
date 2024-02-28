@@ -493,12 +493,22 @@ message invalid_data_transfer_ingest_report_v1 {
 message oracle_boosting_report_v1 {
   // UUID of the coverage object for the given hex
   bytes coverage_object = 1;
+  // Assignments of the hexes
+  repeated oracle_boosting_hex_assignment assignments = 2;
+  // Timestamp of when the oracle boosting report was made in seconds since the epoch
+  uint64 timestamp = 3;
+}
+
+message oracle_boosting_hex_assignment {
+  enum assignment {
+    a = 0;
+    b = 1;
+    c = 2;
+  }
   // H3 resolution 12 hex tile
-  string location = 2;
+  string location = 1;
   // Assignment of the hex
-  string assignment = 3;
+  repeated assignment assignments = 2;
   // Multiplier derived from the assignment, value is 0.0 to 1.0 multiplied by 1000
-  uint32 assignment_multiplier = 4;
-  // Timestamp of when the oracle boosting report was made
-  uint64 timestamp = 5;
+  uint32 assignment_multiplier = 3;
 }
