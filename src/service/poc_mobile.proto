@@ -495,7 +495,8 @@ message oracle_boosting_report_v1 {
   bytes coverage_object = 1;
   // Assignments of the hexes
   repeated oracle_boosting_hex_assignment assignments = 2;
-  // Timestamp of when the oracle boosting report was made in seconds since the epoch
+  // Timestamp of when the oracle boosting report was made in seconds since the
+  // epoch
   uint64 timestamp = 3;
 }
 
@@ -509,6 +510,7 @@ message oracle_boosting_hex_assignment {
   string location = 1;
   // Assignment of the hex
   repeated assignment assignments = 2;
-  // Multiplier derived from the assignment, value is 0.0 to 1.0 multiplied by 1000
+  // Multiplier derived from the assignment, value is 0.0 to 1.0 multiplied by
+  // 1000
   uint32 assignment_multiplier = 3;
 }
