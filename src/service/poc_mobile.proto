@@ -511,9 +511,9 @@ message oracle_boosting_hex_assignment {
   // Urbanized assignment
   assignment urbanized = 2;
   // Footfall assignment
-  oneof footfall { assignment assignment = 3; }
+  oneof footfall_assignment { assignment footfall = 3; }
   // Landtype assignment
-  oneof landtype { assignment assignment = 4; }
+  oneof landtype_assignment { assignment landtype = 4; }
   // Multiplier derived from the assignment, value is 0.0 to 1.0 multiplied by
   // 1000
   uint32 assignment_multiplier = 5;
