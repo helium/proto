@@ -178,10 +178,13 @@ message invalidated_radio_threshold_report_req_v1 {
   bytes hotspot_pubkey = 2;
   // the reason the thresholds are invalidated
   invalidated_threshold_reason reason = 3;
+  // Timestamp in milliseconds since unix epoch
+  // of when the thresholds were invalidated
+  uint64 timestamp = 4;
   // pubkey of the carrier identity service
-  bytes carrier_pub_key = 4;
+  bytes carrier_pub_key = 5;
   // signed payload of the carrier identity service
-  bytes signature = 5;
+  bytes signature = 6;
 }
 
 message invalidated_radio_threshold_report_resp_v1 { string id = 1; }
