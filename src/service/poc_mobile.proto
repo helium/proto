@@ -167,6 +167,46 @@ message verified_radio_threshold_ingest_report_v1 {
   uint64 timestamp = 3;
 }
 
+enum invalidated_threshold_reason {
+  invalidated_threshold_reason_radio_moved = 0;
+}
+
+message radio_invalidated_threshold_report_req_v1 {
+  // the id of the radio which thresholds are invalidated
+  string cbsd_id = 1;
+  // The onchain address of the gateway
+  bytes hotspot_pubkey = 2;
+  // the reason the thresholds are invalidated
+  invalidated_threshold_reason reason = 3;
+  // pubkey of the carrier identity service
+  bytes carrier_pub_key = 4;
+  // signed payload of the carrier identity service
+  bytes signature = 5;
+}
+
+message radio_invalidated_threshold_report_resp_v1 { string id = 1; }
+
+message radio_invalidated_threshold_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  radio_invalidated_threshold_report_req_v1 report = 2;
+}
+
+enum radio_invalidated_threshold_report_verification_status {
+  invalidated_threshold_report_status_valid = 0;
+  invalidated_threshold_report_status_invalid_carrier_key = 1;
+}
+
+message verified_invalidated_radio_threshold_ingest_report_v1 {
+  // the verified report
+  radio_invalidated_threshold_ingest_report_v1 report = 1;
+  // the status determined by the verification
+  radio_invalidated_threshold_report_verification_status status = 2;
+  // Timestamp at which verification was determined, in milliseconds since unix
+  // epoch
+  uint64 timestamp = 3;
+}
+
 enum signal_level {
   NONE = 0;
   LOW = 1;
