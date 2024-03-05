@@ -278,8 +278,11 @@ service poc_mobile {
       returns (subscriber_location_resp_v1);
   rpc submit_coverage_object(coverage_object_req_v1)
       returns (coverage_object_resp_v1);
-  rpc submit_radio_threshold(radio_threshold_report_req_v1)
+  rpc submit_threshold_report(radio_threshold_report_req_v1)
       returns (radio_threshold_report_resp_v1);
+  rpc submit_invalidated_threshold_report(
+      radio_invalidated_threshold_report_req_v1)
+      returns (radio_invalidated_threshold_report_resp_v1);
 }
 
 message file_info {
