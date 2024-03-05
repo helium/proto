@@ -171,7 +171,7 @@ enum invalidated_threshold_reason {
   invalidated_threshold_reason_radio_moved = 0;
 }
 
-message radio_invalidated_threshold_report_req_v1 {
+message invalidated_radio_threshold_report_req_v1 {
   // the id of the radio which thresholds are invalidated
   string cbsd_id = 1;
   // The onchain address of the gateway
@@ -184,24 +184,24 @@ message radio_invalidated_threshold_report_req_v1 {
   bytes signature = 5;
 }
 
-message radio_invalidated_threshold_report_resp_v1 { string id = 1; }
+message invalidated_radio_threshold_report_resp_v1 { string id = 1; }
 
-message radio_invalidated_threshold_ingest_report_v1 {
+message invalidated_radio_threshold_ingest_report_v1 {
   // Timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
-  radio_invalidated_threshold_report_req_v1 report = 2;
+  invalidated_radio_threshold_report_req_v1 report = 2;
 }
 
-enum radio_invalidated_threshold_report_verification_status {
+enum invalidated_radio_threshold_report_verification_status {
   invalidated_threshold_report_status_valid = 0;
   invalidated_threshold_report_status_invalid_carrier_key = 1;
 }
 
 message verified_invalidated_radio_threshold_ingest_report_v1 {
   // the verified report
-  radio_invalidated_threshold_ingest_report_v1 report = 1;
+  invalidated_radio_threshold_ingest_report_v1 report = 1;
   // the status determined by the verification
-  radio_invalidated_threshold_report_verification_status status = 2;
+  invalidated_radio_threshold_report_verification_status status = 2;
   // Timestamp at which verification was determined, in milliseconds since unix
   // epoch
   uint64 timestamp = 3;
@@ -281,8 +281,8 @@ service poc_mobile {
   rpc submit_threshold_report(radio_threshold_report_req_v1)
       returns (radio_threshold_report_resp_v1);
   rpc submit_invalidated_threshold_report(
-      radio_invalidated_threshold_report_req_v1)
-      returns (radio_invalidated_threshold_report_resp_v1);
+      invalidated_radio_threshold_report_req_v1)
+      returns (invalidated_radio_threshold_report_resp_v1);
 }
 
 message file_info {
