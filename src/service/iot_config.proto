@@ -162,7 +162,7 @@ message org_create_helium_req_v1 {
   // Number of device address needed
   // Even number required, minimum of 8
   uint64 devaddrs = 3;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 4;
   bytes signature = 5;
   repeated bytes delegate_keys = 6;
@@ -175,7 +175,7 @@ message org_create_roamer_req_v1 {
   bytes owner = 1;
   bytes payer = 2;
   uint32 net_id = 3;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 4;
   bytes signature = 5;
   repeated bytes delegate_keys = 6;
@@ -208,6 +208,7 @@ message org_update_req_v1 {
 
   uint64 oui = 1;
   repeated update_v1 updates = 2;
+  // in seconds since unix epoch
   uint64 timestamp = 3;
   bytes signer = 4;
   bytes signature = 5;
@@ -227,7 +228,7 @@ message org_res_v1 {
 
 message org_disable_req_v1 {
   uint64 oui = 1;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 2;
   bytes signature = 3;
   // pubkey binary of the signing keypair
@@ -246,7 +247,7 @@ message org_disable_res_v1 {
 
 message org_enable_req_v1 {
   uint64 oui = 1;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 2;
   bytes signature = 3;
   // pubkey binary of the signing keypair
@@ -265,7 +266,7 @@ message org_enable_res_v1 {
 
 message route_list_req_v1 {
   uint64 oui = 1;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 2;
   bytes signature = 3;
   // pubkey binary of the signing keypair
@@ -284,7 +285,7 @@ message route_list_res_v1 {
 
 message route_get_req_v1 {
   string id = 1;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 2;
   bytes signature = 3;
   // pubkey binary of the signing keypair
@@ -294,7 +295,7 @@ message route_get_req_v1 {
 message route_create_req_v1 {
   uint64 oui = 1;
   route_v1 route = 2;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 3;
   bytes signature = 4;
   // pubkey binary of the signing keypair
@@ -303,7 +304,7 @@ message route_create_req_v1 {
 
 message route_update_req_v1 {
   route_v1 route = 1;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 2;
   bytes signature = 3;
   // pubkey binary of the signing keypair
@@ -312,7 +313,7 @@ message route_update_req_v1 {
 
 message route_delete_req_v1 {
   string id = 1;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 2;
   bytes signature = 3;
   // pubkey binary of the signing keypair
@@ -331,7 +332,7 @@ message route_res_v1 {
 
 message route_get_euis_req_v1 {
   string route_id = 1;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 2;
   bytes signature = 3;
   // pubkey binary of the signing keypair
@@ -341,7 +342,7 @@ message route_get_euis_req_v1 {
 message route_update_euis_req_v1 {
   action_v1 action = 1;
   eui_pair_v1 eui_pair = 2;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 3;
   bytes signature = 4;
   // pubkey binary of the signing keypair
@@ -359,7 +360,7 @@ message route_euis_res_v1 {
 
 message route_get_devaddr_ranges_req_v1 {
   string route_id = 1;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 2;
   bytes signature = 3;
   // pubkey binary of the signing keypair
@@ -369,7 +370,7 @@ message route_get_devaddr_ranges_req_v1 {
 message route_update_devaddr_ranges_req_v1 {
   action_v1 action = 1;
   devaddr_range_v1 devaddr_range = 2;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 3;
   bytes signature = 4;
   // pubkey binary of the signing keypair
@@ -386,12 +387,12 @@ message route_devaddr_ranges_res_v1 {
 }
 
 message route_stream_req_v1 {
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 1;
   bytes signature = 2;
   // pubkey binary of the signing keypair
   bytes signer = 3;
-  // timestamp in milliseconds, only changes since this timestamp are
+  // timestamp in seconds, only changes since this timestamp are
   // streamed back to caller
   uint64 since = 4;
 }
@@ -422,7 +423,7 @@ message skf_v1 {
 
 message route_skf_list_req_v1 {
   string route_id = 1;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 2;
   bytes signature = 3;
   // pubkey binary of the signing keypair
@@ -432,7 +433,7 @@ message route_skf_list_req_v1 {
 message route_skf_get_req_v1 {
   string route_id = 1;
   uint32 devaddr = 2;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 3;
   bytes signature = 4;
   // pubkey binary of the signing keypair
@@ -451,7 +452,7 @@ message route_skf_update_req_v1 {
   string route_id = 1;
   // WARNING: this will limited to 100 updates per req
   repeated route_skf_update_v1 updates = 2;
-  // in milliseconds since unix epoch
+  // in seconds since unix epoch
   uint64 timestamp = 3;
   bytes signature = 4;
   // pubkey binary of the signing keypair
