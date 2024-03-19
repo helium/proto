@@ -28,6 +28,7 @@ const MESSAGES: &[&str] = &[
     "src/reward_manifest.proto",
     "src/blockchain_region_param_v1.proto",
     "src/price_report.proto",
+    "src/hex_boosting.proto",
 ];
 
 macro_rules! config {

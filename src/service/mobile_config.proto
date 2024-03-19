@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package helium.mobile_config;
 
+import "hex_boosting.proto";
+
 // ------------------------------------------------------------------
 // Message Definitions
 // ------------------------------------------------------------------
@@ -210,6 +212,37 @@ message admin_key_res_v1 {
   bytes signature = 3;
 }
 
+message boosted_hex_info_stream_req_v1 {
+  // max number of boosted hex info records in each message of the response
+  // stream
+  uint32 batch_size = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
+message boosted_hex_modified_info_stream_req_v1 {
+  // max number of boosted hex info records in each message of the response
+  // stream
+  uint32 batch_size = 1;
+  // return only those records which were modified after the specified timestamp
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message boosted_hex_info_stream_res_v1 {
+  // a list of boosted hex info
+  repeated boosted_hex_info_v1 hexes = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
 // ------------------------------------------------------------------
 // Service Definitions
 // ------------------------------------------------------------------
@@ -252,4 +285,13 @@ service admin {
   rpc add_key(admin_add_key_req_v1) returns (admin_key_res_v1);
   // Deauthorize a public key for validating trusted rpcs
   rpc remove_key(admin_remove_key_req_v1) returns (admin_key_res_v1);
+}
+
+service hex_boosting {
+  // Get a stream of hex boost info
+  rpc info_stream(boosted_hex_info_stream_req_v1)
+      returns (stream boosted_hex_info_stream_res_v1);
+  // Get a stream of modified hex boost info since the specified timestamp
+  rpc modified_info_stream(boosted_hex_modified_info_stream_req_v1)
+      returns (stream boosted_hex_info_stream_res_v1);
 }

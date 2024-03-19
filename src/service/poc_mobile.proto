@@ -3,6 +3,7 @@ syntax = "proto3";
 package helium.poc_mobile;
 
 import "mapper.proto";
+import "hex_boosting.proto";
 import "service_provider.proto";
 
 message speedtest_req_v1 {
@@ -118,6 +119,97 @@ message subscriber_location_ingest_report_v1 {
   subscriber_location_req_v1 report = 2;
 }
 
+message radio_threshold_report_req_v1 {
+  // the id of the radio which has met the coverage threshold requirements
+  // CBRS radios only
+  string cbsd_id = 1;
+  // The onchain address of the gateway which has met the coverage
+  // threshold requirements
+  bytes hotspot_pubkey = 2;
+  // the threshold value representing the amount of transferred bytes the
+  // minimum number of subscribers as defined by subscriber_threshold have
+  // exceeded
+  uint64 bytes_threshold = 3;
+  // the threshold value representing the minimum number of subscribers
+  // that have exceeded the bytes_threshold for the hotspot
+  uint32 subscriber_threshold = 4;
+  // Unix timestamp in seconds when the thresholds were exceeded
+  uint64 threshold_timestamp = 5;
+  // pubkey of the carrier identity service
+  bytes carrier_pub_key = 6;
+  // signed payload of the carrier identity service
+  bytes signature = 7;
+}
+
+message radio_threshold_report_resp_v1 { string id = 1; }
+
+message radio_threshold_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  radio_threshold_report_req_v1 report = 2;
+}
+
+enum radio_threshold_report_verification_status {
+  threshold_report_status_valid = 0;
+  // used to grandfather in hotspots that have received boosting
+  // prior to the data component of hip84 going live
+  threshold_report_status_legacy_valid = 1;
+  threshold_report_status_invalid_carrier_key = 2;
+}
+
+message verified_radio_threshold_ingest_report_v1 {
+  // the verified report
+  radio_threshold_ingest_report_v1 report = 1;
+  // the status determined by the verification
+  radio_threshold_report_verification_status status = 2;
+  // Timestamp at which verification was determined, in milliseconds since unix
+  // epoch
+  uint64 timestamp = 3;
+}
+
+enum invalidated_threshold_reason {
+  invalidated_threshold_reason_radio_moved = 0;
+}
+
+message invalidated_radio_threshold_report_req_v1 {
+  // the id of the radio which thresholds are invalidated
+  string cbsd_id = 1;
+  // The onchain address of the gateway
+  bytes hotspot_pubkey = 2;
+  // the reason the thresholds are invalidated
+  invalidated_threshold_reason reason = 3;
+  // Timestamp in milliseconds since unix epoch
+  // of when the thresholds were invalidated
+  uint64 timestamp = 4;
+  // pubkey of the carrier identity service
+  bytes carrier_pub_key = 5;
+  // signed payload of the carrier identity service
+  bytes signature = 6;
+}
+
+message invalidated_radio_threshold_report_resp_v1 { string id = 1; }
+
+message invalidated_radio_threshold_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  invalidated_radio_threshold_report_req_v1 report = 2;
+}
+
+enum invalidated_radio_threshold_report_verification_status {
+  invalidated_threshold_report_status_valid = 0;
+  invalidated_threshold_report_status_invalid_carrier_key = 1;
+}
+
+message verified_invalidated_radio_threshold_ingest_report_v1 {
+  // the verified report
+  invalidated_radio_threshold_ingest_report_v1 report = 1;
+  // the status determined by the verification
+  invalidated_radio_threshold_report_verification_status status = 2;
+  // Timestamp at which verification was determined, in milliseconds since unix
+  // epoch
+  uint64 timestamp = 3;
+}
+
 enum signal_level {
   NONE = 0;
   LOW = 1;
@@ -189,6 +281,11 @@ service poc_mobile {
       returns (subscriber_location_resp_v1);
   rpc submit_coverage_object(coverage_object_req_v1)
       returns (coverage_object_resp_v1);
+  rpc submit_threshold_report(radio_threshold_report_req_v1)
+      returns (radio_threshold_report_resp_v1);
+  rpc submit_invalidated_threshold_report(
+      invalidated_radio_threshold_report_req_v1)
+      returns (invalidated_radio_threshold_report_resp_v1);
 }
 
 message file_info {
@@ -229,7 +326,7 @@ message heartbeat {
   // Distance in meters to the asserted location of the gateway_reward
   // at the time of heartbeat verification
   uint64 distance_to_asserted = 11;
-  // only used for wifi indoor radios, all others should have a value of 1.0
+  // only used for wifi radios, all others should have a value of 1.0
   // value is 0.0 to 1.0 multiplied by 1000
   uint32 location_trust_score_multiplier = 12;
 }
@@ -328,13 +425,22 @@ message radio_reward {
   uint64 seniority_timestamp = 6;
   // UUID of the coverage object used to reward this radio
   bytes coverage_object = 7;
-  // only used for wifi indoor radios, all others should have a value of 1.0
+  // only used for wifi radios, all others should have a value of 1.0
   // value is 0.0 to 1.0 multiplied by 1000
   uint32 location_trust_score_multiplier = 8;
   // based on speedtest averages of speedtests during 48 hour period from end of
   // rewardable period
   // value is 0.0 to 1.0 multiplied by 1000
   uint32 speedtest_multiplier = 9;
+  // list of all boosted hexes covered by this radio
+  repeated boosted_hex boosted_hexes = 10;
+}
+
+message boosted_hex {
+  // The res12 h3 index of the boosted hex
+  uint64 location = 1;
+  // the multiplier applied to this hex
+  uint32 multiplier = 2;
 }
 
 message gateway_reward {
@@ -478,4 +584,29 @@ message invalid_data_transfer_ingest_report_v1 {
   // Timestamp at which verification was determined, in milliseconds since unix
   // epoch
   uint64 timestamp = 3;
+}
+
+message oracle_boosting_report_v1 {
+  // UUID of the coverage object for the given hex
+  bytes coverage_object = 1;
+  // Assignments of the hexes
+  repeated oracle_boosting_hex_assignment assignments = 2;
+  // Timestamp of when the oracle boosting report was made in seconds since the
+  // epoch
+  uint64 timestamp = 3;
+}
+
+message oracle_boosting_hex_assignment {
+  enum assignment {
+    a = 0;
+    b = 1;
+    c = 2;
+  }
+  // H3 resolution 12 hex tile
+  string location = 1;
+  // Multiplier derived from the assignment, value is 0.0 to 1.0 multiplied by
+  // 1000
+  uint32 assignment_multiplier = 2;
+  // Urbanized assignment
+  assignment urbanized = 3;
 }
