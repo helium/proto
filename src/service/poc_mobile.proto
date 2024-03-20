@@ -361,8 +361,10 @@ message seniority_update {
     bytes hotspot_key = 2;
   }
   // Timestamp of the new seniority for the radio
-  uint64 new_seniority_timestamp = 3;
+  uint64 new_seniority_timestamp = 3 [ deprecated = true ];
   seniority_update_reason reason = 4;
+  // Timestamp in milliseconds of the new seniority for the radio
+  uint64 new_seniority_timestamp_ms = 5;
 }
 
 enum seniority_update_reason {
