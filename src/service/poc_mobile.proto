@@ -611,4 +611,6 @@ message oracle_boosting_hex_assignment {
   uint32 assignment_multiplier = 2;
   // Urbanized assignment
   assignment urbanized = 3;
+  // Footfall assignment
+  assignment footfall = 4;
 }
