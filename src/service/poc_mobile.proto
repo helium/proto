@@ -613,4 +613,6 @@ message oracle_boosting_hex_assignment {
   assignment urbanized = 3;
   // Footfall assignment
   assignment footfall = 4;
+  // Landtype assignment
+  assignment landtype = 5;
 }
