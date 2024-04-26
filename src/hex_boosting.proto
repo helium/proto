@@ -23,6 +23,8 @@ message boosted_hex_info_v1 {
   bytes boost_config_pubkey = 7;
 
   uint32 version = 8;
+  // The device type(s) this boost applies to.
+  boosted_hex_device_type_v1 device_type = 9;
 }
 
 message boosted_hex_update_v1 {
@@ -30,4 +32,12 @@ message boosted_hex_update_v1 {
   uint64 timestamp = 1;
   // Details of the updated hex
   boosted_hex_info_v1 update = 2;
+}
+
+enum boosted_hex_device_type_v1 {
+  all = 0;
+  cbrs_indoor = 1;
+  cbrs_outdoor = 2;
+  wifi_indoor = 3;
+  wifi_outdoor = 4;
 }
