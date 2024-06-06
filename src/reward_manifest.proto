@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package helium;
 
-message mobile_reward_data { uint64 bones_per_coverage_point = 1; }
+message mobile_reward_data { string bones_per_coverage_point = 1; }
 
-message iot_reward_data { uint64 bones_per_share = 1; }
+message iot_reward_data { string bones_per_share = 1; }
 
 message reward_manifest {
   repeated string written_files = 1;
