@@ -3,14 +3,14 @@ syntax = "proto3";
 package helium;
 
 message mobile_reward_data {
-  double poc_bones_per_coverage_point = 1;
-  double dc_bones_per_share = 2;
+  string poc_bones_per_coverage_point = 1;
+  string dc_bones_per_share = 2;
 }
 
 message iot_reward_data {
-  double poc_bones_per_beacon_reward_share = 1;
-  double poc_bones_per_witness_reward_share = 2;
-  double dc_bones_per_share = 3;
+  string poc_bones_per_beacon_reward_share = 1;
+  string poc_bones_per_witness_reward_share = 2;
+  string dc_bones_per_share = 3;
 }
 
 message reward_manifest {
