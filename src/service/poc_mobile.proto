@@ -210,6 +210,23 @@ message verified_invalidated_radio_threshold_ingest_report_v1 {
   uint64 timestamp = 3;
 }
 
+message verified_subscriber_mapping_event_req_v1 {
+  // The id of the discovery mapping enabled subscriber
+  string subscriber_id = 1;
+  // the accumulated mapping points the subscriber has earned this epoch
+  uint64 total_reward_points = 2;
+  // Unix timestamp in seconds of when the mapping event was generated
+  uint64 timestamp = 3;
+}
+
+message verified_subscriber_mapping_event_resp_v1 { string id = 1; }
+
+message verified_subscriber_mapping_event_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  verified_subscriber_mapping_event_req_v1 report = 2;
+}
+
 enum signal_level {
   NONE = 0;
   LOW = 1;
@@ -289,6 +306,8 @@ service poc_mobile {
   rpc submit_sp_boosted_rewards_banned_radio(
       service_provider_boosted_rewards_banned_radio_req_v1)
       returns (service_provider_boosted_rewards_banned_radio_resp_v1);
+  rpc submit_verified_subscriber_mapping_event(radio_threshold_report_req_v1)
+      returns (radio_threshold_report_resp_v1);
 }
 
 message file_info {
