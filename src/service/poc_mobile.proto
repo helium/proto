@@ -221,7 +221,7 @@ message verified_subscriber_mapping_event_req_v1 {
 
 message verified_subscriber_mapping_event_resp_v1 { string id = 1; }
 
-message verified_subscriber_mapping_event_report_v1 {
+message verified_subscriber_mapping_event_ingest_report_v1 {
   // Timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
   verified_subscriber_mapping_event_req_v1 report = 2;
