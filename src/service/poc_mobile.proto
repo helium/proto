@@ -217,6 +217,10 @@ message verified_subscriber_mapping_event_req_v1 {
   uint64 total_reward_points = 2;
   // Unix timestamp in seconds of when the mapping event was generated
   uint64 timestamp = 3;
+  // pubkey of the carrier identity service
+  bytes carrier_pub_key = 4;
+  // signed payload of the carrier identity service
+  bytes signature = 5;
 }
 
 message verified_subscriber_mapping_event_resp_v1 { string id = 1; }
