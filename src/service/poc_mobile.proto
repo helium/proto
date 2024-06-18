@@ -306,8 +306,9 @@ service poc_mobile {
   rpc submit_sp_boosted_rewards_banned_radio(
       service_provider_boosted_rewards_banned_radio_req_v1)
       returns (service_provider_boosted_rewards_banned_radio_resp_v1);
-  rpc submit_verified_subscriber_mapping_event(radio_threshold_report_req_v1)
-      returns (radio_threshold_report_resp_v1);
+  rpc submit_verified_subscriber_mapping_event(
+      verified_subscriber_mapping_event_req_v1)
+      returns (verified_subscriber_mapping_event_resp_v1);
 }
 
 message file_info {
