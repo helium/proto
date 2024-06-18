@@ -303,8 +303,9 @@ service poc_mobile {
   rpc submit_invalidated_threshold_report(
       invalidated_radio_threshold_report_req_v1)
       returns (invalidated_radio_threshold_report_resp_v1);
-  rpc submit_verified_subscriber_mapping_event(radio_threshold_report_req_v1)
-      returns (radio_threshold_report_resp_v1);
+  rpc submit_verified_subscriber_mapping_event(
+      verified_subscriber_mapping_event_req_v1)
+      returns (verified_subscriber_mapping_event_resp_v1);
 }
 
 message file_info {
