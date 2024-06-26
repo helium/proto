@@ -212,7 +212,7 @@ message verified_invalidated_radio_threshold_ingest_report_v1 {
 
 message verified_subscriber_mapping_event_req_v1 {
   // The id of the discovery mapping enabled subscriber
-  string subscriber_id = 1;
+  bytes subscriber_id = 1;
   // the accumulated mapping points the subscriber has earned this epoch
   uint64 total_reward_points = 2;
   // Unix timestamp in seconds of when the mapping event was generated
