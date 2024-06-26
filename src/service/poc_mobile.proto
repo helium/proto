@@ -621,7 +621,7 @@ message oracle_boosting_hex_assignment {
 }
 
 message service_provider_boosted_rewards_banned_radio_req_v1 {
-  enum reason {
+  enum sp_boosted_rewards_banned_radio_reason {
     unbanned = 0;
     no_network_correlation = 1;
   }
@@ -633,7 +633,7 @@ message service_provider_boosted_rewards_banned_radio_req_v1 {
     // For WiFi radio
     bytes hotspot_key = 3;
   }
-  reason reason = 4;
+  sp_boosted_rewards_banned_radio_reason reason = 4;
   // timestamp in seconds since epoch of when ban ends
   uint64 until = 5;
   bytes signature = 6;
