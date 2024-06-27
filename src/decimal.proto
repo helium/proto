@@ -14,7 +14,7 @@
 
 syntax = "proto3";
 
-package google.type;
+package helium;
 
 option cc_enable_arenas = true;
 option go_package = "google.golang.org/genproto/googleapis/type/decimal;decimal";
