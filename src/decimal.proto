@@ -24,8 +24,8 @@ option java_package = "com.google.type";
 option objc_class_prefix = "GTP";
 
 // A representation of a decimal value, such as 2.5. Clients may convert values
-// into language-native decimal formats, such as Java's [BigDecimal][] or
-// Python's [decimal.Decimal][].
+// into language-native decimal formats, such as Java's [BigDecimal] or
+// Python's [decimal.Decimal].
 //
 // [BigDecimal]:
 // https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
@@ -66,7 +66,7 @@ message Decimal {
   //
   // The ENBF grammar is:
   //
-  //```
+  //```text
   //     DecimalString =
   //       [Sign] Significand [Exponent];
   //
