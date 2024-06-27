@@ -646,3 +646,19 @@ message service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
   uint64 received_timestamp = 1;
   service_provider_boosted_rewards_banned_radio_req_v1 report = 2;
 }
+
+enum service_provider_boosted_rewards_banned_radio_verification_status {
+  valid = 0;
+  invalid_carrier_key = 2;
+}
+
+message
+verified_service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
+  // the verified report
+  service_provider_boosted_rewards_banned_radio_ingest_report_v1 report = 1;
+  // the status determined by the verification
+  service_provider_boosted_rewards_banned_radio_verification_status status = 2;
+  // Timestamp at which verification was determined, in milliseconds since unix
+  // epoch
+  uint64 timestamp = 3;
+}
