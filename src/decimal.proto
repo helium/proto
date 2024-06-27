@@ -66,6 +66,7 @@ message Decimal {
   //
   // The ENBF grammar is:
   //
+  //```
   //     DecimalString =
   //       [Sign] Significand [Exponent];
   //
@@ -77,6 +78,7 @@ message Decimal {
   //     Exponent = ('e' | 'E') [Sign] Digits;
   //
   //     Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' };
+  //```
   //
   // Services **should** clearly document the range of supported values, the
   // maximum supported precision (total number of digits), and, if applicable,
