@@ -20,5 +20,5 @@ jobs:
       - name: Run clang-format for protobuf files
         uses: jidicula/clang-format-action@v4.13.0
         with:
-          clang-format-version: '18'
+          clang-format-version: '15'
           check-path: 'src'
