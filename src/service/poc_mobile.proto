@@ -375,6 +375,8 @@ enum seniority_update_reason {
   seniority_update_reason_heartbeat_not_seen = 0;
   // A new coverage object replaces the old seniority
   seniority_update_reason_new_coverage_claim_time = 1;
+  // A service provider marked the radio banned from boosted rewards
+  seniority_update_reason_service_provider_ban = 2;
 }
 
 message speedtest_avg {
