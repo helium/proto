@@ -443,13 +443,14 @@ message radio_reward {
   repeated boosted_hex boosted_hexes = 10;
 }
 
+enum boosted_hex_status {
+  boosted_hex_status_eligible = 0;
+  boosted_hex_status_location_score_below_threshold = 1;
+  boosted_hex_status_radio_threshold_not_met = 2;
+  boosted_hex_status_service_provider_ban = 3;
+}
+
 message radio_reward_v2 {
-  enum boosted_hex_status {
-    boosted_hex_status_eligible = 0;
-    boosted_hex_status_location_score_below_threshold = 1;
-    boosted_hex_status_radio_threshold_not_met = 2;
-    boosted_hex_status_service_provider_ban = 3;
-  }
 
   message location_trust_score {
     uint64 meters_to_asserted = 1;
