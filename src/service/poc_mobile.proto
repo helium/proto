@@ -656,9 +656,9 @@ enum service_provider_boosted_rewards_banned_radio_verification_status {
 
 message
 verified_service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
-  // the verified report
+  // The verified report
   service_provider_boosted_rewards_banned_radio_ingest_report_v1 report = 1;
-  // the status determined by the verification
+  // The status determined by the verification
   service_provider_boosted_rewards_banned_radio_verification_status status = 2;
   // Timestamp at which verification was determined, in milliseconds since unix
   // epoch
