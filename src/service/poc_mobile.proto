@@ -636,7 +636,7 @@ message service_provider_boosted_rewards_banned_radio_req_v1 {
     bytes hotspot_key = 3;
   }
   sp_boosted_rewards_banned_radio_reason reason = 4;
-  // timestamp in seconds since epoch of when ban ends
+  // Timestamp in seconds since epoch of when ban ends
   uint64 until = 5;
   bytes signature = 6;
 }
