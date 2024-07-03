@@ -454,7 +454,7 @@ message radio_reward_v2 {
   message location_trust_score {
     uint64 meters_to_asserted = 1;
     // value is 0.0 to 1.0 multiplied by 1000
-    uint16 trust_score = 2;
+    uint32 trust_score = 2;
   }
 
   message covered_hex {
@@ -468,15 +468,15 @@ message radio_reward_v2 {
     oracle_boosting_assignment footfall = 5;
     oracle_boosting_assignment landtype = 6;
     // value is 0.0 to 1.0 multiplied by 1000
-    uint16 assignment_multiplier = 7;
+    uint32 assignment_multiplier = 7;
     // rank for this hex, 1 indexed
-    uint16 rank = 8;
+    uint32 rank = 8;
     // value is 0.0 to 1.0 multiplied by 1000
-    uint16 rank_multiplier = 9;
+    uint32 rank_multiplier = 9;
 
     // is only present if radio is eligible for boosted
     // rewards and hex is boosted by service provider
-    optional uint16 boosted_multiplier = 10;
+    optional uint32 boosted_multiplier = 10;
   }
 
   // Public key of the hotspot of the radio
@@ -510,14 +510,14 @@ message radio_reward_v2 {
   repeated location_trust_score location_trust_scores = 11;
   // only used for wifi radios, all others should have a value of 1.0
   // value is 0.0 to 1.0 multiplied by 1000
-  uint16 location_trust_score_multiplier = 12;
+  uint32 location_trust_score_multiplier = 12;
 
   // speedtests used when calculating speedtest_multiplier
   repeated speedtest speedtests = 13;
   // based on speedtest averages of speedtests during 48 hour period from end of
   // rewardable period
   // value is 0.0 to 1.0 multiplied by 1000
-  uint16 speedtest_multiplier = 14;
+  uint32 speedtest_multiplier = 14;
 
   // eligibility of radio to earn service provider boosted rewards
   boosted_hex_status boosted_hex_status = 15;
