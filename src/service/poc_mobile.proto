@@ -644,7 +644,7 @@ message service_provider_boosted_rewards_banned_radio_req_v1 {
 message service_provider_boosted_rewards_banned_radio_resp_v1 { string id = 1; }
 
 message service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
-  // timestamp in milliseconds since the epoch
+  // Timestamp in milliseconds since the epoch
   uint64 received_timestamp = 1;
   service_provider_boosted_rewards_banned_radio_req_v1 report = 2;
 }
