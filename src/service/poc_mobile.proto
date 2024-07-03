@@ -443,6 +443,89 @@ message radio_reward {
   repeated boosted_hex boosted_hexes = 10;
 }
 
+message radio_reward_v2 {
+  enum boosted_hex_status {
+    boosted_hex_status_eligible = 0;
+    boosted_hex_status_location_score_below_threshold = 1;
+    boosted_hex_status_radio_threshold_not_met = 2;
+    boosted_hex_status_service_provider_ban = 3;
+  }
+
+  message location_trust_score {
+    uint64 meters_to_asserted = 1;
+    // value is 0.0 to 1.0 multiplied by 1000
+    uint16 trust_score = 2;
+  }
+
+  message covered_hex {
+    uint64 location = 1;
+    // modeled coverage points * rank_multiplier * assignment_multiplier
+    uint64 base_coverage_points = 2;
+    // base_coverage_points * (boosted_multiplier - 1)
+    uint64 boosted_coverage_points = 3;
+
+    oracle_boosting_assignment urbanized = 4;
+    oracle_boosting_assignment footfall = 5;
+    oracle_boosting_assignment landtype = 6;
+    // value is 0.0 to 1.0 multiplied by 1000
+    uint16 assignment_multiplier = 7;
+    // rank for this hex, 1 indexed
+    uint16 rank = 8;
+    // value is 0.0 to 1.0 multiplied by 1000
+    uint16 rank_multiplier = 9;
+
+    // is only present if radio is eligible for boosted
+    // rewards and hex is boosted by service provider
+    optional uint16 boosted_multiplier = 10;
+  }
+
+  // Public key of the hotspot of the radio
+  bytes hotspot_key = 1;
+  // cbsd Id of the radio
+  string cbsd_id = 2;
+
+  // sum of base_coverage_points for all covered_hexes
+  uint64 base_coverage_points = 3;
+  // sum of boosted_coverage_points for all covered hexes
+  uint64 boosted_coverage_points = 4;
+
+  // base_coverage_points * location_trust_score_multiplier *
+  // speedtest_multiplier
+  uint64 base_reward_shares = 5;
+  // boosted_coverage_points * location_trust_score_multiplier *
+  // speedtest_multiplier
+  uint64 boosted_reward_shares = 6;
+
+  // base_reward_shares * base_poc_bones_per_reward_share
+  uint64 base_poc_reward = 7;
+  // boosted_reward_shares * boosted_poc_bones_per_reward_share
+  uint64 boosted_poc_reward = 8;
+
+  // Seniority timestamp for this radio in seconds since the unix epoch
+  uint64 seniority_timestamp = 9;
+  // UUID of the coverage object used to reward this radio
+  bytes coverage_object = 10;
+
+  // location_trust_scores used when calculating location_trust_score_multiplier
+  repeated location_trust_score location_trust_scores = 11;
+  // only used for wifi radios, all others should have a value of 1.0
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint16 location_trust_score_multiplier = 12;
+
+  // speedtests used when calculating speedtest_multiplier
+  repeated speedtest speedtests = 13;
+  // based on speedtest averages of speedtests during 48 hour period from end of
+  // rewardable period
+  // value is 0.0 to 1.0 multiplied by 1000
+  uint16 speedtest_multiplier = 14;
+
+  // eligibility of radio to earn service provider boosted rewards
+  boosted_hex_status boosted_hex_status = 15;
+
+  // all hexes covered by the radio
+  repeated covered_hex covered_hexes = 16;
+}
+
 message boosted_hex {
   // The res12 h3 index of the boosted hex
   uint64 location = 1;
@@ -505,6 +588,7 @@ message mobile_reward_share {
     subscriber_reward subscriber_reward = 5;
     service_provider_reward service_provider_reward = 6;
     unallocated_reward unallocated_reward = 7;
+    radio_reward_v2 radio_reward_v2 = 8;
   }
 }
 
@@ -603,23 +687,24 @@ message oracle_boosting_report_v1 {
   uint64 timestamp = 3;
 }
 
+enum oracle_boosting_assignment {
+  a = 0;
+  b = 1;
+  c = 2;
+}
+
 message oracle_boosting_hex_assignment {
-  enum assignment {
-    a = 0;
-    b = 1;
-    c = 2;
-  }
   // H3 resolution 12 hex tile
   string location = 1;
   // Multiplier derived from the assignment, value is 0.0 to 1.0 multiplied by
   // 1000
   uint32 assignment_multiplier = 2;
   // Urbanized assignment
-  assignment urbanized = 3;
+  oracle_boosting_assignment urbanized = 3;
   // Footfall assignment
-  assignment footfall = 4;
+  oracle_boosting_assignment footfall = 4;
   // Landtype assignment
-  assignment landtype = 5;
+  oracle_boosting_assignment landtype = 5;
 }
 
 message service_provider_boosted_rewards_banned_radio_req_v1 {
