@@ -7,7 +7,6 @@ import "decimal.proto";
 message mobile_reward_data {
   Decimal poc_bones_per_coverage_point = 1;
   Decimal boosted_poc_bones_per_coverage_point = 2;
-  Decimal dc_bones_per_share = 3;
 }
 
 message iot_reward_data {
