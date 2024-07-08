@@ -461,8 +461,10 @@ message radio_reward_v2 {
   message covered_hex {
     uint64 location = 1;
     // modeled coverage points * rank_multiplier * assignment_multiplier
+    // value is 3 decimal places of precision multiplied by 1000
     uint64 base_coverage_points = 2;
     // base_coverage_points * (boosted_multiplier - 1)
+    // value is 3 decimal places of precision multiplied by 1000
     uint64 boosted_coverage_points = 3;
 
     oracle_boosting_assignment urbanized = 4;
@@ -486,9 +488,9 @@ message radio_reward_v2 {
   string cbsd_id = 2;
 
   // sum of base_coverage_points for all covered_hexes
-  uint64 base_coverage_points = 3;
+  uint64 base_coverage_points_sum = 3;
   // sum of boosted_coverage_points for all covered hexes
-  uint64 boosted_coverage_points = 4;
+  uint64 boosted_coverage_points_sum = 4;
 
   // base_coverage_points * location_trust_score_multiplier *
   // speedtest_multiplier
