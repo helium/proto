@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package helium;
+
+message verified_subscriber_mapping_event_v1 {
+ // The id of the discovery mapping enabled subscriber
+ string subscriber_id = 1;
+ // the accumulated mapping points the subscriber has earned this epoch
+ uint64 total_reward_points = 2;
+ // Unix timestamp in seconds of when the mapping event was generated
+ uint64 timestamp = 3;
+}
