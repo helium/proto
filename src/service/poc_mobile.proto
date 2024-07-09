@@ -628,7 +628,7 @@ message service_provider_boosted_rewards_banned_radio_req_v1 {
     no_network_correlation = 1;
   }
   // pubkey of signer
-  bytes pub_key = 1;
+  bytes pubkey = 1;
   oneof key_type {
     // For CBRS radio
     string cbsd_id = 2;
@@ -651,7 +651,7 @@ message service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
 
 enum service_provider_boosted_rewards_banned_radio_verification_status {
   sp_boosted_rewards_ban_valid = 0;
-  sp_boosted_rewards_ban_invalid_carrier_key = 2;
+  sp_boosted_rewards_ban_invalid_carrier_key = 1;
 }
 
 message
