@@ -75,6 +75,14 @@ pub mod services {
         pub use poc_mobile_server::{PocMobile, PocMobileServer as Server};
     }
 
+    pub mod verification_mapping {
+        include!(concat!(env!("OUT_DIR"), "/helium.verification_mapping.rs"));
+        pub use verification_mapping_client::VerificationMappingClient as Client;
+        pub use verification_mapping_server::{
+            VerificationMapping, VerificationMappingServer as Server,
+        };
+    }
+
     pub mod poc_lora {
         include!(concat!(env!("OUT_DIR"), "/helium.poc_lora.rs"));
         pub use poc_lora_client::PocLoraClient as Client;

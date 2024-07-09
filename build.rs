@@ -16,6 +16,7 @@ const SERVICES: &[&str] = &[
     "src/service/downlink.proto",
     "src/service/multi_buy.proto",
     "src/service/packet_verifier.proto",
+    "src/service/verification_mapping.proto",
 ];
 
 const MESSAGES: &[&str] = &[
@@ -30,7 +31,6 @@ const MESSAGES: &[&str] = &[
     "src/blockchain_region_param_v1.proto",
     "src/price_report.proto",
     "src/hex_boosting.proto",
-    "src/verification_mapping.proto",
 ];
 
 macro_rules! config {
