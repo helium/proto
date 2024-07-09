@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package helium;
+package helium.verification_mapping;
 
 
 message subscriber_mapping_event_req_v1 {
