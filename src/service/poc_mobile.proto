@@ -286,6 +286,9 @@ service poc_mobile {
   rpc submit_invalidated_threshold_report(
       invalidated_radio_threshold_report_req_v1)
       returns (invalidated_radio_threshold_report_resp_v1);
+  rpc submit_sp_boosted_rewards_banned_radio(
+      service_provider_boosted_rewards_banned_radio_req_v1)
+      returns (service_provider_boosted_rewards_banned_radio_resp_v1);
 }
 
 message file_info {
@@ -372,6 +375,8 @@ enum seniority_update_reason {
   seniority_update_reason_heartbeat_not_seen = 0;
   // A new coverage object replaces the old seniority
   seniority_update_reason_new_coverage_claim_time = 1;
+  // A service provider marked the radio banned from boosted rewards
+  seniority_update_reason_service_provider_ban = 2;
 }
 
 message speedtest_avg {
@@ -615,4 +620,47 @@ message oracle_boosting_hex_assignment {
   assignment footfall = 4;
   // Landtype assignment
   assignment landtype = 5;
+}
+
+message service_provider_boosted_rewards_banned_radio_req_v1 {
+  enum sp_boosted_rewards_banned_radio_reason {
+    unbanned = 0;
+    no_network_correlation = 1;
+  }
+  // pubkey of signer
+  bytes pubkey = 1;
+  oneof key_type {
+    // For CBRS radio
+    string cbsd_id = 2;
+    // For WiFi radio
+    bytes hotspot_key = 3;
+  }
+  sp_boosted_rewards_banned_radio_reason reason = 4;
+  // Timestamp in seconds since epoch of when ban ends
+  uint64 until = 5;
+  bytes signature = 6;
+}
+
+message service_provider_boosted_rewards_banned_radio_resp_v1 { string id = 1; }
+
+message service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
+  // Timestamp in milliseconds since the epoch
+  uint64 received_timestamp = 1;
+  service_provider_boosted_rewards_banned_radio_req_v1 report = 2;
+}
+
+enum service_provider_boosted_rewards_banned_radio_verification_status {
+  sp_boosted_rewards_ban_valid = 0;
+  sp_boosted_rewards_ban_invalid_carrier_key = 1;
+}
+
+message
+verified_service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
+  // The verified report
+  service_provider_boosted_rewards_banned_radio_ingest_report_v1 report = 1;
+  // The status determined by the verification
+  service_provider_boosted_rewards_banned_radio_verification_status status = 2;
+  // Timestamp at which verification was determined, in milliseconds since unix
+  // epoch
+  uint64 timestamp = 3;
 }
