@@ -6,6 +6,7 @@ import "decimal.proto";
 import "mapper.proto";
 import "hex_boosting.proto";
 import "service_provider.proto";
+import "verification_mapping.proto";
 
 message speedtest_req_v1 {
   bytes pub_key = 1;
@@ -290,6 +291,8 @@ service poc_mobile {
   rpc submit_sp_boosted_rewards_banned_radio(
       service_provider_boosted_rewards_banned_radio_req_v1)
       returns (service_provider_boosted_rewards_banned_radio_resp_v1);
+  rpc submit_subscriber_mapping_event(subscriber_mapping_event_req_v1)
+      returns (subscriber_mapping_event_res_v1);
 }
 
 message file_info {

@@ -27,7 +27,3 @@ message verified_subscriber_mapping_event_v1 {
   /// Unix timestamp in seconds of when the mapping event was generated
   uint64 timestamp = 3;
 }
-
-service verification_mapping {
-  rpc submit_subscriber_mapping_event(subscriber_mapping_event_req_v1) returns (subscriber_mapping_event_res_v1);
-}
