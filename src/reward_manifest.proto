@@ -5,8 +5,8 @@ package helium;
 import "decimal.proto";
 
 message mobile_reward_data {
-  Decimal poc_bones_per_coverage_point = 1;
-  Decimal boosted_poc_bones_per_coverage_point = 2;
+  Decimal poc_bones_per_reward_share = 1;
+  Decimal boosted_poc_bones_per_reward_share = 2;
 }
 
 message iot_reward_data {
