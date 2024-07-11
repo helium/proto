@@ -455,27 +455,27 @@ message radio_reward_v2 {
 
   message location_trust_score {
     uint64 meters_to_asserted = 1;
-    helium.Decimal trust_score = 2;
+    Decimal trust_score = 2;
   }
 
   message covered_hex {
     uint64 location = 1;
     // modeled coverage points * rank_multiplier * assignment_multiplier
     // value is 3 decimal places of precision multiplied by 1000
-    helium.Decimal base_coverage_points = 2;
+    Decimal base_coverage_points = 2;
     // base_coverage_points * (boosted_multiplier - 1)
     // value is 3 decimal places of precision multiplied by 1000
-    helium.Decimal boosted_coverage_points = 3;
+    Decimal boosted_coverage_points = 3;
 
     oracle_boosting_assignment urbanized = 4;
     oracle_boosting_assignment footfall = 5;
     oracle_boosting_assignment landtype = 6;
     // value is 0.0 to 1.0 multiplied by 1000
-    helium.Decimal assignment_multiplier = 7;
+    Decimal assignment_multiplier = 7;
     // rank for this hex, 1 indexed
     uint32 rank = 8;
     // value is 0.0 to 1.0 multiplied by 1000
-    helium.Decimal rank_multiplier = 9;
+    Decimal rank_multiplier = 9;
 
     // set to 0 if radio is ineligible for boosted rewards
     // or hex is not boosted by service provider
@@ -488,16 +488,16 @@ message radio_reward_v2 {
   string cbsd_id = 2;
 
   // sum of base_coverage_points for all covered_hexes
-  helium.Decimal base_coverage_points_sum = 3;
+  Decimal base_coverage_points_sum = 3;
   // sum of boosted_coverage_points for all covered hexes
-  helium.Decimal boosted_coverage_points_sum = 4;
+  Decimal boosted_coverage_points_sum = 4;
 
   // base_coverage_points * location_trust_score_multiplier *
   // speedtest_multiplier
-  helium.Decimal base_reward_shares = 5;
+  Decimal base_reward_shares = 5;
   // boosted_coverage_points * location_trust_score_multiplier *
   // speedtest_multiplier
-  helium.Decimal boosted_reward_shares = 6;
+  Decimal boosted_reward_shares = 6;
 
   // base_reward_shares * base_poc_bones_per_reward_share
   uint64 base_poc_reward = 7;
@@ -512,13 +512,13 @@ message radio_reward_v2 {
   // location_trust_scores used when calculating location_trust_score_multiplier
   repeated location_trust_score location_trust_scores = 11;
   // only used for wifi radios, all others should have a value of 1.0
-  helium.Decimal location_trust_score_multiplier = 12;
+  Decimal location_trust_score_multiplier = 12;
 
   // speedtests used when calculating speedtest_multiplier
   repeated speedtest speedtests = 13;
   // based on speedtest averages of speedtests during 48 hour period from end of
   // rewardable period
-  helium.Decimal speedtest_multiplier = 14;
+  Decimal speedtest_multiplier = 14;
 
   // eligibility of radio to earn service provider boosted rewards
   boosted_hex_status boosted_hex_status = 15;
