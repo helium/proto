@@ -30,7 +30,6 @@ const MESSAGES: &[&str] = &[
     "src/blockchain_region_param_v1.proto",
     "src/price_report.proto",
     "src/hex_boosting.proto",
-    "src/verification_mapping.proto",
 ];
 
 macro_rules! config {
