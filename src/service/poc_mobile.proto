@@ -462,20 +462,16 @@ message radio_reward_v2 {
   message covered_hex {
     uint64 location = 1;
     // modeled coverage points * rank_multiplier * assignment_multiplier
-    // value is 3 decimal places of precision multiplied by 1000
     Decimal base_coverage_points = 2;
     // base_coverage_points * (boosted_multiplier - 1)
-    // value is 3 decimal places of precision multiplied by 1000
     Decimal boosted_coverage_points = 3;
 
     oracle_boosting_assignment urbanized = 4;
     oracle_boosting_assignment footfall = 5;
     oracle_boosting_assignment landtype = 6;
-    // value is 0.0 to 1.0 multiplied by 1000
     Decimal assignment_multiplier = 7;
     // rank for this hex, 1 indexed
     uint32 rank = 8;
-    // value is 0.0 to 1.0 multiplied by 1000
     Decimal rank_multiplier = 9;
 
     // set to 0 if radio is ineligible for boosted rewards
