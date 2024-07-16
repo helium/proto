@@ -449,6 +449,7 @@ enum boosted_hex_status {
   boosted_hex_status_location_score_below_threshold = 1;
   boosted_hex_status_radio_threshold_not_met = 2;
   boosted_hex_status_service_provider_ban = 3;
+  boosted_hex_status_average_asserted_distance_over_limit = 4;
 }
 
 message radio_reward_v2 {
