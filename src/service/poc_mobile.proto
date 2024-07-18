@@ -290,7 +290,8 @@ service poc_mobile {
   rpc submit_sp_boosted_rewards_banned_radio(
       service_provider_boosted_rewards_banned_radio_req_v1)
       returns (service_provider_boosted_rewards_banned_radio_resp_v1);
-  rpc submit_subscriber_mapping_event(verified_subscriber_mapping_event_req_v1)
+  rpc submit_verified_subscriber_mapping_event(
+      verified_subscriber_mapping_event_req_v1)
       returns (verified_subscriber_mapping_event_res_v1);
 }
 
