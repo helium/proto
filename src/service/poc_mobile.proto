@@ -546,10 +546,12 @@ message gateway_reward {
 }
 
 message subscriber_reward {
-  // id of the subscriber to which the reward will be credited
+  /// id of the subscriber to which the reward will be credited
   bytes subscriber_id = 1;
   /// Amount in bones credited to the subscriber for location sharing
   uint64 discovery_location_amount = 2;
+  /// Amount in bones credited to the subscriber for verification mapping
+  uint64 verification_mapping_amount = 3;
 }
 
 message service_provider_reward {
