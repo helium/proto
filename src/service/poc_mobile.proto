@@ -776,9 +776,9 @@ message subscriber_verified_mapping_event_ingest_report_v1 {
 }
 
 enum subscriber_verified_mapping_event_verification_status {
-  vsme_valid = 0;
-  vsme_invalid_subscriber_id = 1;
-  vsme_invalid_carrier_key = 2;
+  svme_valid = 0;
+  svme_invalid_subscriber_id = 1;
+  svme_invalid_carrier_key = 2;
 }
 
 message verified_subscriber_verified_mapping_event_ingest_report_v1 {
