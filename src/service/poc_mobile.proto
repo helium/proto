@@ -290,9 +290,9 @@ service poc_mobile {
   rpc submit_sp_boosted_rewards_banned_radio(
       service_provider_boosted_rewards_banned_radio_req_v1)
       returns (service_provider_boosted_rewards_banned_radio_resp_v1);
-  rpc submit_verified_subscriber_mapping_event(
-      verified_subscriber_mapping_event_req_v1)
-      returns (verified_subscriber_mapping_event_res_v1);
+  rpc submit_subscriber_verified_mapping_event(
+      subscriber_verified_mapping_event_req_v1)
+      returns (subscriber_verified_mapping_event_res_v1);
 }
 
 message file_info {
@@ -753,7 +753,7 @@ verified_service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
   uint64 timestamp = 3;
 }
 
-message verified_subscriber_mapping_event_req_v1 {
+message subscriber_verified_mapping_event_req_v1 {
   /// The id of the discovery mapping enabled subscriber
   bytes subscriber_id = 1;
   /// The accumulated mapping points the subscriber has earned this epoch
@@ -766,19 +766,26 @@ message verified_subscriber_mapping_event_req_v1 {
   bytes signature = 5;
 }
 
-message verified_subscriber_mapping_event_res_v1 { string id = 1; }
+message subscriber_verified_mapping_event_res_v1 { string id = 1; }
 
-enum verified_subscriber_mapping_event_verification_status {
+message subscriber_verified_mapping_event_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  // the verified report
+  subscriber_verified_mapping_event_req_v1 report = 2;
+}
+
+enum subscriber_verified_mapping_event_verification_status {
   vsme_valid = 0;
   vsme_invalid_subscriber_id = 1;
   vsme_invalid_carrier_key = 2;
 }
 
-message verified_subscriber_mapping_event_ingest_report_v1 {
-  // Timestamp in milliseconds since unix epoch
-  uint64 received_timestamp = 1;
+message verified_subscriber_verified_mapping_event_ingest_report_v1 {
   // the verified report
-  verified_subscriber_mapping_event_req_v1 report = 2;
+  subscriber_verified_mapping_event_ingest_report_v1 report = 1;
   // the status determined by the verification
-  verified_subscriber_mapping_event_verification_status status = 3;
+  subscriber_verified_mapping_event_verification_status status = 2;
+  // Timestamp in milliseconds since unix epoch
+  uint64 timestamp = 3;
 }
