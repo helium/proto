@@ -767,7 +767,8 @@ message subscriber_verified_mapping_event_req_v1 {
   bytes subscriber_id = 1;
   /// The accumulated mapping points the subscriber has earned this epoch
   uint64 total_reward_points = 2;
-  /// Unix timestamp in milliseconds of when the mapping reward event was generated
+  /// Unix timestamp in milliseconds of when the mapping reward event was
+  /// generated
   uint64 timestamp = 3;
   /// Pubkey of verification mapping event service
   bytes carrier_mapping_key = 4;
