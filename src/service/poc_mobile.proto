@@ -71,6 +71,13 @@ message cell_heartbeat_ingest_report_v1 {
   cell_heartbeat_req_v1 report = 2;
 }
 
+enum location_source {
+  unknown = 0;
+  asserted = 1;
+  gps = 2;
+  skyhook = 3;
+}
+
 message wifi_heartbeat_req_v1 {
   // Public key of the hotspot
   bytes pub_key = 1;
@@ -83,6 +90,7 @@ message wifi_heartbeat_req_v1 {
   bool operation_mode = 6;
   bytes coverage_object = 7;
   bytes signature = 8;
+  location_source location_source = 9;
 }
 
 message wifi_heartbeat_resp_v1 { string id = 1; }
@@ -336,6 +344,7 @@ message heartbeat {
   // only used for wifi radios, all others should have a value of 1.0
   // value is 0.0 to 1.0 multiplied by 1000
   uint32 location_trust_score_multiplier = 12;
+  location_source location_source = 13;
 }
 
 enum heartbeat_validity {
