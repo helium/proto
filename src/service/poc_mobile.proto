@@ -71,6 +71,13 @@ message cell_heartbeat_ingest_report_v1 {
   cell_heartbeat_req_v1 report = 2;
 }
 
+enum location_source {
+  unknown = 0;
+  asserted = 1;
+  gps = 2;
+  skyhook = 3;
+}
+
 message wifi_heartbeat_req_v1 {
   // Public key of the hotspot
   bytes pub_key = 1;
@@ -83,6 +90,7 @@ message wifi_heartbeat_req_v1 {
   bool operation_mode = 6;
   bytes coverage_object = 7;
   bytes signature = 8;
+  location_source location_source = 9;
 }
 
 message wifi_heartbeat_resp_v1 { string id = 1; }
@@ -290,6 +298,9 @@ service poc_mobile {
   rpc submit_sp_boosted_rewards_banned_radio(
       service_provider_boosted_rewards_banned_radio_req_v1)
       returns (service_provider_boosted_rewards_banned_radio_resp_v1);
+  rpc submit_subscriber_verified_mapping_event(
+      subscriber_verified_mapping_event_req_v1)
+      returns (subscriber_verified_mapping_event_res_v1);
 }
 
 message file_info {
@@ -333,6 +344,7 @@ message heartbeat {
   // only used for wifi radios, all others should have a value of 1.0
   // value is 0.0 to 1.0 multiplied by 1000
   uint32 location_trust_score_multiplier = 12;
+  location_source location_source = 13;
 }
 
 enum heartbeat_validity {
@@ -546,10 +558,12 @@ message gateway_reward {
 }
 
 message subscriber_reward {
-  // id of the subscriber to which the reward will be credited
+  /// id of the subscriber to which the reward will be credited
   bytes subscriber_id = 1;
   /// Amount in bones credited to the subscriber for location sharing
   uint64 discovery_location_amount = 2;
+  /// Amount in bones credited to the subscriber for verification mapping
+  uint64 verification_mapping_amount = 3;
 }
 
 message service_provider_reward {
@@ -748,5 +762,43 @@ verified_service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
   service_provider_boosted_rewards_banned_radio_verification_status status = 2;
   // Timestamp at which verification was determined, in milliseconds since unix
   // epoch
+  uint64 timestamp = 3;
+}
+
+message subscriber_verified_mapping_event_req_v1 {
+  /// The id of the discovery mapping enabled subscriber
+  bytes subscriber_id = 1;
+  /// The accumulated mapping points the subscriber has earned this epoch
+  uint64 total_reward_points = 2;
+  /// Unix timestamp in milliseconds of when the mapping reward event was
+  /// generated
+  uint64 timestamp = 3;
+  /// Pubkey of verification mapping event service
+  bytes carrier_mapping_key = 4;
+  /// Signed payload of the verification mapping event service
+  bytes signature = 5;
+}
+
+message subscriber_verified_mapping_event_res_v1 { string id = 1; }
+
+message subscriber_verified_mapping_event_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  // the verified report
+  subscriber_verified_mapping_event_req_v1 report = 2;
+}
+
+enum subscriber_verified_mapping_event_verification_status {
+  svme_valid = 0;
+  svme_invalid_subscriber_id = 1;
+  svme_invalid_carrier_key = 2;
+}
+
+message verified_subscriber_verified_mapping_event_ingest_report_v1 {
+  // the verified report
+  subscriber_verified_mapping_event_ingest_report_v1 report = 1;
+  // the status determined by the verification
+  subscriber_verified_mapping_event_verification_status status = 2;
+  // Timestamp in milliseconds since unix epoch
   uint64 timestamp = 3;
 }
