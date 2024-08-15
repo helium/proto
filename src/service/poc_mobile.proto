@@ -534,6 +534,9 @@ message radio_reward_v2 {
 
   // all hexes covered by the radio
   repeated covered_hex covered_hexes = 16;
+
+  // average speedtests result
+  speedtest speedtest_average = 17;
 }
 
 message boosted_hex {
