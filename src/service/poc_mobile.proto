@@ -278,6 +278,33 @@ message verified_subscriber_location_ingest_report_v1 {
   uint64 timestamp = 3;
 }
 
+message subscriber_referral_eligibility_req_v1 {
+  // Id of the subsciber which will get the referral rewards
+  bytes subscriber_id = 1;
+  // Shares rewardsed to the subscriber
+  uint64 shares = 2;
+  // Pubkey of the carrier for which the subscriber is attached
+  bytes carrier_pub_key = 3;
+  // Signed payload of the request
+  bytes signature = 4;
+}
+
+message subscriber_referral_eligibility_resp_v1 { string id = 1; }
+
+enum subscriber_referral_eligibility_status {
+  referral_eligibility_status_valid = 0;
+  referral_eligibility_status_invalid_subscriber_id = 1;
+  referral_eligibility_status_invalid_carrier_key = 2;
+}
+
+message subscriber_referral_eligibility_ingest_report_v1 {
+  subscriber_referral_eligibility_req_v1 report = 1;
+  // Status of the report
+  subscriber_referral_eligibility_status status = 2;
+  // Timestamp in milliseconds since the unix epoch
+  uint64 timestamp = 3;
+}
+
 service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
@@ -301,6 +328,9 @@ service poc_mobile {
   rpc submit_subscriber_verified_mapping_event(
       subscriber_verified_mapping_event_req_v1)
       returns (subscriber_verified_mapping_event_res_v1);
+  rpc submit_subscriber_referral_eligibility(
+      subscriber_referral_eligibility_req_v1)
+      returns (subscriber_referral_eligibility_resp_v1);
 }
 
 message file_info {
