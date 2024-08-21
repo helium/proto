@@ -619,9 +619,9 @@ message referral_reward {
     bytes gateway_key = 2;
   }
   // Amount in bones given by the service provider
-  uint64 service_provider_amount = 2;
+  uint64 service_provider_amount = 3;
   // Amount in bones matched by the network
-  uint64 matched_amount = 3;
+  uint64 matched_amount = 4;
 }
 
 message service_provider_reward {
