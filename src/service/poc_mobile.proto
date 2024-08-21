@@ -278,37 +278,42 @@ message verified_subscriber_location_ingest_report_v1 {
   uint64 timestamp = 3;
 }
 
-message subscriber_referral_eligibility_req_v1 {
-  // Id of the subsciber which will get the referral rewards
-  bytes subscriber_id = 1;
+message referral_reward_req_v1 {
+  // Entity to be rewarded
+  oneof entity {
+    // Subscriber reward
+    bytes subscriber_id = 1;
+    // Gateway reward
+    bytes gateway_key = 2;
+  }
   // Shares rewardsed to the subscriber
-  uint64 shares = 2;
+  uint64 shares = 3;
   // Timestamp in seconds since the unix epoch
-  uint64 timestamp = 3;
+  uint64 timestamp = 4;
   // Pubkey of the carrier for which the subscriber is attached
-  bytes carrier_pub_key = 4;
+  bytes carrier_pub_key = 5;
   // Signed payload of the request
-  bytes signature = 5;
+  bytes signature = 6;
 }
 
-message subscriber_referral_eligibility_resp_v1 { string id = 1; }
+message referral_reward_resp_v1 { string id = 1; }
 
-message subscriber_referral_eligibility_ingest_report_v1 {
+message referral_reward_ingest_report_v1 {
   // Timestamp in milliseconds since the unix epoch
   uint64 received_timestamp = 1;
-  subscriber_referral_eligibility_req_v1 report = 2;
+  referral_reward_req_v1 report = 2;
 }
 
-enum subscriber_referral_eligibility_status {
-  referral_eligibility_status_valid = 0;
-  referral_eligibility_status_invalid_subscriber_id = 1;
-  referral_eligibility_status_invalid_carrier_key = 2;
+enum referral_reward_status {
+  referral_reward_status_valid = 0;
+  referral_reward_status_invalid_subscriber_id = 1;
+  referral_reward_status_invalid_carrier_key = 2;
 }
 
-message verified_subscriber_referral_eligibility_ingest_report_v1 {
-  subscriber_referral_eligibility_ingest_report_v1 report = 1;
+message verified_referral_reward_ingest_report_v1 {
+  referral_reward_ingest_report_v1 report = 1;
   // Status of the report
-  subscriber_referral_eligibility_status status = 2;
+  referral_reward_status status = 2;
   // Timestamp at which verification was determined, in milliseconds since
   // the unix epoch
   uint64 timestamp = 3;
@@ -337,9 +342,9 @@ service poc_mobile {
   rpc submit_subscriber_verified_mapping_event(
       subscriber_verified_mapping_event_req_v1)
       returns (subscriber_verified_mapping_event_res_v1);
-  rpc submit_subscriber_referral_eligibility(
-      subscriber_referral_eligibility_req_v1)
-      returns (subscriber_referral_eligibility_resp_v1);
+  rpc submit_referral_reward(
+      referral_reward_req_v1)
+      returns (referral_reward_resp_v1);
 }
 
 message file_info {
@@ -605,6 +610,20 @@ message subscriber_reward {
   uint64 verification_mapping_amount = 3;
 }
 
+message referral_reward {
+  // Entity given the reward
+  oneof entity {
+    // Subscriber reward
+    bytes subscriber_id = 1;
+    // Gateway reward
+    bytes gateway_key = 2;
+  }
+  // Amount in bones given by the service provider
+  uint64 service_provider_amount = 2;
+  // Amount in bones matched by the network
+  uint64 matched_amount = 3;
+}
+
 message service_provider_reward {
   // rewardable entity id of the service provider to which the reward will be
   // credited
@@ -643,6 +662,7 @@ message mobile_reward_share {
     service_provider_reward service_provider_reward = 6;
     unallocated_reward unallocated_reward = 7;
     radio_reward_v2 radio_reward_v2 = 8;
+    subscriber_reward subscriber_reward = 9;
   }
 }
 
