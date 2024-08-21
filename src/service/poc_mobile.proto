@@ -283,13 +283,21 @@ message subscriber_referral_eligibility_req_v1 {
   bytes subscriber_id = 1;
   // Shares rewardsed to the subscriber
   uint64 shares = 2;
+  // Timestamp in seconds since the unix epoch
+  uint64 timestamp = 3;
   // Pubkey of the carrier for which the subscriber is attached
-  bytes carrier_pub_key = 3;
+  bytes carrier_pub_key = 4;
   // Signed payload of the request
-  bytes signature = 4;
+  bytes signature = 5;
 }
 
 message subscriber_referral_eligibility_resp_v1 { string id = 1; }
+
+message subscriber_referral_eligibility_ingest_report_v1 {
+  // Timestamp in milliseconds since the unix epoch
+  uint64 received_timestamp = 1;
+  subscriber_referral_eligibility_req_v1 report = 1;
+}
 
 enum subscriber_referral_eligibility_status {
   referral_eligibility_status_valid = 0;
@@ -297,11 +305,12 @@ enum subscriber_referral_eligibility_status {
   referral_eligibility_status_invalid_carrier_key = 2;
 }
 
-message subscriber_referral_eligibility_ingest_report_v1 {
-  subscriber_referral_eligibility_req_v1 report = 1;
+message verified_subscriber_referral_eligibility_ingest_report_v1 {
+  subscriber_referral_eligibility_ingest_report_v1 report = 1;
   // Status of the report
   subscriber_referral_eligibility_status status = 2;
-  // Timestamp in milliseconds since the unix epoch
+  // Timestamp at which verification was determined, in milliseconds since
+  // the unix epoch
   uint64 timestamp = 3;
 }
 
@@ -794,8 +803,7 @@ enum service_provider_boosted_rewards_banned_radio_verification_status {
   sp_boosted_rewards_ban_invalid_carrier_key = 1;
 }
 
-message
-verified_service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
+messageverified_service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
   // The verified report
   service_provider_boosted_rewards_banned_radio_ingest_report_v1 report = 1;
   // The status determined by the verification
