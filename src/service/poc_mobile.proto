@@ -803,7 +803,7 @@ enum service_provider_boosted_rewards_banned_radio_verification_status {
   sp_boosted_rewards_ban_invalid_carrier_key = 1;
 }
 
-messageverified_service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
+message verified_service_provider_boosted_rewards_banned_radio_ingest_report_v1 {
   // The verified report
   service_provider_boosted_rewards_banned_radio_ingest_report_v1 report = 1;
   // The status determined by the verification
