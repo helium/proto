@@ -296,7 +296,7 @@ message subscriber_referral_eligibility_resp_v1 { string id = 1; }
 message subscriber_referral_eligibility_ingest_report_v1 {
   // Timestamp in milliseconds since the unix epoch
   uint64 received_timestamp = 1;
-  subscriber_referral_eligibility_req_v1 report = 1;
+  subscriber_referral_eligibility_req_v1 report = 2;
 }
 
 enum subscriber_referral_eligibility_status {
