@@ -662,7 +662,7 @@ message mobile_reward_share {
     service_provider_reward service_provider_reward = 6;
     unallocated_reward unallocated_reward = 7;
     radio_reward_v2 radio_reward_v2 = 8;
-    subscriber_reward subscriber_reward = 9;
+    referral_reward referral_reward = 9;
   }
 }
 
