@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package helium.public_cdr;
+
+enum public_cdr_type {
+  wifi = 0;
+  cbrs = 1;
+}
+
+enum public_record_type {
+  data = 0;
+  international_roaming_data = 1;
+  connection = 2;
+}
+
+enum public_traffic_source {
+  helium_mobile = 0;
+  other = 1;
+}
+
+message public_cdr_report_v1 {
+  uint64 received_timestamp = 1;
+  public_cdr_v1 report = 2;
+}
+
+message public_cdr_v1 {
+  // id of the cdr
+  string id = 1;
+  // type of the cdr
+  public_cdr_type cdr_type = 2;
+  // the record type of the cdr
+  public_record_type record_type = 3;
+  // origin of the cdr
+  public_traffic_source traffic_source = 4;
+  // the hotspot serial number
+  string agw_sn = 5;
+  // the public key of the hotspot
+  string hotspot_pubkey = 6;
+  // the serial number of a cbrs radio
+  string radio_serial = 7;
+  // the cbsd_id of a cbrs radio
+  string cbsd_id = 8;
+  uint64 total_volume = 9;
+  uint64 uplink_volume = 10;
+  uint64 downlink_volume = 11;
+  // timestamp in millisecs of when the record was created in the network
+  uint64 timestamp = 12;
+}
+
+message public_cdr_connection_report_v1 {
+  uint64 received_timestamp = 1;
+  public_cdr_connection_v1 report = 2;
+}
+
+message public_cdr_connection_v1 {
+  // id of the cdr
+  string id = 1;
+  // type of the cdr
+  public_cdr_type cdr_type = 2;
+  // the record type of the cdr
+  public_record_type record_type = 3;
+  // origin of the cdr
+  public_traffic_source traffic_source = 4;
+  // the hotspot serial number
+  string agw_sn = 5;
+  // the public key of the hotspot
+  string hotspot_pubkey = 6;
+  // the cbsd_id of a cbrs radio
+  string cbsd_id = 7;
+  // the serial number of a cbrs radio
+  string radio_serial = 8;
+  // timestamp in millisecs of the connection event
+  uint64 timestamp = 9;
+}
