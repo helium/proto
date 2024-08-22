@@ -12,7 +12,8 @@ message mobile_reward_data {
 
 message service_provider_allocation {
   bytes pub_key = 1;
-  // The percentage of the SP rewards that are allocated to the incentive fun, in basis points
+  // The percentage of the SP rewards that are allocated to the incentive fun,
+  // in basis points
   uint32 incentive_escrow_fund_bps = 2;
 }
 

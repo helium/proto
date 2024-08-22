@@ -342,8 +342,7 @@ service poc_mobile {
   rpc submit_subscriber_verified_mapping_event(
       subscriber_verified_mapping_event_req_v1)
       returns (subscriber_verified_mapping_event_res_v1);
-  rpc submit_promotion_reward(
-      promotion_reward_req_v1)
+  rpc submit_promotion_reward(promotion_reward_req_v1)
       returns (promotion_reward_resp_v1);
 }
 
