@@ -310,7 +310,7 @@ enum promotion_reward_status {
   promotion_reward_status_invalid_carrier_key = 2;
 }
 
-message verified_promotion_reward_ingest_report_v1 {
+message verified_promotion_reward_v1 {
   promotion_reward_ingest_report_v1 report = 1;
   // Status of the report
   promotion_reward_status status = 2;
