@@ -700,6 +700,24 @@ message invalid_data_transfer_ingest_report_v1 {
   uint64 timestamp = 3;
 }
 
+message pending_data_transfer_session_v1 {
+  // Public Key of the Hotspot
+  bytes pub_key = 1;
+  // Public Key of the Payer
+  bytes payer = 2;
+
+  uint64 upload_bytes = 3;
+  uint64 download_bytes = 4;
+  uint64 rewardable_bytes = 5;
+
+  // Timestamp in seconds since the epoch
+  // From the DataTransferEvent
+  uint64 event_timestamp = 6;
+  // Timestamp in milliseconds since the epoch
+  // From the file the transfer session was processed
+  uint64 received_timestamp = 7;
+}
+
 message oracle_boosting_report_v1 {
   // UUID of the coverage object for the given hex
   bytes coverage_object = 1;
