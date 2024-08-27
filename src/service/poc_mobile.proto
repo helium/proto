@@ -631,6 +631,13 @@ enum cell_type {
   nova_generic_wifi_outdoor = 7;
 }
 
+enum data_transfer_session_settlement_status {
+  // The Session is able to be burned immediately
+  settled = 0;
+  // The Session is pending settlement, do not burn
+  pending = 1;
+}
+
 message data_transfer_session_req_v1 {
   /// data_transfer_event represents traffic usage happening on a hotspot
   /// it is traffic quota or timer based
@@ -643,6 +650,7 @@ message data_transfer_session_req_v1 {
   bytes pub_key = 3;
   bytes signature = 4;
   uint64 rewardable_bytes = 5;
+  data_transfer_session_settlement_status status = 6;
 }
 
 message data_transfer_event {
