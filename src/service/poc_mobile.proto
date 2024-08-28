@@ -307,7 +307,8 @@ message promotion_reward_ingest_report_v1 {
 enum promotion_reward_status {
   promotion_reward_status_valid = 0;
   promotion_reward_status_invalid_subscriber_id = 1;
-  promotion_reward_status_invalid_carrier_key = 2;
+  promotion_reward_status_invalid_gateway_key = 2;
+  promotion_reward_status_invalid_carrier_key = 3;
 }
 
 message verified_promotion_reward_v1 {
