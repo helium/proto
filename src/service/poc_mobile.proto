@@ -711,8 +711,8 @@ message pending_data_transfer_session_v1 {
   uint64 rewardable_bytes = 5;
 
   // Timestamp in milliseconds since the epoch
-  // From the DataTransferEvent
-  // NOTE: Be sure to convert `data_transfer_event.timestamp` from seconds -> milliseconds
+  // From the DataTransferEvent, be sure to convert
+  // `data_transfer_event.timestamp` from seconds -> milliseconds
   uint64 event_timestamp = 6;
   // Timestamp in milliseconds since the epoch
   // From the file the transfer session was processed
