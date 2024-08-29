@@ -631,6 +631,13 @@ enum cell_type {
   nova_generic_wifi_outdoor = 7;
 }
 
+enum data_transfer_session_settlement_status {
+  // The Session is able to be burned immediately
+  settled = 0;
+  // The Session is pending settlement, do not burn
+  pending = 1;
+}
+
 message data_transfer_session_req_v1 {
   /// data_transfer_event represents traffic usage happening on a hotspot
   /// it is traffic quota or timer based
@@ -643,6 +650,7 @@ message data_transfer_session_req_v1 {
   bytes pub_key = 3;
   bytes signature = 4;
   uint64 rewardable_bytes = 5;
+  data_transfer_session_settlement_status status = 6;
 }
 
 message data_transfer_event {
@@ -690,6 +698,25 @@ message invalid_data_transfer_ingest_report_v1 {
   // Timestamp at which verification was determined, in milliseconds since unix
   // epoch
   uint64 timestamp = 3;
+}
+
+message pending_data_transfer_session_v1 {
+  // Public Key of the Hotspot
+  bytes pub_key = 1;
+  // Public Key of the Payer
+  bytes payer = 2;
+
+  uint64 upload_bytes = 3;
+  uint64 download_bytes = 4;
+  uint64 rewardable_bytes = 5;
+
+  // Timestamp in milliseconds since the epoch
+  // From the DataTransferEvent, be sure to convert
+  // `data_transfer_event.timestamp` from seconds -> milliseconds
+  uint64 event_timestamp = 6;
+  // Timestamp in milliseconds since the epoch
+  // From the file the transfer session was processed
+  uint64 received_timestamp = 7;
 }
 
 message oracle_boosting_report_v1 {
