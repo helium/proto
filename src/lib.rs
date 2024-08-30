@@ -9,9 +9,9 @@ pub use prost::{DecodeError, EncodeError, Message};
 #[cfg(feature = "services")]
 pub mod services {
     use crate::{
-        BlockchainRegionParamsV1, BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn,
-        BoostedHexDeviceTypeV1, BoostedHexInfoV1, BoostedHexUpdateV1, DataRate, Decimal,
-        EntropyReportV1, GatewayStakingMode, MapperAttach, Region, RoutingAddress, ServiceProvider,
+        BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, BoostedHexDeviceTypeV1,
+        BoostedHexInfoV1, BoostedHexUpdateV1, DataRate, Decimal, EntropyReportV1,
+        GatewayStakingMode, MapperAttach, Region, RoutingAddress, ServiceProvider,
     };
 
     pub mod iot_config {
