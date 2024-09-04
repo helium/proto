@@ -727,6 +727,14 @@ message service_provider_boosted_rewards_banned_radio_req_v1 {
     unbanned = 0;
     no_network_correlation = 1;
   }
+
+  enum sp_boosted_rewards_banned_radio_ban_type {
+    // banned from earning boosted rewards from service provider hex boosting
+    boosted_hex = 0;
+    // banned from earning any PoC
+    poc = 1;
+  }
+
   // pubkey of signer
   bytes pubkey = 1;
   oneof key_type {
@@ -739,6 +747,8 @@ message service_provider_boosted_rewards_banned_radio_req_v1 {
   // Timestamp in seconds since epoch of when ban ends
   uint64 until = 5;
   bytes signature = 6;
+
+  sp_boosted_rewards_banned_radio_ban_type ban_type = 7;
 }
 
 message service_provider_boosted_rewards_banned_radio_resp_v1 { string id = 1; }
