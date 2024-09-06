@@ -7,12 +7,12 @@ import "mapper.proto";
 import "hex_boosting.proto";
 import "service_provider.proto";
 
-enum data_counts_verification_status {
+enum usage_counts_verification_status {
   dc_valid = 0;
   dc_invalid_carrier_key = 1;
 }
 
-message hex_data_counts_req_v1 {
+message hex_usage_counts_req_v1 {
   // H3 resolution 10 hex tile
   string location = 1;
   // Average count of unique helium mobile subscribers active in the hex during
@@ -35,18 +35,18 @@ message hex_data_counts_req_v1 {
   bytes signature = 8;
 }
 
-message hex_data_counts_res_v1 { string id = 1; }
+message hex_usage_counts_res_v1 { string id = 1; }
 
-message hex_data_counts_ingest_report_v1 {
+message hex_usage_counts_ingest_report_v1 {
   // Timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
   // the verified report
-  hex_data_counts_req_v1 report = 2;
+  hex_usage_counts_req_v1 report = 2;
   // the status determined by the verification
-  data_counts_verification_status status = 3;
+  usage_counts_verification_status status = 3;
 }
 
-message hotspot_data_counts_req_v1 {
+message hotspot_usage_counts_req_v1 {
   // The onchain address of the gateway
   bytes hotspot_pubkey = 1;
   // the cbsd id of the radio if it is a cbrs radio otherwise empty
@@ -69,15 +69,15 @@ message hotspot_data_counts_req_v1 {
   bytes signature = 8;
 }
 
-message hotspot_data_counts_res_v1 { string id = 1; }
+message hotspot_usage_counts_res_v1 { string id = 1; }
 
-message hotspot_data_counts_ingest_report_v1 {
+message hotspot_usage_counts_ingest_report_v1 {
   // Timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
   // the verified report
-  hex_data_counts_req_v1 report = 2;
+  hex_usage_counts_req_v1 report = 2;
   // the status determined by the verification
-  data_counts_verification_status status = 3;
+  usage_counts_verification_status status = 3;
 }
 
 message speedtest_req_v1 {
@@ -374,10 +374,10 @@ service poc_mobile {
   rpc submit_subscriber_verified_mapping_event(
       subscriber_verified_mapping_event_req_v1)
       returns (subscriber_verified_mapping_event_res_v1);
-  rpc submit_hex_data_counts_report(hex_data_counts_req_v1)
-      returns (hex_data_counts_res_v1);
-  rpc submit_hotspot_data_counts_report(hotspot_data_counts_req_v1)
-      returns (hotspot_data_counts_res_v1);
+  rpc submit_hex_usage_counts_report(hex_usage_counts_req_v1)
+      returns (hex_usage_counts_res_v1);
+  rpc submit_hotspot_usage_counts_report(hotspot_usage_counts_req_v1)
+      returns (hotspot_usage_counts_res_v1);
 }
 
 message file_info {
