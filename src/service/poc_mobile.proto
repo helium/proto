@@ -14,7 +14,7 @@ enum usage_counts_verification_status {
 
 message hex_usage_counts_req_v1 {
   // H3 resolution 10 hex tile
-  string location = 1;
+  string hex = 1;
   // Average count of unique helium mobile subscribers active in the hex during
   // the previous 7 days ( inclusive of discovery mapping subscribers )
   uint64 helium_mobile_subscriber_avg_count = 2;
