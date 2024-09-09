@@ -75,7 +75,7 @@ message hotspot_usage_counts_ingest_report_v1 {
   // Timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
   // the verified report
-  hex_usage_counts_req_v1 report = 2;
+  hotspot_usage_counts_req_v1 report = 2;
   // the status determined by the verification
   usage_counts_verification_status status = 3;
 }
