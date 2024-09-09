@@ -7,11 +7,6 @@ import "mapper.proto";
 import "hex_boosting.proto";
 import "service_provider.proto";
 
-enum usage_counts_verification_status {
-  dc_valid = 0;
-  dc_invalid_carrier_key = 1;
-}
-
 message hex_usage_counts_req_v1 {
   // H3 resolution 10 hex tile
   uint64 hex = 1;
@@ -42,8 +37,6 @@ message hex_usage_counts_ingest_report_v1 {
   uint64 received_timestamp = 1;
   // the verified report
   hex_usage_counts_req_v1 report = 2;
-  // the status determined by the verification
-  usage_counts_verification_status status = 3;
 }
 
 message hotspot_usage_counts_req_v1 {
@@ -76,8 +69,6 @@ message hotspot_usage_counts_ingest_report_v1 {
   uint64 received_timestamp = 1;
   // the verified report
   hotspot_usage_counts_req_v1 report = 2;
-  // the status determined by the verification
-  usage_counts_verification_status status = 3;
 }
 
 message speedtest_req_v1 {
