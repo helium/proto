@@ -8,7 +8,7 @@ import "hex_boosting.proto";
 import "service_provider.proto";
 
 message hex_usage_counts_req_v1 {
-  // H3 resolution 10 hex tile
+  // H3 resolution 10 tile
   uint64 hex = 1;
   // Average count of unique helium mobile subscribers active in the hex during
   // the previous 7 days ( inclusive of discovery mapping subscribers )
@@ -22,11 +22,11 @@ message hex_usage_counts_req_v1 {
   // Average count of unique tmo cell tower sessions active in the hex during
   // the previous 7 days
   uint64 tmo_cell_avg_count = 5;
-  /// Unix timestamp in milliseconds of when the report was generated
+  // Unix timestamp in milliseconds of when the report was generated
   uint64 timestamp = 6;
-  /// Pubkey of verification mapping service
+  // Carrier pubkey from verification mapping service
   bytes carrier_mapping_key = 7;
-  /// Signed payload of the verification mapping service
+  // Signed payload of the verification mapping service
   bytes signature = 8;
 }
 
@@ -40,7 +40,7 @@ message hex_usage_counts_ingest_report_v1 {
 }
 
 message hotspot_usage_counts_req_v1 {
-  // The onchain address of the gateway
+  // The onchain address of the hotspot
   bytes hotspot_pubkey = 1;
   // the cbsd id of the radio if it is a cbrs radio otherwise empty
   string cbsd_id = 2;
@@ -54,11 +54,11 @@ message hotspot_usage_counts_req_v1 {
   // Average count of unique offload sessions which have connected to the radio
   // during the previous 7 days
   uint64 offload_avg_count = 5;
-  /// Unix timestamp in milliseconds of when the report was generated
+  // Unix timestamp in milliseconds of when the report was generated
   uint64 timestamp = 6;
-  /// Pubkey of verification mapping service
+  // Carrier pubkey from verification mapping service
   bytes carrier_mapping_key = 7;
-  /// Signed payload of the verification mapping service
+  // Signed payload of the verification mapping service
   bytes signature = 8;
 }
 
