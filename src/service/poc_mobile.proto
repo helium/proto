@@ -39,7 +39,7 @@ message hex_usage_counts_ingest_report_v1 {
   hex_usage_counts_req_v1 report = 2;
 }
 
-message hotspot_usage_counts_req_v1 {
+message radio_usage_counts_req_v1 {
   // The onchain address of the hotspot
   bytes hotspot_pubkey = 1;
   // the cbsd id of the radio if it is a cbrs radio otherwise empty
@@ -62,13 +62,13 @@ message hotspot_usage_counts_req_v1 {
   bytes signature = 8;
 }
 
-message hotspot_usage_counts_res_v1 { string id = 1; }
+message radio_usage_counts_res_v1 { string id = 1; }
 
-message hotspot_usage_counts_ingest_report_v1 {
+message radio_usage_counts_ingest_report_v1 {
   // Timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
   // the verified report
-  hotspot_usage_counts_req_v1 report = 2;
+  radio_usage_counts_req_v1 report = 2;
 }
 
 message speedtest_req_v1 {
