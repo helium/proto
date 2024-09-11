@@ -367,7 +367,7 @@ service poc_mobile {
       returns (subscriber_verified_mapping_event_res_v1);
   rpc submit_hex_usage_counts_report(hex_usage_counts_req_v1)
       returns (hex_usage_counts_res_v1);
-  rpc submit_hotspot_usage_counts_report(radio_usage_counts_req_v1)
+  rpc submit_radio_usage_counts_report(radio_usage_counts_req_v1)
       returns (radio_usage_counts_res_v1);
 }
 
