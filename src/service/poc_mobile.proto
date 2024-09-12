@@ -892,14 +892,8 @@ message verified_subscriber_verified_mapping_event_ingest_report_v1 {
   uint64 timestamp = 3;
 }
 
-enum EventType {
-  TOWER = 1;
-  DISCO_MAPPING = 2;
-  VERIFICATION_MAPPING = 3;
-}
-
 message rle_event_v1 {
-  EventType type = 1;
+  string id = 1;
   uint64 timestamp = 2;
 }
 
