@@ -347,6 +347,8 @@ service poc_mobile {
       returns (subscriber_verified_mapping_event_res_v1);
   rpc submit_promotion_reward(promotion_reward_req_v1)
       returns (promotion_reward_resp_v1);
+  rpc submit_radio_location_estimates(radio_location_estimates_req_v1)
+      returns (radio_location_estimates_resp_v1);
 }
 
 message file_info {
@@ -903,7 +905,7 @@ message radio_location_estimate_v1 {
   repeated rle_event_v1 events = 3;
 }
 
-message radio_location_estimates_v1 {
+message radio_location_estimates_req_v1 {
   string radio_id = 1;
   repeated radio_location_estimate_v1 estimates = 2;
   // unix epoch timestamp in seconds
@@ -912,3 +914,5 @@ message radio_location_estimates_v1 {
   bytes signer = 4;
   bytes signature = 5;
 }
+
+message radio_location_estimates_resp_v1 { string id = 1; }
