@@ -851,8 +851,8 @@ message rle_event_v1 {
 }
 
 message radio_location_estimate_v1 {
-  uint32 radius = 1;
-  uint32 confidence = 2;
+  Decimal radius = 1;
+  Decimal confidence = 2;
   repeated rle_event_v1 events = 3;
 }
 
