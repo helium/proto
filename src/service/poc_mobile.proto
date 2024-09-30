@@ -34,6 +34,7 @@ message speedtest_ingest_report_v1 {
 enum speedtest_verification_result {
   speedtest_valid = 0;
   speedtest_gateway_not_found = 1;
+  speedtest_data_only = 2;
 }
 
 message verified_speedtest {
@@ -411,6 +412,8 @@ enum heartbeat_validity {
   heartbeat_validity_gateway_not_asserted = 10;
   // heartbeat location is outside supported locations
   heartbeat_validity_unsupported_location = 11;
+  //
+  heartbeat_validity_data_only = 12;
 }
 
 message seniority_update {
