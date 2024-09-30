@@ -36,6 +36,10 @@ macro_rules! config {
     ($config:expr) => {
         $config
             .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
+            .enum_attribute(
+                ".helium.service_provider",
+                "#[derive(strum_macros::EnumIter)]",
+            )
             .field_attribute(
                 ".helium.tagged_spreading.region_spreading",
                 "#[serde(with = \"serde_region_spreading\" )]",
