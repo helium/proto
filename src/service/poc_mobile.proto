@@ -852,6 +852,7 @@ message rle_event_v1 {
 
 message radio_location_estimate_v1 {
   Decimal radius = 1;
+  // TODO: lat long
   Decimal confidence = 2;
   repeated rle_event_v1 events = 3;
 }
@@ -862,8 +863,26 @@ message radio_location_estimates_req_v1 {
   // unix epoch timestamp in seconds
   uint64 timestamp = 3;
   // pubkey binary of the signing keypair
-  bytes signer = 4;
+  bytes carrier_key = 4;
   bytes signature = 5;
 }
 
 message radio_location_estimates_resp_v1 { string id = 1; }
+
+message radio_location_estimates_ingest_report_v1 {
+  // unix epoch timestamp in seconds
+  uint64 received_timestamp = 1;
+  radio_location_estimates_req_v1 report = 2;
+}
+
+enum radio_location_estimates_verification_status {
+  radio_location_estimates_verification_status_valid = 0;
+  radio_location_estimates_verification_status_invalid_key = 1;
+}
+
+message verified_radio_location_estimates_report_v1 {
+  radio_location_estimates_ingest_report_v1 report = 1;
+  radio_location_estimates_verification_status status = 2;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 3;
+}
