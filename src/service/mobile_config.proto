@@ -137,6 +137,7 @@ enum device_type {
   cbrs = 0;
   wifi_indoor = 1;
   wifi_outdoor = 2;
+  wifi_data_only = 3;
 }
 
 message authorization_verify_req_v1 {
