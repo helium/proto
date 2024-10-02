@@ -852,9 +852,10 @@ message rle_event_v1 {
 
 message radio_location_estimate_v1 {
   Decimal radius = 1;
-  // TODO: lat long
-  Decimal confidence = 2;
-  repeated rle_event_v1 events = 3;
+  Decimal lat = 2;
+  Decimal long = 3;
+  Decimal confidence = 4;
+  repeated rle_event_v1 events = 5;
 }
 
 message radio_location_estimates_req_v1 {
