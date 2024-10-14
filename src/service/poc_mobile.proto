@@ -859,13 +859,16 @@ message radio_location_estimate_v1 {
 }
 
 message radio_location_estimates_req_v1 {
-  string radio_id = 1;
-  repeated radio_location_estimate_v1 estimates = 2;
+  oneof entity {
+    string cbrs_id = 1;
+    bytes wifi_pub_key = 2;
+  }
+  repeated radio_location_estimate_v1 estimates = 3;
   // unix epoch timestamp in seconds
-  uint64 timestamp = 3;
+  uint64 timestamp = 4;
   // pubkey binary of the signing keypair
-  bytes carrier_key = 4;
-  bytes signature = 5;
+  bytes carrier_key = 5;
+  bytes signature = 6;
 }
 
 message radio_location_estimates_resp_v1 { string id = 1; }
