@@ -902,7 +902,7 @@ message rle_event_v1 {
 message radio_location_estimate_v1 {
   Decimal radius = 1;
   Decimal lat = 2;
-  Decimal long = 3;
+  Decimal lon = 3;
   Decimal confidence = 4;
   repeated rle_event_v1 events = 5;
 }
