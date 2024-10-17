@@ -8,14 +8,22 @@ import "service_provider.proto";
 message mobile_reward_data {
   Decimal poc_bones_per_reward_share = 1;
   Decimal boosted_poc_bones_per_reward_share = 2;
-  // repeated service_provider_allocation sp_allocations = 3;
+  repeated service_provider_promotions service_provider_promotions = 3;
 }
 
-message service_provider_allocation {
+message service_provider_promotions {
+  message promotion {
+    string entity = 1;
+    uint64 start_ts = 2;
+    uint64 end_ts = 3;
+    uint32 shares = 4;
+  }
+
   service_provider service_provider = 1;
-  // The percentage of the SP rewards that are allocated to the incentive fun,
+  // The percentage of the SP rewards that are allocated to the incentive fund,
   // in basis points
   uint32 incentive_escrow_fund_bps = 2;
+  repeated promotion promotions = 3;
 }
 
 message iot_reward_data {

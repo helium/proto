@@ -5,17 +5,3 @@ package helium;
 enum service_provider {
   helium_mobile = 0;
 }
-
-message service_provider_promotion_fund_v1 {
-  /// The timestamp for this report in milliseconds since unix epoch
-  uint64 timestamp = 1;
-
-  /// Service Provider that is allocating funds for promotions
-  service_provider service_provider = 2;
-
-  /// Percentage of Rewards allocated for promotions
-  /// stored in Basis Points
-  ///
-  /// https://www.investopedia.com/terms/b/basispoint.asp
-  uint32 bps = 3;
-}

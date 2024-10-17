@@ -280,48 +280,6 @@ message verified_subscriber_location_ingest_report_v1 {
   uint64 timestamp = 3;
 }
 
-message promotion_reward_req_v1 {
-  // Entity to be rewarded
-  oneof entity {
-    // Subscriber reward
-    bytes subscriber_id = 1;
-    // Gateway reward
-    bytes gateway_key = 2;
-  }
-  // Shares rewarded to the subscriber
-  uint64 shares = 3;
-  // Timestamp in seconds since the unix epoch
-  uint64 timestamp = 4;
-  // Pubkey of the carrier for which the entity is attached
-  bytes carrier_pub_key = 5;
-  // Signed payload of the request
-  bytes signature = 6;
-}
-
-message promotion_reward_resp_v1 { string id = 1; }
-
-message promotion_reward_ingest_report_v1 {
-  // Timestamp in milliseconds since the unix epoch
-  uint64 received_timestamp = 1;
-  promotion_reward_req_v1 report = 2;
-}
-
-enum promotion_reward_status {
-  promotion_reward_status_valid = 0;
-  promotion_reward_status_invalid_subscriber_id = 1;
-  promotion_reward_status_invalid_gateway_key = 2;
-  promotion_reward_status_invalid_carrier_key = 3;
-}
-
-message verified_promotion_reward_v1 {
-  promotion_reward_ingest_report_v1 report = 1;
-  // Status of the report
-  promotion_reward_status status = 2;
-  // Timestamp at which verification was determined, in milliseconds since
-  // the unix epoch
-  uint64 timestamp = 3;
-}
-
 service poc_mobile {
   rpc submit_speedtest(speedtest_req_v1) returns (speedtest_resp_v1);
   rpc submit_cell_heartbeat(cell_heartbeat_req_v1)
@@ -345,8 +303,6 @@ service poc_mobile {
   rpc submit_subscriber_verified_mapping_event(
       subscriber_verified_mapping_event_req_v1)
       returns (subscriber_verified_mapping_event_res_v1);
-  rpc submit_promotion_reward(promotion_reward_req_v1)
-      returns (promotion_reward_resp_v1);
 }
 
 message file_info {
@@ -615,17 +571,12 @@ message subscriber_reward {
 }
 
 message promotion_reward {
-  // Entity given the reward
-  oneof entity {
-    // Subscriber reward
-    bytes subscriber_id = 1;
-    // Gateway reward
-    bytes gateway_key = 2;
-  }
+  // Name of the promotion NFT
+  string entity = 1;
   // Amount in bones given by the service provider
-  uint64 service_provider_amount = 3;
+  uint64 service_provider_amount = 2;
   // Amount in bones matched by the network
-  uint64 matched_amount = 4;
+  uint64 matched_amount = 3;
 }
 
 message service_provider_reward {
@@ -666,7 +617,7 @@ message mobile_reward_share {
     service_provider_reward service_provider_reward = 6;
     unallocated_reward unallocated_reward = 7;
     radio_reward_v2 radio_reward_v2 = 8;
-    // promotion_reward promotion_reward = 9;
+    promotion_reward promotion_reward = 9;
   }
 }
 
