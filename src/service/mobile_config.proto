@@ -67,6 +67,9 @@ message gateway_info_stream_req_v1 {
   // pubkey binary of the signing keypair
   bytes signer = 2;
   bytes signature = 3;
+  // Device types that will be returned in the response
+  // Returns all devices if empty
+  repeated device_type device_types = 4;
 }
 
 message gateway_info_stream_res_v1 {
