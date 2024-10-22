@@ -83,7 +83,7 @@ message gateway_info_stream_filtered_req_v1 {
   // max number of gateway info records in each message of the response stream
   uint32 batch_size = 1;
   // Device types that will be returned in the response
-  repeated device_type devicy_types = 2;
+  repeated device_type device_types = 2;
   // pubkey binary of the signing keypair
   bytes signer = 3;
   bytes signature = 4;
