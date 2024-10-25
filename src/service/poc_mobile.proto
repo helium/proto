@@ -851,9 +851,8 @@ message rle_event_v1 {
 }
 
 message radio_location_estimate_v1 {
-  Decimal radius = 1;
-  Decimal lat = 2;
-  Decimal lon = 3;
+  // The res12 h3 indexes of the estimated covered area
+  repeated uint64 hexes = 1;
   Decimal confidence = 4;
   repeated rle_event_v1 events = 5;
 }
