@@ -13,9 +13,13 @@ message mobile_reward_data {
 
 message service_provider_promotions {
   message promotion {
+    // Name of the Promotion NFT
     string entity = 1;
+    // Unix timestamp in seconds of the start of the promotion
     uint64 start_ts = 2;
+    // Unix timestamp in seconds of the end of the promotion
     uint64 end_ts = 3;
+    // Shares used when distributing promotion incentive allocation
     uint32 shares = 4;
   }
 
