@@ -851,10 +851,12 @@ message rle_event_v1 {
 }
 
 message radio_location_estimate_v1 {
-  // The res12 h3 indexes of the estimated covered area
-  repeated uint64 hexes = 1;
-  Decimal confidence = 4;
-  repeated rle_event_v1 events = 5;
+  // The res12 h3 index representing the center of the estimate
+  uint64 hex = 1;
+  // h3 grid distance the location confidence applies to
+  uint32 grid_distance = 2;
+  Decimal confidence = 3;
+  repeated rle_event_v1 events = 4;
 }
 
 message radio_location_estimates_req_v1 {
