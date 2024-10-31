@@ -7,6 +7,67 @@ import "mapper.proto";
 import "hex_boosting.proto";
 import "service_provider.proto";
 
+message hex_usage_counts_req_v1 {
+  // H3 resolution 10 tile
+  uint64 hex = 1;
+  // Average count of unique service provider subscribers active in the hex
+  // during the previous 7 days ( inclusive of discovery mapping subscribers )
+  uint64 service_provider_subscriber_avg_count = 2;
+  // Average count of unique discovery mapping subscribers active
+  // in the hex during the previous 7 days
+  uint64 disco_mapping_avg_count = 3;
+  // Average count of unique offload sessions active in the hex during the
+  // previous 7 days
+  uint64 offload_avg_count = 4;
+  // Unix timestamp in milliseconds of when the report was generated
+  uint64 timestamp = 6;
+  // Carrier pubkey from verification mapping service
+  bytes carrier_mapping_key = 7;
+  // Signed payload of the verification mapping service
+  bytes signature = 8;
+}
+
+message hex_usage_counts_res_v1 { string id = 1; }
+
+message hex_usage_counts_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  // the verified report
+  hex_usage_counts_req_v1 report = 2;
+}
+
+message radio_usage_counts_req_v1 {
+  // The onchain address of the hotspot
+  bytes hotspot_pubkey = 1;
+  // the cbsd id of the radio if it is a cbrs radio otherwise empty
+  string cbsd_id = 2;
+  // Average count of unique service provider subscribers which have connected
+  // to the radio during the previous 7 days ( inclusive of discovery mapping
+  // subscribers )
+  uint64 service_provider_subscriber_avg_count = 3;
+  // Average count of unique discovery mapping subscribers which
+  // have connected to the radio during the previous 7 days
+  uint64 disco_mapping_avg_count = 4;
+  // Average count of unique offload sessions which have connected to the radio
+  // during the previous 7 days
+  uint64 offload_avg_count = 5;
+  // Unix timestamp in milliseconds of when the report was generated
+  uint64 timestamp = 6;
+  // Carrier pubkey from verification mapping service
+  bytes carrier_mapping_key = 7;
+  // Signed payload of the verification mapping service
+  bytes signature = 8;
+}
+
+message radio_usage_counts_res_v1 { string id = 1; }
+
+message radio_usage_counts_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  // the verified report
+  radio_usage_counts_req_v1 report = 2;
+}
+
 message speedtest_req_v1 {
   bytes pub_key = 1;
   string serial = 2;
@@ -303,6 +364,10 @@ service poc_mobile {
   rpc submit_subscriber_verified_mapping_event(
       subscriber_verified_mapping_event_req_v1)
       returns (subscriber_verified_mapping_event_res_v1);
+  rpc submit_hex_usage_counts_report(hex_usage_counts_req_v1)
+      returns (hex_usage_counts_res_v1);
+  rpc submit_radio_usage_counts_report(radio_usage_counts_req_v1)
+      returns (radio_usage_counts_res_v1);
 }
 
 message file_info {
