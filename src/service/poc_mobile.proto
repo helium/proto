@@ -10,14 +10,14 @@ import "service_provider.proto";
 message hex_usage_counts_req_v1 {
   // H3 resolution 10 tile
   uint64 hex = 1;
-  // Average count of unique service provider subscribers active in the hex
-  // during the epoch ( inclusive of discovery mapping subscribers )
-  uint64 service_provider_subscriber_avg_count = 2;
-  // Average count of unique discovery mapping enabled subscribers active
+  // Number of unique service provider subscribers active in the hex
+  // during the epoch ( inclusive of discovery mapping enabled subscribers )
+  uint64 service_provider_subscriber_count = 2;
+  // Number of unique discovery mapping enabled subscribers active
   // in the hex during the epoch
-  uint64 disco_mapping_avg_count = 3;
-  // Average count of unique offload users active in the hex during the epoch
-  uint64 offload_avg_count = 4;
+  uint64 disco_mapping_count = 3;
+  // Number of unique offload users active in the hex during the epoch
+  uint64 offload_count = 4;
   // Unix timestamp in milliseconds of the epoch start
   uint64 epoch_start_timestamp = 5;
   // Unix timestamp in milliseconds of the epoch end
@@ -44,22 +44,22 @@ message radio_usage_counts_req_v1 {
   bytes hotspot_pubkey = 1;
   // the cbsd id of the radio if it is a cbrs radio otherwise empty
   string cbsd_id = 2;
-  // Average count of unique service provider subscribers which have connected
+  // Number of unique service provider subscribers which have connected
   // to the radio during the epoch ( inclusive of discovery mapping
-  // subscribers )
-  uint64 service_provider_subscriber_avg_count = 3;
-  // Average count of unique discovery mapping subscribers which
+  // enabled subscribers )
+  uint64 service_provider_subscriber_count = 3;
+  // Number of unique discovery mapping subscribers which
   // have connected to the radio during the epoch
-  uint64 disco_mapping_avg_count = 4;
-  // Average count of unique offload users which have connected to the radio
+  uint64 disco_mapping_count = 4;
+  // Number of unique offload users which have connected to the radio
   // during the epoch
-  uint64 offload_avg_count = 5;
+  uint64 offload_count = 5;
   // total count of bytes transferred via the radio by service provider
-  // subscribers during the epoch made up of a sum of upload and download bytes
+  // subscribers during the epoch, inclusive of upload and download
   uint64 service_provider_transfer_bytes = 6;
   // total count of bytes transferred via the radio by offload users
   // during the epoch
-  // made up of a sum of upload and download bytes
+  // inclusive of upload and download
   uint64 offload_transfer_bytes = 7;
   // Unix timestamp in milliseconds of the epoch start
   uint64 epoch_start_timestamp = 8;
