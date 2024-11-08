@@ -18,16 +18,24 @@ message hex_usage_counts_req_v1 {
   uint64 disco_mapping_count = 3;
   // Number of unique offload users active in the hex during the epoch
   uint64 offload_count = 4;
+  // total count of bytes transferred via radios located in the hex
+  // by service provider subscribers during the epoch,
+  // inclusive of upload and download
+  uint64 service_provider_transfer_bytes = 5;
+  // total count of bytes transferred via radios located in the hex
+  // by offload users during the epoch
+  // inclusive of upload and download
+  uint64 offload_transfer_bytes = 6;
   // Unix timestamp in milliseconds of the epoch start
-  uint64 epoch_start_timestamp = 5;
+  uint64 epoch_start_timestamp = 7;
   // Unix timestamp in milliseconds of the epoch end
-  uint64 epoch_end_timestamp = 6;
+  uint64 epoch_end_timestamp = 8;
   // Unix timestamp in milliseconds of when the report was generated
-  uint64 timestamp = 7;
+  uint64 timestamp = 9;
   // Carrier pubkey from verification mapping service
-  bytes carrier_mapping_key = 8;
+  bytes carrier_mapping_key = 10;
   // Signed payload of the verification mapping service
-  bytes signature = 9;
+  bytes signature = 11;
 }
 
 message hex_usage_counts_res_v1 { string id = 1; }
