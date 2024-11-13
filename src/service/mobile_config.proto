@@ -5,7 +5,6 @@ package helium.mobile_config;
 import "hex_boosting.proto";
 import "service_provider.proto";
 import "reward_manifest.proto";
-
 // ------------------------------------------------------------------
 // Message Definitions
 // ------------------------------------------------------------------
