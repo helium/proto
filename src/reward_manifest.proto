@@ -46,4 +46,8 @@ message reward_manifest {
     mobile_reward_data mobile_reward_data = 4;
     iot_reward_data iot_reward_data = 5;
   }
+  // the epoch of the reward share
+  uint64 epoch = 6;
+  /// Price of HNT @ 10^8 used when calculating the rewards
+  uint64 price = 7;
 }

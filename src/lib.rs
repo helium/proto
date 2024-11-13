@@ -15,6 +15,12 @@ pub mod services {
         ServiceProvider, ServiceProviderPromotions,
     };
 
+    pub mod sub_dao {
+        include!(concat!(env!("OUT_DIR"), "/helium.sub_dao.rs"));
+        pub use sub_dao_client::SubDaoClient;
+        pub use sub_dao_server::{SubDao, SubDaoServer};
+    }
+
     pub mod iot_config {
         include!(concat!(env!("OUT_DIR"), "/helium.iot_config.rs"));
         pub use admin_client as config_admin_client;

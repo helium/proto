@@ -266,6 +266,8 @@ message iot_reward_share {
     operational_reward operational_reward = 4;
     unallocated_reward unallocated_reward = 5;
   }
+  // the onchain epoch of the reward share
+  uint64 epoch = 6;
 }
 
 message lora_stream_session_offer_v1 { bytes nonce = 1; }
