@@ -80,7 +80,7 @@ message gateway_info_stream_req_v1 {
   repeated device_type device_types = 4;
   // The Unix epoch timestamp (in seconds).
   // Filters the response based on the `refreshed_at` field in `gateway_info`.
-  // Returns only gateways where `refreshed_at` > `min_refreshed_at`.
+  // Returns only gateways where `refreshed_at` >= `min_refreshed_at`.
   // Use 0 to fetch all gateways.
   uint64 min_refreshed_at = 5;
 }
