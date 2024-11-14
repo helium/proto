@@ -855,7 +855,7 @@ message radio_location_estimate_v1 {
 
 message radio_location_estimates_req_v1 {
   oneof entity {
-    string cbrs_id = 1;
+    string cbsd_id = 1;
     bytes wifi_pub_key = 2;
   }
   repeated radio_location_estimate_v1 estimates = 3;
