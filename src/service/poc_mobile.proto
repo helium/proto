@@ -845,18 +845,12 @@ message verified_subscriber_verified_mapping_event_ingest_report_v1 {
   uint64 timestamp = 3;
 }
 
-message radio_location_correlation_v1 {
-  string id = 1;
-  uint64 timestamp = 2;
-}
-
 message radio_location_estimate_v1 {
   // The res12 h3 index representing the center of the estimate
   uint64 hex = 1;
   // h3 grid distance the location confidence applies to
   uint32 grid_distance = 2;
   Decimal confidence = 3;
-  repeated radio_location_correlation_v1 radio_location_correlations = 4;
 }
 
 message radio_location_estimates_req_v1 {
