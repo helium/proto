@@ -21,10 +21,35 @@ import "reward_manifest.proto";
 // - Keypair fields are binary encoded public keys, Rust encoding example here:
 //    https://github.com/helium/helium-crypto-rs/blob/main/src/public_key.rs#L347-L354
 
+message wifi_deployment_info {
+  // antenna id
+  uint32 antenna = 1;
+  // The height of the hotspot above ground level in whole meters
+  uint32 elevation = 2;
+  uint32 azimuth = 3;
+  uint32 mechanical_down_tilt = 4;
+  uint32 electrical_down_tilt = 5;
+}
+
+message cbrs_deployment_info {
+  repeated radio_deployment_info radio_deployment_info = 1;
+}
+
+message radio_deployment_info {
+  // CBSD_ID or radio
+  string radio_id = 1;
+  // The asserted elevation of the gateway above ground level in whole meters
+  uint32 elevation = 2;
+}
+
 message gateway_metadata {
   // The res12 h3 index asserted address of the gateway as a string
   // where an unasserted gateway returns an empty string
   string location = 2;
+  oneof deployment_info {
+    wifi_deployment_info wifi_deployment_info = 3;
+    cbrs_deployment_info cbrs_deployment_info = 4;
+  }
 }
 
 message gateway_info {
