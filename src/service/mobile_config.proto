@@ -32,7 +32,7 @@ message wifi_deployment_info {
 }
 
 message cbrs_deployment_info {
-  repeated cbrs_radio_deployment_info cbrs_radio_deployment_info = 1;
+  repeated cbrs_radio_deployment_info cbrs_radios_deployment_info = 1;
 }
 
 message cbrs_radio_deployment_info {
