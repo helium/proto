@@ -32,10 +32,10 @@ message wifi_deployment_info {
 }
 
 message cbrs_deployment_info {
-  repeated radio_deployment_info radio_deployment_info = 1;
+  repeated cbrs_radio_deployment_info cbrs_radio_deployment_info = 1;
 }
 
-message radio_deployment_info {
+message cbrs_radio_deployment_info {
   // CBSD_ID or radio
   string radio_id = 1;
   // The asserted elevation of the gateway above ground level in whole meters
