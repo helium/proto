@@ -36,7 +36,7 @@ message cbrs_deployment_info {
 }
 
 message cbrs_radio_deployment_info {
-  // CBSD_ID or radio
+  // CBSD_ID
   string radio_id = 1;
   // The asserted elevation of the gateway above ground level in whole meters
   uint32 elevation = 2;
