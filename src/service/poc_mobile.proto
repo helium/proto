@@ -303,6 +303,8 @@ service poc_mobile {
   rpc submit_subscriber_verified_mapping_event(
       subscriber_verified_mapping_event_req_v1)
       returns (subscriber_verified_mapping_event_res_v1);
+  rpc submit_radio_location_estimates(radio_location_estimates_req_v1)
+      returns (radio_location_estimates_resp_v1);
 }
 
 message file_info {
@@ -840,5 +842,46 @@ message verified_subscriber_verified_mapping_event_ingest_report_v1 {
   // the status determined by the verification
   subscriber_verified_mapping_event_verification_status status = 2;
   // Timestamp in milliseconds since unix epoch
+  uint64 timestamp = 3;
+}
+
+message radio_location_estimate_v1 {
+  // The res12 h3 index representing the center of the estimate
+  uint64 hex = 1;
+  // h3 grid distance the location confidence applies to
+  uint32 grid_distance = 2;
+  Decimal confidence = 3;
+}
+
+message radio_location_estimates_req_v1 {
+  oneof entity {
+    string cbsd_id = 1;
+    bytes wifi_pub_key = 2;
+  }
+  repeated radio_location_estimate_v1 estimates = 3;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 4;
+  // pubkey binary of the signing keypair
+  bytes carrier_key = 5;
+  bytes signature = 6;
+}
+
+message radio_location_estimates_resp_v1 { string id = 1; }
+
+message radio_location_estimates_ingest_report_v1 {
+  // unix epoch timestamp in seconds
+  uint64 received_timestamp = 1;
+  radio_location_estimates_req_v1 report = 2;
+}
+
+enum radio_location_estimates_verification_status {
+  radio_location_estimates_verification_status_valid = 0;
+  radio_location_estimates_verification_status_invalid_key = 1;
+}
+
+message verified_radio_location_estimates_report_v1 {
+  radio_location_estimates_ingest_report_v1 report = 1;
+  radio_location_estimates_verification_status status = 2;
+  // unix epoch timestamp in seconds
   uint64 timestamp = 3;
 }
