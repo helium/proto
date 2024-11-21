@@ -42,16 +42,18 @@ enum action_v1 {
 // Define an organisation
 message org_v1 {
   uint64 oui = 1;
+  // On chain address
+  bytes address = 2;
   // Org admin key
-  bytes owner = 2;
+  bytes owner = 3;
   // Used to infer escrow address for DC payments
-  string escrow_key = 3;
+  string escrow_key = 4;
   // List of keys allowed some specific actions, see services.
-  repeated bytes delegate_keys = 4;
+  repeated bytes delegate_keys = 5;
   // Is org approved on chain
-  bool approved = 5;
+  bool approved = 6;
   // Is org locked because of no payment
-  bool locked = 6;
+  bool locked = 7;
 }
 
 // Device address range, ex: 16#00000001 to 16#0000000A
