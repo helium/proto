@@ -111,6 +111,15 @@ message gateway_info_res_v1 {
   bytes signature = 4;
 }
 
+message gateway_info_res_v2 {
+  gateway_info_v2 info = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
 message gateway_info_stream_req_v1 {
   option deprecated = true;
   // max number of gateway info records in each message of the response stream
@@ -340,6 +349,9 @@ service gateway {
   // Get a stream of gateway info
   rpc info_stream(gateway_info_stream_req_v1)
       returns (stream gateway_info_stream_res_v1);
+  // Get a stream of gateway info (V2)
+  rpc info_stream_v2(gateway_info_stream_req_v2)
+      returns (stream gateway_info_stream_res_v2);
 }
 
 service entity {
