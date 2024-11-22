@@ -390,6 +390,46 @@ service poc_mobile {
       returns (hex_usage_stats_res_v1);
   rpc submit_radio_usage_stats_report(radio_usage_stats_req_v1)
       returns (radio_usage_stats_res_v1);
+  rpc submit_unique_connections(unique_connections_req_v1)
+      returns (unique_connections_resp_v1);
+}
+
+message unique_connections_req_v1 {
+  // Wifi Radio pubkey
+  bytes pubkey = 1;
+  // Start timestamp in milliseconds of window used to calculate unique connections
+  uint64 start_timestamp = 2;
+  // End timestamp in milliseconds of window used to calculate unique connections
+  uint64 end_timestamp = 3;
+  // Number of unique connection over the window looking backwards from timestamp
+  uint64 unique_connections = 4;
+
+  // Timestamp unique counts was sent in milliseconds
+  uint64 timestamp = 5;
+  bytes carrier_key = 6;
+  bytes signature = 7;
+}
+
+message unique_connections_resp_v1 {
+  uint64 timestamp = 1;
+}
+
+message unique_connections_ingest_report_v1 {
+  // Timestamp in milliseconds report was received by ingestor
+  uint64 received_timestamp = 1;
+  unique_connections_req_v1 report = 2;
+}
+
+enum verified_unique_connections_ingest_report_status {
+  verified_unique_connection_ingest_report_status_valid = 0;
+  verified_unique_connection_ingest_report_status_invalid_carrier_key = 1;
+}
+
+message verified_unique_connections_ingest_report_v1 {
+  // Timestamp in milliseconds report was verified by oracles
+  uint64 timestamp = 1;
+  unique_connections_ingest_report_v1 report = 2;
+  verified_unique_connections_ingest_report_status status = 3;
 }
 
 message file_info {
