@@ -43,6 +43,7 @@ message cbrs_radio_deployment_info {
 }
 
 message gateway_metadata {
+  option deprecated = true;
   // The res12 h3 index asserted address of the gateway as a string
   // where an unasserted gateway returns an empty string
   string location = 2;
@@ -59,6 +60,7 @@ message gateway_metadata_v2 {
 }
 
 message gateway_info {
+  option deprecated = true;
   // The public key binary address and on-chain identity of the gateway
   bytes address = 1;
   // The gateway metadata as recorded on the blockchain
@@ -110,6 +112,7 @@ message gateway_info_res_v1 {
 }
 
 message gateway_info_stream_req_v1 {
+  option deprecated = true;
   // max number of gateway info records in each message of the response stream
   uint32 batch_size = 1;
   // pubkey binary of the signing keypair
