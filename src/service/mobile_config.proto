@@ -46,6 +46,12 @@ message gateway_metadata {
   // The res12 h3 index asserted address of the gateway as a string
   // where an unasserted gateway returns an empty string
   string location = 2;
+}
+
+message gateway_metadata_v2 {
+  // The res12 h3 index asserted address of the gateway as a string
+  // where an unasserted gateway returns an empty string
+  string location = 2;
   oneof deployment_info {
     wifi_deployment_info wifi_deployment_info = 3;
     cbrs_deployment_info cbrs_deployment_info = 4;
@@ -57,6 +63,15 @@ message gateway_info {
   bytes address = 1;
   // The gateway metadata as recorded on the blockchain
   gateway_metadata metadata = 2;
+  // the asserted device type of the gateway
+  device_type device_type = 3;
+}
+
+message gateway_info_v2 {
+  // The public key binary address and on-chain identity of the gateway
+  bytes address = 1;
+  // The gateway metadata as recorded on the blockchain
+  gateway_metadata_v2 metadata = 2;
   // the asserted device type of the gateway
   device_type device_type = 3;
   // The unix epoch timestamp (in seconds)
@@ -95,6 +110,17 @@ message gateway_info_res_v1 {
 }
 
 message gateway_info_stream_req_v1 {
+  // max number of gateway info records in each message of the response stream
+  uint32 batch_size = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+  // Device types that will be returned in the response
+  // Returns all devices if empty
+  repeated device_type device_types = 4;
+}
+
+message gateway_info_stream_req_v2 {
   // max number of gateway info records in each message of the response stream
   uint32 batch_size = 1;
   // pubkey binary of the signing keypair
