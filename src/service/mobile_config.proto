@@ -348,7 +348,9 @@ service gateway {
       returns (stream gateway_info_stream_res_v1);
   // Get a stream of gateway info
   rpc info_stream(gateway_info_stream_req_v1)
-      returns (stream gateway_info_stream_res_v1);
+      returns (stream gateway_info_stream_res_v1) {
+    option deprecated = true;
+  }
   // Get a stream of gateway info (V2)
   rpc info_stream_v2(gateway_info_stream_req_v2)
       returns (stream gateway_info_stream_res_v2);
