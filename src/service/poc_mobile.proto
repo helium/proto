@@ -421,8 +421,8 @@ message unique_connections_ingest_report_v1 {
 }
 
 enum verified_unique_connections_ingest_report_status {
-  verified_unique_connection_ingest_report_status_valid = 0;
-  verified_unique_connection_ingest_report_status_invalid_carrier_key = 1;
+  verified_unique_connections_ingest_report_status_valid = 0;
+  verified_unique_connections_ingest_report_status_invalid_carrier_key = 1;
 }
 
 message verified_unique_connections_ingest_report_v1 {
