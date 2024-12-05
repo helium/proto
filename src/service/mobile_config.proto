@@ -43,6 +43,13 @@ message cbrs_radio_deployment_info {
 }
 
 message gateway_metadata {
+  option deprecated = true;
+  // The res12 h3 index asserted address of the gateway as a string
+  // where an unasserted gateway returns an empty string
+  string location = 2;
+}
+
+message gateway_metadata_v2 {
   // The res12 h3 index asserted address of the gateway as a string
   // where an unasserted gateway returns an empty string
   string location = 2;
@@ -53,10 +60,20 @@ message gateway_metadata {
 }
 
 message gateway_info {
+  option deprecated = true;
   // The public key binary address and on-chain identity of the gateway
   bytes address = 1;
   // The gateway metadata as recorded on the blockchain
   gateway_metadata metadata = 2;
+  // the asserted device type of the gateway
+  device_type device_type = 3;
+}
+
+message gateway_info_v2 {
+  // The public key binary address and on-chain identity of the gateway
+  bytes address = 1;
+  // The gateway metadata as recorded on the blockchain
+  gateway_metadata_v2 metadata = 2;
   // the asserted device type of the gateway
   device_type device_type = 3;
   // The unix epoch timestamp (in seconds)
@@ -94,7 +111,28 @@ message gateway_info_res_v1 {
   bytes signature = 4;
 }
 
+message gateway_info_res_v2 {
+  gateway_info_v2 info = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
 message gateway_info_stream_req_v1 {
+  option deprecated = true;
+  // max number of gateway info records in each message of the response stream
+  uint32 batch_size = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+  // Device types that will be returned in the response
+  // Returns all devices if empty
+  repeated device_type device_types = 4;
+}
+
+message gateway_info_stream_req_v2 {
   // max number of gateway info records in each message of the response stream
   uint32 batch_size = 1;
   // pubkey binary of the signing keypair
@@ -113,6 +151,16 @@ message gateway_info_stream_req_v1 {
 message gateway_info_stream_res_v1 {
   // a list of gateway info numbering up to the request batch size
   repeated gateway_info gateways = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message gateway_info_stream_res_v2 {
+  // a list of gateway info numbering up to the request batch size
+  repeated gateway_info_v2 gateways = 1;
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
@@ -310,7 +358,12 @@ service gateway {
       returns (stream gateway_info_stream_res_v1);
   // Get a stream of gateway info
   rpc info_stream(gateway_info_stream_req_v1)
-      returns (stream gateway_info_stream_res_v1);
+      returns (stream gateway_info_stream_res_v1) {
+    option deprecated = true;
+  }
+  // Get a stream of gateway info (V2)
+  rpc info_stream_v2(gateway_info_stream_req_v2)
+      returns (stream gateway_info_stream_res_v2);
 }
 
 service entity {
