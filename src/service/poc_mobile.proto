@@ -595,6 +595,11 @@ enum sp_boosted_hex_status {
   sp_boosted_hex_status_service_provider_ban = 3;
   sp_boosted_hex_status_average_asserted_distance_over_limit = 4;
 }
+
+enum oracle_boosted_hex_status {
+  oracle_boosted_hex_status_eligible = 0;
+  oracle_boosted_hex_status_banned = 1;
+  oracle_boosted_hex_status_qualified = 2;
 }
 
 message radio_reward_v2 {
@@ -670,6 +675,9 @@ message radio_reward_v2 {
 
   // average speedtests result
   speedtest speedtest_average = 17;
+
+  // eligibility of radio to earn oracle boosted rewards
+  oracle_boosted_hex_status oracle_boosted_hex_status = 18;
 }
 
 message boosted_hex {
