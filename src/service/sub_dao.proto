@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package helium.sub_dao;
+
+message sub_dao_epoch_reward_info {
+  // The epoch of the reward info
+  uint64 epoch = 1;
+  // The on-chain identity of the epoch
+  string epoch_address = 2;
+  // The on-chain identity of the subdao
+  string sub_dao_address = 3;
+  // The total HNT rewards emitted for the sub dao and epoch minus the
+  // delegation rewards
+  uint64 rewards_issued = 4;
+  // The total HNT delegation rewards emitted for the sub dao and epoch
+  uint64 delegation_rewards_issued = 5;
+  // timestamp in seconds when the rewards were issued
+  uint64 rewards_issued_at = 6;
+}
+
+message sub_dao_epoch_reward_info_req_v1 {
+  // The on-chain identity of the subdao to lookup
+  string sub_dao_address = 1;
+  // The epoch for the specified subdao to look up
+  uint64 epoch = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message sub_dao_epoch_reward_info_res_v1 {
+  // The reward info for the specified subdao & epoch
+  sub_dao_epoch_reward_info info = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+service sub_dao {
+  // Get reward info for the specified subdao & epoch
+  rpc info(sub_dao_epoch_reward_info_req_v1)
+      returns (sub_dao_epoch_reward_info_res_v1);
+}
