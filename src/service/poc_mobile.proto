@@ -397,11 +397,14 @@ service poc_mobile {
 message unique_connections_req_v1 {
   // Wifi Radio pubkey
   bytes pubkey = 1;
-  // Start timestamp in milliseconds of window used to calculate unique connections
+  // Start timestamp in milliseconds of window used
+  // to calculate unique connections
   uint64 start_timestamp = 2;
-  // End timestamp in milliseconds of window used to calculate unique connections
+  // End timestamp in milliseconds of window used
+  // to calculate unique connections
   uint64 end_timestamp = 3;
-  // Number of unique connection over the window looking backwards from timestamp
+  // Number of unique connection over the window looking
+  // backwards from timestamp
   uint64 unique_connections = 4;
 
   // Timestamp unique counts was sent in milliseconds
@@ -410,9 +413,7 @@ message unique_connections_req_v1 {
   bytes signature = 7;
 }
 
-message unique_connections_resp_v1 {
-  uint64 timestamp = 1;
-}
+message unique_connections_resp_v1 { uint64 timestamp = 1; }
 
 message unique_connections_ingest_report_v1 {
   // Timestamp in milliseconds report was received by ingestor
