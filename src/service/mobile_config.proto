@@ -76,8 +76,9 @@ message gateway_info_v2 {
   gateway_metadata_v2 metadata = 2;
   // the asserted device type of the gateway
   device_type device_type = 3;
-  // The unix epoch timestamp (in seconds)
-  // when the data was read from chain and written to the db
+  // The Unix epoch timestamp (in seconds)
+  // when the data was read from the chain and written to the database.
+  // It does not necessarily mean that anything was changed in the gateway.
   uint64 refreshed_at = 4;
   // The unix epoch timestamp (in seconds)
   // when the gateway was first added to the database.
@@ -142,10 +143,9 @@ message gateway_info_stream_req_v2 {
   // Returns all devices if empty
   repeated device_type device_types = 4;
   // The Unix epoch timestamp (in seconds).
-  // Filters the response based on the `refreshed_at` field in `gateway_info`.
-  // Returns only gateways where `refreshed_at` >= `min_refreshed_at`.
-  // Use 0 to fetch all gateways.
-  uint64 min_refreshed_at = 5;
+  // Filters the response based on the last time gateway parameter(s) was
+  // updated. Use 0 to fetch all gateways.
+  uint64 min_updated_at = 5;
 }
 
 message gateway_info_stream_res_v1 {
