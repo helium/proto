@@ -599,6 +599,9 @@ enum sp_boosted_hex_status {
 enum oracle_boosted_hex_status {
   oracle_boosted_hex_status_eligible = 0;
   oracle_boosted_hex_status_banned = 1;
+  // Radio meets the requirements to be a "Qualified Hotspot"
+  // laid out in HIP-134
+  // https://github.com/helium/HIP/blob/main/0134-reward-mobile-carrier-offload-hotspots.md#detailed-explanation
   oracle_boosted_hex_status_qualified = 2;
 }
 
