@@ -76,8 +76,9 @@ message gateway_info_v2 {
   gateway_metadata_v2 metadata = 2;
   // the asserted device type of the gateway
   device_type device_type = 3;
-  // The unix epoch timestamp (in seconds)
-  // when the data was read from chain and written to the db
+  // The Unix epoch timestamp (in seconds)
+  // when the data was read from the chain and written to the database.
+  // It does not necessarily mean that anything was changed in the gateway.
   uint64 refreshed_at = 4;
   // The unix epoch timestamp (in seconds)
   // when the gateway was first added to the database.
