@@ -76,6 +76,9 @@ message gateway_info_v2 {
   gateway_metadata_v2 metadata = 2;
   // the asserted device type of the gateway
   device_type device_type = 3;
+  // The unix epoch timestamp (in seconds)
+  // when the gateway was first added to the database.
+  uint64 created_at = 4;
 }
 
 message gateway_info_req_v1 {
