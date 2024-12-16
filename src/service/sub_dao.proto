@@ -11,7 +11,7 @@ message sub_dao_epoch_reward_info {
   string sub_dao_address = 3;
   // The total HNT rewards emitted for the sub dao and epoch minus the
   // delegation rewards
-  uint64 rewards_issued = 4;
+  uint64 hnt_rewards_issued = 4;
   // The total HNT delegation rewards emitted for the sub dao and epoch
   uint64 delegation_rewards_issued = 5;
   // timestamp in seconds when the rewards were issued
