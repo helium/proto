@@ -16,6 +16,7 @@ const SERVICES: &[&str] = &[
     "src/service/downlink.proto",
     "src/service/multi_buy.proto",
     "src/service/packet_verifier.proto",
+    "src/service/sub_dao.proto",
 ];
 
 const MESSAGES: &[&str] = &[
