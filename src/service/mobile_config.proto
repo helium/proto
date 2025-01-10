@@ -144,6 +144,8 @@ message gateway_info_stream_req_v2 {
   // The Unix epoch timestamp (in seconds).
   // Filters the response based on the last time gateway parameter(s) was
   // updated. Use 0 to fetch all gateways.
+  // NOTE: It is recommended to use the highest `updated_at` field from
+  // returned radios in the next subsequent requests.
   uint64 min_updated_at = 5;
 }
 
