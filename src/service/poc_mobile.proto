@@ -591,9 +591,10 @@ message radio_reward {
 enum sp_boosted_hex_status {
   sp_boosted_hex_status_eligible = 0;
   sp_boosted_hex_status_location_score_below_threshold = 1;
-  sp_boosted_hex_status_radio_threshold_not_met = 2;
-  sp_boosted_hex_status_service_provider_ban = 3;
+  sp_boosted_hex_status_radio_threshold_not_met = 2 [deprecated = true];
+  sp_boosted_hex_status_service_provider_ban = 3 [deprecated = true];
   sp_boosted_hex_status_average_asserted_distance_over_limit = 4;
+  sp_boosted_hex_status_not_enough_connections = 5;
 }
 
 enum oracle_boosted_hex_status {
