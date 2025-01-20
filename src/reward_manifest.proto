@@ -62,6 +62,9 @@ message reward_manifest {
   }
   // the epoch of the reward share
   uint64 epoch = 6;
-  /// Price of HNT @ 10^8 used when calculating the rewards
+  // Price of the token at time rewards were calculated
+  // MOBILE is @ 10^6
+  // IOT is @ 10^6
+  // HNT is @ 10^8
   uint64 price = 7;
 }
