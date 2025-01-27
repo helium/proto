@@ -699,7 +699,6 @@ message gateway_reward {
   /// count of rewardable bytes transfered
   uint64 rewardable_bytes = 3;
   /// Price of HNT @ 10^8 used when calculating rewards
-  // todo: deprecate this ? replaced with price in manifest
   uint64 price = 4;
 }
 
