@@ -632,7 +632,7 @@ message radio_reward_v2 {
     // or hex is not boosted by service provider
     uint32 boosted_multiplier = 10;
 
-    oracle_boosting_assignment service_provider_selected = 11;
+    oracle_boosting_assignment service_provider_override = 11;
   }
 
   // Public key of the hotspot of the radio
@@ -894,8 +894,7 @@ message oracle_boosting_hex_assignment {
   // Landtype assignment
   oracle_boosting_assignment landtype = 5;
   // Service provider selected assignment
-  // todo: handle legacy data where this is not set
-  oracle_boosting_assignment service_provider_selected = 6;
+  oracle_boosting_assignment service_provider_override = 6;
 }
 
 message service_provider_boosted_rewards_banned_radio_req_v1 {
