@@ -893,7 +893,7 @@ message oracle_boosting_hex_assignment {
   oracle_boosting_assignment footfall = 4;
   // Landtype assignment
   oracle_boosting_assignment landtype = 5;
-  // Service provider selected assignment
+  // Service provider override
   bool service_provider_override = 6;
 }
 
