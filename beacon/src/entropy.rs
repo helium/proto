@@ -1,7 +1,7 @@
 use super::{Error, Result};
 use base64::{engine::general_purpose::STANDARD, Engine};
 use helium_proto::EntropyReportV1;
-use rand::{rngs::OsRng, RngCore};
+use rand::{rngs::OsRng, TryRngCore};
 use serde::{Deserialize, Serialize};
 use sha2::Digest;
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -22,7 +22,7 @@ impl Entropy {
     /// of local entropy is always 0.
     pub fn local() -> Result<Self> {
         let mut local_entropy = vec![0u8; LOCAL_ENTROPY_SIZE];
-        OsRng.fill_bytes(&mut local_entropy);
+        OsRng.try_fill_bytes(&mut local_entropy)?;
         Ok(Self {
             version: 0,
             timestamp: 0,
