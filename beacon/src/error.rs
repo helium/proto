@@ -1,4 +1,3 @@
-use rand_chacha::rand_core::OsError;
 use thiserror::Error;
 
 pub type Result<T = ()> = std::result::Result<T, Error>;
@@ -25,8 +24,6 @@ pub enum Error {
     InvalidVersion,
     #[error("no valid datarate found")]
     NoDataRate,
-    #[error("Operation system error")]
-    OsError(#[from] OsError),
 }
 
 impl Error {
