@@ -856,9 +856,7 @@ message verified_data_transfer_ingest_report_v1 {
     invalid_routing_key = 2;
     duplicate = 3;
   }
-  // the invalid ingest report
   data_transfer_session_ingest_report_v1 report = 1;
-  // the invalid reason as determined by the verifications
   report_status status = 2;
   // Timestamp at which verification was determined, in milliseconds since unix
   // epoch
