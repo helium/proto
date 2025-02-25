@@ -714,9 +714,29 @@ message region_params_res_v1 {
 
 service org {
   // List Org (no auth)
-  rpc list(org_list_req_v2) returns (org_list_res_v2);
+  rpc list(org_list_req_v1) returns (org_list_res_v1) {
+    option deprecated = true;
+  }
+  rpc list_v2(org_list_req_v2) returns (org_list_res_v2);
   // Get Org (no auth)
-  rpc get(org_get_req_v2) returns (org_res_v2);
+  rpc get(org_get_req_v1) returns (org_res_v1) {
+    option deprecated = true;
+  }
+  rpc get_v2(org_get_req_v2) returns (org_res_v2);
+  // Create Org on Helium Network (auth admin only)
+  rpc create_helium(org_create_helium_req_v1) returns (org_res_v1) {
+    option deprecated = true;
+  }
+  // Create Org on any network (auth admin only)
+  rpc create_roamer(org_create_roamer_req_v1) returns (org_res_v1) {
+    option deprecated = true;
+  }
+  // Update any Org (Helium or Roaming)
+  // Modify payer and add/remove delegate keys (owner/admin)
+  // Modify owner and add/remove devaddr constraints (auth admin only)
+  rpc update(org_update_req_v1) returns (org_res_v1) {
+    option deprecated = true;
+  }
   // Disable an org, this sends a stream route delete update to HPR
   // for all associated routes (auth admin only)
   rpc disable(org_disable_req_v1) returns (org_disable_res_v1);
