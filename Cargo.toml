@@ -13,13 +13,14 @@ path = "src/lib.rs"
 members = ["beacon"]
 
 [workspace.dependencies]
-tonic = { version = "0" }
+# Pin to 0.10 to avoid issues with tls and solana dalek deps
+tonic = { version = "0.10" }
 bytes = "1"
-prost = "0"
+prost = "0.12"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tonic-build = { version = "0" }
-prost-build = "0"
+tonic-build = { version = "0.10" }
+prost-build = "0.12"
 
 [features]
 default= []
@@ -31,6 +32,8 @@ bytes = { workspace = true }
 prost = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+strum = { version = "0.26.3", features = ["derive"] }
+strum_macros = "0.26.4"
 
 [build-dependencies]
 tonic-build = { workspace = true, optional = true }

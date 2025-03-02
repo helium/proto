@@ -2,10 +2,69 @@ syntax = "proto3";
 
 package helium;
 
+import "decimal.proto";
+import "service_provider.proto";
+
+enum mobile_reward_token {
+  mobile_reward_token_mobile = 0;
+  mobile_reward_token_hnt = 1;
+}
+
+message mobile_reward_data {
+  Decimal poc_bones_per_reward_share = 1;
+  Decimal boosted_poc_bones_per_reward_share = 2;
+  repeated service_provider_promotions service_provider_promotions = 3;
+  // HIP-138: Reward output was changed from Subdao Tokens to HNT
+  mobile_reward_token token = 4;
+}
+
+message service_provider_promotions {
+  message promotion {
+    // Name of the Promotion NFT
+    string entity = 1;
+    // Unix timestamp in seconds of the start of the promotion
+    uint64 start_ts = 2;
+    // Unix timestamp in seconds of the end of the promotion
+    uint64 end_ts = 3;
+    // Shares used when distributing promotion incentive allocation
+    uint32 shares = 4;
+  }
+
+  service_provider service_provider = 1;
+  // The percentage of the SP rewards that are allocated to the incentive fund,
+  // in basis points
+  uint32 incentive_escrow_fund_bps = 2;
+  repeated promotion promotions = 3;
+}
+
+enum iot_reward_token {
+  iot_reward_token_iot = 0;
+  iot_reward_token_hnt = 1;
+}
+
+message iot_reward_data {
+  Decimal poc_bones_per_beacon_reward_share = 1;
+  Decimal poc_bones_per_witness_reward_share = 2;
+  Decimal dc_bones_per_share = 3;
+  // HIP-138: Reward output was changed from Subdao Tokens to HNT
+  iot_reward_token token = 4;
+}
+
 message reward_manifest {
   repeated string written_files = 1;
   // Unix timestamp in seconds of the start of the inventory period
   uint64 start_timestamp = 2;
   // Unix timestamp in seconds of the end of the inventory period
   uint64 end_timestamp = 3;
+  oneof reward_data {
+    mobile_reward_data mobile_reward_data = 4;
+    iot_reward_data iot_reward_data = 5;
+  }
+  // the epoch of the reward share
+  uint64 epoch = 6;
+  // Price of the token at time rewards were calculated
+  // MOBILE is @ 10^6
+  // IOT is @ 10^6
+  // HNT is @ 10^8
+  uint64 price = 7;
 }

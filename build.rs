@@ -16,10 +16,12 @@ const SERVICES: &[&str] = &[
     "src/service/downlink.proto",
     "src/service/multi_buy.proto",
     "src/service/packet_verifier.proto",
+    "src/service/sub_dao.proto",
 ];
 
 const MESSAGES: &[&str] = &[
     "src/blockchain_txn.proto",
+    "src/decimal.proto",
     "src/entropy.proto",
     "src/service_provider.proto",
     "src/data_rate.proto",
@@ -35,6 +37,10 @@ macro_rules! config {
     ($config:expr) => {
         $config
             .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
+            .enum_attribute(
+                ".helium.service_provider",
+                "#[derive(strum_macros::EnumIter)]",
+            )
             .field_attribute(
                 ".helium.tagged_spreading.region_spreading",
                 "#[serde(with = \"serde_region_spreading\" )]",

@@ -3,7 +3,8 @@ syntax = "proto3";
 package helium.mobile_config;
 
 import "hex_boosting.proto";
-
+import "service_provider.proto";
+import "reward_manifest.proto";
 // ------------------------------------------------------------------
 // Message Definitions
 // ------------------------------------------------------------------
@@ -19,19 +20,67 @@ import "hex_boosting.proto";
 // - Keypair fields are binary encoded public keys, Rust encoding example here:
 //    https://github.com/helium/helium-crypto-rs/blob/main/src/public_key.rs#L347-L354
 
+message wifi_deployment_info {
+  // antenna id
+  uint32 antenna = 1;
+  // The height of the hotspot above ground level in whole meters
+  uint32 elevation = 2;
+  uint32 azimuth = 3;
+  uint32 mechanical_down_tilt = 4;
+  uint32 electrical_down_tilt = 5;
+}
+
+message cbrs_deployment_info {
+  repeated cbrs_radio_deployment_info cbrs_radios_deployment_info = 1;
+}
+
+message cbrs_radio_deployment_info {
+  // CBSD_ID
+  string radio_id = 1;
+  // The asserted elevation of the gateway above ground level in whole meters
+  uint32 elevation = 2;
+}
+
 message gateway_metadata {
+  option deprecated = true;
   // The res12 h3 index asserted address of the gateway as a string
   // where an unasserted gateway returns an empty string
   string location = 2;
 }
 
+message gateway_metadata_v2 {
+  // The res12 h3 index asserted address of the gateway as a string
+  // where an unasserted gateway returns an empty string
+  string location = 2;
+  oneof deployment_info {
+    wifi_deployment_info wifi_deployment_info = 3;
+    cbrs_deployment_info cbrs_deployment_info = 4;
+  }
+}
+
 message gateway_info {
+  option deprecated = true;
   // The public key binary address and on-chain identity of the gateway
   bytes address = 1;
   // The gateway metadata as recorded on the blockchain
   gateway_metadata metadata = 2;
   // the asserted device type of the gateway
   device_type device_type = 3;
+}
+
+message gateway_info_v2 {
+  // The public key binary address and on-chain identity of the gateway
+  bytes address = 1;
+  // The gateway metadata as recorded on the blockchain
+  gateway_metadata_v2 metadata = 2;
+  // the asserted device type of the gateway
+  device_type device_type = 3;
+  // The unix epoch timestamp (in seconds)
+  // when the gateway was first added to the database.
+  uint64 created_at = 4;
+  // The unix epoch timestamp (in seconds)
+  // when the gateway parameters (highly possible) were changed in the database.
+  uint64 updated_at = 5;
 }
 
 message gateway_info_req_v1 {
@@ -61,17 +110,57 @@ message gateway_info_res_v1 {
   bytes signature = 4;
 }
 
+message gateway_info_res_v2 {
+  gateway_info_v2 info = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
 message gateway_info_stream_req_v1 {
+  option deprecated = true;
   // max number of gateway info records in each message of the response stream
   uint32 batch_size = 1;
   // pubkey binary of the signing keypair
   bytes signer = 2;
   bytes signature = 3;
+  // Device types that will be returned in the response
+  // Returns all devices if empty
+  repeated device_type device_types = 4;
+}
+
+message gateway_info_stream_req_v2 {
+  // max number of gateway info records in each message of the response stream
+  uint32 batch_size = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+  // Device types that will be returned in the response
+  // Returns all devices if empty
+  repeated device_type device_types = 4;
+  // The Unix epoch timestamp (in seconds).
+  // Filters the response based on the last time gateway parameter(s) was
+  // updated. Use 0 to fetch all gateways.
+  // NOTE: It is recommended to use the highest `updated_at` field from
+  // returned radios in the next subsequent requests.
+  uint64 min_updated_at = 5;
 }
 
 message gateway_info_stream_res_v1 {
   // a list of gateway info numbering up to the request batch size
   repeated gateway_info gateways = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message gateway_info_stream_res_v2 {
+  // a list of gateway info numbering up to the request batch size
+  repeated gateway_info_v2 gateways = 1;
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
@@ -137,6 +226,7 @@ enum device_type {
   cbrs = 0;
   wifi_indoor = 1;
   wifi_outdoor = 2;
+  wifi_data_only = 3;
 }
 
 message authorization_verify_req_v1 {
@@ -243,19 +333,48 @@ message boosted_hex_info_stream_res_v1 {
   bytes signature = 4;
 }
 
+message carrier_incentive_promotion_list_req_v1 {
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 1;
+  bytes signer = 2;
+  bytes signature = 3;
+}
+
+message carrier_incentive_promotion_list_res_v1 {
+  bytes signer = 1;
+  bytes signature = 2;
+  repeated service_provider_promotions service_provider_promotions = 3;
+}
+
 // ------------------------------------------------------------------
 // Service Definitions
 // ------------------------------------------------------------------
 
 service gateway {
   // Get info for the specified gateway
-  rpc info(gateway_info_req_v1) returns (gateway_info_res_v1);
+  rpc info(gateway_info_req_v1) returns (gateway_info_res_v1) {
+    option deprecated = true;
+  }
   // Get info for a batch of gateways specified by public key
   rpc info_batch(gateway_info_batch_req_v1)
-      returns (stream gateway_info_stream_res_v1);
+      returns (stream gateway_info_stream_res_v1) {
+    option deprecated = true;
+  }
   // Get a stream of gateway info
   rpc info_stream(gateway_info_stream_req_v1)
-      returns (stream gateway_info_stream_res_v1);
+      returns (stream gateway_info_stream_res_v1) {
+    option deprecated = true;
+  }
+
+  // V2
+  // Get info for the specified gateway (V2)
+  rpc info_v2(gateway_info_req_v1) returns (gateway_info_res_v2);
+  // Get a stream of gateway info (V2)
+  rpc info_stream_v2(gateway_info_stream_req_v2)
+      returns (stream gateway_info_stream_res_v2);
+  // Get info for a batch of gateways specified by public key (V2)
+  rpc info_batch_v2(gateway_info_batch_req_v1)
+      returns (stream gateway_info_stream_res_v2);
 }
 
 service entity {
@@ -267,6 +386,8 @@ service carrier_service {
   // Retrieve an entity key for the specified helium pubkey
   rpc key_to_entity(carrier_key_to_entity_req_v1)
       returns (carrier_key_to_entity_res_v1);
+  rpc list_incentive_promotions(carrier_incentive_promotion_list_req_v1)
+      returns (carrier_incentive_promotion_list_res_v1);
 }
 
 service authorization {

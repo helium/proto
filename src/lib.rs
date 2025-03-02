@@ -5,14 +5,21 @@ include!(concat!(env!("OUT_DIR"), "/helium.rs"));
 
 pub use blockchain_txn::Txn;
 pub use prost::{DecodeError, EncodeError, Message};
+pub use strum::IntoEnumIterator;
 
 #[cfg(feature = "services")]
 pub mod services {
     use crate::{
-        BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, BoostedHexInfoV1,
-        BoostedHexUpdateV1, DataRate, EntropyReportV1, GatewayStakingMode, MapperAttach, Region,
-        RoutingAddress, ServiceProvider,
+        BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, BoostedHexInfoV1, DataRate,
+        Decimal, EntropyReportV1, GatewayStakingMode, MapperAttach, Region, RoutingAddress,
+        ServiceProvider, ServiceProviderPromotions,
     };
+
+    pub mod sub_dao {
+        include!(concat!(env!("OUT_DIR"), "/helium.sub_dao.rs"));
+        pub use sub_dao_client::SubDaoClient;
+        pub use sub_dao_server::{SubDao, SubDaoServer};
+    }
 
     pub mod iot_config {
         include!(concat!(env!("OUT_DIR"), "/helium.iot_config.rs"));
@@ -306,8 +313,8 @@ macro_rules! serde_enum {
             where
                 S: serde::ser::Serializer,
             {
-                let v = $type::from_i32(*v)
-                    .ok_or_else(|| serde::ser::Error::custom(format!("invalid enum value: {v}")))?;
+                let v = $type::try_from(*v)
+                    .map_err(|_| serde::ser::Error::custom(format!("invalid enum value: {v}")))?;
                 serializer.serialize_str(&v.to_string())
             }
 
