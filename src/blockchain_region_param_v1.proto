@@ -1,6 +1,9 @@
 syntax = "proto3";
 
 package helium;
+option java_package = "com.helium.grpc";
+option java_outer_classname = "regionparam";
+option java_multiple_files = true;
 
 message blockchain_region_params_v1 {
   repeated blockchain_region_param_v1 region_params = 1;
