@@ -53,7 +53,7 @@ fn main() -> Result<()> {
     config!(tonic_build::configure())
         .build_server(true)
         .build_client(true)
-        .compile(
+        .compile_protos(
             &MESSAGES
                 .iter()
                 .chain(SERVICES)
