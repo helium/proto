@@ -392,6 +392,8 @@ service poc_mobile {
       returns (radio_usage_stats_res_v1);
   rpc submit_unique_connections(unique_connections_req_v1)
       returns (unique_connections_resp_v1);
+  rpc submit_subscriber_mapping_activity(subscriber_mapping_activity_req_v1)
+      returns (subscriber_mapping_activity_res_v1);
 }
 
 message unique_connections_req_v1 {
@@ -983,5 +985,41 @@ message verified_subscriber_verified_mapping_event_ingest_report_v1 {
   // the status determined by the verification
   subscriber_verified_mapping_event_verification_status status = 2;
   // Timestamp in milliseconds since unix epoch
+  uint64 timestamp = 3;
+}
+
+message subscriber_mapping_activity_req_v1 {
+  /// The id of the mapping subscriber
+  bytes subscriber_id = 1;
+  /// The discovery mapping shares the subscriber has earned this epoch
+  uint64 discovery_reward_shares = 2;
+  /// The verification mapping shares the subscriber has earned this epoch
+  uint64 verification_reward_shares = 3;
+  /// Unix timestamp in milliseconds of when the mapping activity
+  /// request was generated
+  uint64 timestamp = 6;
+  /// Pubkey of mapping event service
+  bytes carrier_pub_key = 7;
+  /// Signed payload of the mapping activity request
+  bytes signature = 8;
+}
+
+message subscriber_mapping_activity_res_v1 {
+  // timestamp in milliseconds
+  uint64 timestamp = 1;
+}
+
+message subscriber_mapping_activity_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  subscriber_mapping_activity_req_v1 report = 2;
+}
+
+message verified_subscriber_mapping_activity_report_v1 {
+  /// the verified report
+  subscriber_mapping_activity_ingest_report_v1 report = 1;
+  /// the status determined by report verification
+  subscriber_report_verification_status status = 2;
+  /// Timestamp in milliseconds of the verification
   uint64 timestamp = 3;
 }
