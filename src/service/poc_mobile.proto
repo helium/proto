@@ -989,8 +989,8 @@ message verified_subscriber_verified_mapping_event_ingest_report_v1 {
 }
 
 enum subscriber_mapping_type {
-  mapping_discovery = 0;
-  mapping_verification = 1;
+  mapping_activity_discovery = 0;
+  mapping_activity_verification = 1;
 }
 
 message subscriber_mapping_activity_req_v1 {
@@ -1010,3 +1010,24 @@ message subscriber_mapping_activity_req_v1 {
 }
 
 message subscriber_mapping_activity_res_v1 { string id = 1; }
+
+message subscriber_mapping_activity_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp = 1;
+  subscriber_mapping_activity_req_v1 report = 2;
+}
+
+enum subscriber_mapping_activity_verification_status {
+  mapping_verification_valid = 0;
+  mapping_verification_subscriber_not_found = 1;
+  mapping_verification_carrier_not_found = 2;
+}
+
+message verified_subscriber_mapping_activity_report_v1 {
+  /// the verified report
+  subscriber_mapping_activity_ingest_report_v1 report = 1;
+  /// the status determined by report verification
+  subscriber_mapping_activity_verification_status status = 2;
+  /// Timestamp in milliseconds of the verification
+  uint64 timestamp = 3;
+}
