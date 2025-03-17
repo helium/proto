@@ -392,6 +392,8 @@ service poc_mobile {
       returns (radio_usage_stats_res_v1);
   rpc submit_unique_connections(unique_connections_req_v1)
       returns (unique_connections_resp_v1);
+  rpc submit_subscriber_mapping_activity(subscriber_mapping_activity_req_v1)
+      returns (subscriber_mapping_activity_res_v1);
 }
 
 message unique_connections_req_v1 {
@@ -985,3 +987,26 @@ message verified_subscriber_verified_mapping_event_ingest_report_v1 {
   // Timestamp in milliseconds since unix epoch
   uint64 timestamp = 3;
 }
+
+enum subscriber_mapping_type {
+  mapping_discovery = 0;
+  mapping_verification = 1;
+}
+
+message subscriber_mapping_activity_req_v1 {
+  /// The id of the mapping subscriber
+  bytes subscriber_id = 1;
+  /// The enum of the mapping activity type for which shares were earned
+  subscriber_mapping_type activity_type = 2;
+  /// The mapping shares the subscriber has earned this epoch
+  uint64 total_reward_shares = 3;
+  /// Unix timestamp in milliseconds of when the mapping activity
+  /// request was generated
+  uint64 timestamp = 4;
+  /// Pubkey of mapping event service
+  bytes carrier_pub_key = 5;
+  /// Signed payload of the mapping activity request
+  bytes signature = 6;
+}
+
+message subscriber_mapping_activity_res_v1 { string id = 1; }
