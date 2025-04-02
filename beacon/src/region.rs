@@ -78,7 +78,7 @@ impl Region {
     pub fn from_i32(v: i32) -> Result<Self> {
         ProtoRegion::try_from(v)
             .map(Self)
-            .map_err(|_| Error::UnsupportedRegion(v))
+            .map_err(|_| Error::unsupported_region(v))
     }
 
     pub fn is_unknown(&self) -> bool {
