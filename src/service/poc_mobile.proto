@@ -417,7 +417,7 @@ message ban_req_v1 {
 message ban_details_v1 {
   // Helpful to have for display purposes
   string hotspot_serial = 2;
-  string notes = 3;
+  string message = 3;
   ban_reason reason = 4;
   ban_type ban_type = 5;
   // Timestamp in milliseconds that the ban should expire
@@ -434,7 +434,7 @@ enum ban_reason {
 message unban_details_v1 {
   // Helpful to have for display purposes
   string hotspot_serial = 2;
-  string notes = 3;
+  string message = 3;
 }
 
 enum ban_type {
