@@ -428,7 +428,8 @@ message ban_details_v1 {
 
 enum ban_reason {
   ban_reason_unknown = 0;
-  ban_reason_gaming = 1;
+  ban_reason_location_gaming = 1;
+  ban_reason_data_farming = 2;
 }
 
 message unban_details_v1 {
