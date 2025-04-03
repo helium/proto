@@ -405,7 +405,7 @@ message ban_req_v1 {
   // Timestamp in milliseconds the message was sent
   uint64 timestamp_ms = 3;
   // Signer of the message
-  bytes ban_key = 5;
+  bytes ban_pubkey = 5;
   bytes signature = 6;
 
   oneof ban_action {
