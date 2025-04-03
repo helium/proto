@@ -213,6 +213,8 @@ enum admin_key_role {
   carrier = 3;
   // propagation calculation service of a mobile carrier
   pcs = 4;
+  // key for signing ban requests
+  admin_key_role_banning = 5;
 }
 
 enum network_key_role {
@@ -220,6 +222,8 @@ enum network_key_role {
   mobile_router = 1;
   // Keys from the Propagation Calculation Service
   mobile_pcs = 2;
+  // Key for signing ban requests
+  network_key_role_banning = 3;
 }
 
 enum device_type {

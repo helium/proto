@@ -76,9 +76,9 @@ impl Default for Region {
 
 impl Region {
     pub fn from_i32(v: i32) -> Result<Self> {
-        ProtoRegion::from_i32(v)
+        ProtoRegion::try_from(v)
             .map(Self)
-            .ok_or_else(|| Error::unsupported_region(v))
+            .map_err(|_| Error::unsupported_region(v))
     }
 
     pub fn is_unknown(&self) -> bool {
@@ -214,8 +214,8 @@ impl RegionParams {
             })
             // Convert to RegionSpreading
             .and_then(|region_spreading| {
-                RegionSpreading::from_i32(region_spreading)
-                    .ok_or_else(|| Error::unsupported_region_spreading(region_spreading))
+                RegionSpreading::try_from(region_spreading)
+                    .map_err(|_| Error::unsupported_region_spreading(region_spreading))
             })
     }
 
