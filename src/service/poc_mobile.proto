@@ -394,6 +394,79 @@ service poc_mobile {
       returns (unique_connections_resp_v1);
   rpc submit_subscriber_mapping_activity(subscriber_mapping_activity_req_v1)
       returns (subscriber_mapping_activity_res_v1);
+  rpc submit_ban(ban_req_v1) returns (ban_resp_v1);
+}
+
+message ban_resp_v1 { uint64 timestamp_ms = 1; }
+
+message ban_req_v1 {
+  // Address of the hotspot being banned
+  bytes hotspot_pubkey = 1;
+  // Timestamp in milliseconds the message was sent
+  uint64 timestamp_ms = 3;
+  // Signer of the message
+  bytes ban_pubkey = 5;
+  bytes signature = 6;
+
+  oneof ban_action {
+    ban_details_v1 ban = 7;
+    unban_details_v1 unban = 8;
+  }
+}
+
+message ban_details_v1 {
+  // Helpful to have for display purposes
+  string hotspot_serial = 2;
+  string message = 3;
+  ban_reason reason = 4;
+  ban_type ban_type = 5;
+  // Timestamp in milliseconds that the ban should expire
+  // if not replaced by a subsequent ban.
+  // Note: 0 value means no expiration.
+  uint64 expiration_timestamp_ms = 6;
+}
+
+enum ban_reason {
+  ban_reason_unknown = 0;
+  ban_reason_location_gaming = 1;
+  ban_reason_data_farming = 2;
+}
+
+message unban_details_v1 {
+  // Helpful to have for display purposes
+  string hotspot_serial = 2;
+  string message = 3;
+}
+
+enum ban_type {
+  // Banned from receiving POC and Data Transfer rewards
+  all = 0;
+  // Banned from receiving only POC
+  poc = 1;
+  // Banned from receiving only Data Transfer rewards
+  data = 2;
+}
+
+// All ban messages received by the Ingester.
+message ban_ingest_report_v1 {
+  // Timstamp in milliseconds since unix epoch
+  uint64 received_timestamp_ms = 1;
+  ban_req_v1 report = 2;
+}
+
+enum verified_ban_ingest_report_status {
+  verified_ban_ingest_report_status_valid = 0;
+  verified_ban_ingest_report_status_invalid_ban_key = 1;
+}
+
+// Ban messages signed by a valid key in the Verifier.
+message verified_ban_ingest_report_v1 {
+  // Timestamp in milliseconds the report was verified by oracles
+  uint64 verified_timestamp_ms = 1;
+  // The verified report
+  ban_ingest_report_v1 report = 2;
+
+  verified_ban_ingest_report_status status = 3;
 }
 
 message unique_connections_req_v1 {
@@ -857,6 +930,7 @@ message verified_data_transfer_ingest_report_v1 {
     invalid_gateway_key = 1;
     invalid_routing_key = 2;
     duplicate = 3;
+    banned = 4;
   }
   data_transfer_session_ingest_report_v1 report = 1;
   report_status status = 2;
