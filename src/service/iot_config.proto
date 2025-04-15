@@ -194,6 +194,8 @@ message org_get_req_v1 {
 
 message org_get_req_v2 { uint64 oui = 1; }
 
+// moved on chain and managed by
+// pure solana instructions/transactions
 message org_create_helium_req_v1 {
   option deprecated = true;
 
@@ -217,6 +219,8 @@ message org_create_helium_req_v1 {
   helium_net_id net_id = 8;
 }
 
+// moved on chain and managed by
+// pure solana instructions/transactions
 message org_create_roamer_req_v1 {
   option deprecated = true;
 
@@ -231,7 +235,11 @@ message org_create_roamer_req_v1 {
   bytes signer = 7;
 }
 
+// moved on chain and managed by
+// pure solana instructions/transactions
 message org_update_req_v1 {
+  option deprecated = true;
+
   message delegate_key_update_v1 {
     option deprecated = true;
 
