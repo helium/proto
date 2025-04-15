@@ -158,9 +158,7 @@ message route_v1 {
 // Service Message Definitions
 // ------------------------------------------------------------------
 
-message org_list_req_v1 {
-  option deprecated = true;
-}
+message org_list_req_v1 { option deprecated = true; }
 
 message org_list_res_v1 {
   option deprecated = true;
@@ -727,9 +725,7 @@ service org {
   }
   rpc list_v2(org_list_req_v2) returns (org_list_res_v2);
   // Get Org (no auth)
-  rpc get(org_get_req_v1) returns (org_res_v1) {
-    option deprecated = true;
-  }
+  rpc get(org_get_req_v1) returns (org_res_v1) { option deprecated = true; }
   rpc get_v2(org_get_req_v2) returns (org_res_v2);
   // Create Org on Helium Network (auth admin only)
   rpc create_helium(org_create_helium_req_v1) returns (org_res_v1) {
