@@ -637,6 +637,7 @@ message radio_reward_share {
 }
 
 message radio_reward {
+  option deprecated = true;
   // Public key of the hotspot of the radio
   bytes hotspot_key = 1;
   // cbsd Id of the radio
@@ -829,7 +830,7 @@ message mobile_reward_share {
   uint64 end_period = 2;
   /// Reward allocation for this share
   oneof reward {
-    radio_reward radio_reward = 3;
+    radio_reward radio_reward = 3 [ deprecated = true ];
     gateway_reward gateway_reward = 4;
     subscriber_reward subscriber_reward = 5;
     service_provider_reward service_provider_reward = 6;
