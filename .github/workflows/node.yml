@@ -20,7 +20,7 @@ jobs:
           access_token: ${{ github.token }}
 
       - name: Use Node.js 13
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 13
           cache: 'npm'
