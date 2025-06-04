@@ -1078,7 +1078,7 @@ message subscriber_mapping_activity_req_v1 {
   /// Signed payload of the mapping activity request
   bytes signature = 8;
   // String representing the entity key
-  // Gets "points-based" mapping rewards to a single configured asset
+  // Overrides the subscriber_id as the entity_key to send mapping rewards to
   string entity_key = 9;
 }
 
