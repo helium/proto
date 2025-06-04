@@ -1077,6 +1077,9 @@ message subscriber_mapping_activity_req_v1 {
   bytes carrier_pub_key = 7;
   /// Signed payload of the mapping activity request
   bytes signature = 8;
+  // String representing the entity key
+  // Gets "points-based" mapping rewards to a single configured asset
+  string entity_key = 9;
 }
 
 message subscriber_mapping_activity_res_v1 {
