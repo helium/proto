@@ -351,6 +351,7 @@ enum subscriber_report_verification_status {
   valid = 0;
   invalid_subscriber_id = 1;
   invalid_carrier_key = 2;
+  invalid_reward_override_entity_key = 3;
 }
 
 message verified_subscriber_location_ingest_report_v1 {
@@ -787,6 +788,9 @@ message subscriber_reward {
   uint64 discovery_location_amount = 2;
   /// Amount in bones credited to the subscriber for verification mapping
   uint64 verification_mapping_amount = 3;
+  // String representing the entity key
+  // Overrides the subscriber_id as the entity_key to send mapping rewards to
+  string reward_override_entity_key = 4;
 }
 
 message promotion_reward {
@@ -1077,6 +1081,9 @@ message subscriber_mapping_activity_req_v1 {
   bytes carrier_pub_key = 7;
   /// Signed payload of the mapping activity request
   bytes signature = 8;
+  // String representing the entity key
+  // Overrides the subscriber_id as the entity_key to send mapping rewards to
+  string reward_override_entity_key = 9;
 }
 
 message subscriber_mapping_activity_res_v1 {
