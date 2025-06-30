@@ -47,6 +47,25 @@ message hex_usage_stats_ingest_report_v1 {
   hex_usage_stats_req_v1 report = 2;
 }
 
+enum carrier_id {
+  carrier_0 = 0;
+  carrier_1 = 1;
+  carrier_2 = 2;
+  carrier_3 = 3;
+  carrier_4 = 4;
+  carrier_5 = 5;
+  carrier_6 = 6;
+  carrier_7 = 7;
+  carrier_8 = 8;
+  carrier_9 = 9;
+}
+
+message radio_usage_carrier_info {
+  carrier_id carrier_id = 1;
+  uint64 transfer_bytes = 2;
+  uint64 user_count = 2;
+}
+
 message radio_usage_stats_req_v1 {
   // The onchain address of the hotspot
   bytes hotspot_pubkey = 1;
@@ -79,6 +98,8 @@ message radio_usage_stats_req_v1 {
   bytes carrier_mapping_key = 11;
   // Signed payload of the verification mapping service
   bytes signature = 12;
+  // Carrier specific transfer stats
+  repeated radio_usage_carrier_info carrier_info = 13;
 }
 
 message radio_usage_stats_res_v1 { string id = 1; }
