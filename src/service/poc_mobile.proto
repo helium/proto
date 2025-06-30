@@ -63,7 +63,7 @@ enum carrier_id {
 message radio_usage_carrier_info {
   carrier_id carrier_id = 1;
   uint64 transfer_bytes = 2;
-  uint64 user_count = 2;
+  uint64 user_count = 3;
 }
 
 message radio_usage_stats_req_v1 {
