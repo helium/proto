@@ -60,7 +60,7 @@ enum carrier_id {
   carrier_9 = 9;
 }
 
-message radio_usage_carrier_info {
+message radio_usage_carrier_transfer_info {
   carrier_id carrier_id = 1;
   uint64 transfer_bytes = 2;
   uint64 user_count = 3;
@@ -99,7 +99,7 @@ message radio_usage_stats_req_v1 {
   // Signed payload of the verification mapping service
   bytes signature = 12;
   // Carrier specific transfer stats
-  repeated radio_usage_carrier_info carrier_info = 13;
+  repeated radio_usage_carrier_transfer_info carrier_transfer_info = 13;
 }
 
 message radio_usage_stats_res_v1 { string id = 1; }
