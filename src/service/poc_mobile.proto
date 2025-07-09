@@ -914,6 +914,7 @@ message data_transfer_event {
   // Timestamp in seconds since the epoch
   uint64 timestamp = 7;
   bytes signature = 8;
+  carrier_id carrier_id = 9;
 }
 
 enum data_transfer_radio_access_technology {
