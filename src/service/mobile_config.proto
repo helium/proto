@@ -227,6 +227,16 @@ message gateway_info_stream_res_v2 {
   bytes signature = 4;
 }
 
+message gateway_info_stream_res_v3 {
+  // a list of gateway info numbering up to the request batch size
+  repeated gateway_info_v3 gateways = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
 message entity_verify_req_v1 {
   // binary identifier of the entity
   bytes entity_id = 1;
