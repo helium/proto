@@ -113,11 +113,12 @@ message gateway_info_v3 {
   // The Unix epoch timestamp (in seconds) when the location was last changed
   uint64 location_changed_at = 7;
 
-  // The Unix epoch timestamp (in seconds) when the gateway was first added to the database
+  // The Unix epoch timestamp (in seconds) when the gateway was first added to
+  // the database
   uint64 created_at = 8;
 
-  // The Unix epoch timestamp (in seconds) when the gateway parameters were last updated.
-  // NOTE: This field is also updated when the location changes.
+  // The Unix epoch timestamp (in seconds) when the gateway parameters were last
+  // updated. NOTE: This field is also updated when the location changes.
   uint64 updated_at = 9;
 }
 
@@ -453,7 +454,6 @@ service gateway {
   // Get a stream of gateway info (V3)
   rpc info_stream_v3(gateway_info_stream_req_v3)
       returns (stream gateway_info_stream_res_v3);
-
 }
 
 service entity {
