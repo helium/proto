@@ -85,9 +85,9 @@ message gateway_info_v2 {
 
 // The same as v1 but no CBRS
 enum device_type_v2 {
-  wifi_indoor = 1;
-  wifi_outdoor = 2;
-  wifi_data_only = 3;
+  indoor = 0;
+  outdoor = 1;
+  data_only = 2;
 }
 
 message gateway_info_v3 {
