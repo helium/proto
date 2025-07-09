@@ -83,7 +83,7 @@ message gateway_info_v2 {
   uint64 updated_at = 5;
 }
 
-// The same as v1 but no CBRS
+// Warning: Be careful, values in v2 differ from v1
 enum device_type_v2 {
   indoor = 0;
   outdoor = 1;
