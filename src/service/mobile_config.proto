@@ -297,6 +297,7 @@ enum network_key_role {
 }
 
 enum device_type {
+  option deprecated = true;
   cbrs = 0;
   wifi_indoor = 1;
   wifi_outdoor = 2;
