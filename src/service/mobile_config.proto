@@ -109,12 +109,14 @@ message gateway_info_v3 {
   bytes address = 1;
   // The gateway metadata
   gateway_metadata_v3 metadata = 2;
+  // the asserted device type of the gateway
+  device_type_v2 device_type = 3;
   // The Unix epoch timestamp (in seconds) when the gateway was first added to
   // the database
-  uint64 created_at = 3;
+  uint64 created_at = 4;
   // The Unix epoch timestamp (in seconds) when the gateway parameters were last
   // updated. NOTE: This field is also updated when the location changes.
-  uint64 updated_at = 4;
+  uint64 updated_at = 5;
 }
 
 message gateway_info_req_v1 {
