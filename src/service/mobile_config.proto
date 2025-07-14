@@ -94,7 +94,6 @@ message gateway_metadata_v3 {
   // The res12 h3 index asserted address of the gateway as a string
   string location = 1;
   // The Unix epoch timestamp (in seconds) when the location was last changed
-  // The value is 0 if gateway in an unasserted.
   uint64 location_changed_at = 2;
   // The antenna ID of the gateway
   uint32 antenna = 3;
