@@ -108,7 +108,7 @@ message deployment_info {
 
 message gateway_metadata_v3 {
   location_info location_info = 1;
-  deployment_info deloyment_info = 2;
+  deployment_info deployment_info = 2;
 }
 
 message gateway_info_v3 {
