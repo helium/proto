@@ -90,17 +90,25 @@ enum device_type_v2 {
   data_only = 2;
 }
 
-message gateway_metadata_v3 {
+message location_info {
   // The res12 h3 index asserted address of the gateway as a string
   string location = 1;
   // The Unix epoch timestamp (in seconds) when the location was last changed
   uint64 location_changed_at = 2;
+}
+
+message deployment_info {
   // The antenna ID of the gateway
-  uint32 antenna = 3;
+  uint32 antenna = 1;
   // The height of the hotspot above ground level, in whole meters
-  uint32 elevation = 4;
+  uint32 elevation = 2;
   // The azimuth (direction) of the antenna, in degrees
-  uint32 azimuth = 5;
+  uint32 azimuth = 3;
+}
+
+message gateway_metadata_v3 {
+  location_info location_info = 1;
+  deployment_info deloyment_info = 2;
 }
 
 message gateway_info_v3 {
