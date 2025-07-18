@@ -85,9 +85,9 @@ message gateway_info_v2 {
 
 // Warning: Be careful, values in v2 differ from v1
 enum device_type_v2 {
-  indoor = 0;
-  outdoor = 1;
-  data_only = 2;
+  device_type_v2_indoor = 0;
+  device_type_v2_outdoor = 1;
+  device_type_v2_data_only = 2;
 }
 
 message location_info {
@@ -102,7 +102,7 @@ message deployment_info {
   uint32 antenna = 1;
   // The height of the hotspot above ground level, in whole meters
   uint32 elevation = 2;
-  // The azimuth (direction) of the antenna, in degrees
+  // The azimuth (direction) of the antenna, in degrees (whole number)
   uint32 azimuth = 3;
 }
 
