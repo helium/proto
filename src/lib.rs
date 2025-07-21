@@ -7,10 +7,12 @@ pub use blockchain_txn::Txn;
 pub use strum::IntoEnumIterator;
 
 pub use prost;
+#[cfg(feature = "services")]
 pub use tonic;
 
 #[cfg(feature = "services")]
 pub mod services {
+
     use crate::{
         BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, BoostedHexInfoV1, DataRate,
         Decimal, EntropyReportV1, GatewayStakingMode, MapperAttach, Region, RoutingAddress,
