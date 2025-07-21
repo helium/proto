@@ -4,8 +4,10 @@
 include!(concat!(env!("OUT_DIR"), "/helium.rs"));
 
 pub use blockchain_txn::Txn;
-pub use prost::{DecodeError, EncodeError, Message};
 pub use strum::IntoEnumIterator;
+
+pub use prost;
+pub use tonic;
 
 #[cfg(feature = "services")]
 pub mod services {
@@ -105,7 +107,6 @@ pub mod services {
         pub use transaction_client::TransactionClient as Client;
         pub use transaction_server::TransactionServer as Server;
     }
-    pub use tonic::transport::*;
 }
 
 impl std::str::FromStr for ServiceProvider {

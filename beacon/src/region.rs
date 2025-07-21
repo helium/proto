@@ -1,7 +1,7 @@
 use super::{Error, Result};
 use helium_proto::{
-    services::iot_config::GatewayRegionParamsResV1, BlockchainRegionParamV1,
-    BlockchainRegionParamsV1, DataRate, Message, Region as ProtoRegion, RegionSpreading,
+    prost::Message, services::iot_config::GatewayRegionParamsResV1, BlockchainRegionParamV1,
+    BlockchainRegionParamsV1, DataRate, Region as ProtoRegion, RegionSpreading,
 };
 use rust_decimal::prelude::{Decimal, ToPrimitive};
 use serde::{de, Deserialize, Deserializer};
