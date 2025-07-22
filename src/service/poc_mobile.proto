@@ -901,6 +901,7 @@ message data_transfer_session_req_v1 {
   bytes pub_key = 3;
   bytes signature = 4;
   uint64 rewardable_bytes = 5;
+  carrier_id carrier_id = 6;
 }
 
 message data_transfer_event {
@@ -914,7 +915,6 @@ message data_transfer_event {
   // Timestamp in seconds since the epoch
   uint64 timestamp = 7;
   bytes signature = 8;
-  carrier_id carrier_id = 9;
 }
 
 enum data_transfer_radio_access_technology {
