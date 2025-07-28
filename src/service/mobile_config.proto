@@ -83,6 +83,49 @@ message gateway_info_v2 {
   uint64 updated_at = 5;
 }
 
+// Warning: Be careful, values in v2 differ from v1
+enum device_type_v2 {
+  device_type_v2_indoor = 0;
+  device_type_v2_outdoor = 1;
+  device_type_v2_data_only = 2;
+}
+
+message location_info {
+  // The res12 h3 index asserted address of the gateway as a string
+  string location = 1;
+  // The Unix epoch timestamp (in seconds) when the location was last changed
+  uint64 location_changed_at = 2;
+}
+
+message deployment_info {
+  // The antenna ID of the gateway
+  uint32 antenna = 1;
+  // The height of the hotspot above ground level, in whole meters
+  uint32 elevation = 2;
+  // The azimuth (direction) of the antenna, in degrees (whole number)
+  uint32 azimuth = 3;
+}
+
+message gateway_metadata_v3 {
+  location_info location_info = 1;
+  deployment_info deployment_info = 2;
+}
+
+message gateway_info_v3 {
+  // The public key binary address and on-chain identity of the gateway
+  bytes address = 1;
+  // The gateway metadata
+  gateway_metadata_v3 metadata = 2;
+  // the asserted device type of the gateway
+  device_type_v2 device_type = 3;
+  // The Unix epoch timestamp (in seconds) when the gateway was first added to
+  // the database
+  uint64 created_at = 4;
+  // The Unix epoch timestamp (in seconds) when the gateway parameters were last
+  // updated. NOTE: This field is also updated when the location changes.
+  uint64 updated_at = 5;
+}
+
 message gateway_info_req_v1 {
   // The public key address of the gateway to look up
   bytes address = 1;
@@ -131,6 +174,27 @@ message gateway_info_stream_req_v1 {
   repeated device_type device_types = 4;
 }
 
+message gateway_info_stream_req_v3 {
+  // max number of gateway info records in each message of the response stream
+  uint32 batch_size = 1;
+  // pubkey binary of the signing keypair
+  bytes signer = 2;
+  bytes signature = 3;
+  // Device types that will be returned in the response
+  // Returns all devices if empty
+  repeated device_type_v2 device_types = 4;
+  // The Unix epoch timestamp (in seconds).
+  // Filters the response based on the last time gateway parameter(s) was
+  // updated. Use 0 to fetch all gateways.
+  // NOTE: It is recommended to use the highest `updated_at` field from
+  // returned radios in the next subsequent requests.
+  uint64 min_updated_at = 5;
+  // The Unix epoch timestamp (in seconds).
+  // Filters the response based on the last time gateway changed its location.
+  // Use 0 to fetch all gateways.
+  uint64 min_location_changed_at = 6;
+}
+
 message gateway_info_stream_req_v2 {
   // max number of gateway info records in each message of the response stream
   uint32 batch_size = 1;
@@ -161,6 +225,16 @@ message gateway_info_stream_res_v1 {
 message gateway_info_stream_res_v2 {
   // a list of gateway info numbering up to the request batch size
   repeated gateway_info_v2 gateways = 1;
+  // unix epoch timestamp in seconds
+  uint64 timestamp = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
+message gateway_info_stream_res_v3 {
+  // a list of gateway info numbering up to the request batch size
+  repeated gateway_info_v3 gateways = 1;
   // unix epoch timestamp in seconds
   uint64 timestamp = 2;
   // pubkey binary of the signing keypair
@@ -227,6 +301,7 @@ enum network_key_role {
 }
 
 enum device_type {
+  option deprecated = true;
   cbrs = 0;
   wifi_indoor = 1;
   wifi_outdoor = 2;
@@ -379,6 +454,11 @@ service gateway {
   // Get info for a batch of gateways specified by public key (V2)
   rpc info_batch_v2(gateway_info_batch_req_v1)
       returns (stream gateway_info_stream_res_v2);
+
+  // V3
+  // Get a stream of gateway info (V3)
+  rpc info_stream_v3(gateway_info_stream_req_v3)
+      returns (stream gateway_info_stream_res_v3);
 }
 
 service entity {
