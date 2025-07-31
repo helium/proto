@@ -4,11 +4,15 @@
 include!(concat!(env!("OUT_DIR"), "/helium.rs"));
 
 pub use blockchain_txn::Txn;
-pub use prost::{DecodeError, EncodeError, Message};
 pub use strum::IntoEnumIterator;
+
+pub use prost;
+#[cfg(feature = "services")]
+pub use tonic;
 
 #[cfg(feature = "services")]
 pub mod services {
+
     use crate::{
         BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, BoostedHexInfoV1, DataRate,
         Decimal, EntropyReportV1, GatewayStakingMode, MapperAttach, Region, RoutingAddress,
@@ -105,7 +109,6 @@ pub mod services {
         pub use transaction_client::TransactionClient as Client;
         pub use transaction_server::TransactionServer as Server;
     }
-    pub use tonic::transport::*;
 }
 
 impl std::str::FromStr for ServiceProvider {
