@@ -116,7 +116,7 @@ message gateway_info_v3 {
   bytes address = 1;
   // The gateway metadata
   gateway_metadata_v3 metadata = 2;
-  // the asserted device type of the gateway
+  // The asserted device type of the gateway
   device_type_v2 device_type = 3;
   // The Unix epoch timestamp (in seconds) when the gateway was first added to
   // the database
@@ -124,6 +124,8 @@ message gateway_info_v3 {
   // The Unix epoch timestamp (in seconds) when the gateway parameters were last
   // updated. NOTE: This field is also updated when the location changes.
   uint64 updated_at = 5;
+  // Count of hotspot location changes
+  uint64 num_location_asserts = 6;
 }
 
 message gateway_info_req_v1 {
