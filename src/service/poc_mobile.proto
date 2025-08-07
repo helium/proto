@@ -64,17 +64,17 @@ enum carrier_id {
 // V2 is introduced to satisfy backward compatibility.
 // We have to set the 0 value as unspecified
 enum carrier_id_v2 {
-  unspecified = 0;
-  carrier0 = 1;
-  carrier1 = 2;
-  carrier2 = 3;
-  carrier3 = 4;
-  carrier4 = 5;
-  carrier5 = 6;
-  carrier6 = 7;
-  carrier7 = 8;
-  carrier8 = 9;
-  carrier9 = 10;
+  carrier_id_v2_unspecified = 0;
+  carrier_id_v2_carrier0 = 1;
+  carrier_id_v2_carrier1 = 2;
+  carrier_id_v2_carrier2 = 3;
+  carrier_id_v2_carrier3 = 4;
+  carrier_id_v2_carrier4 = 5;
+  carrier_id_v2_carrier5 = 6;
+  carrier_id_v2_carrier6 = 7;
+  carrier_id_v2_carrier7 = 8;
+  carrier_id_v2_carrier8 = 9;
+  carrier_id_v2_carrier9 = 10;
 }
 
 message radio_usage_carrier_transfer_info {
