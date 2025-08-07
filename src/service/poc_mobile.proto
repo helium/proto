@@ -48,16 +48,17 @@ message hex_usage_stats_ingest_report_v1 {
 }
 
 enum carrier_id {
-  carrier_0 = 0;
-  carrier_1 = 1;
-  carrier_2 = 2;
-  carrier_3 = 3;
-  carrier_4 = 4;
-  carrier_5 = 5;
-  carrier_6 = 6;
-  carrier_7 = 7;
-  carrier_8 = 8;
-  carrier_9 = 9;
+  unspecified = 0;
+  carrier_0 = 1;
+  carrier_1 = 2;
+  carrier_2 = 3;
+  carrier_3 = 4;
+  carrier_4 = 5;
+  carrier_5 = 6;
+  carrier_6 = 7;
+  carrier_7 = 8;
+  carrier_8 = 9;
+  carrier_9 = 10;
 }
 
 message radio_usage_carrier_transfer_info {
