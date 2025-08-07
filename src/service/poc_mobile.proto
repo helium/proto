@@ -78,7 +78,7 @@ enum carrier_id_v2 {
 }
 
 message radio_usage_carrier_transfer_info {
-  carrier_id carrier_id = 1;
+  carrier_id carrier_id = 1 [ deprecated = true ];
   uint64 transfer_bytes = 2;
   uint64 user_count = 3;
   carrier_id_v2 carrier_id_v2 = 4;
@@ -919,7 +919,7 @@ message data_transfer_session_req_v1 {
   bytes pub_key = 3;
   bytes signature = 4;
   uint64 rewardable_bytes = 5;
-  carrier_id carrier_id = 6;
+  carrier_id carrier_id = 6 [ deprecated = true ];
   carrier_id_v2 carrier_id_v2 = 7;
 }
 
