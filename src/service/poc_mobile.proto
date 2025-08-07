@@ -919,8 +919,7 @@ message data_transfer_session_req_v1 {
   bytes pub_key = 3;
   bytes signature = 4;
   uint64 rewardable_bytes = 5;
-  carrier_id carrier_id = 6 [ deprecated = true ];
-  carrier_id_v2 carrier_id_v2 = 7;
+  carrier_id_v2 carrier_id_v2 = 6;
 }
 
 message data_transfer_event {
