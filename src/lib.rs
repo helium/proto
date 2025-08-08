@@ -94,6 +94,17 @@ pub mod services {
         pub use poc_entropy_server::{PocEntropy, PocEntropyServer as Server};
     }
 
+    pub mod chain_rewardable_entities {
+        include!(concat!(
+            env!("OUT_DIR"),
+            "/helium.chain_rewardable_entities.rs"
+        ));
+        pub use chain_rewardable_entities_client::ChainRewardableEntitiesClient as Client;
+        pub use chain_rewardable_entities_server::{
+            ChainRewardableEntities, ChainRewardableEntitiesServer as Server,
+        };
+    }
+
     pub mod follower {
         include!(concat!(env!("OUT_DIR"), "/helium.follower.rs"));
         pub use follower_client::FollowerClient as Client;
