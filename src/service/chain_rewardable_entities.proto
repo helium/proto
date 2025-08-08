@@ -1,4 +1,5 @@
-// TODO: Design for different key formats - track "archetype" of key ... helium vs. solana, network prefixes etc.
+// TODO: Design for different key formats - track "archetype" of key ... helium
+// vs. solana, network prefixes etc.
 // TODO: Consider OTHER Rewardable Entities (REs) in the future
 // TODO: Signature STUFF in req's and reports
 
@@ -7,86 +8,89 @@ syntax = "proto3";
 package helium.chain_rewardable_entities;
 
 enum pub_key_format {
-    pub_key_format_UNKNOWN = 0; // Unknown format, should not be used
-    pub_key_format_B58 = 1; // Base58 format
-    pub_key_format_UTF8 = 2; // UTF8 format
+  pub_key_format_UNKNOWN = 0; // Unknown format, should not be used
+  pub_key_format_B58 = 1;     // Base58 format
+  pub_key_format_UTF8 = 2;    // UTF8 format
 }
 
 message pub_key {
-    string value = 1;
-    pub_key_format format = 2;
+  string value = 1;
+  pub_key_format format = 2;
 }
 
 // ------------------------------------------------------------------
 // Helium Hotspot "rewardable entities" and their metadata
 // ------------------------------------------------------------------
 enum mobile_hotspot_device_type {
-    mobile_hotspot_device_type_UNKNOWN = 0; // Unknown device type, should not be used
-    mobile_hotspot_device_type_WIFI_INDOOR = 1; 
-    mobile_hotspot_device_type_WIFI_OUTDOOR = 2;
-    mobile_hotspot_device_type_WIFI_DATA_ONLY = 3;
+  mobile_hotspot_device_type_UNKNOWN =
+      0; // Unknown device type, should not be used
+  mobile_hotspot_device_type_WIFI_INDOOR = 1;
+  mobile_hotspot_device_type_WIFI_OUTDOOR = 2;
+  mobile_hotspot_device_type_WIFI_DATA_ONLY = 3;
 }
 
 message mobile_hotspot_metadata {
-    // Timestamp when the NFT was created
-    uint64 created_at_ms = 1; 
-    // Serial number of the mobile hotspot device (can be null or empty... in the case of data-only devices) 
-    optional string serial_number = 2;
-    // Type of the mobile hotspot device
-    mobile_hotspot_device_type device_type = 3; 
-    // The asserted location in hex format
-    string asserted_hex = 4;
+  // Timestamp when the NFT was created
+  uint64 created_at_ms = 1;
+  // Serial number of the mobile hotspot device (can be null or empty... in the
+  // case of data-only devices)
+  optional string serial_number = 2;
+  // Type of the mobile hotspot device
+  mobile_hotspot_device_type device_type = 3;
+  // The asserted location in hex format
+  string asserted_hex = 4;
 }
 
 // TODO: this meets mvp app needs, but could easily be extended
 message iot_hotspot_metadata {
-    // Timestamp when the NFT was created
-    uint64 created_at_ms = 1;
-    // The asserted hex location of the IoT hotspot
-    // TODO: Check if this can ever be null/empty
-    string asserted_hex = 2;
+  // Timestamp when the NFT was created
+  uint64 created_at_ms = 1;
+  // The asserted hex location of the IoT hotspot
+  // TODO: Check if this can ever be null/empty
+  string asserted_hex = 2;
 }
 
 // ------------------------------------------------------------------
 // Rewardable Entity <---> Controlling Wallet
 // ------------------------------------------------------------------
 enum re_controller_type {
-    re_controller_type_UNKNOWN = 0; // Unknown control type, should not be used
-    re_controller_type_DIRECT_OWNER = 1; // Owner of the NFT
-    re_controller_type_WELCOME_PACK_CONTROLLER = 2; // Controlling permission of the Welcome Pack
+  re_controller_type_UNKNOWN = 0; // Unknown control type, should not be used
+  re_controller_type_DIRECT_OWNER = 1; // Owner of the NFT
+  re_controller_type_WELCOME_PACK_CONTROLLER =
+      2; // Controlling permission of the Welcome Pack
 }
 
 message re_controller_info {
-    // User wallet public key
-    pub_key user_wallet_pub_key = 1; 
+  // User wallet public key
+  pub_key user_wallet_pub_key = 1;
 
-    // Type of control relationship
-    re_controller_type type = 2; 
+  // Type of control relationship
+  re_controller_type type = 2;
 }
-
 
 // ------------------------------------------------------------------
 // Rewardable Entity -> N x User Wallet Reward Recipients
 // ------------------------------------------------------------------
 enum re_reward_recipient_type {
-    re_reward_recipient_type_UNKNOWN = 0; // Unknown relation type, should not be used
-    re_reward_recipient_type_DIRECT = 1;
-    re_reward_recipient_type_FANOUT = 2;
+  re_reward_recipient_type_UNKNOWN =
+      0; // Unknown relation type, should not be used
+  re_reward_recipient_type_DIRECT = 1;
+  re_reward_recipient_type_FANOUT = 2;
 }
 
 message re_reward_recipient_info {
-    // The identifier for the user wallet that receives rewards
-    pub_key user_wallet_pub_key = 1;
-    // Type of reward recipient relationship
-    re_reward_recipient_type type = 2;
-    // Percentage of RE's rewards that this user wallet receives (after any potential fanout)
-    double reward_share = 3;
-    // TBD specific to Rewardable Entity, and shared across all user wallet recipients or can it be unique per recipient?
-    // TBD nullable for daily? or should that be a cron as well
-    string cron_schedule = 4;
+  // The identifier for the user wallet that receives rewards
+  pub_key user_wallet_pub_key = 1;
+  // Type of reward recipient relationship
+  re_reward_recipient_type type = 2;
+  // Percentage of RE's rewards that this user wallet receives (after any
+  // potential fanout)
+  double reward_share = 3;
+  // TBD specific to Rewardable Entity, and shared across all user wallet
+  // recipients or can it be unique per recipient? TBD nullable for daily? or
+  // should that be a cron as well
+  string cron_schedule = 4;
 }
-
-
 
 // ------------------------------------------------------------------
 // Reports
@@ -97,38 +101,36 @@ message re_reward_recipient_info {
 // - hotspot is deployed
 // - hotspot metadata is updated
 // - ownership structure changes
-    // all edge cases need to be covered
+// all edge cases need to be covered
 // - reward recipients are updated
-    // all edge cases need to be covered
+// all edge cases need to be covered
 message mobile_hotspot_change_req_v1 {
-    // Block height when this data was sourced
-    uint64 block_height = 1;
+  // Block height when this data was sourced
+  uint64 block_height = 1;
 
-    // Public key of the hotspot
-    pub_key pub_key = 2;
+  // Public key of the hotspot
+  pub_key pub_key = 2;
 
-    // Hotspot metadata
-    mobile_hotspot_metadata metadata = 3;
+  // Hotspot metadata
+  mobile_hotspot_metadata metadata = 3;
 
-    // Controlling ownership of the NFT
-    re_controller_info controlling_ownership = 4;
+  // Controlling ownership of the NFT
+  re_controller_info controlling_ownership = 4;
 
-    // Reward recipients for the NFT
-    repeated re_reward_recipient_info recipients = 5;
+  // Reward recipients for the NFT
+  repeated re_reward_recipient_info recipients = 5;
 
-    bytes signature = 6;
+  bytes signature = 6;
 }
 
-message mobile_hotspot_change_resp_v1 {
-    uint64 timestamp_ms = 1;
-}
+message mobile_hotspot_change_resp_v1 { uint64 timestamp_ms = 1; }
 
 // The report which ingestor/oracles will WRITE to s3
 message mobile_hotspot_change_report_v1 {
-    // The time the server received the request
-    uint64 received_timestamp_ms = 1; 
-    // The request report
-    mobile_hotspot_change_req_v1 report = 2;
+  // The time the server received the request
+  uint64 received_timestamp_ms = 1;
+  // The request report
+  mobile_hotspot_change_req_v1 report = 2;
 }
 
 // Latest state of chain - effectively the data to be stored
@@ -139,40 +141,37 @@ message mobile_hotspot_change_report_v1 {
 // - ownership structure changes
 // - reward recipients are updated
 message iot_hotspot_change_req_v1 {
-    // Block height when this data was sourced
-    uint64 block_height = 1;
+  // Block height when this data was sourced
+  uint64 block_height = 1;
 
-    // Public key of the hotspot
-    pub_key pub_key = 2;
+  // Public key of the hotspot
+  pub_key pub_key = 2;
 
-    // Hotspot metadata
-    iot_hotspot_metadata metadata = 3;
+  // Hotspot metadata
+  iot_hotspot_metadata metadata = 3;
 
-    // Controlling ownership of the NFT
-    re_controller_info controlling_ownership = 4;
+  // Controlling ownership of the NFT
+  re_controller_info controlling_ownership = 4;
 
-    // Reward recipients for the NFT
-    repeated re_reward_recipient_info recipients = 5;
+  // Reward recipients for the NFT
+  repeated re_reward_recipient_info recipients = 5;
 
-    bytes signature = 6;
+  bytes signature = 6;
 }
 
-message iot_hotspot_change_resp_v1 {
-    uint64 timestamp_ms = 1;
-}
+message iot_hotspot_change_resp_v1 { uint64 timestamp_ms = 1; }
 
 // The report which ingestor/oracles will WRITE to s3
 message iot_hotspot_change_report_v1 {
-    // The time the server received the request
-    uint64 received_timestamp_ms = 1; 
-    // The request report
-    iot_hotspot_change_req_v1 report = 2;
+  // The time the server received the request
+  uint64 received_timestamp_ms = 1;
+  // The request report
+  iot_hotspot_change_req_v1 report = 2;
 }
 
 service chain_rewardable_entities {
-    rpc submit_mobile_hotspot_change(mobile_hotspot_change_req_v1) 
-        returns (mobile_hotspot_change_resp_v1);
-    rpc submit_iot_hotspot_change(iot_hotspot_change_req_v1) 
-        returns (iot_hotspot_change_resp_v1);
-    
+  rpc submit_mobile_hotspot_change(mobile_hotspot_change_req_v1)
+      returns (mobile_hotspot_change_resp_v1);
+  rpc submit_iot_hotspot_change(iot_hotspot_change_req_v1)
+      returns (iot_hotspot_change_resp_v1);
 }
