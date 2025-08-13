@@ -1,7 +1,7 @@
 // TODO: Design for different key formats - track "archetype" of key ... helium
 // vs. solana, network prefixes etc.
 // TODO: Consider OTHER Rewardable Entities (REs) in the future
-// TODO: Signature STUFF in req's and updates
+// TODO: Signature STUFF in req's and reports
 
 syntax = "proto3";
 
