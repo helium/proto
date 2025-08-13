@@ -1,21 +1,18 @@
 // TODO: Design for different key formats - track "archetype" of key ... helium
 // vs. solana, network prefixes etc.
 // TODO: Consider OTHER Rewardable Entities (REs) in the future
-// TODO: Signature STUFF in req's and reports
+// TODO: Signature STUFF in req's and updates
 
 syntax = "proto3";
 
 package helium.chain_rewardable_entities;
 
-enum pub_key_format {
-  pub_key_format_UNKNOWN = 0; // Unknown format, should not be used
-  pub_key_format_B58 = 1;     // Base58 format
-  pub_key_format_UTF8 = 2;    // UTF8 format
+message solana_pub_key {
+  bytes value = 1;
 }
 
-message pub_key {
-  string value = 1;
-  pub_key_format format = 2;
+message helium_pub_key {
+  bytes value = 1;
 }
 
 // ------------------------------------------------------------------
@@ -24,30 +21,36 @@ message pub_key {
 enum mobile_hotspot_device_type {
   mobile_hotspot_device_type_UNKNOWN =
       0; // Unknown device type, should not be used
-  mobile_hotspot_device_type_WIFI_INDOOR = 1;
-  mobile_hotspot_device_type_WIFI_OUTDOOR = 2;
-  mobile_hotspot_device_type_WIFI_DATA_ONLY = 3;
+  mobile_hotspot_device_type_CBRS = 1;
+  mobile_hotspot_device_type_WIFI_INDOOR = 2;
+  mobile_hotspot_device_type_WIFI_OUTDOOR = 3;
+  mobile_hotspot_device_type_WIFI_DATA_ONLY = 4;
 }
 
 message mobile_hotspot_metadata {
-  // Timestamp when the NFT was created
-  uint64 created_at_ms = 1;
   // Serial number of the mobile hotspot device (can be null or empty... in the
   // case of data-only devices)
   optional string serial_number = 2;
   // Type of the mobile hotspot device
   mobile_hotspot_device_type device_type = 3;
   // The asserted location in hex format
-  string asserted_hex = 4;
+  optional string asserted_hex = 4;
+  optional uint32 antenna = 5;
+  optional int32 elevation = 6;
+  optional uint32 azimuth = 7;
+  optional uint32 mechanical_down_tilt = 8;
+  optional uint32 electrical_down_tilt = 9;
+  bool is_full_hotspot = 10;
 }
+
+
 
 // TODO: this meets mvp app needs, but could easily be extended
 message iot_hotspot_metadata {
-  // Timestamp when the NFT was created
-  uint64 created_at_ms = 1;
   // The asserted hex location of the IoT hotspot
-  // TODO: Check if this can ever be null/empty
-  string asserted_hex = 2;
+  optional string asserted_hex = 2;
+  optional uint32 elevation = 3;
+  bool is_full_hotspot = 4;
 }
 
 // ------------------------------------------------------------------
@@ -62,38 +65,39 @@ enum re_controller_type {
 
 message re_controller_info {
   // User wallet public key
-  pub_key user_wallet_pub_key = 1;
+  solana_pub_key wallet = 1;
 
   // Type of control relationship
   re_controller_type type = 2;
 }
 
-// ------------------------------------------------------------------
-// Rewardable Entity -> N x User Wallet Reward Recipients
-// ------------------------------------------------------------------
-enum re_reward_recipient_type {
-  re_reward_recipient_type_UNKNOWN =
-      0; // Unknown relation type, should not be used
-  re_reward_recipient_type_DIRECT = 1;
-  re_reward_recipient_type_FANOUT = 2;
+message rewards_split_v1 {
+  solana_pub_key pub_key = 1;
+  string schedule = 2;
+  uint32 total_shares = 3;
+  solana_pub_key next_tuktuk_task = 4;
+  solana_pub_key next_tuktuk_pre_task = 5;
+  repeated split_v1_recipient_info recipients = 6;
 }
 
-message re_reward_recipient_info {
+message split_v1_recipient_info {
   // The identifier for the user wallet that receives rewards
-  pub_key user_wallet_pub_key = 1;
-  // Type of reward recipient relationship
-  re_reward_recipient_type type = 2;
-  // Percentage of RE's rewards that this user wallet receives (after any
-  // potential fanout)
-  double reward_share = 3;
-  // TBD specific to Rewardable Entity, and shared across all user wallet
-  // recipients or can it be unique per recipient? TBD nullable for daily? or
-  // should that be a cron as well
-  string cron_schedule = 4;
+  solana_pub_key wallet = 1;
+  // In the case of a fanout, if delegate is set it receives the rewards with `wallet` as the authority to set delegate.
+  optional solana_pub_key delegate = 2;
+  oneof reward_amount {
+    // Fixed amount of tokens to be distributed to the wallet each period.
+    uint64 fixed_amount = 4;
+    // The shares for this wallet in the fanout. Divide into split.total_shares for percentage.
+    uint32 shares = 5;
+  }
+  // If the user has closed their token account, we can't transfer tokens to them. This is the amount of tokens thay are owed
+  // that will distribute to them in the next payment if they recreate the ATA.
+  optional uint64 pending_payments = 6;
 }
 
 // ------------------------------------------------------------------
-// Reports
+// updates
 // ------------------------------------------------------------------
 // Latest state of chain - effectively the data to be stored
 // will be sent in a request to ingestor
@@ -104,33 +108,38 @@ message re_reward_recipient_info {
 // all edge cases need to be covered
 // - reward recipients are updated
 // all edge cases need to be covered
-message mobile_hotspot_change_req_v1 {
+message mobile_atomic_hotspot_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
 
   // Public key of the hotspot
-  pub_key pub_key = 2;
+  helium_pub_key pub_key = 2;
+
+  // Asset of the hotspot
+  solana_pub_key asset = 3;
 
   // Hotspot metadata
-  mobile_hotspot_metadata metadata = 3;
+  mobile_hotspot_metadata metadata = 4;
 
   // Controlling ownership of the NFT
-  re_controller_info controlling_ownership = 4;
+  re_controller_info owner = 5;
 
-  // Reward recipients for the NFT
-  repeated re_reward_recipient_info recipients = 5;
+  uint64 lifetime_claimed_rewards = 6;
 
-  bytes signature = 6;
+  oneof rewards_destination {
+    solana_pub_key wallet = 7;
+    rewards_split_v1 rewards_split_v1 = 8;
+  }
 }
 
-message mobile_hotspot_change_resp_v1 { uint64 timestamp_ms = 1; }
+message mobile_atomic_hotspot_resp_v1 { uint64 timestamp_ms = 1; }
 
-// The report which ingestor/oracles will WRITE to s3
-message mobile_hotspot_change_report_v1 {
+// The update which ingestor/oracles will WRITE to s3
+message mobile_atomic_hotspot_update_v1 {
   // The time the server received the request
   uint64 received_timestamp_ms = 1;
-  // The request report
-  mobile_hotspot_change_req_v1 report = 2;
+  // The request update
+  mobile_atomic_hotspot_v1 update = 2;
 }
 
 // Latest state of chain - effectively the data to be stored
@@ -140,38 +149,43 @@ message mobile_hotspot_change_report_v1 {
 // - hotspot metadata is updated
 // - ownership structure changes
 // - reward recipients are updated
-message iot_hotspot_change_req_v1 {
+message iot_atomic_hotspot_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
 
   // Public key of the hotspot
-  pub_key pub_key = 2;
+  helium_pub_key pub_key = 2;
+
+  // Asset of the hotspot
+  solana_pub_key asset = 3;
 
   // Hotspot metadata
-  iot_hotspot_metadata metadata = 3;
+  iot_hotspot_metadata metadata = 4;
 
   // Controlling ownership of the NFT
-  re_controller_info controlling_ownership = 4;
+  re_controller_info owner = 5;
 
-  // Reward recipients for the NFT
-  repeated re_reward_recipient_info recipients = 5;
+  uint64 lifetime_claimed_rewards = 6;
 
-  bytes signature = 6;
+  oneof rewards_destination {
+    solana_pub_key wallet = 7;
+    rewards_split_v1 rewards_split_v1 = 8;
+  }
 }
 
-message iot_hotspot_change_resp_v1 { uint64 timestamp_ms = 1; }
+message iot_atomic_hotspot_resp_v1 { uint64 timestamp_ms = 1; }
 
-// The report which ingestor/oracles will WRITE to s3
-message iot_hotspot_change_report_v1 {
+// The update which ingestor/oracles will WRITE to s3
+message iot_atomic_hotspot_update_v1 {
   // The time the server received the request
   uint64 received_timestamp_ms = 1;
-  // The request report
-  iot_hotspot_change_req_v1 report = 2;
+  // The request update
+  iot_atomic_hotspot_v1 update = 2;
 }
 
 service chain_rewardable_entities {
-  rpc submit_mobile_hotspot_change(mobile_hotspot_change_req_v1)
-      returns (mobile_hotspot_change_resp_v1);
-  rpc submit_iot_hotspot_change(iot_hotspot_change_req_v1)
-      returns (iot_hotspot_change_resp_v1);
+  rpc submit_mobile_hotspot_change(mobile_atomic_hotspot_v1)
+      returns (mobile_atomic_hotspot_resp_v1);
+  rpc submit_iot_hotspot_change(iot_atomic_hotspot_v1)
+      returns (iot_atomic_hotspot_resp_v1);
 }
