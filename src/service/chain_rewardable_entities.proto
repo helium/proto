@@ -76,10 +76,10 @@ message rewards_split_v1 {
   // The total shares of the split (user can specify any number of shares, defaults to 100)
   uint32 total_shares = 3;
   // The recipients of the split
-  repeated split_v1_recipient_info recipients = 4;
+  repeated split_recipient_info_v1 recipients = 4;
 }
 
-message split_v1_recipient_info {
+message split_recipient_info_v1 {
   // The authority to control `recipient`. Useful for cases where a hot wallet has rewards go to a cold wallet.
   // You can safely ignore this field, unless we implement a UI to make use of this smart contract feature.
   solana_pub_key authority = 1;
