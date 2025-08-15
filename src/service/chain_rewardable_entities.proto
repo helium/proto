@@ -102,10 +102,9 @@ message split_recipient_info_v1 {
 // - hotspot is deployed
 // - hotspot metadata is updated
 // - ownership structure changes
-// all edge cases need to be covered
 // - reward recipients are updated
 // all edge cases need to be covered
-message mobile_atomic_hotspot_v1 {
+message mobile_hotspot_update_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
   uint64 block_time_seconds = 2;
@@ -128,14 +127,6 @@ message mobile_atomic_hotspot_v1 {
   }
 }
 
-// The update which ingestor/oracles will WRITE to s3
-message mobile_atomic_hotspot_update_v1 {
-  // The time the server received the request
-  uint64 received_timestamp_ms = 1;
-  // The request update
-  mobile_atomic_hotspot_v1 update = 2;
-}
-
 // Latest state of chain - effectively the data to be stored
 // will be sent in a request to ingestor
 // New messages should be created whenever
@@ -143,7 +134,7 @@ message mobile_atomic_hotspot_update_v1 {
 // - hotspot metadata is updated
 // - ownership structure changes
 // - reward recipients are updated
-message iot_atomic_hotspot_v1 {
+message iot_hotspot_update_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
   uint64 block_time_seconds = 2;
@@ -166,32 +157,45 @@ message iot_atomic_hotspot_v1 {
   }
 }
 
+
+// Reports
+
 // The update which ingestor/oracles will WRITE to s3
-message iot_atomic_hotspot_update_v1 {
+message mobile_hotspot_update_report_v1 {
   // The time the server received the request
   uint64 received_timestamp_ms = 1;
   // The request update
-  iot_atomic_hotspot_v1 update = 2;
+  mobile_hotspot_update_req_v1 report = 2;
+}
+
+// The update which ingestor/oracles will WRITE to s3
+message iot_hotspot_update_report_v1 {
+  // The time the server received the request
+  uint64 received_timestamp_ms = 1;
+  // The request update
+  iot_hotspot_update_req_v1 update = 2;
 }
 
 // Service defs
-message mobile_atomic_hotspot_request_v1 {
-  mobile_atomic_hotspot_v1 hotspot = 1;
-  bytes signature = 2;
+message mobile_hotspot_update_req_v1 {
+  mobile_hotspot_update_v1 update = 1;
+  string signer = 2;
+  bytes signature = 3;
 }
 
-message mobile_atomic_hotspot_resp_v1 { uint64 timestamp_ms = 1; }
+message mobile_hotspot_update_resp_v1 { uint64 timestamp_ms = 1; }
 
-message iot_atomic_hotspot_request_v1 {
-  iot_atomic_hotspot_v1 hotspot = 1;
-  bytes signature = 2;
+message iot_hotspot_update_req_v1 {
+  iot_hotspot_update_v1 update = 1;
+  string signer = 2;
+  bytes signature = 3;
 }
 
-message iot_atomic_hotspot_resp_v1 { uint64 timestamp_ms = 1; }
+message iot_hotspot_update_resp_v1 { uint64 timestamp_ms = 1; }
 
 service chain_rewardable_entities {
-  rpc submit_mobile_atomic_hotspot_change(mobile_atomic_hotspot_request_v1)
-      returns (mobile_atomic_hotspot_resp_v1);
-  rpc submit_iot_atomic_hotspot_change(iot_atomic_hotspot_request_v1)
-      returns (iot_atomic_hotspot_resp_v1);
+  rpc submit_mobile_hotspot_change(mobile_hotspot_update_req_v1)
+      returns (mobile_hotspot_update_resp_v1);
+  rpc submit_iot_hotspot_change(iot_hotspot_update_req_v1)
+      returns (iot_hotspot_update_resp_v1);
 }
