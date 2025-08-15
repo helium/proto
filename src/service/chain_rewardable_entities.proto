@@ -32,19 +32,19 @@ enum mobile_hotspot_device_type {
 message mobile_hotspot_metadata {
   // Serial number of the mobile hotspot device (can be null or empty... in the
   // case of data-only devices)
-  optional string serial_number = 2;
+  string serial_number = 2;
   // Type of the mobile hotspot device
   mobile_hotspot_device_type device_type = 3;
   // The asserted location in hex format
-  optional string asserted_hex = 4;
-  optional uint32 azimuth = 5;
+  string asserted_hex = 4;
+  uint32 azimuth = 5;
 }
 
 // TODO: this meets mvp app needs, but could easily be extended
 message iot_hotspot_metadata {
   // The asserted hex location of the IoT hotspot
-  optional string asserted_hex = 2;
-  optional uint32 elevation = 3;
+  string asserted_hex = 2;
+  uint32 elevation = 3;
   bool is_data_only = 4;
 }
 
