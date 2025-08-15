@@ -158,6 +158,8 @@ enum speedtest_verification_result {
   speedtest_gateway_not_found = 1;
   // Device Type not expected to submit speedtests
   speedtest_invalid_device_type = 2;
+  // upload/download speed value(s) exceeded allowed limits
+  speedtest_value_out_of_bounds = 3;
 }
 
 message verified_speedtest {
