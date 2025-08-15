@@ -73,22 +73,25 @@ message rewards_split_v1 {
   solana_pub_key pub_key = 1;
   // The cron schedule of the split
   string schedule = 2;
-  // The total shares of the split (user can specify any number of shares, defaults to 100)
+  // The total shares of the split (user can specify any number of shares,
+  // defaults to 100)
   uint32 total_shares = 3;
   // The recipients of the split
   repeated split_recipient_info_v1 recipients = 4;
 }
 
 message split_recipient_info_v1 {
-  // The authority to control `recipient`. Useful for cases where a hot wallet has rewards go to a cold wallet.
-  // You can safely ignore this field, unless we implement a UI to make use of this smart contract feature.
+  // The authority to control `recipient`. Useful for cases where a hot wallet
+  // has rewards go to a cold wallet. You can safely ignore this field, unless
+  // we implement a UI to make use of this smart contract feature.
   solana_pub_key authority = 1;
   // The wallet receiving this part of the split
   solana_pub_key recipient = 2;
   oneof reward_amount {
     // Fixed amount of tokens to be distributed to the wallet each period.
     uint64 fixed_amount = 3;
-    // The shares for this wallet in the fanout. Divide into split.total_shares for percentage.
+    // The shares for this wallet in the fanout. Divide into split.total_shares
+    // for percentage.
     uint32 shares = 4;
   }
 }
@@ -156,7 +159,6 @@ message iot_hotspot_update_v1 {
     rewards_split_v1 rewards_split_v1 = 8;
   }
 }
-
 
 // Reports
 
