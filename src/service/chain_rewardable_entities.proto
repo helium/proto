@@ -51,19 +51,21 @@ message iot_hotspot_metadata {
 // ------------------------------------------------------------------
 // Rewardable Entity <---> Controlling Wallet
 // ------------------------------------------------------------------
-enum re_owner_type {
-  re_owner_type_UNKNOWN = 0; // Unknown control type, should not be used
-  re_owner_type_DIRECT_OWNER = 1; // Owner of the NFT
-  re_owner_type_WELCOME_PACK_OWNER =
-      2; // Controlling permission of the Welcome Pack
+enum entity_owner_type {
+  // Unknown control type, should not be used
+  entity_owner_type_UNKNOWN = 0;
+  // Owner of the NFT
+  entity_owner_type_DIRECT_OWNER = 1;
+  // Controlling permission of the Welcome Pack
+  entity_owner_type_WELCOME_PACK_OWNER = 2;
 }
 
-message re_owner_info {
+message entity_owner_info {
   // User wallet public key
   solana_pub_key wallet = 1;
 
   // Type of control relationship
-  re_owner_type type = 2;
+  entity_owner_type type = 2;
 }
 
 message rewards_split_v1 {
@@ -118,7 +120,7 @@ message mobile_atomic_hotspot_v1 {
   mobile_hotspot_metadata metadata = 5;
 
   // Controlling ownership of the NFT
-  re_owner_info owner = 6;
+  entity_owner_info owner = 6;
 
   oneof rewards_destination {
     solana_pub_key rewards_recipient = 7;
@@ -156,7 +158,7 @@ message iot_atomic_hotspot_v1 {
   iot_hotspot_metadata metadata = 5;
 
   // Controlling ownership of the NFT
-  re_owner_info owner = 6;
+  entity_owner_info owner = 6;
 
   oneof rewards_destination {
     solana_pub_key rewards_recipient = 7;
