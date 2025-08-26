@@ -84,6 +84,8 @@ message enabled_carriers_info_req_v1 {
   repeated carrier_id_v2 enabled_carriers = 2;
   // The firmware version running on the hotspot.
   string firmware_version = 3;
+
+  bytes signature = 4;
 }
 
 message enabled_carriers_info_resp_v1 { uint64 timestamp_ms = 1; }
