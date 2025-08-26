@@ -455,7 +455,7 @@ service poc_mobile {
   rpc submit_subscriber_mapping_activity(subscriber_mapping_activity_req_v1)
       returns (subscriber_mapping_activity_res_v1);
   rpc submit_ban(ban_req_v1) returns (ban_resp_v1);
-  rpc subimt_enabled_carriers_info(enabled_carriers_info_req_v1)
+  rpc submit_enabled_carriers_info(enabled_carriers_info_req_v1)
       returns (enabled_carriers_info_resp_v1);
 }
 
