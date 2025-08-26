@@ -105,7 +105,6 @@ pub mod services {
         pub use transaction_client::TransactionClient as Client;
         pub use transaction_server::TransactionServer as Server;
     }
-    pub use tonic::transport::*;
 }
 
 impl std::str::FromStr for ServiceProvider {
