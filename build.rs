@@ -50,10 +50,10 @@ macro_rules! config {
 
 #[cfg(feature = "services")]
 fn main() -> Result<()> {
-    config!(tonic_build::configure())
+    config!(tonic_prost_build::configure())
         .build_server(true)
         .build_client(true)
-        .compile(
+        .compile_protos(
             &MESSAGES
                 .iter()
                 .chain(SERVICES)

@@ -14,27 +14,29 @@ members = ["beacon"]
 
 [workspace.dependencies]
 # Pin to 0.10 to avoid issues with tls and solana dalek deps
-tonic = { version = "0.10" }
+tonic = "0.14"
 bytes = "1"
-prost = "0.12"
+prost = "0.14"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tonic-build = { version = "0.10" }
-prost-build = "0.12"
+tonic-prost = "0.14"
+# tonic-build = { version = "0.14" }
+# prost-build = "0.14"
 
 [features]
-default= []
-services=["tonic-build", "tonic"]
+default = []
+services = ["tonic", "tonic-prost"]
 
 [dependencies]
-tonic = { workspace = true, optional = true}
+tonic = { workspace = true, optional = true }
+tonic-prost = { workspace = true, optional = true }
 bytes = { workspace = true }
 prost = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
-strum = { version = "0.26.3", features = ["derive"] }
-strum_macros = "0.26.4"
+strum = { version = "0.27", features = ["derive"] }
+strum_macros = "0.27"
 
 [build-dependencies]
-tonic-build = { workspace = true, optional = true }
-prost-build = { workspace = true }
+tonic-prost-build = "0.14"
+prost-build = "0.14"
