@@ -84,9 +84,14 @@ message enabled_carriers_info_req_v1 {
   repeated carrier_id_v2 enabled_carriers = 2;
   // The firmware version running on the hotspot.
   string firmware_version = 3;
+  // Timestamp in milliseconds since Unix epoch.
+  // Time when the message was received by the hs_meta_tracker service.
+  // This value is typically close to the message's original generation time
+  // (by hotspot).
+  uint64 received_at_ms = 4;
   // Signer of the message
-  bytes signer_pubkey = 4;
-  bytes signature = 5;
+  bytes signer_pubkey = 5;
+  bytes signature = 6;
 }
 
 message enabled_carriers_info_resp_v1 { uint64 timestamp_ms = 1; }
