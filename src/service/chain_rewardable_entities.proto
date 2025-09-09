@@ -175,7 +175,7 @@ message iot_hotspot_update_report_v1 {
   // The time the server received the request
   uint64 received_timestamp_ms = 1;
   // The request update
-  iot_hotspot_update_req_v1 update = 2;
+  iot_hotspot_update_req_v1 report = 2;
 }
 
 // Service defs
