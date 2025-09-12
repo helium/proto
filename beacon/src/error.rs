@@ -8,6 +8,8 @@ pub enum Error {
     SystemTime(#[from] std::time::SystemTimeError),
     #[error("protobuf decode")]
     Prost(#[from] prost::DecodeError),
+    #[error("helium protobuf decode")]
+    HeliumProst(#[from] helium_proto::DecodeError),
     #[error("unsupported region {0}")]
     UnsupportedRegion(i32),
     #[error("no applicable region plan")]
