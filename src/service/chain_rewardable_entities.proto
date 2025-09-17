@@ -104,9 +104,6 @@ message split_recipient_info_v1 {
 // New messages should be created whenever
 // - hotspot is deployed
 // - hotspot metadata is updated
-// - ownership structure changes
-// - reward recipients are updated
-// all edge cases need to be covered
 message mobile_hotspot_update_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
@@ -120,14 +117,6 @@ message mobile_hotspot_update_v1 {
 
   // Hotspot metadata
   mobile_hotspot_metadata metadata = 5;
-
-  // Controlling ownership of the NFT
-  entity_owner_info owner = 6;
-
-  oneof rewards_destination {
-    solana_pub_key rewards_recipient = 7;
-    rewards_split_v1 rewards_split_v1 = 8;
-  }
 }
 
 // Latest state of chain - effectively the data to be stored
@@ -135,8 +124,6 @@ message mobile_hotspot_update_v1 {
 // New messages should be created whenever
 // - hotspot is deployed
 // - hotspot metadata is updated
-// - ownership structure changes
-// - reward recipients are updated
 message iot_hotspot_update_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
@@ -150,18 +137,53 @@ message iot_hotspot_update_v1 {
 
   // Hotspot metadata
   iot_hotspot_metadata metadata = 5;
+}
+
+// Latest state of chain - effectively the data to be stored
+// will be sent in a request to ingestor
+// New messages should be created whenever
+// - entity is created
+// - entity ownership changes
+message entity_owner_update_v1 {
+// Block height when this data was sourced
+  uint64 block_height = 1;
+  uint64 block_time_seconds = 2;
+
+  // Public key of the entity
+  helium_pub_key entity_pub_key = 3;
+
+  // Solana public key of the entity's NFT (which we call an `asset`)
+  solana_pub_key asset = 4;
 
   // Controlling ownership of the NFT
-  entity_owner_info owner = 6;
+  entity_owner_info owner = 5;
+}
+
+
+// Latest state of chain - effectively the data to be stored
+// will be sent in a request to ingestor
+// New messages should be created whenever
+// - entity is created
+// - entity reward structure changes
+message entity_reward_destination_update_v1 {
+  // Block height when this data was sourced
+  uint64 block_height = 1;
+  uint64 block_time_seconds = 2;
+
+  // Public key of the entity
+  helium_pub_key entity_pub_key = 3;
+
+  // Solana public key of the entity's NFT (which we call an `asset`)
+  solana_pub_key asset = 4;
 
   oneof rewards_destination {
-    solana_pub_key rewards_recipient = 7;
-    rewards_split_v1 rewards_split_v1 = 8;
+    solana_pub_key rewards_recipient = 5;
+    rewards_split_v1 rewards_split_v1 = 6;
   }
 }
 
-// Reports
 
+// Reports
 // The update which ingestor/oracles will WRITE to s3
 message mobile_hotspot_update_report_v1 {
   // The time the server received the request
@@ -177,6 +199,26 @@ message iot_hotspot_update_report_v1 {
   // The request update
   iot_hotspot_update_req_v1 report = 2;
 }
+
+// The update which ingestor/oracles will WRITE to s3
+message entity_ownership_change_report_v1 {
+  // The time the server received the request
+  uint64 received_timestamp_ms = 1;
+  // The request update
+  entity_ownership_change_req_v1 report = 2;
+}
+
+// The update which ingestor/oracles will WRITE to s3
+message entity_reward_destination_change_report_v1 {
+  // The time the server received the request
+  uint64 received_timestamp_ms = 1;
+  // The request update
+  entity_reward_destination_change_req_v1 report = 2;
+}
+
+
+// RPC
+// Req/Resp pairs for the ingestor
 
 // Service defs
 message mobile_hotspot_update_req_v1 {
@@ -195,9 +237,27 @@ message iot_hotspot_update_req_v1 {
 
 message iot_hotspot_update_resp_v1 { uint64 timestamp_ms = 1; }
 
+message entity_ownership_change_req_v1 {
+  entity_owner_update_v1 update = 1;
+  string signer = 2;
+  bytes signature = 3;
+}
+message entity_ownership_change_resp_v1 { uint64 timestamp_ms = 1; }
+
+message entity_reward_destination_change_req_v1 {
+  entity_reward_destination_update_v1 update = 1;
+  string signer = 2;
+  bytes signature = 3;
+}
+message entity_reward_destination_change_resp_v1 { uint64 timestamp_ms = 1; }
+
 service chain_rewardable_entities {
   rpc submit_mobile_hotspot_change(mobile_hotspot_update_req_v1)
-      returns (mobile_hotspot_update_resp_v1);
+    returns (mobile_hotspot_update_resp_v1);
   rpc submit_iot_hotspot_change(iot_hotspot_update_req_v1)
-      returns (iot_hotspot_update_resp_v1);
+    returns (iot_hotspot_update_resp_v1);
+  rpc submit_entity_ownership_change(entity_ownership_change_req_v1)
+    returns (entity_ownership_change_resp_v1);
+  rpc submit_entity_reward_destination_change(entity_reward_destination_change_req_v1)
+    returns (entity_reward_destination_change_resp_v1);
 }
