@@ -97,14 +97,14 @@ message split_recipient_info_v1 {
 }
 
 // ------------------------------------------------------------------
-// updates
+// changes
 // ------------------------------------------------------------------
 // Latest state of chain - effectively the data to be stored
 // will be sent in a request to ingestor
 // New messages should be created whenever
 // - hotspot is deployed
-// - hotspot metadata is updated
-message mobile_hotspot_update_v1 {
+// - hotspot metadata is changed
+message mobile_hotspot_change_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
   uint64 block_time_seconds = 2;
@@ -123,8 +123,8 @@ message mobile_hotspot_update_v1 {
 // will be sent in a request to ingestor
 // New messages should be created whenever
 // - hotspot is deployed
-// - hotspot metadata is updated
-message iot_hotspot_update_v1 {
+// - hotspot metadata is changed
+message iot_hotspot_change_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
   uint64 block_time_seconds = 2;
@@ -144,7 +144,7 @@ message iot_hotspot_update_v1 {
 // New messages should be created whenever
 // - entity is created
 // - entity ownership changes
-message entity_owner_update_v1 {
+message entity_owner_change_v1 {
 // Block height when this data was sourced
   uint64 block_height = 1;
   uint64 block_time_seconds = 2;
@@ -165,7 +165,7 @@ message entity_owner_update_v1 {
 // New messages should be created whenever
 // - entity is created
 // - entity reward structure changes
-message entity_reward_destination_update_v1 {
+message entity_reward_destination_change_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
   uint64 block_time_seconds = 2;
@@ -184,35 +184,35 @@ message entity_reward_destination_update_v1 {
 
 
 // Reports
-// The update which ingestor/oracles will WRITE to s3
-message mobile_hotspot_update_report_v1 {
+// The change which ingestor/oracles will WRITE to s3
+message mobile_hotspot_change_report_v1 {
   // The time the server received the request
   uint64 received_timestamp_ms = 1;
-  // The request update
-  mobile_hotspot_update_req_v1 report = 2;
+  // The request change
+  mobile_hotspot_change_req_v1 report = 2;
 }
 
-// The update which ingestor/oracles will WRITE to s3
-message iot_hotspot_update_report_v1 {
+// The change which ingestor/oracles will WRITE to s3
+message iot_hotspot_change_report_v1 {
   // The time the server received the request
   uint64 received_timestamp_ms = 1;
-  // The request update
-  iot_hotspot_update_req_v1 report = 2;
+  // The request change
+  iot_hotspot_change_req_v1 report = 2;
 }
 
-// The update which ingestor/oracles will WRITE to s3
+// The change which ingestor/oracles will WRITE to s3
 message entity_ownership_change_report_v1 {
   // The time the server received the request
   uint64 received_timestamp_ms = 1;
-  // The request update
+  // The request change
   entity_ownership_change_req_v1 report = 2;
 }
 
-// The update which ingestor/oracles will WRITE to s3
+// The change which ingestor/oracles will WRITE to s3
 message entity_reward_destination_change_report_v1 {
   // The time the server received the request
   uint64 received_timestamp_ms = 1;
-  // The request update
+  // The request change
   entity_reward_destination_change_req_v1 report = 2;
 }
 
@@ -221,41 +221,41 @@ message entity_reward_destination_change_report_v1 {
 // Req/Resp pairs for the ingestor
 
 // Service defs
-message mobile_hotspot_update_req_v1 {
-  mobile_hotspot_update_v1 update = 1;
+message mobile_hotspot_change_req_v1 {
+  mobile_hotspot_change_v1 change = 1;
   string signer = 2;
   bytes signature = 3;
 }
 
-message mobile_hotspot_update_resp_v1 { uint64 timestamp_ms = 1; }
+message mobile_hotspot_change_resp_v1 { uint64 timestamp_ms = 1; }
 
-message iot_hotspot_update_req_v1 {
-  iot_hotspot_update_v1 update = 1;
+message iot_hotspot_change_req_v1 {
+  iot_hotspot_change_v1 change = 1;
   string signer = 2;
   bytes signature = 3;
 }
 
-message iot_hotspot_update_resp_v1 { uint64 timestamp_ms = 1; }
+message iot_hotspot_change_resp_v1 { uint64 timestamp_ms = 1; }
 
 message entity_ownership_change_req_v1 {
-  entity_owner_update_v1 update = 1;
+  entity_owner_change_v1 change = 1;
   string signer = 2;
   bytes signature = 3;
 }
 message entity_ownership_change_resp_v1 { uint64 timestamp_ms = 1; }
 
 message entity_reward_destination_change_req_v1 {
-  entity_reward_destination_update_v1 update = 1;
+  entity_reward_destination_change_v1 change = 1;
   string signer = 2;
   bytes signature = 3;
 }
 message entity_reward_destination_change_resp_v1 { uint64 timestamp_ms = 1; }
 
 service chain_rewardable_entities {
-  rpc submit_mobile_hotspot_change(mobile_hotspot_update_req_v1)
-    returns (mobile_hotspot_update_resp_v1);
-  rpc submit_iot_hotspot_change(iot_hotspot_update_req_v1)
-    returns (iot_hotspot_update_resp_v1);
+  rpc submit_mobile_hotspot_change(mobile_hotspot_change_req_v1)
+    returns (mobile_hotspot_change_resp_v1);
+  rpc submit_iot_hotspot_change(iot_hotspot_change_req_v1)
+    returns (iot_hotspot_change_resp_v1);
   rpc submit_entity_ownership_change(entity_ownership_change_req_v1)
     returns (entity_ownership_change_resp_v1);
   rpc submit_entity_reward_destination_change(entity_reward_destination_change_req_v1)
