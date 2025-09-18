@@ -107,7 +107,7 @@ message split_recipient_info_v1 {
 message mobile_hotspot_change_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
-  uint64 ingest_time_seconds = 2;
+  uint64 timestamp_seconds = 2;
 
   // Public key of the hotspot
   helium_pub_key pub_key = 3;
@@ -127,7 +127,7 @@ message mobile_hotspot_change_v1 {
 message iot_hotspot_change_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
-  uint64 ingest_time_seconds = 2;
+  uint64 timestamp_seconds = 2;
 
   // Public key of the hotspot
   helium_pub_key pub_key = 3;
@@ -147,7 +147,7 @@ message iot_hotspot_change_v1 {
 message entity_owner_change_v1 {
 // Block height when this data was sourced
   uint64 block_height = 1;
-  uint64 ingest_time_seconds = 2;
+  uint64 timestamp_seconds = 2;
 
   // Public key of the entity
   helium_pub_key entity_pub_key = 3;
@@ -168,7 +168,7 @@ message entity_owner_change_v1 {
 message entity_reward_destination_change_v1 {
   // Block height when this data was sourced
   uint64 block_height = 1;
-  uint64 ingest_time_seconds = 2;
+  uint64 timestamp_seconds = 2;
 
   // Public key of the entity
   helium_pub_key entity_pub_key = 3;
