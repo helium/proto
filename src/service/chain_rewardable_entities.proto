@@ -159,7 +159,6 @@ message entity_owner_change_v1 {
   entity_owner_info owner = 5;
 }
 
-
 // Latest state of chain - effectively the data to be stored
 // will be sent in a request to ingestor
 // New messages should be created whenever
@@ -181,7 +180,6 @@ message entity_reward_destination_change_v1 {
     rewards_split_v1 rewards_split_v1 = 6;
   }
 }
-
 
 // Reports
 // The change which ingestor/oracles will WRITE to s3
@@ -215,7 +213,6 @@ message entity_reward_destination_change_report_v1 {
   // The request change
   entity_reward_destination_change_req_v1 report = 2;
 }
-
 
 // RPC
 // Req/Resp pairs for the ingestor
