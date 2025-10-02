@@ -145,7 +145,7 @@ message iot_hotspot_change_v1 {
 // - entity is created
 // - entity ownership changes
 message entity_owner_change_v1 {
-// Block when this data was sourced
+  // Block when this data was sourced
   uint64 block = 1;
   uint64 timestamp_seconds = 2;
 
@@ -253,11 +253,12 @@ message entity_reward_destination_change_resp_v1 { uint64 timestamp_ms = 1; }
 
 service chain_rewardable_entities {
   rpc submit_mobile_hotspot_change(mobile_hotspot_change_req_v1)
-    returns (mobile_hotspot_change_resp_v1);
+      returns (mobile_hotspot_change_resp_v1);
   rpc submit_iot_hotspot_change(iot_hotspot_change_req_v1)
-    returns (iot_hotspot_change_resp_v1);
+      returns (iot_hotspot_change_resp_v1);
   rpc submit_entity_ownership_change(entity_ownership_change_req_v1)
-    returns (entity_ownership_change_resp_v1);
-  rpc submit_entity_reward_destination_change(entity_reward_destination_change_req_v1)
-    returns (entity_reward_destination_change_resp_v1);
+      returns (entity_ownership_change_resp_v1);
+  rpc submit_entity_reward_destination_change(
+      entity_reward_destination_change_req_v1)
+      returns (entity_reward_destination_change_resp_v1);
 }
