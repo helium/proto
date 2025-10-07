@@ -945,6 +945,7 @@ message data_transfer_session_req_v1 {
   bytes signature = 4;
   uint64 rewardable_bytes = 5;
   carrier_id_v2 carrier_id_v2 = 6;
+  bool sampling = 7;
 }
 
 message data_transfer_event {
