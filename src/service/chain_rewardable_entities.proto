@@ -1,0 +1,261 @@
+// TODO: Design for different key formats - track "archetype" of key ... helium
+// vs. solana, network prefixes etc.
+// TODO: Consider OTHER Rewardable Entities (REs) in the future
+// TODO: Signature STUFF in req's and reports
+
+syntax = "proto3";
+
+package helium.chain_rewardable_entities;
+
+message solana_pub_key {
+  // As string - base58 encode
+  bytes value = 1;
+}
+
+message helium_pub_key {
+  // As string - base58 check encode helium pubkey
+  bytes value = 1;
+}
+
+// ------------------------------------------------------------------
+// Helium Hotspot "rewardable entities" and their metadata
+// ------------------------------------------------------------------
+enum mobile_hotspot_device_type {
+  mobile_hotspot_device_type_UNKNOWN =
+      0; // Unknown device type, should not be used
+  mobile_hotspot_device_type_CBRS = 1;
+  mobile_hotspot_device_type_WIFI_INDOOR = 2;
+  mobile_hotspot_device_type_WIFI_OUTDOOR = 3;
+  mobile_hotspot_device_type_WIFI_DATA_ONLY = 4;
+}
+
+message mobile_hotspot_metadata {
+  // Serial number of the mobile hotspot device (can be null or empty... in the
+  // case of data-only devices)
+  string serial_number = 2;
+  // Type of the mobile hotspot device
+  mobile_hotspot_device_type device_type = 3;
+  // The asserted location in hex format
+  string asserted_hex = 4;
+  uint32 azimuth = 5;
+}
+
+// TODO: this meets mvp app needs, but could easily be extended
+message iot_hotspot_metadata {
+  // The asserted hex location of the IoT hotspot
+  string asserted_hex = 2;
+  uint32 elevation = 3;
+  bool is_data_only = 4;
+}
+
+// ------------------------------------------------------------------
+// Rewardable Entity <---> Controlling Wallet
+// ------------------------------------------------------------------
+enum entity_owner_type {
+  // Unknown control type, should not be used
+  entity_owner_type_UNKNOWN = 0;
+  // Owner of the NFT
+  entity_owner_type_DIRECT_OWNER = 1;
+  // Controlling permission of the Welcome Pack
+  entity_owner_type_WELCOME_PACK_OWNER = 2;
+}
+
+message entity_owner_info {
+  // User wallet public key
+  solana_pub_key wallet = 1;
+
+  // Type of control relationship
+  entity_owner_type type = 2;
+}
+
+message rewards_split_v1 {
+  // They key of the on-chain struct that contains/performs the split
+  solana_pub_key pub_key = 1;
+  // The cron schedule of the split
+  string schedule = 2;
+  // The total shares of the split (user can specify any number of shares,
+  // defaults to 100)
+  uint32 total_shares = 3;
+  // The recipients of the split
+  repeated split_recipient_info_v1 recipients = 4;
+}
+
+message split_recipient_info_v1 {
+  // The authority to control `recipient`. Useful for cases where a hot wallet
+  // has rewards go to a cold wallet. You can safely ignore this field, unless
+  // we implement a UI to make use of this smart contract feature.
+  solana_pub_key authority = 1;
+  // The wallet receiving this part of the split
+  solana_pub_key recipient = 2;
+  oneof reward_amount {
+    // Fixed amount of tokens to be distributed to the wallet each period.
+    uint64 fixed_amount = 3;
+    // The shares for this wallet in the fanout. Divide into split.total_shares
+    // for percentage.
+    uint32 shares = 4;
+  }
+}
+
+// ------------------------------------------------------------------
+// changes
+// ------------------------------------------------------------------
+// Latest state of chain - effectively the data to be stored
+// will be sent in a request to ingestor
+// New messages should be created whenever
+// - hotspot is deployed
+// - hotspot metadata is changed
+message mobile_hotspot_change_v1 {
+  // Block when this data was sourced
+  uint64 block = 1;
+  uint64 timestamp_seconds = 2;
+
+  // Public key of the hotspot
+  helium_pub_key pub_key = 3;
+
+  // Solana public key of the hotspot's NFT (which we call an `asset`)
+  solana_pub_key asset = 4;
+
+  // Hotspot metadata
+  mobile_hotspot_metadata metadata = 5;
+}
+
+// Latest state of chain - effectively the data to be stored
+// will be sent in a request to ingestor
+// New messages should be created whenever
+// - hotspot is deployed
+// - hotspot metadata is changed
+message iot_hotspot_change_v1 {
+  // Block when this data was sourced
+  uint64 block = 1;
+  uint64 timestamp_seconds = 2;
+
+  // Public key of the hotspot
+  helium_pub_key pub_key = 3;
+
+  // Solana public key of the hotspot's NFT (which we call an `asset`)
+  solana_pub_key asset = 4;
+
+  // Hotspot metadata
+  iot_hotspot_metadata metadata = 5;
+}
+
+// Latest state of chain - effectively the data to be stored
+// will be sent in a request to ingestor
+// New messages should be created whenever
+// - entity is created
+// - entity ownership changes
+message entity_owner_change_v1 {
+  // Block when this data was sourced
+  uint64 block = 1;
+  uint64 timestamp_seconds = 2;
+
+  // Public key of the entity
+  helium_pub_key entity_pub_key = 3;
+
+  // Solana public key of the entity's NFT (which we call an `asset`)
+  solana_pub_key asset = 4;
+
+  // Controlling ownership of the NFT
+  entity_owner_info owner = 5;
+}
+
+// Latest state of chain - effectively the data to be stored
+// will be sent in a request to ingestor
+// New messages should be created whenever
+// - entity is created
+// - entity reward structure changes
+message entity_reward_destination_change_v1 {
+  // Block when this data was sourced
+  uint64 block = 1;
+  uint64 timestamp_seconds = 2;
+
+  // Public key of the entity
+  helium_pub_key entity_pub_key = 3;
+
+  // Solana public key of the entity's NFT (which we call an `asset`)
+  solana_pub_key asset = 4;
+
+  oneof rewards_destination {
+    solana_pub_key rewards_recipient = 5;
+    rewards_split_v1 rewards_split_v1 = 6;
+  }
+}
+
+// Reports
+// The change which ingestor/oracles will WRITE to s3
+message mobile_hotspot_change_report_v1 {
+  // The time the server received the request
+  uint64 received_timestamp_ms = 1;
+  // The request change
+  mobile_hotspot_change_req_v1 report = 2;
+}
+
+// The change which ingestor/oracles will WRITE to s3
+message iot_hotspot_change_report_v1 {
+  // The time the server received the request
+  uint64 received_timestamp_ms = 1;
+  // The request change
+  iot_hotspot_change_req_v1 report = 2;
+}
+
+// The change which ingestor/oracles will WRITE to s3
+message entity_ownership_change_report_v1 {
+  // The time the server received the request
+  uint64 received_timestamp_ms = 1;
+  // The request change
+  entity_ownership_change_req_v1 report = 2;
+}
+
+// The change which ingestor/oracles will WRITE to s3
+message entity_reward_destination_change_report_v1 {
+  // The time the server received the request
+  uint64 received_timestamp_ms = 1;
+  // The request change
+  entity_reward_destination_change_req_v1 report = 2;
+}
+
+// RPC
+// Req/Resp pairs for the ingestor
+
+// Service defs
+message mobile_hotspot_change_req_v1 {
+  mobile_hotspot_change_v1 change = 1;
+  string signer = 2;
+  bytes signature = 3;
+}
+
+message mobile_hotspot_change_resp_v1 { uint64 timestamp_ms = 1; }
+
+message iot_hotspot_change_req_v1 {
+  iot_hotspot_change_v1 change = 1;
+  string signer = 2;
+  bytes signature = 3;
+}
+
+message iot_hotspot_change_resp_v1 { uint64 timestamp_ms = 1; }
+
+message entity_ownership_change_req_v1 {
+  entity_owner_change_v1 change = 1;
+  string signer = 2;
+  bytes signature = 3;
+}
+message entity_ownership_change_resp_v1 { uint64 timestamp_ms = 1; }
+
+message entity_reward_destination_change_req_v1 {
+  entity_reward_destination_change_v1 change = 1;
+  string signer = 2;
+  bytes signature = 3;
+}
+message entity_reward_destination_change_resp_v1 { uint64 timestamp_ms = 1; }
+
+service chain_rewardable_entities {
+  rpc submit_mobile_hotspot_change(mobile_hotspot_change_req_v1)
+      returns (mobile_hotspot_change_resp_v1);
+  rpc submit_iot_hotspot_change(iot_hotspot_change_req_v1)
+      returns (iot_hotspot_change_resp_v1);
+  rpc submit_entity_ownership_change(entity_ownership_change_req_v1)
+      returns (entity_ownership_change_resp_v1);
+  rpc submit_entity_reward_destination_change(
+      entity_reward_destination_change_req_v1)
+      returns (entity_reward_destination_change_resp_v1);
+}
