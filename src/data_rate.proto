@@ -1,6 +1,9 @@
 syntax = "proto3";
 
 package helium;
+option java_package = "com.helium.grpc";
+option java_outer_classname = "PocLoRa";
+option java_multiple_files = true;
 
 enum data_rate {
   SF12BW125 = 0;
