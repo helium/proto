@@ -136,7 +136,7 @@ message gateway_info_req_v1 {
   bytes signature = 3;
 }
 
-message gateway_info_historical_req_v1 {
+message gateway_info_at_timestamp_req_v1 {
   // The public key address of the gateway to look up
   bytes address = 1;
   // The Unix epoch timestamp (in seconds).
@@ -457,9 +457,8 @@ service gateway {
       returns (stream gateway_info_stream_res_v1) {
     option deprecated = true;
   }
-  // Get historical info for the specified gateway
-  // at the given timestamp
-  rpc info_historical(gateway_info_historical_req_v1)
+  // Get info for the specified gateway at or before the given timestamp
+  rpc info_at_timestamp(gateway_info_at_timestamp_req_v1)
       returns (gateway_info_res_v2);
 
   // V2
