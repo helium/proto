@@ -8,12 +8,12 @@ syntax = "proto3";
 package helium.chain_rewardable_entities;
 
 message solana_pub_key {
-  // As string - base58 encode
   bytes value = 1;
 }
 
 message helium_pub_key {
-  // As string - base58 check encode helium pubkey
+  // bytes of a valid helium pub key. 
+  // Should support parsing into helium_crypto::public_key::PublicKey
   bytes value = 1;
 }
 
