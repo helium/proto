@@ -1,19 +1,12 @@
-// TODO: Design for different key formats - track "archetype" of key ... helium
-// vs. solana, network prefixes etc.
-// TODO: Consider OTHER Rewardable Entities (REs) in the future
-// TODO: Signature STUFF in req's and reports
-
 syntax = "proto3";
 
 package helium.chain_rewardable_entities;
 
-message solana_pub_key {
-  // As string - base58 encode
-  bytes value = 1;
-}
+message solana_pub_key { bytes value = 1; }
 
 message helium_pub_key {
-  // As string - base58 check encode helium pubkey
+  // bytes of a valid helium pub key.
+  // Should support parsing into helium_crypto::public_key::PublicKey
   bytes value = 1;
 }
 
