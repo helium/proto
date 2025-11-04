@@ -77,6 +77,29 @@ enum carrier_id_v2 {
   carrier_id_v2_carrier_9 = 10;
 }
 
+message enabled_carriers_info_req_v1 {
+  // The on-chain address of the gateway (public key in binary format).
+  bytes hotspot_pubkey = 1;
+  // List of carriers enabled for data offload.
+  repeated carrier_id_v2 enabled_carriers = 2;
+  // The firmware version running on the hotspot.
+  string firmware_version = 3;
+  // Timestamp in milliseconds since the Unix epoch when this message was
+  // generated.
+  uint64 timestamp_ms = 4;
+  // Signer of the message
+  bytes signer_pubkey = 5;
+  bytes signature = 6;
+}
+
+message enabled_carriers_info_resp_v1 { uint64 timestamp_ms = 1; }
+
+message enabled_carriers_info_report_v1 {
+  // Timstamp in milliseconds since unix epoch
+  uint64 received_timestamp_ms = 1;
+  enabled_carriers_info_req_v1 report = 2;
+}
+
 message radio_usage_carrier_transfer_info {
   carrier_id carrier_id = 1 [ deprecated = true ];
   uint64 transfer_bytes = 2;
@@ -437,6 +460,8 @@ service poc_mobile {
   rpc submit_subscriber_mapping_activity(subscriber_mapping_activity_req_v1)
       returns (subscriber_mapping_activity_res_v1);
   rpc submit_ban(ban_req_v1) returns (ban_resp_v1);
+  rpc submit_enabled_carriers_info(enabled_carriers_info_req_v1)
+      returns (enabled_carriers_info_resp_v1);
 }
 
 message ban_resp_v1 { uint64 timestamp_ms = 1; }
@@ -922,6 +947,7 @@ message data_transfer_session_req_v1 {
   bytes signature = 4;
   uint64 rewardable_bytes = 5;
   carrier_id_v2 carrier_id_v2 = 6;
+  bool sampling = 7;
 }
 
 message data_transfer_event {
