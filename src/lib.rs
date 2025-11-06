@@ -7,6 +7,8 @@ pub use blockchain_txn::Txn;
 pub use prost::{DecodeError, EncodeError, Message, UnknownEnumValue};
 pub use strum::IntoEnumIterator;
 
+pub mod traits;
+
 #[cfg(feature = "services")]
 pub mod services {
     use crate::{

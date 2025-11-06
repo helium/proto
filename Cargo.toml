@@ -23,6 +23,7 @@ tonic-prost = "0.14"
 [features]
 default = []
 services = ["tonic", "tonic-prost"]
+verify = ["services", "helium-crypto"]
 
 [dependencies]
 tonic = { workspace = true, optional = true }
@@ -33,6 +34,9 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 strum = { version = "0.27", features = ["derive"] }
 strum_macros = "0.27"
+thiserror = "2.0.17"
+base64 = "0.22.1"
+helium-crypto = { version = "0.9.4", optional = true }
 
 [build-dependencies]
 tonic-prost-build = "0.14"
