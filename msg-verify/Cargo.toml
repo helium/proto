@@ -1,0 +1,10 @@
+[package]
+name = "msg-verify"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+prost = "0.14.1"
+helium-crypto = "0.9.4"
+thiserror = "2.0.17"
+msg-verify-macro = { path = "../msg-verify-macro" }

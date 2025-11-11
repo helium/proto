@@ -37,6 +37,8 @@ const MESSAGES: &[&str] = &[
 macro_rules! config {
     ($config:expr) => {
         $config
+            // #[cfg(feature = "verify")]
+            .type_attribute(".", "#[derive(msg_verify::MsgVerify)]")
             .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
             .enum_attribute(
                 ".helium.service_provider",

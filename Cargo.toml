@@ -10,7 +10,7 @@ name = "helium_proto"
 path = "src/lib.rs"
 
 [workspace]
-members = ["beacon"]
+members = ["beacon", "msg-verify", "msg-verify-macro"]
 
 [workspace.dependencies]
 tonic = "0.14"
@@ -37,6 +37,7 @@ strum_macros = "0.27"
 thiserror = "2.0.17"
 base64 = "0.22.1"
 helium-crypto = { version = "0.9.4", optional = true }
+msg-verify = { path = "msg-verify" }
 
 [build-dependencies]
 tonic-prost-build = "0.14"
