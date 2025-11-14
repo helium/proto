@@ -136,6 +136,17 @@ message gateway_info_req_v1 {
   bytes signature = 3;
 }
 
+message gateway_info_at_timestamp_req_v1 {
+  // The public key address of the gateway to look up
+  bytes address = 1;
+  // The Unix epoch timestamp (in seconds).
+  // Returns the latest record before or at the specified timestamp.
+  uint64 query_time = 2;
+  // pubkey binary of the signing keypair
+  bytes signer = 3;
+  bytes signature = 4;
+}
+
 message gateway_info_batch_req_v1 {
   // List of public key addresses of gateways to look up
   repeated bytes addresses = 1;
@@ -446,6 +457,9 @@ service gateway {
       returns (stream gateway_info_stream_res_v1) {
     option deprecated = true;
   }
+  // Get info for the specified gateway at or before the given timestamp
+  rpc info_at_timestamp(gateway_info_at_timestamp_req_v1)
+      returns (gateway_info_res_v2);
 
   // V2
   // Get info for the specified gateway (V2)
