@@ -35,7 +35,10 @@ const MESSAGES: &[&str] = &[
 ];
 
 macro_rules! config {
-    ($config:expr) => {
+    ($config:expr) => {{
+        if cfg!(feature = "verify") {
+            $config.type_attribute(".", "#[derive(msg_verify::MsgVerify)]");
+        }
         $config
             .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
             .enum_attribute(
@@ -46,7 +49,7 @@ macro_rules! config {
                 ".helium.tagged_spreading.region_spreading",
                 "#[serde(with = \"serde_region_spreading\" )]",
             )
-    };
+    }};
 }
 
 #[cfg(feature = "services")]
