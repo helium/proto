@@ -1,4 +1,4 @@
-pub use msg_verify_macro::MsgHasSignature;
+pub use msg_signature_macro::MsgHasSignature;
 
 pub trait MsgHasSignature {
     fn signature(&self) -> &[u8];
