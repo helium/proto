@@ -10,7 +10,7 @@ name = "helium_proto"
 path = "src/lib.rs"
 
 [workspace]
-members = ["beacon", "msg-verify", "msg-verify-macro"]
+members = ["beacon", "msg-signature", "msg-signature-macro"]
 
 [workspace.dependencies]
 tonic = "0.14"
@@ -23,7 +23,6 @@ tonic-prost = "0.14"
 [features]
 default = []
 services = ["tonic", "tonic-prost"]
-verify = ["services", "helium-crypto", "msg-verify"]
 
 [dependencies]
 tonic = { workspace = true, optional = true }
@@ -33,8 +32,7 @@ prost = { workspace = true }
 serde = { workspace = true }
 strum = { version = "0.27", features = ["derive"] }
 strum_macros = "0.27"
-helium-crypto = { version = "0.9.1", optional = true }
-msg-verify = { path = "msg-verify", optional = true }
+msg-signature = { path = "msg-signature" }
 
 [build-dependencies]
 tonic-prost-build = "0.14"

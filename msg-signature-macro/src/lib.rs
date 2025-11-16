@@ -2,8 +2,8 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::{DeriveInput, parse_macro_input};
 
-#[proc_macro_derive(MsgVerify)]
-pub fn msg_verify_derive(input: TokenStream) -> TokenStream {
+#[proc_macro_derive(MsgHasSignature)]
+pub fn msg_signature_derive(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let name = input.ident;
 
@@ -20,14 +20,15 @@ pub fn msg_verify_derive(input: TokenStream) -> TokenStream {
 
     if has_signature {
         let expanded = quote! {
-            impl msg_verify::MsgVerify for #name {
-                fn verify(&self, verifier: &helium_crypto::PublicKey) -> Result<(), msg_verify::MsgVerifyError> {
-                    let mut buf = vec![];
-                    let mut msg = self.clone();
-                    msg.signature = vec![];
-                    prost::Message::encode(&msg, &mut buf)?;
-                    helium_crypto::Verify::verify(verifier, &buf, &self.signature)?;
-                    Ok(())
+            impl msg_signature::MsgHasSignature for #name {
+                fn signature(&self) -> &[u8] {
+                    &self.signature
+                }
+
+                fn without_signature(&self) -> Self {
+                    let mut clone = self.clone();
+                    clone.signature = vec![];
+                    clone
                 }
             }
         };
