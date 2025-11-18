@@ -160,7 +160,6 @@ message radio_usage_stats_ingest_report_v1 {
 
 message radio_usage_sampling_carrier_data_transfer_info_v1 {
   carrier_id_v2 carrier_id = 1;
-  // sampling
   uint64 bytes_transferred_download = 2;
   uint64 bytes_transferred_upload = 3;
   uint64 bytes_transferred_total = 4;
@@ -172,12 +171,10 @@ message radio_usage_carrier_data_transfer_info_v2 {
 
   uint64 user_count = 2;
 
-  // rewarded
   uint64 rewarded_bytes_transferred_download = 3;
   uint64 rewarded_bytes_transferred_upload = 4;
   uint64 rewarded_bytes_transferred_total = 5;
 
-  // unrewarded
   uint64 unrewarded_bytes_transferred_download = 6;
   uint64 unrewarded_bytes_transferred_upload = 7;
   uint64 unrewarded_bytes_transferred_total = 8;
@@ -197,23 +194,26 @@ message radio_usage_stats_req_v2 {
   // Signed payload
   bytes signature = 6;
 
-  // sampling
-  uint64 sampling_user_count_total = 7;
-  // sampling
-  uint64 sampling_bytes_transferred_total = 8;
-
-  // rewarded + unrewarded (non-sampled) - could potentially overlap w/ sampling
-  // users
-  uint64 user_count_total = 9;
+  // unique users among CDRs from non-sampling data
+  // Note: the same user may be counted in both sampling and non-sampling stats
+  uint64 user_count_total = 7;
   // rewarded (non-sampled)
-  uint64 rewarded_bytes_transferred_total = 10;
+  uint64 rewarded_bytes_transferred_total = 8;
   // unrewarded (non-sampled)
-  uint64 unrewarded_bytes_transferred_total = 11;
+  uint64 unrewarded_bytes_transferred_total = 9;
 
-  // Carrier specific transfer stats
-  repeated radio_usage_carrier_data_transfer_info_v2 carrier_transfer_info = 13;
+  // unique users among CDRs from sampling data
+  // Note: the same user may be counted in both sampling and non-sampling stats
+  uint64 sampling_user_count_total = 10;
+  // sampling bytes are distinct from rewarded + unrewarded (non-sampled)
+  uint64 sampling_bytes_transferred_total = 11;
+
+  // Carrier specific breakdown of non-sampling data
+  repeated radio_usage_carrier_data_transfer_info_v2 carrier_transfer_info = 12;
+
+  // Carrier specific breakdown of sampling data
   repeated radio_usage_sampling_carrier_data_transfer_info_v1
-      sampling_carrier_transfer_info = 14;
+      sampling_carrier_transfer_info = 13;
 }
 
 message radio_usage_stats_res_v2 { string id = 1; }
