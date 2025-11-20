@@ -161,7 +161,7 @@ message radio_usage_stats_ingest_report_v1 {
 message radio_usage_sampling_carrier_data_transfer_info_v1 {
   carrier_id_v2 carrier_id = 1;
   uint64 user_count = 2;
-  uint64 bytes_transferred2 = 3;
+  uint64 bytes_transferred = 3;
 }
 
 message radio_usage_carrier_data_transfer_info_v2 {
