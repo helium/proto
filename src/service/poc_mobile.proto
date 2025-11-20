@@ -101,6 +101,7 @@ message enabled_carriers_info_report_v1 {
 }
 
 message radio_usage_carrier_transfer_info {
+  option deprecated = true;
   carrier_id carrier_id = 1 [ deprecated = true ];
   uint64 transfer_bytes = 2;
   uint64 user_count = 3;
@@ -108,6 +109,7 @@ message radio_usage_carrier_transfer_info {
 }
 
 message radio_usage_stats_req_v1 {
+  option deprecated = true;
   // The onchain address of the hotspot
   bytes hotspot_pubkey = 1;
   // the cbsd id of the radio if it is a cbrs radio otherwise empty
@@ -143,13 +145,75 @@ message radio_usage_stats_req_v1 {
   repeated radio_usage_carrier_transfer_info carrier_transfer_info = 13;
 }
 
-message radio_usage_stats_res_v1 { string id = 1; }
+message radio_usage_stats_res_v1 {
+  option deprecated = true;
+  string id = 1;
+}
 
 message radio_usage_stats_ingest_report_v1 {
+  option deprecated = true;
   // Timestamp in milliseconds since unix epoch
   uint64 received_timestamp = 1;
   // the verified report
   radio_usage_stats_req_v1 report = 2;
+}
+
+message radio_usage_sampling_carrier_data_transfer_info_v1 {
+  carrier_id_v2 carrier_id = 1;
+  uint64 user_count = 2;
+  uint64 bytes_transferred = 3;
+}
+
+message radio_usage_carrier_data_transfer_info_v2 {
+  carrier_id_v2 carrier_id = 1;
+  uint64 user_count = 2;
+  uint64 rewarded_bytes_transferred = 3;
+  uint64 unrewarded_bytes_transferred = 4;
+}
+
+message radio_usage_stats_req_v2 {
+  // The onchain address of the hotspot
+  bytes hotspot_pubkey = 1;
+  // Unix timestamp in milliseconds of the epoch start
+  uint64 epoch_start_timestamp_ms = 2;
+  // Unix timestamp in milliseconds of the epoch end
+  uint64 epoch_end_timestamp_ms = 3;
+  // Unix timestamp in milliseconds of when the report was generated
+  uint64 timestamp_ms = 4;
+  // Carrier pubkey
+  bytes carrier_pubkey = 5;
+  // Signed payload
+  bytes signature = 6;
+
+  // unique users among CDRs from non-sampling data
+  // Note: the same user may be counted in both sampling and non-sampling stats
+  uint64 user_count_total = 7;
+  // rewarded (non-sampled)
+  uint64 rewarded_bytes_transferred_total = 8;
+  // unrewarded (non-sampled)
+  uint64 unrewarded_bytes_transferred_total = 9;
+
+  // unique users among CDRs from sampling data
+  // Note: the same user may be counted in both sampling and non-sampling stats
+  uint64 sampling_user_count_total = 10;
+  // sampling bytes are distinct from rewarded + unrewarded (non-sampled)
+  uint64 sampling_bytes_transferred_total = 11;
+
+  // Carrier specific breakdown of non-sampling data
+  repeated radio_usage_carrier_data_transfer_info_v2 carrier_transfer_info = 12;
+
+  // Carrier specific breakdown of sampling data
+  repeated radio_usage_sampling_carrier_data_transfer_info_v1
+      sampling_carrier_transfer_info = 13;
+}
+
+message radio_usage_stats_res_v2 { string id = 1; }
+
+message radio_usage_stats_ingest_report_v2 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp_ms = 1;
+  // the verified report
+  radio_usage_stats_req_v2 report = 2;
 }
 
 message speedtest_req_v1 {
@@ -454,7 +518,11 @@ service poc_mobile {
   rpc submit_hex_usage_stats_report(hex_usage_stats_req_v1)
       returns (hex_usage_stats_res_v1);
   rpc submit_radio_usage_stats_report(radio_usage_stats_req_v1)
-      returns (radio_usage_stats_res_v1);
+      returns (radio_usage_stats_res_v1) {
+    option deprecated = true;
+  };
+  rpc submit_radio_usage_stats_report_v2(radio_usage_stats_req_v2)
+      returns (radio_usage_stats_res_v2);
   rpc submit_unique_connections(unique_connections_req_v1)
       returns (unique_connections_resp_v1);
   rpc submit_subscriber_mapping_activity(subscriber_mapping_activity_req_v1)
