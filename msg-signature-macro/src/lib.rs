@@ -30,10 +30,6 @@ pub fn msg_signature_derive(input: TokenStream) -> TokenStream {
                     clone.signature = vec![];
                     clone
                 }
-
-                fn add_signature(&mut self, signature: &[u8]) {
-                    self.signature = signature.to_vec();
-                }
             }
         };
 
