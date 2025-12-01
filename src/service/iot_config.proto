@@ -621,6 +621,25 @@ message gateway_info_stream_res_v1 {
   bytes signer = 4;
 }
 
+/// Request a stream of all active gateways
+message gateway_info_stream_req_v2 {
+  uint32 batch_size = 1;
+  // The Unix epoch timestamp (in seconds).
+  // Filters the response based on the last time gateway parameter(s) was
+  // updated. Use 0 to fetch all gateways.
+  // NOTE: It is recommended to use the highest `updated_at` field from
+  // returned radios in the next subsequent requests.
+  uint64 min_updated_at = 2;
+  // The Unix epoch timestamp (in seconds).
+  // Filters the response based on the last time gateway changed its location.
+  // Use 0 to fetch all gateways.
+  uint64 min_location_changed_at = 3;
+  /// sig from a key known to the config service
+  bytes signature = 4;
+  // pubkey binary of the signing keypair
+  bytes signer = 5;
+}
+
 message region_params_req_v1 {
   region region = 1;
   /// sig from a key known to the config service
@@ -719,6 +738,9 @@ service gateway {
   rpc info(gateway_info_req_v1) returns (gateway_info_res_v1);
   // Get a stream of gateway info
   rpc info_stream(gateway_info_stream_req_v1)
+      returns (stream gateway_info_stream_res_v1);
+  // Get a stream of gateway info
+  rpc info_stream_v2(gateway_info_stream_req_v2)
       returns (stream gateway_info_stream_res_v1);
 }
 
