@@ -1,0 +1,7 @@
+[package]
+name = "msg-signature"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+msg-signature-macro = { path = "../msg-signature-macro" }

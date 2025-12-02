@@ -10,7 +10,7 @@ name = "helium_proto"
 path = "src/lib.rs"
 
 [workspace]
-members = ["beacon"]
+members = ["beacon", "msg-signature", "msg-signature-macro"]
 
 [workspace.dependencies]
 tonic = "0.14"
@@ -30,9 +30,9 @@ tonic-prost = { workspace = true, optional = true }
 bytes = { workspace = true }
 prost = { workspace = true }
 serde = { workspace = true }
-serde_json = { workspace = true }
 strum = { version = "0.27", features = ["derive"] }
 strum_macros = "0.27"
+msg-signature = { path = "msg-signature" }
 
 [build-dependencies]
 tonic-prost-build = "0.14"
