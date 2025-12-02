@@ -32,7 +32,7 @@ pub fn msg_signature_derive(input: TokenStream) -> TokenStream {
                 }
 
                 fn set_signature(&mut self, signature: Vec<u8>) {
-                    self.signature = signature.to_vec();
+                    self.signature = signature;
                 }
 
                 fn clear_signature(&mut self) {
