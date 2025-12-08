@@ -942,6 +942,10 @@ message service_provider_reward {
   service_provider service_provider_id = 1;
   /// Amount in bones rewarded
   uint64 amount = 2;
+  // extra information for the service provider
+  oneof provider_info {
+    helium_mobile_provider_type helium_mobile_info = 3;
+  }
 }
 
 enum unallocated_reward_type {

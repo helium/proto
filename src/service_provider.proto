@@ -5,3 +5,8 @@ package helium;
 enum service_provider {
   helium_mobile = 0;
 }
+
+enum helium_mobile_provider_type {
+  network = 0;
+  subscribers = 1;
+}
