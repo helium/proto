@@ -12,7 +12,7 @@ pub mod services {
     use crate::{
         BlockchainRegionParamsV1, BlockchainTokenTypeV1, BlockchainTxn, BoostedHexInfoV1, DataRate,
         Decimal, EntropyReportV1, GatewayStakingMode, MapperAttach, Region, RoutingAddress,
-        ServiceProvider, ServiceProviderPromotions, HeliumMobileProviderType,
+        ServiceProvider, ServiceProviderPromotions, ServiceProviderType
     };
 
     pub mod sub_dao {
