@@ -944,7 +944,7 @@ message service_provider_reward {
   uint64 amount = 2;
   // the service provider type representing the wallet which the reward will
   // be credited
-  service_provider_reward_type service_provider_reward_type = 3;
+  string service_provider_reward_type = 3;
 }
 
 enum unallocated_reward_type {

@@ -5,8 +5,3 @@ package helium;
 enum service_provider {
   helium_mobile = 0;
 }
-
-enum service_provider_reward_type {
-  network = 0;
-  subscriber = 1;
-}
