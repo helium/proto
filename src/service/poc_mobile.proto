@@ -942,7 +942,7 @@ message service_provider_reward {
   service_provider service_provider_id = 1;
   /// Amount in bones rewarded
   uint64 amount = 2;
-  // the service provider type representing the wallet which the reward will
+  // the entity key representing the wallet which the reward will
   // be credited
   string rewardable_entity_key = 3;
 }
