@@ -90,6 +90,8 @@ message enabled_carriers_info_req_v1 {
   // Signer of the message
   bytes signer_pubkey = 5;
   bytes signature = 6;
+  // Indicates where the carrier is enabled with sampling turned on
+  bool sampling = 7;
 }
 
 message enabled_carriers_info_resp_v1 { uint64 timestamp_ms = 1; }
