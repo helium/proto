@@ -942,6 +942,9 @@ message service_provider_reward {
   service_provider service_provider_id = 1;
   /// Amount in bones rewarded
   uint64 amount = 2;
+  // the entity key representing the wallet which the reward will
+  // be credited
+  string rewardable_entity_key = 3;
 }
 
 enum unallocated_reward_type {
