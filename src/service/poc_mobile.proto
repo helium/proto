@@ -80,8 +80,14 @@ enum carrier_id_v2 {
 message enabled_carriers_info_req_v1 {
   // The on-chain address of the gateway (public key in binary format).
   bytes hotspot_pubkey = 1;
-  // List of carriers enabled for data offload.
+  // List of carriers enabled for data offload
   repeated carrier_id_v2 enabled_carriers = 2;
+  // List of carriers enabled for demand sampling,
+  // Should be "disjoint" from enabled_carriers above.
+  // That is, a carrier should not be activated for both offload and demand
+  // sampling at the same time and therefore should not exist in both lists at
+  // the same time.
+  repeated carrier_id_v2 sampling_enabled_carriers = 7;
   // The firmware version running on the hotspot.
   string firmware_version = 3;
   // Timestamp in milliseconds since the Unix epoch when this message was
