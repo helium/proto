@@ -960,6 +960,7 @@ enum unallocated_reward_type {
   unallocated_reward_type_service_provider = 3;
   unallocated_reward_type_oracle = 4;
   unallocated_reward_type_data = 5;
+  unallocated_reward_type_poc_and_service_provider = 6;
 }
 
 message unallocated_reward {
