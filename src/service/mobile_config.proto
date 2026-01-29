@@ -122,10 +122,15 @@ message gateway_info_v3 {
   // the database
   uint64 created_at = 4;
   // The Unix epoch timestamp (in seconds) when the gateway parameters were last
-  // updated. NOTE: This field is also updated when the location changes.
+  // updated. NOTE: This field is also updated when the location or owner
+  // changes.
   uint64 updated_at = 5;
   // Count of hotspot location changes
   uint64 num_location_asserts = 6;
+  // The gateway's owner
+  string owner = 7;
+  // The last time the owner was changed
+  uint64 owner_changed_at = 8;
 }
 
 message gateway_info_req_v1 {
