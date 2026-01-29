@@ -129,7 +129,7 @@ message gateway_info_v3 {
   uint64 num_location_asserts = 6;
   // The gateway's owner
   string owner = 7;
-  // The last time the owner was changed
+  // The last time the owner was changed (in seconds)
   uint64 owner_changed_at = 8;
 }
 
