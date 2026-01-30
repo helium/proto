@@ -146,7 +146,7 @@ message gateway_info_v4 {
   uint64 num_location_asserts = 6;
   // The gateway's owner
   string owner = 7;
-  // The last time the owner was changed (in seconds)
+  // The Unix epoch timestamp (in seconds) when the owner was last changed
   uint64 owner_changed_at = 8;
 }
 
@@ -237,7 +237,7 @@ message gateway_info_stream_req_v4 {
   bytes signer = 2;
   bytes signature = 3;
   // Device types that will be returned in the response
-  // Use empty array if you don't want to apply this filter
+  // Returns all devices if empty
   repeated device_type_v2 device_types = 4;
   // The Unix epoch timestamp (in seconds).
   // Filters the response based on the last time gateway parameter(s) was
