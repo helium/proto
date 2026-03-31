@@ -114,6 +114,18 @@ message server_v1 {
   }
 }
 
+
+// Server Route definition
+message multibuy_v1 {
+  // address, ex: https://endpoint.test.com
+  string host = 1;
+  // port, ex: 8080
+  uint32 port = 2;
+  // if true, hpr will drop the packet when the server is unavailable. Otherwise use HPR's default multibuy server
+  bool fail_on_unavailable = 3;
+}
+
+
 // Route definition
 message route_v1 {
   // UUID
@@ -130,6 +142,8 @@ message route_v1 {
   bool locked = 7;
   // If true, routes are blocked whose devaddrs have empty session key filters
   bool ignore_empty_skf = 8;
+  // Set custom multibuy settings for this route
+  multibuy_v1 multibuy = 9;
 }
 
 // ------------------------------------------------------------------
