@@ -117,12 +117,17 @@ message server_v1 {
 
 // Server Route definition
 message multibuy_v1 {
-  // address, ex: https://endpoint.test.com
-  string host = 1;
+  enum Protocol {
+    http = 0;
+    https = 1;
+  }
+  Protocol protocol = 1;
+  // address, ex: endpoint.test.com
+  string host = 2;
   // port, ex: 8080
-  uint32 port = 2;
+  uint32 port = 3;
   // if true, hpr will drop the packet when the server is unavailable. Otherwise use HPR's default multibuy server
-  bool fail_on_unavailable = 3;
+  bool fail_on_unavailable = 4;
 }
 
 
