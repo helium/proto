@@ -114,7 +114,6 @@ message server_v1 {
   }
 }
 
-
 // Server Route definition
 message multi_buy_v1 {
   enum Protocol {
@@ -126,11 +125,10 @@ message multi_buy_v1 {
   string host = 2;
   // port, ex: 8080
   uint32 port = 3;
-  // if true, hpr will drop the packet when the server is unavailable. 
+  // if true, hpr will drop the packet when the server is unavailable.
   // Otherwise use HPR's default multi_buy server
   bool fail_on_unavailable = 4;
 }
-
 
 // Route definition
 message route_v1 {
