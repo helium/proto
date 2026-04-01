@@ -114,6 +114,22 @@ message server_v1 {
   }
 }
 
+// Server Route definition
+message multi_buy_v1 {
+  enum Protocol {
+    http = 0;
+    https = 1;
+  }
+  Protocol protocol = 1;
+  // address, ex: endpoint.test.com
+  string host = 2;
+  // port, ex: 8080
+  uint32 port = 3;
+  // if true, hpr will drop the packet when the server is unavailable.
+  // Otherwise use HPR's default multi_buy server
+  bool fail_on_unavailable = 4;
+}
+
 // Route definition
 message route_v1 {
   // UUID
@@ -130,6 +146,8 @@ message route_v1 {
   bool locked = 7;
   // If true, routes are blocked whose devaddrs have empty session key filters
   bool ignore_empty_skf = 8;
+  // Set custom multi_buy server settings for this route
+  multi_buy_v1 multi_buy = 9;
 }
 
 // ------------------------------------------------------------------
