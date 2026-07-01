@@ -2,8 +2,14 @@ syntax = "proto3";
 
 package helium.packet_router;
 
-import "region.proto";
 import "data_rate.proto";
+import "region.proto";
+
+message packet_router_liveness_report_v1 {
+  bytes gateway = 1;
+  string server = 2;
+  uint64 timestamp = 3;
+}
 
 message packet_router_packet_report_v1 {
   enum packet_type {
@@ -60,7 +66,9 @@ message packet_router_register_v1 {
 //
 // This message is sent by packet router after the register command is sent by
 // the gateway.
-message packet_router_session_offer_v1 { bytes nonce = 1; }
+message packet_router_session_offer_v1 {
+  bytes nonce = 1;
+}
 
 // Initializes a session key with the packet router. The data in this init
 // message has to be from the latest session offer the gateway has received, the
@@ -103,7 +111,9 @@ message packet_router_packet_down_v1 {
   window_v1 rx2 = 3;
 }
 
-message packet_router_packet_ack_v1 { bytes payload_hash = 1; }
+message packet_router_packet_ack_v1 {
+  bytes payload_hash = 1;
+}
 
 message envelope_down_v1 {
   oneof data {
