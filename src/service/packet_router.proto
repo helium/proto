@@ -2,8 +2,14 @@ syntax = "proto3";
 
 package helium.packet_router;
 
-import "region.proto";
 import "data_rate.proto";
+import "region.proto";
+
+message packet_router_liveness_report_v1 {
+  bytes gateway = 1;
+  string server = 2;
+  uint64 timestamp = 3;
+}
 
 message packet_router_packet_report_v1 {
   enum packet_type {
