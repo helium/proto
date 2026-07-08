@@ -8,7 +8,7 @@ import "region.proto";
 message packet_router_liveness_report_v1 {
   bytes gateway = 1;
   string server = 2;
-  uint64 timestamp = 3;
+  uint64 timestamp_ms = 3;
 }
 
 message packet_router_packet_report_v1 {
