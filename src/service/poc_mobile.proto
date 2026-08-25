@@ -536,8 +536,9 @@ service poc_mobile {
   rpc submit_ban(ban_req_v1) returns (ban_resp_v1);
   rpc submit_enabled_carriers_info(enabled_carriers_info_req_v1)
       returns (enabled_carriers_info_resp_v1);
-  rpc submit_value_multiplier_ticket(value_multiplier_ticket_req_v1)
-      returns (value_multiplier_ticket_resp_v1);
+  rpc submit_data_transfer_multiplier_ticket(
+      data_transfer_multiplier_ticket_req_v1)
+      returns (data_transfer_multiplier_ticket_resp_v1);
 }
 
 message ban_resp_v1 { uint64 timestamp_ms = 1; }
@@ -612,7 +613,7 @@ message verified_ban_ingest_report_v1 {
   verified_ban_ingest_report_status status = 3;
 }
 
-// HIP-150: a grant of a data credit value multiplier to one on-chain hotspot.
+// HIP-150: a grant of a data transfer multiplier to one on-chain hotspot.
 //
 // The multiplier applies to the data credits derived from that hotspot's
 // rewardable bytes, not to the bytes themselves. It raises both what a payer
@@ -620,9 +621,9 @@ message verified_ban_ingest_report_v1 {
 // proportion.
 //
 // Absence of a ticket means the hotspot is at 1x. There is no ticket that means
-// "no multiplier" — to return a hotspot to 1x, issue a ticket granting exactly
-// 1.
-message value_multiplier_ticket_req_v1 {
+// "no multiplier" — to return a hotspot to 1x, issue a ticket granting
+// exactly 1.
+message data_transfer_multiplier_ticket_req_v1 {
   // Address of the hotspot the multiplier attaches to
   bytes hotspot_pubkey = 1;
   // The multiplier granted. The accepted range is policy enforced by the
@@ -646,36 +647,51 @@ message value_multiplier_ticket_req_v1 {
   bytes signature = 6;
 }
 
-message value_multiplier_ticket_resp_v1 { uint64 timestamp_ms = 1; }
+message data_transfer_multiplier_ticket_resp_v1 { uint64 timestamp_ms = 1; }
 
-// All value multiplier tickets received by the Ingester.
-message value_multiplier_ticket_ingest_report_v1 {
+// All data transfer multiplier tickets received by the Ingester.
+message data_transfer_multiplier_ticket_ingest_report_v1 {
   // Timestamp in milliseconds since unix epoch
   uint64 received_timestamp_ms = 1;
-  value_multiplier_ticket_req_v1 report = 2;
+  data_transfer_multiplier_ticket_req_v1 report = 2;
 }
 
-enum verified_value_multiplier_ticket_status {
-  verified_value_multiplier_ticket_status_valid = 0;
+enum verified_data_transfer_multiplier_ticket_status {
+  // Never written by a producer. Zero is reserved so that an unset, cleared,
+  // or dropped status cannot decode as a grant: proto3 cannot distinguish an
+  // absent field from one explicitly set to zero, and this field decides
+  // whether a hotspot's rewards are multiplied. Consumers must treat it as
+  // invalid.
+  //
+  // The sibling verified-report enums in this file put `valid` at zero. That
+  // is deliberately not followed here — those fail open on a malformed
+  // message, and this is the one that gates a reward multiplier.
+  verified_data_transfer_multiplier_ticket_status_unspecified = 0;
+  verified_data_transfer_multiplier_ticket_status_valid = 1;
   // The signer is not authorized to issue tickets
-  verified_value_multiplier_ticket_status_invalid_signer = 1;
+  verified_data_transfer_multiplier_ticket_status_invalid_signer = 2;
   // The multiplier is absent, unparseable, or outside the range the oracles
   // accept
-  verified_value_multiplier_ticket_status_invalid_multiplier = 2;
+  verified_data_transfer_multiplier_ticket_status_invalid_multiplier = 3;
   // The hotspot is not known on chain
-  verified_value_multiplier_ticket_status_invalid_hotspot_key = 3;
+  verified_data_transfer_multiplier_ticket_status_invalid_hotspot_key = 4;
+  // The signed timestamp is outside the window the oracles accept: dated in the
+  // future, or old enough that honouring it would mean acting on a replayed or
+  // long-delayed grant. A signature stays valid forever; this is what stops a
+  // captured ticket from being useful later.
+  verified_data_transfer_multiplier_ticket_status_invalid_timestamp = 5;
 }
 
 // Value multiplier tickets after verification, recording the outcome of every
 // ticket including the rejected ones, so a rejection is as auditable as a
 // grant.
-message verified_value_multiplier_ticket_report_v1 {
+message verified_data_transfer_multiplier_ticket_report_v1 {
   // Timestamp in milliseconds the report was verified by oracles
   uint64 verified_timestamp_ms = 1;
   // The verified report
-  value_multiplier_ticket_ingest_report_v1 report = 2;
+  data_transfer_multiplier_ticket_ingest_report_v1 report = 2;
 
-  verified_value_multiplier_ticket_status status = 3;
+  verified_data_transfer_multiplier_ticket_status status = 3;
 }
 
 message unique_connections_req_v1 {

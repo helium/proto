@@ -369,10 +369,6 @@ enum network_key_role {
   mobile_pcs = 2;
   // Key for signing ban requests
   network_key_role_banning = 3;
-  // Key for signing HIP-150 value multiplier tickets. Separate from
-  // mobile_carrier so that holding a carrier key does not confer the ability to
-  // grant a hotspot a reward multiplier.
-  network_key_role_value_multiplier = 4;
 }
 
 enum device_type {
