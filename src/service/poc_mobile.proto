@@ -657,29 +657,19 @@ message data_transfer_multiplier_ticket_ingest_report_v1 {
 }
 
 enum verified_data_transfer_multiplier_ticket_status {
-  // Never written by a producer. Zero is reserved so that an unset, cleared,
-  // or dropped status cannot decode as a grant: proto3 cannot distinguish an
-  // absent field from one explicitly set to zero, and this field decides
-  // whether a hotspot's rewards are multiplied. Consumers must treat it as
-  // invalid.
-  //
-  // The sibling verified-report enums in this file put `valid` at zero. That
-  // is deliberately not followed here — those fail open on a malformed
-  // message, and this is the one that gates a reward multiplier.
-  verified_data_transfer_multiplier_ticket_status_unspecified = 0;
-  verified_data_transfer_multiplier_ticket_status_valid = 1;
+  verified_data_transfer_multiplier_ticket_status_valid = 0;
   // The signer is not authorized to issue tickets
-  verified_data_transfer_multiplier_ticket_status_invalid_signer = 2;
+  verified_data_transfer_multiplier_ticket_status_invalid_signer = 1;
   // The multiplier is absent, unparseable, or outside the range the oracles
   // accept
-  verified_data_transfer_multiplier_ticket_status_invalid_multiplier = 3;
+  verified_data_transfer_multiplier_ticket_status_invalid_multiplier = 2;
   // The hotspot is not known on chain
-  verified_data_transfer_multiplier_ticket_status_invalid_hotspot_key = 4;
+  verified_data_transfer_multiplier_ticket_status_invalid_hotspot_key = 3;
   // The signed timestamp is outside the window the oracles accept: dated in the
   // future, or old enough that honouring it would mean acting on a replayed or
   // long-delayed grant. A signature stays valid forever; this is what stops a
   // captured ticket from being useful later.
-  verified_data_transfer_multiplier_ticket_status_invalid_timestamp = 5;
+  verified_data_transfer_multiplier_ticket_status_invalid_timestamp = 4;
 }
 
 // Value multiplier tickets after verification, recording the outcome of every
