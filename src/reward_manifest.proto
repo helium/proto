@@ -62,9 +62,25 @@ message reward_manifest {
   }
   // the epoch of the reward share
   uint64 epoch = 6;
-  // Price of the token at time rewards were calculated
+  // USD price of the reward token (the token named by the `token` field of
+  // the `reward_data` variant) as a fixed-point integer:
   // MOBILE is @ 10^6
   // IOT is @ 10^6
   // HNT is @ 10^8
+  //
+  // This is the price the epoch's rewards were calculated with. It is
+  // neither a quote taken when the manifest is written nor an average over
+  // the reward period.
+  //
+  // When the reward token is HNT, it is the Pyth HNT/USD `ema_price` point
+  // estimate, with no confidence adjustment, as read on-chain when the
+  // epoch closed. Pyth's EMA is slot-weighted and inverse-confidence-
+  // weighted over an averaging window of its own, unrelated to the length
+  // of the reward period:
+  // https://docs.pyth.network/price-feeds/core/how-pyth-works/ema-price-aggregation
+  //
+  // When the reward token is a sub-DAO token (MOBILE, IOT), it is the most
+  // recent price the Helium price oracle had published when the epoch's
+  // rewards were calculated.
   uint64 price = 7;
 }
