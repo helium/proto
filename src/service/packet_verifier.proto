@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package helium.packet_verifier;
 
+import "decimal.proto";
+
 message valid_packet {
   uint32 payload_size = 1;
   bytes gateway = 2;
@@ -36,4 +38,11 @@ message valid_data_transfer_session {
   uint64 rewardable_bytes = 8;
   // Timestamp in millis dated when burn transaction is confirmed
   uint64 burn_timestamp = 9;
+  // HIP-150: the data transfer multiplier applied to derive num_dcs. num_dcs
+  // is the post-multiplier figure — what was actually burned — and this field
+  // is what makes the pre-multiplier value recoverable.
+  //
+  // Absent means no multiplier was in force, or the record predates HIP-150.
+  // Readers resolve absent to 1.
+  Decimal multiplier = 10;
 }

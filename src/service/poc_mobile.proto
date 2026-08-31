@@ -536,6 +536,9 @@ service poc_mobile {
   rpc submit_ban(ban_req_v1) returns (ban_resp_v1);
   rpc submit_enabled_carriers_info(enabled_carriers_info_req_v1)
       returns (enabled_carriers_info_resp_v1);
+  rpc submit_data_transfer_multiplier_ticket(
+      data_transfer_multiplier_ticket_req_v1)
+      returns (data_transfer_multiplier_ticket_resp_v1);
 }
 
 message ban_resp_v1 { uint64 timestamp_ms = 1; }
@@ -608,6 +611,77 @@ message verified_ban_ingest_report_v1 {
   ban_ingest_report_v1 report = 2;
 
   verified_ban_ingest_report_status status = 3;
+}
+
+// HIP-150: a grant of a data transfer multiplier to one on-chain hotspot.
+//
+// The multiplier applies to the data credits derived from that hotspot's
+// rewardable bytes, not to the bytes themselves. It raises both what a payer
+// burns for the hotspot's data and what its deployer earns, in the same
+// proportion.
+//
+// Absence of a ticket means the hotspot is at 1x. There is no ticket that means
+// "no multiplier" — to return a hotspot to 1x, issue a ticket granting
+// exactly 1.
+message data_transfer_multiplier_ticket_req_v1 {
+  // Address of the hotspot the multiplier attaches to
+  bytes hotspot_pubkey = 1;
+  // The multiplier granted. The accepted range is policy enforced by the
+  // oracles, not fixed by this schema.
+  //
+  // Required: a ticket that grants nothing is meaningless, and an absent
+  // multiplier here is rejected. Absence means "no multiplier in force" only
+  // where a multiplier is looked up, never on the grant itself.
+  //
+  // Applied to a data credit count the value is rounded down, so a payer never
+  // burns more than the multiplier earns.
+  Decimal multiplier = 2;
+  // Timestamp in milliseconds the ticket was issued
+  uint64 timestamp_ms = 3;
+  // Free-form provenance for the public record: agreement id, venue, reason for
+  // the grant. HIP-150 requires every multiplier in force to be externally
+  // auditable.
+  string message = 4;
+  // Signer of the message. Must be a key authorized to issue tickets.
+  bytes signer_pubkey = 5;
+  bytes signature = 6;
+}
+
+message data_transfer_multiplier_ticket_resp_v1 { uint64 timestamp_ms = 1; }
+
+// All data transfer multiplier tickets received by the Ingester.
+message data_transfer_multiplier_ticket_ingest_report_v1 {
+  // Timestamp in milliseconds since unix epoch
+  uint64 received_timestamp_ms = 1;
+  data_transfer_multiplier_ticket_req_v1 report = 2;
+}
+
+enum verified_data_transfer_multiplier_ticket_status {
+  verified_data_transfer_multiplier_ticket_status_valid = 0;
+  // The signer is not authorized to issue tickets
+  verified_data_transfer_multiplier_ticket_status_invalid_signer = 1;
+  // The multiplier is absent, unparseable, or outside the range the oracles
+  // accept
+  verified_data_transfer_multiplier_ticket_status_invalid_multiplier = 2;
+  // The hotspot is not known on chain
+  verified_data_transfer_multiplier_ticket_status_invalid_hotspot_key = 3;
+  // The signed timestamp is outside the window the oracles accept: dated in the
+  // future, or old enough that honouring it would mean acting on a replayed or
+  // long-delayed grant. A signature stays valid forever; this is what stops a
+  // captured ticket from being useful later.
+  verified_data_transfer_multiplier_ticket_status_invalid_timestamp = 4;
+}
+
+// Value multiplier tickets after verification, recording the outcome of every
+// ticket including the rejected ones, so a rejection is as auditable as a
+// grant.
+message verified_data_transfer_multiplier_ticket_report_v1 {
+  // Timestamp in milliseconds the report was verified by oracles
+  uint64 verified_timestamp_ms = 1;
+  // The verified report
+  data_transfer_multiplier_ticket_ingest_report_v1 report = 2;
+
+  verified_data_transfer_multiplier_ticket_status status = 3;
 }
 
 message unique_connections_req_v1 {
