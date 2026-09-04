@@ -1,6 +1,9 @@
 syntax = "proto3";
 
 package helium.packet_verifier;
+option java_package = "com.helium.grpc";
+option java_outer_classname = "PacketVerifier";
+option java_multiple_files = true;
 
 import "decimal.proto";
 
